@@ -1,0 +1,852 @@
+@import "tailwindcss";
+@import "./animations.css";
+@import "./storefront.css";
+
+@source "../node_modules/react-tailwindcss-datepicker/dist";
+
+@theme {
+  --color-white: #ffffff;
+  --color-platinum-gray: #f0f0f0;
+  --color-off-white: #f6f6f6;
+  --color-stone-gray: #64748b;
+  --color-rich-black: #18181b;
+  --color-pearl-gray: #e2e8f0;
+  --color-greenish-gray: #cbd5e1;
+  --color-warm-gray: #c5b9ac;
+  --color-sage-gray: #64748b;
+  --color-olive-slate: #51524e;
+  --color-footer-dark: #111317;
+  --color-neutral-dark: #18181b;
+  --color-neutral-muted: #71717a;
+  --color-dark-brown: #4b3729;
+  --color-dark-charcoal: #18181b;
+  --color-dark-crimson: #d31f3a;
+
+  --color-store-primary: #174a76;
+  --color-store-accent: #62717d;
+  --color-store-hover: #103858;
+  --color-store-deep: #142638;
+  --color-store-ink: #252a30;
+  --color-store-page: #ffffff;
+  --color-store-surface: #f5f6f7;
+  --color-store-surface-strong: #e9edf0;
+  --color-store-border: #e4e7eb;
+  --color-store-light: #dfe8ef;
+  --color-store-price: #1a4168;
+  --color-store-orange: #e88443;
+  --color-store-orange-hover: #a3562e;
+  --color-store-orange-soft: #faeee4;
+  --color-store-orange-ink: #8b4f2b;
+
+  --color-khaki-gold: #C5A880;
+  --color-sage-gold: #A89F91;
+  --color-orange-accent: #FED7AA;
+  --color-warm-gold: #b4a676;
+  --color-light-gold: #d2c494;
+  --color-mid-gold: #C6B485;
+  --color-script-gold: #8E866B;
+
+  --color-btn-gold-from: #C5A880;
+  --color-btn-gold-to: #A89F91;
+
+  --color-brand-primary: var(--color-warm-gold);
+  --color-brand-2: var(--color-warm-gray);
+  --color-brand-3: var(--color-warm-gold);
+  --color-brand-4: var(--color-warm-gold);
+  --color-brand-5: var(--color-warm-gold);
+
+  --color-text-primary: var(--color-rich-black);
+  --color-text-secondary: var(--color-olive-slate);
+  --color-text-muted: var(--color-stone-gray);
+  --color-text-light: var(--color-white);
+
+  --color-bg-primary: var(--color-white);
+  --color-bg-secondary: var(--color-off-white);
+  --color-bg-muted: var(--color-pearl-gray);
+  --color-bg-dark: var(--color-dark-charcoal);
+
+  --color-primary: var(--color-warm-gold);
+  --color-secondary: var(--color-warm-gold);
+  --color-accent: var(--color-light-gold);
+
+  --color-border: var(--color-pearl-gray);
+  --color-border-dark: var(--color-greenish-gray);
+
+  --font-sans: 'Plus Jakarta Sans', 'Noto Sans Bengali', 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Noto Sans Bengali', 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', 'Noto Sans Bengali', 'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-bembo: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-snell: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-gotham: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+
+  --radius-xs: 2px;
+  --radius-sm: 2px;
+  --radius: 3px;
+  --radius-md: 3px;
+  --radius-lg: 3px;
+  --radius-xl: 3px;
+  --radius-2xl: 3px;
+  --radius-3xl: 3px;
+  --radius-4xl: 3px;
+
+  --spacing-section-top: 9rem;
+  --spacing-section-bottom: 6rem;
+  --spacing-footer-top: 9rem;
+  --spacing-footer-bottom: 3rem;
+
+  --color-stone-850: #1c1917;
+  --color-zinc-850: #1f1f1f;
+  --color-zinc-650: #52525b;
+}
+
+html {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: #18181b;
+  background-color: #faf9f5;
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  font-weight: 400;
+}
+
+/* Keep every public storefront page on the NovaMart blue and orange system. */
+.storefront {
+  min-height: 100vh;
+  color: var(--color-store-ink);
+  background-color: var(--color-store-page);
+  --color-platinum-gray: #f3f0e9;
+  --color-off-white: var(--color-store-page);
+  --color-rich-black: var(--color-store-ink);
+  --color-pearl-gray: var(--color-store-border);
+  --color-greenish-gray: #cfc5b7;
+  --color-olive-slate: #626b70;
+  --color-footer-dark: #101c2a;
+  --color-neutral-dark: var(--color-store-ink);
+  --color-neutral-muted: #716b63;
+  --color-dark-charcoal: #142638;
+  --color-text-primary: var(--color-store-ink);
+  --color-text-secondary: #626b70;
+  --color-text-muted: #77736d;
+  --color-text-light: #ffffff;
+  --color-bg-primary: #ffffff;
+  --color-bg-secondary: var(--color-store-page);
+  --color-bg-muted: var(--color-store-surface-strong);
+  --color-bg-dark: #142638;
+  --color-border: var(--color-store-border);
+  --color-border-dark: #c5bdae;
+  --color-warm-gray: #e3dccf;
+  --color-khaki-gold: #926e49;
+  --color-sage-gold: #82786a;
+  --color-orange-accent: var(--color-store-orange-soft);
+  --color-warm-gold: #9a7047;
+  --color-light-gold: #b08a60;
+  --color-mid-gold: #a47d52;
+  --color-script-gold: #806946;
+  --color-btn-gold-from: var(--color-store-primary);
+  --color-btn-gold-to: var(--color-store-hover);
+  --color-brand-primary: var(--color-store-primary);
+  --color-brand-2: var(--color-store-orange);
+  --color-brand-3: var(--color-store-orange-ink);
+  --color-brand-4: var(--color-store-deep);
+  --color-brand-5: var(--color-store-accent);
+  --color-primary: var(--color-store-primary);
+  --color-secondary: var(--color-store-accent);
+  --color-accent: var(--color-store-orange-ink);
+
+  /* Shared neutral palette for public shopping pages. */
+  --color-zinc-50: #f9fafb;
+  --color-zinc-100: #f3f4f6;
+  --color-zinc-200: #e5e7eb;
+  --color-zinc-300: #d1d5db;
+  --color-zinc-400: #9ca3af;
+  --color-zinc-500: #6b7280;
+  --color-zinc-600: #4b5563;
+  --color-zinc-700: #374151;
+  --color-zinc-800: #1f2937;
+  --color-zinc-900: #111827;
+  --color-zinc-950: #030712;
+  --color-stone-50: #f9fafb;
+  --color-stone-100: #f3f4f6;
+  --color-stone-200: #e5e7eb;
+  --color-stone-300: #d1d5db;
+  --color-stone-400: #9ca3af;
+  --color-stone-500: #6b7280;
+  --color-stone-600: #4b5563;
+  --color-stone-700: #374151;
+  --color-stone-800: #1f2937;
+  --color-stone-900: #111827;
+  --color-stone-950: #030712;
+  --color-gray-50: #f9fafb;
+  --color-gray-100: #f3f4f6;
+  --color-gray-200: #e5e7eb;
+  --color-gray-300: #d1d5db;
+  --color-gray-400: #9ca3af;
+  --color-gray-500: #6b7280;
+  --color-gray-600: #4b5563;
+  --color-gray-700: #374151;
+  --color-gray-800: #1f2937;
+  --color-gray-900: #111827;
+  --color-gray-950: #030712;
+  --color-slate-50: #faf8f4;
+  --color-slate-100: #f3efe8;
+  --color-slate-200: #e7e0d6;
+  --color-slate-300: #d5ccc0;
+  --color-slate-400: #b4a99c;
+  --color-slate-500: #938779;
+  --color-slate-600: #756b60;
+  --color-slate-700: #554d45;
+  --color-slate-800: #3d3731;
+  --color-slate-900: #28241f;
+  --color-slate-950: #181613;
+  --color-neutral-50: #faf8f4;
+  --color-neutral-100: #f3efe8;
+  --color-neutral-200: #e7e0d6;
+  --color-neutral-300: #d5ccc0;
+  --color-neutral-400: #b4a99c;
+  --color-neutral-500: #938779;
+  --color-neutral-600: #756b60;
+  --color-neutral-700: #554d45;
+  --color-neutral-800: #3d3731;
+  --color-neutral-900: #28241f;
+  --color-neutral-950: #181613;
+  --color-zinc-150: #ede8df;
+  --color-zinc-650: #645c52;
+  --color-stone-150: #ede8df;
+  --color-stone-850: #322d27;
+
+  /* Retarget leftover cool brand utilities to the quieter store palette. */
+  --color-indigo-50: #faf8f4;
+  --color-indigo-100: #f3efe8;
+  --color-indigo-200: #e7e0d6;
+  --color-indigo-300: #d5ccc0;
+  --color-indigo-400: #9ba6ad;
+  --color-indigo-500: var(--color-store-primary);
+  --color-indigo-600: var(--color-store-primary);
+  --color-indigo-700: var(--color-store-hover);
+  --color-indigo-800: #17314a;
+  --color-indigo-900: #15283a;
+  --color-indigo-950: #101c2a;
+  --color-violet-50: #faf8f4;
+  --color-violet-100: #f3efe8;
+  --color-violet-200: #e7e0d6;
+  --color-violet-300: #d5ccc0;
+  --color-violet-400: #9ba6ad;
+  --color-violet-500: var(--color-store-primary);
+  --color-violet-600: var(--color-store-primary);
+  --color-violet-700: var(--color-store-hover);
+  --color-violet-800: #17314a;
+  --color-violet-900: #15283a;
+  --color-violet-950: #101c2a;
+  --color-purple-50: #faf8f4;
+  --color-purple-100: #f3efe8;
+  --color-purple-200: #e7e0d6;
+  --color-purple-300: #d5ccc0;
+  --color-purple-400: #9ba6ad;
+  --color-purple-500: var(--color-store-primary);
+  --color-purple-600: var(--color-store-primary);
+  --color-purple-700: var(--color-store-hover);
+  --color-purple-800: #17314a;
+  --color-purple-900: #15283a;
+  --color-purple-950: #101c2a;
+  --color-blue-50: #faf8f4;
+  --color-blue-100: #f3efe8;
+  --color-blue-200: #e7e0d6;
+  --color-blue-300: #d5ccc0;
+  --color-blue-400: #9ba6ad;
+  --color-blue-500: #3d6485;
+  --color-blue-600: var(--color-store-primary);
+  --color-blue-700: var(--color-store-hover);
+  --color-blue-800: #17314a;
+  --color-blue-900: #15283a;
+  --color-blue-950: #101c2a;
+  --color-orange-50: #faf3ea;
+  --color-orange-100: #f3e4d1;
+  --color-orange-200: #e9cba7;
+  --color-orange-300: #dca775;
+  --color-orange-400: var(--color-store-orange);
+  --color-orange-500: #9a5529;
+  --color-orange-600: var(--color-store-orange-ink);
+  --color-orange-700: #744425;
+  --color-orange-800: #5d3923;
+  --color-orange-900: #472d20;
+}
+
+.storefront-scroll-track {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.storefront-scroll-track::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.storefront input,
+.storefront select,
+.storefront textarea {
+  min-width: 0;
+}
+
+.storefront :is(button, a):focus-visible {
+  outline: 2px solid var(--color-store-primary);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  .storefront *,
+  .storefront *::before,
+  .storefront *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+.storefront-rich-content {
+  overflow-wrap: anywhere;
+  line-height: 1.8;
+}
+
+.storefront-rich-content :is(img, video, iframe) {
+  max-width: 100%;
+  height: auto;
+}
+
+.storefront-rich-content pre,
+.storefront-rich-content table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+@media (max-width: 1023px) {
+  .storefront input:not([type="checkbox"]):not([type="radio"]),
+  .storefront select,
+  .storefront textarea {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 1023px) {
+  .storefront:has([data-mobile-purchase-bar]) {
+    padding-bottom: calc(5rem + env(safe-area-inset-bottom));
+  }
+}
+
+@media (max-width: 359px) {
+  .storefront-mobile-logo > span:first-child { display: none; }
+}
+
+/* Keep storefront type clean while preserving a clear weight hierarchy. */
+.storefront :is(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-heading), var(--font-sans), sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.015em;
+}
+
+.storefront .font-black,
+.storefront .font-extrabold,
+.storefront .font-bold {
+  font-weight: 600 !important;
+}
+
+/* Legacy storefront font utility names resolve to the current type system. */
+.storefront [class*="font-['Bembo_Std']"],
+.storefront [class*='font-["Bembo_Std"]'],
+.storefront [class*="font-['Snell_Roundhand_LT_Std']"],
+.storefront [class*='font-["Snell_Roundhand_LT_Std"]'],
+.storefront [class*="font-['Snell_Roundhand']"],
+.storefront [class*='font-["Snell_Roundhand"]'],
+.storefront [class*="font-['Gotham']"],
+.storefront [class*='font-["Gotham"]'],
+.storefront .font-serif {
+  font-family: var(--font-heading), var(--font-sans), sans-serif !important;
+  font-weight: 500 !important;
+}
+
+/* Avoid cursive italics in storefront UI text. */
+.storefront [class*="font-['Snell_Roundhand_LT_Std']"],
+.storefront [class*="font-['Snell_Roundhand']"] {
+  font-style: normal !important;
+  font-weight: 400 !important;
+}
+
+.lte-section {
+  width: 100%;
+  padding-top: var(--spacing-section-top);
+  padding-bottom: var(--spacing-section-bottom);
+}
+
+.lte-container {
+  max-width: 1440px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .lte-container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .lte-container {
+    padding-left: 3rem;
+    padding-right: 3rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .lte-container {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+}
+
+.lte-footer {
+  width: 100%;
+  background-color: var(--color-footer-dark);
+  padding-top: var(--spacing-footer-top);
+  padding-bottom: var(--spacing-footer-bottom);
+}
+
+.lte-hero-title {
+  font-family: var(--font-heading), var(--font-sans), sans-serif;
+  font-size: clamp(2.25rem, 4.5vw, 3.75rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.lte-hero-script {
+  font-family: var(--font-heading), var(--font-sans), sans-serif;
+  font-size: clamp(1.75rem, 3.5vw, 3rem);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.lte-section-title {
+  font-family: var(--font-heading), var(--font-sans), sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 500;
+  line-height: 1.25;
+  text-align: center;
+  letter-spacing: -0.015em;
+}
+
+.lte-section-script {
+  font-family: var(--font-heading), var(--font-sans), sans-serif;
+  font-size: clamp(1.25rem, 2.5vw, 1.875rem);
+  font-weight: 400;
+  font-style: normal;
+  line-height: 1.3;
+  text-align: center;
+}
+
+.lte-section-subtitle {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.lte-card-title {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.45rem;
+  letter-spacing: -0.01em;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.lte-price {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  line-height: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+.lte-btn-text {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.lte-body {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.625rem;
+}
+
+.lte-footer-heading {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+}
+
+.lte-footer-text {
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+  color: #a1a1aa;
+}
+
+.lte-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.25rem 1.5rem;
+  border-radius: 100px;
+  font-family: var(--font-gotham), sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.15s ease;
+  white-space: nowrap;
+}
+
+.lte-btn:hover { opacity: 0.88; }
+.lte-btn:active { transform: scale(0.98); }
+
+.lte-btn-gold { background: linear-gradient(to right, var(--color-btn-gold-from), var(--color-btn-gold-to)); }
+
+.lte-btn-dark { background-color: #1A1A1A; }
+.lte-btn-dark:hover { background-color: #2d2d2d; opacity: 1; }
+
+.lte-btn-outline {
+  background: transparent;
+  border: 2px solid var(--color-warm-gold);
+  color: var(--color-stone-gray);
+}
+.lte-btn-outline:hover {
+  background-color: var(--color-warm-gold);
+  color: #ffffff;
+  opacity: 1;
+}
+
+.lte-product-card {
+  width: 453px;
+  max-width: 100%;
+  background-color: #ffffff;
+  overflow: hidden;
+  position: relative;
+}
+
+.lte-product-card-image {
+  width: 100%;
+  height: 345px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.lte-product-card-body {
+  padding: 1.25rem 2.5rem 2.5rem;
+  background-color: #ffffff;
+  position: relative;
+}
+
+.lte-card-cart-btn {
+  position: absolute;
+  left: 373px;
+  top: -29px;
+  width: 46px;
+  height: 46px;
+  border-radius: 9999px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.625rem;
+  cursor: pointer;
+  transition: box-shadow 0.2s;
+}
+.lte-card-cart-btn:hover { box-shadow: 0 6px 24px rgba(0, 0, 0, 0.16); }
+
+.lte-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.lte-divider-line {
+  width: 2.75rem;
+  height: 1.58px;
+  background-color: var(--color-orange-accent);
+  display: block;
+}
+
+.admin-dashboard {
+  --radius-xs: 2px;
+  --radius-sm: 2px;
+  --radius: 3px;
+  --radius-md: 3px;
+  --radius-lg: 3px;
+  --radius-xl: 3px;
+  --radius-2xl: 3px;
+}
+
+.admin-dashboard .font-black,
+.admin-dashboard .font-extrabold,
+.admin-dashboard .font-bold,
+.admin-dashboard th,
+.admin-dashboard h1,
+.admin-dashboard h2,
+.admin-dashboard h3,
+.admin-dashboard button,
+.admin-dashboard select,
+.admin-dashboard input,
+.admin-dashboard label {
+  font-weight: 500 !important;
+}
+
+@keyframes modal-backdrop-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes modal-panel-in {
+  from { opacity: 0; transform: scale(0.95) translateY(10px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.modal-backdrop { animation: modal-backdrop-in 0.2s ease-out both; }
+.modal-panel { animation: modal-panel-in 0.25s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+.modal-body {
+  scroll-behavior: smooth;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 transparent;
+}
+
+.modal-body::-webkit-scrollbar { width: 5px; }
+.modal-body::-webkit-scrollbar-track { background: transparent; }
+.modal-body::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+}
+
+@keyframes fade-up-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-up { animation: fade-up-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+.hero-slider .swiper-pagination {
+  bottom: 45px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+}
+
+@media (max-width: 767px) {
+  .hero-slider .swiper-pagination {
+    bottom: 12px !important;
+  }
+}
+
+.hero-slider .hero-bullet {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  margin: 0 !important;
+  background: transparent !important;
+  opacity: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease;
+}
+
+.hero-slider .hero-bullet:hover {
+  transform: scale(1.05);
+}
+
+.hero-slider .hero-bullet svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-slider .hero-bullet .bg-path {
+  stroke: transparent;
+}
+
+.hero-slider .hero-bullet .path {
+  stroke-dasharray: 50.27;
+  stroke-dashoffset: 50.27;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke: #b7ab74;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.hero-slider .hero-bullet .dot {
+  fill: #e5e5e5;
+  transition: fill 0.3s ease;
+}
+
+.hero-slider .hero-bullet-active .path {
+  opacity: 1;
+  animation: hero-progress-run 6s linear forwards;
+}
+
+.hero-slider .hero-bullet-active .dot {
+  fill: #b7ab74;
+}
+
+@keyframes hero-progress-run {
+  from {
+    stroke-dashoffset: 50.27;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.mySwiper .swiper-pagination-bullet,
+.swiper-pagination-bullet {
+  width: 8px;
+  height: 8px;
+  background: #e2e2e2;
+  opacity: 1;
+  margin: 0 6px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  display: inline-block;
+}
+
+.mySwiper .swiper-pagination-bullet-active,
+.swiper-pagination-bullet-active {
+  background: var(--color-store-orange);
+  transform: scale(1.2);
+}
+
+.mySwiper .swiper-pagination-bullet:hover,
+.swiper-pagination-bullet:hover {
+  background: var(--color-store-primary);
+}
+
+[class*="font-['Bembo_Std']"],
+.font-bembo,
+.font-family-bembo {
+  font-family: var(--font-bembo), serif !important;
+}
+
+[class*="font-['Snell_Roundhand_LT_Std']"],
+.font-snell {
+  font-family: var(--font-snell), cursive !important;
+}
+
+.font-gotham,
+[class*="font-['Gotham']"] {
+  font-family: var(--font-sans), var(--font-gotham), sans-serif !important;
+}
+
+.concave-corner-frame {
+  -webkit-mask-image:
+    radial-gradient(circle at 0 0, transparent 40px, black 0),
+    radial-gradient(circle at 100% 0, transparent 40px, black 0),
+    radial-gradient(circle at 0 100%, transparent 40px, black 0),
+    radial-gradient(circle at 100% 100%, transparent 40px, black 0),
+    linear-gradient(black, black),
+    linear-gradient(black, black);
+  -webkit-mask-size:
+    40px 40px, 40px 40px, 40px 40px, 40px 40px,
+    100% calc(100% - 80px), calc(100% - 80px) 100%;
+  -webkit-mask-position:
+    top left, top right, bottom left, bottom right, center, center;
+  -webkit-mask-repeat: no-repeat;
+  mask-image:
+    radial-gradient(circle at 0 0, transparent 40px, black 0),
+    radial-gradient(circle at 100% 0, transparent 40px, black 0),
+    radial-gradient(circle at 0 100%, transparent 40px, black 0),
+    radial-gradient(circle at 100% 100%, transparent 40px, black 0),
+    linear-gradient(black, black),
+    linear-gradient(black, black);
+  mask-size:
+    40px 40px, 40px 40px, 40px 40px, 40px 40px,
+    100% calc(100% - 80px), calc(100% - 80px) 100%;
+  mask-position:
+    top left, top right, bottom left, bottom right, center, center;
+  mask-repeat: no-repeat;
+}
+
+/* Ensure all actions and buttons in the admin dashboard have a pointer cursor */
+.admin-dashboard button,
+.admin-dashboard a,
+.admin-dashboard label,
+.admin-dashboard [role="button"],
+.admin-dashboard [role="tab"],
+.admin-dashboard [role="menuitem"],
+.admin-dashboard [role="option"],
+.admin-dashboard [type="button"],
+.admin-dashboard [type="submit"],
+.admin-dashboard [type="reset"],
+.admin-dashboard select,
+.admin-dashboard input[type="checkbox"],
+.admin-dashboard input[type="radio"] {
+  cursor: pointer;
+}
+
+.admin-dashboard button:disabled,
+.admin-dashboard [role="button"]:disabled,
+.admin-dashboard input:disabled,
+.admin-dashboard select:disabled {
+  cursor: not-allowed;
+}
+
+/* Text fields keep the same appearance when clicked or focused. */
+:is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]), textarea, select) {
+  box-shadow: none !important;
+}
+:is(input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="file"]):not([type="color"]), textarea, select):is(:focus, :focus-visible) {
+  outline: none !important;
+  box-shadow: none !important;
+}

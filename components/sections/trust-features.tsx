@@ -1,0 +1,72 @@
+'use client';
+
+import React from 'react';
+import { LuTruck, LuShieldCheck, LuStore, LuCreditCard } from 'react-icons/lu';
+
+export default function TrustFeatures() {
+  const features = [
+    {
+      title: 'Delivery Options',
+      desc: 'Available delivery options and charges depend on your address and are shown at checkout.',
+      icon: LuTruck,
+      color: 'text-store-primary bg-store-surface border-store-border',
+    },
+    {
+      title: '100% Authentic Quality',
+      desc: 'All products sourced directly from verified manufacturers and official brand partners.',
+      icon: LuShieldCheck,
+      color: 'text-store-primary bg-store-surface border-store-border',
+    },
+    {
+      title: 'Certified Multi-Vendors',
+      desc: 'Strict seller compliance, background verification, and continuous rating audits.',
+      icon: LuStore,
+      color: 'text-store-primary bg-store-surface border-store-border',
+    },
+    {
+      title: 'Secure Payments & Easy Return',
+      desc: 'Encrypted checkout, cash-on-delivery options, and a hassle-free 7-day return policy.',
+      icon: LuCreditCard,
+      color: 'text-store-primary bg-store-surface border-store-border',
+    },
+  ];
+
+  return (
+    <section className="w-full bg-store-page py-16 sm:py-20 border-t border-stone-200/70 overflow-hidden">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 w-full flex flex-col items-center">
+        {/* Title */}
+        <div className="text-center max-w-2xl mb-12">
+          <h2 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight mb-3">
+            Why Shop On Our Marketplace
+          </h2>
+          <p className="text-zinc-500 text-sm sm:text-base leading-relaxed">
+            We connect you with authentic brands and verified sellers with end-to-end buyer protection and reliable customer support.
+          </p>
+        </div>
+
+        {/* Features Row */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 w-full">
+          {features.map((feature, i) => {
+            const Icon = feature.icon;
+            return (
+              <div
+                key={i}
+                className="flex flex-col items-center text-center p-6 sm:p-7 rounded-2xl bg-white border border-stone-200/80 shadow-xs hover:shadow-lg hover:-translate-y-1 transition-all duration-300 group"
+              >
+                <div className={`w-14 h-14 rounded-2xl flex items-center justify-center mb-4 border ${feature.color} group-hover:scale-110 transition-transform`}>
+                  <Icon className="w-7 h-7" />
+                </div>
+                <h3 className="text-zinc-900 font-semibold text-base sm:text-lg mb-2">
+                  {feature.title}
+                </h3>
+                <p className="text-zinc-500 text-xs sm:text-sm leading-relaxed">
+                  {feature.desc}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}

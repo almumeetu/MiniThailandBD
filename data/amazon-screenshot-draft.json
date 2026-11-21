@@ -1,0 +1,27 @@
+{
+  "source": "User-provided Amazon homepage screenshot",
+  "status": "draft_requires_product_identification",
+  "currency": "USD",
+  "isLive": false,
+  "notes": "Names below preserve the truncated text visible in the screenshot. Prices and discounts are screenshot values, not verified current offers. Images, full names, descriptions and product URLs must be supplied before publication. These records are not store inventory.",
+  "products": [
+    { "label": "Cuisinart ClearVie…", "price": 99.95, "referencePrice": 139.95, "discountPercent": 29 },
+    { "label": "ASUS Vivobook G…", "price": 299.99, "referencePrice": 469.99, "discountPercent": 36 },
+    { "label": "BLUEAIR 2.1L Mist…", "price": 89.99, "referencePrice": 129.99, "discountPercent": 31 },
+    { "label": "Monster Shock Plu…", "price": 39.99, "referencePrice": 189.99, "discountPercent": 79 },
+    { "label": "PROJECT CLOUD…", "price": 44.90, "referencePrice": 54.90, "discountPercent": 18 },
+    { "label": "Amazon Essentials…", "price": 18.01, "referencePrice": 27.70, "discountPercent": 35 },
+    { "label": "Trendy Queen Wid…", "price": 25.98, "referencePrice": 29.99, "discountPercent": 13 },
+    { "label": "OtterBox iPhone…", "price": 59.99, "referencePrice": 69.99, "discountPercent": 14 },
+    { "label": "Ekouaer 2 Pack…", "price": 29.99, "referencePrice": 39.99, "discountPercent": 25 },
+    { "label": "Barbie Dreamplane…", "price": 57.49, "referencePrice": 82.41, "discountPercent": 30 },
+    { "label": "Taba Squishy Maki…", "price": 25.99, "referencePrice": 31.99, "discountPercent": 19 },
+    { "label": "Android 16 Kids…", "price": 89.97, "referencePrice": 149.99, "discountPercent": 40 },
+    { "label": "Magic Gel Water…", "price": 24.98, "referencePrice": 37.99, "discountPercent": 34 },
+    { "label": "VTech Genio…", "price": 34.99, "referencePrice": 44.99, "discountPercent": 22 },
+    { "label": "Anbalulu Magnetic…", "price": 27.97, "referencePrice": 35.99, "discountPercent": 22 },
+    { "label": "Gotrax KS1 Kids Ki…", "price": 32.29, "referencePrice": 37.99, "discountPercent": 15 },
+    { "label": "Ninja Blast…", "price": 19.99, "referencePrice": 37.99, "discountPercent": 47 },
+    { "label": "Hover Soccer Lig…", "price": 19.98, "referencePrice": 24.99, "discountPercent": 20 }
+  ]
+}

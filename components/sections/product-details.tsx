@@ -1,0 +1,328 @@
+'use client';
+
+import { useState, useEffect, useMemo } from 'react';
+import Link from 'next/link';
+import Breadcrumbs from '@/components/ui/breadcrumbs';
+import {
+  IoChevronBackOutline,
+} from 'react-icons/io5';
+import ProductGallery from './ui/product-gallery';
+import ProductInfo from './ui/product-info';
+import ProductPageLoading from './ui/product-page-loading';
+import styles from './ui/product-experience.module.css';
+import RelatedCarousel from './ui/related-carousel';
+import { fetchShopProductById } from '@/lib/shop-api';
+import { resolveImageUrl } from '@/lib/admin-api';
+import type { Product } from '@/lib/admin-api';
+
+export interface ParsedVariant {
+  id: string;
+  sku: string;
+  priceNum: number;
+  priceFormatted: string;
+  originalPriceFormatted?: string;
+  stockQuantity: number;
+  isDefault: boolean;
+  attributes: Record<string, string>;
+  image?: string;
+}
+
+export interface MappedProduct {
+  id: string;
+  name: string;
+  slug: string;
+  priceFormatted: string;
+  originalPriceFormatted: string;
+  priceNum: number;
+  image: string;
+  galleryImages: string[];
+  category: string;
+  brand: string;
+  subtitle: string;
+  description: string;
+  shortDescription?: string;
+  tags?: string[];
+  sku: string;
+  unit: string;
+  variantId: string;
+  variants: ParsedVariant[];
+}
+
+function fmt(n: number): string {
+  return `৳${n.toLocaleString('en-BD')}`;
+}
+
+import localProducts from '@/data/products.json';
+
+const localProductLookup = new Map<string, { priceNum: number; originalPriceNum: number }>();
+for (const p of localProducts as any[]) {
+  const pNum = Number(p.priceNum || String(p.price || '').replace(/[^\d.]/g, ''));
+  const oNum = Number(String(p.originalPrice || '').replace(/[^\d.]/g, ''));
+  if (p.id) localProductLookup.set(p.id, { priceNum: pNum, originalPriceNum: oNum });
+  if (p.slug) localProductLookup.set(p.slug.toLowerCase(), { priceNum: pNum, originalPriceNum: oNum });
+  if (p.name) localProductLookup.set(p.name.toLowerCase().trim(), { priceNum: pNum, originalPriceNum: oNum });
+}
+
+export function mapProduct(raw: Product): MappedProduct {
+  const matched =
+    localProductLookup.get(raw.id) ||
+    localProductLookup.get(raw.slug?.toLowerCase()) ||
+    localProductLookup.get(raw.name?.toLowerCase().trim());
+
+  const parsedVariants: ParsedVariant[] = (raw.variants ?? []).map((v) => {
+    const priceNum = Number(v.price ?? 0);
+    const costNum = v.cost ? Number(v.cost) : 0;
+    const variantDiscounted = (v as any).discountedPrice;
+    const productDiscounted = raw.discountPrice;
+    const discountNum = Number(variantDiscounted ?? productDiscounted ?? 0);
+    const showOriginal = discountNum > 0 && discountNum < priceNum;
+    const activePrice = showOriginal ? discountNum : priceNum;
+
+    let finalOrigNum: number | undefined = undefined;
+    if (showOriginal) {
+      finalOrigNum = priceNum;
+    } else if (matched && matched.originalPriceNum > activePrice) {
+      finalOrigNum = matched.originalPriceNum;
+    } else if (costNum > activePrice) {
+      finalOrigNum = costNum;
+    } else if (activePrice > 0) {
+      finalOrigNum = Math.round((activePrice * 1.18) / 50) * 50;
+    }
+
+    // Parse attributes array into key-value map
+    const attributesMap: Record<string, string> = {};
+    (v as any).attributes?.forEach((attr: any) => {
+      const attrName = attr.attributeValue?.attribute?.name;
+      const attrVal = attr.attributeValue?.value;
+      if (attrName && attrVal) {
+        attributesMap[attrName] = attrVal;
+      }
+    });
+
+    const variantImages = (v as any).media
+      ? ((v as any).media as any[])
+          .slice()
+          .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+          .map((m) => resolveImageUrl(m.media?.url))
+          .filter(Boolean) as string[]
+      : [];
+    const variantImage = variantImages[0] ?? undefined;
+
+    return {
+      id: v.id,
+      sku: v.sku,
+      priceNum: activePrice,
+      priceFormatted: fmt(activePrice),
+      originalPriceFormatted: finalOrigNum && finalOrigNum > activePrice ? fmt(finalOrigNum) : '',
+      stockQuantity: v.stockQuantity,
+      isDefault: v.isDefault,
+      attributes: attributesMap,
+      image: variantImage,
+    };
+  });
+
+  const defaultVariant =
+    parsedVariants.find((v) => v.isDefault) ?? parsedVariants[0] ?? null;
+
+  const priceNum = defaultVariant?.priceNum ?? 0;
+  const priceFormatted = defaultVariant?.priceFormatted ?? fmt(0);
+  const originalPriceFormatted = defaultVariant?.originalPriceFormatted ?? '';
+
+  // Gallery: sort by sortOrder, resolve image URLs
+  const galleryImages = (raw.media ?? [])
+    .slice()
+    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
+    .map((m) => resolveImageUrl(m.media.url))
+    .filter(Boolean) as string[];
+
+  // Subtitle: prefer shortDescription, fall back to first sentence of description
+  const subtitle =
+    raw.shortDescription?.trim() ||
+    raw.description?.split('.')[0]?.trim() ||
+    `Premium ${raw.category?.name || 'marketplace'} piece crafted with authentic materials for maximum style and comfort.`;
+
+  return {
+    id: raw.id,
+    name: raw.name,
+    slug: raw.slug,
+    priceFormatted,
+    originalPriceFormatted,
+    priceNum,
+    image: galleryImages[0] ?? '/images/no-image-icon-6.png',
+    galleryImages,
+    category: raw.category?.name ?? '',
+    brand: raw.brand?.name ?? '',
+    subtitle,
+    description: raw.description ?? '',
+    shortDescription: raw.shortDescription?.trim() || '',
+    tags: (raw.tags ?? [])
+      .map((t: any) => (typeof t === 'string' ? t : t?.name || t?.slug || ''))
+      .filter(Boolean),
+    sku: defaultVariant?.sku ?? (raw as any).sku ?? '',
+    unit: raw.unit?.name ?? raw.unit?.abbreviation ?? 'Piece',
+    variantId: defaultVariant?.id ?? '',
+    variants: parsedVariants,
+  };
+}
+
+interface ProductDetailsProps {
+  productId: string;
+  initialProduct?: Product | null;
+}
+
+export default function ProductDetails({
+  productId,
+  initialProduct = null,
+}: ProductDetailsProps) {
+  const [product, setProduct] = useState<MappedProduct | null>(() =>
+    initialProduct ? mapProduct(initialProduct) : null
+  );
+  const [selectedVariant, setSelectedVariant] = useState<ParsedVariant | null>(() => {
+    if (!initialProduct) return null;
+    const mapped = mapProduct(initialProduct);
+    return mapped.variants.find((v) => v.isDefault) ?? mapped.variants[0] ?? null;
+  });
+  const [loading, setLoading] = useState(() => !initialProduct);
+  const [error, setError] = useState(false);
+
+
+  useEffect(() => {
+    // If we already have initialProduct matching productId, do not re-fetch
+    if (initialProduct && initialProduct.id === productId) {
+      return;
+    }
+
+    let cancelled = false;
+    setLoading(true);
+    setError(false);
+
+    fetchShopProductById(productId)
+      .then((raw) => {
+        if (cancelled) return;
+        if (!raw) {
+          setError(true);
+          return;
+        }
+        const mapped = mapProduct(raw);
+        setProduct(mapped);
+        const def = mapped.variants.find((v) => v.isDefault) ?? mapped.variants[0] ?? null;
+        setSelectedVariant(def);
+      })
+      .catch(() => {
+        if (!cancelled) setError(true);
+      })
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [productId, initialProduct]);
+
+  // Combine gallery images with variant images
+  const galleryImages = useMemo(() => {
+    if (!product) return [];
+    const list = [...product.galleryImages];
+    product.variants.forEach((v) => {
+      if (v.image && !list.includes(v.image)) {
+        list.push(v.image);
+      }
+    });
+    return list.length > 0 ? list : ['/images/no-image-icon-6.png'];
+  }, [product]);
+
+  if (loading) return <ProductPageLoading />;
+
+  if (error || !product) {
+    return (
+      <main className={`${styles.page} flex-grow min-w-0 w-full`}>
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-10 lg:px-20 py-32 text-center">
+          <p className="text-2xl text-zinc-400 font-medium mb-6">
+            Product could not be found.
+          </p>
+          <Link
+            href="/products"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-950 text-white text-xs font-bold uppercase tracking-wider hover:bg-zinc-800 transition-colors shadow-sm"
+          >
+            <IoChevronBackOutline className="text-sm" />
+            Back to Catalog
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
+  const scrollToReviews = () => {
+    const el = document.getElementById('product-details-tabs');
+    if (el) {
+      el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    }
+  };
+
+  return (
+    <main className={`${styles.page} flex-grow min-w-0 w-full`}>
+      <Breadcrumbs
+        items={[
+          { label: "Shop", href: "/products" },
+          ...(product.category
+            ? [{ label: product.category, href: `/products?category=${encodeURIComponent(product.category)}` }]
+            : []),
+          { label: product.name },
+        ]}
+        trailingContent={(
+          <Link
+            href="/products"
+            className="hidden shrink-0 items-center gap-1 text-xs font-semibold text-zinc-600 transition-colors hover:text-zinc-950 md:inline-flex"
+          >
+            <IoChevronBackOutline className="h-3.5 w-3.5" />
+            <span>Back to Products</span>
+          </Link>
+        )}
+      />
+
+      {/* ── Main Product Two-Column Layout (Matching Screenshot) ────── */}
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 py-6 sm:py-10 lg:py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 sm:gap-x-10 lg:gap-x-12 xl:gap-x-16 gap-y-8 sm:gap-y-10 lg:gap-y-12 items-start">
+          {/* Gallery Column (Left - 6 cols) */}
+          <div className="lg:col-span-6 min-w-0 w-full">
+            <ProductGallery
+              images={galleryImages}
+              activeImage={selectedVariant?.image}
+              productName={product.name}
+            />
+          </div>
+
+          {/* Purchasing information and full-width details panel */}
+          <ProductInfo
+            name={product.name}
+            subtitle={product.subtitle}
+            price={product.priceFormatted}
+            originalPrice={product.originalPriceFormatted}
+            productId={product.id}
+            variantId={selectedVariant?.id ?? product.variantId}
+            productSlug={product.slug}
+            category={product.category}
+            brand={product.brand}
+            sku={product.sku}
+            description={product.description}
+            variants={product.variants}
+            onVariantChange={setSelectedVariant}
+            onReviewsClick={scrollToReviews}
+            productData={{
+              name: product.name,
+              priceNum: product.priceNum,
+              image: product.image,
+              category: product.category,
+              description: product.description,
+            }}
+          />
+        </div>
+      </div>
+
+      {/* ── You May Also Like Section (Clean 5-Column Grid) ─────────── */}
+      <RelatedCarousel currentCategory={product.category} currentProductId={product.id} />
+
+    </main>
+  );
+}

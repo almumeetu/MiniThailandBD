@@ -1,0 +1,138 @@
+/* Mega Menu Animations */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideInFromLeft {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* Smooth scroll for mobile menu */
+.mobile-menu-scroll {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Mega Menu Hover Effects */
+.mega-menu-item {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.mega-menu-item::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
+}
+
+.mega-menu-item:hover::after {
+  width: 100%;
+}
+
+/* Featured Card Hover Effect */
+.featured-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.featured-card:hover {
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Category Link Animation */
+.category-link {
+  position: relative;
+  display: inline-block;
+}
+
+.category-link::before {
+  content: '→';
+  position: absolute;
+  left: -20px;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.category-link:hover::before {
+  left: -16px;
+  opacity: 1;
+}
+
+/* Backdrop Blur Effect */
+.menu-backdrop {
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+
+/* Mobile Menu Animation */
+@media (max-width: 1023px) {
+  .mobile-menu-enter {
+    animation: slideInFromLeft 0.3s ease-out;
+  }
+  
+  .mobile-menu-exit {
+    animation: slideInFromLeft 0.3s ease-in reverse;
+  }
+}
+
+/* Smooth transitions for all interactive elements */
+.mega-menu a,
+.mega-menu button {
+  transition: all 0.2s ease;
+}
+
+/* Focus styles for accessibility */
+.mega-menu a:focus-visible,
+.mega-menu button:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 4px;
+}
+
+/* Grid responsive adjustments */
+@media (max-width: 1280px) {
+  .mega-menu-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 1024px) {
+  .mega-menu-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

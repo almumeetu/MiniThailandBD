@@ -1,0 +1,81 @@
+.dialog { position: fixed; inset: 0; width: 100%; max-width: none; height: 100dvh; max-height: none; margin: 0; padding: 0; border: 0; overflow: hidden; background: transparent; color: #2d302f; }
+.dialog[open] { display: flex; justify-content: flex-end; }
+.dialog::backdrop { background: transparent; }
+.backdrop { position: absolute; inset: 0; width: 100%; border: 0; background: #14212e5c; backdrop-filter: blur(7px); cursor: default; animation: bag-dim-in 400ms ease both; }
+.panel { position: relative; display: flex; flex-direction: column; width: min(100%, 490px); height: 100%; overflow: hidden; background: #fcfaf6; box-shadow: -20px 0 90px #14212e26; animation: bag-slide-in 580ms cubic-bezier(.19,1,.22,1) both; }
+.header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 32px 28px 25px; border-bottom: 1px solid #e9e1d5; background: radial-gradient(ellipse at 0 0, #eee3d1aa, transparent 80%); }
+.eyebrow { margin-bottom: 10px; color: #97805c; font-size: 8px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; }
+.header h2 { color: #2d2b26; font: italic 28px/1.15 Georgia, serif; letter-spacing: -.04em; }
+.header h2 span { display: inline-flex; align-items: center; justify-content: center; min-width: 25px; height: 25px; margin-left: 6px; border: 1px solid #d4c6ae; border-radius: 50%; color: #9c835d; font: 500 9px/1 sans-serif; vertical-align: middle; letter-spacing: 0; }
+.close { display: grid; place-items: center; flex-shrink: 0; width: 42px; height: 42px; border: 1px solid #e4dbcd; border-radius: 50%; background: #fff9; color: #796b58; cursor: pointer; transition: background 220ms, transform 280ms; }
+.close:hover { transform: rotate(90deg); background: #eee4d5; }
+.close svg { width: 17px; height: 17px; }
+.confirmation { display: flex; align-items: center; gap: 9px; margin: 18px 28px 0; padding: 11px 13px; border: 1px solid #dce4d8; border-radius: 12px; background: #f0f4ec; color: #607355; font-size: 10px; line-height: 1.5; }
+.confirmation > span { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: #6c805a; color: #fff; }
+.confirmation svg { width: 11px; height: 11px; }
+.pieces { min-height: 0; flex: 1; margin: 0; padding: 5px 28px 12px; overflow-y: auto; overscroll-behavior: contain; list-style: none; scrollbar-width: thin; scrollbar-color: #d4c5ad transparent; }
+.piece { display: grid; grid-template-columns: 94px minmax(0,1fr); align-items: start; gap: 17px; padding: 22px 0; border-bottom: 1px solid #e9e1d5; }
+.piece:last-child { border-bottom: 0; }
+.pieceImage { position: relative; display: block; height: 119px; overflow: hidden; border: 1px solid #e5ddcf; border-radius: 15px; background: radial-gradient(ellipse at 50% 30%, #fff, #efe8db); }
+.recentPiece .pieceImage { border-color: #c9b58f; box-shadow: 0 0 0 3px #bba47b12; }
+.pieceImage img { mix-blend-mode: multiply; transition: transform 500ms cubic-bezier(.2,.75,.2,1); }
+.pieceImage:hover img { transform: scale(1.07); }
+.pieceContent { min-width: 0; }
+.justAdded { display: flex; align-items: center; gap: 4px; margin-bottom: 5px; color: #8b7351; font-size: 7px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; }
+.justAdded svg { width: 10px; height: 10px; }
+.pieceName { display: -webkit-box; overflow: hidden; -webkit-line-clamp: 2; -webkit-box-orient: vertical; color: #37362f; font-size: 12px; font-weight: 500; line-height: 1.6; transition: color 180ms; }
+.pieceName:hover { color: #8a704b; }
+.options { margin-top: 4px; color: #92897a; font-size: 9px; line-height: 1.5; }
+.piecePrice { margin-top: 7px; color: #38526a; font-size: 12px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.pieceActions { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 9px; }
+.quantity { display: flex; align-items: center; border: 1px solid #e5ddcf; border-radius: 9px; background: #fff9; }
+.quantity button { display: grid; place-items: center; width: 33px; height: 33px; color: #7c6c53; cursor: pointer; transition: background 180ms; border-radius: 8px; }
+.quantity button:hover { background: #f0e8da; }
+.quantity button:disabled { opacity: .3; cursor: default; }
+.quantity svg { width: 11px; height: 11px; }
+.quantity span { min-width: 25px; color: #4e4a43; font-size: 10px; text-align: center; font-variant-numeric: tabular-nums; }
+.remove { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; color: #ada08e; cursor: pointer; transition: color 180ms, background 180ms; }
+.remove:hover { color: #a05b48; background: #f6eae3; }
+.remove:disabled { opacity: .3; cursor: default; }
+.remove svg { width: 14px; height: 14px; }
+.footer { flex-shrink: 0; padding: 22px 28px max(20px, env(safe-area-inset-bottom)); border-top: 1px solid #e5ddcf; background: #fffdfa; box-shadow: 0 -12px 26px #80705205; }
+.subtotal { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; color: #665e50; font-size: 12px; }
+.subtotal strong { color: #243e54; font-size: 21px; font-weight: 500; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+.deliveryNote { margin-top: 8px; color: #a09686; font-size: 9px; line-height: 1.7; }
+.checkout { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 50px; margin-top: 20px; padding: 13px 20px; border: 1px solid #203d55; border-radius: 13px; background: linear-gradient(120deg, #234966, #172f43); color: white; font-size: 11px; font-weight: 500; letter-spacing: .02em; box-shadow: 0 5px 14px #172f431a, inset 0 1px #ffffff29; transition: transform 250ms, box-shadow 250ms; }
+.checkout svg { width: 17px; height: 17px; transition: transform 250ms; }
+.checkout:hover { transform: translateY(-2px); box-shadow: 0 9px 20px #172f4326; }
+.checkout:hover svg { transform: translateX(3px); }
+.continueShopping { display: block; min-height: 40px; margin: 9px auto 0; padding: 8px 16px; color: #92816a; font-size: 10px; cursor: pointer; text-underline-offset: 4px; }
+.continueShopping:hover { text-decoration: underline; }
+.empty { display: flex; flex: 1; align-items: center; justify-content: center; flex-direction: column; padding: 40px; text-align: center; }
+.empty > span { display: grid; place-items: center; width: 75px; height: 75px; margin-bottom: 24px; border: 1px solid #ded0b8; border-radius: 50%; color: #a68b60; background: #f1e8da; }
+.empty > span svg { width: 26px; height: 26px; }
+.empty h3 { max-width: 230px; color: #5f5342; font: italic 27px/1.25 Georgia, serif; letter-spacing: -.04em; }
+.empty p { margin-top: 12px; color: #978a76; font-size: 11px; line-height: 1.7; }
+.empty button { display: flex; align-items: center; gap: 9px; margin-top: 25px; padding: 13px 17px; border: 1px solid #d8c9af; border-radius: 99px; color: #796244; font-size: 10px; cursor: pointer; }
+.empty button svg { width: 14px; height: 14px; }
+.panel :is(button,a):focus-visible { outline: 2px solid #a38960; outline-offset: 3px; }
+.dialog[data-open="false"] .panel { animation: bag-slide-out 300ms cubic-bezier(.4,0,1,1) both; }
+.dialog[data-open="false"] .backdrop { animation: bag-dim-out 300ms ease both; }
+@keyframes bag-slide-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes bag-slide-out { from { transform: translateX(0); } to { transform: translateX(100%); } }
+@keyframes bag-dim-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bag-dim-out { to { opacity: 0; } }
+@media (max-width: 639px) {
+  .dialog[open] { align-items: flex-end; }
+  .panel { height: min(88dvh, 850px); border-radius: 25px 25px 0 0; animation-name: bag-rise-in; }
+  .header { padding: 26px 22px 20px; }
+  .header h2 { font-size: 26px; }
+  .confirmation { margin-right: 22px; margin-left: 22px; }
+  .pieces { padding-right: 22px; padding-left: 22px; }
+  .footer { padding-right: 22px; padding-left: 22px; }
+  .dialog[data-open="false"] .panel { animation-name: bag-rise-out; }
+}
+@keyframes bag-rise-in { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes bag-rise-out { from { transform: translateY(0); } to { transform: translateY(100%); } }
+@media (prefers-reduced-motion: reduce) {
+  .panel, .backdrop, .dialog[data-open="false"] .panel, .dialog[data-open="false"] .backdrop { animation: none; }
+  .close, .pieceImage img, .checkout, .checkout svg { transition: none; }
+  .close:hover, .pieceImage:hover img, .checkout:hover, .checkout:hover svg { transform: none; }
+}

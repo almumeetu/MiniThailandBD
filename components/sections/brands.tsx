@@ -1,0 +1,132 @@
+"use client";
+
+import { useState, useEffect } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { SwiperSlide } from "swiper/react";
+import StoreCarousel from "@/components/ui/store-carousel";
+import { Autoplay } from "swiper/modules";
+import { fetchShopBrands } from "@/lib/shop-api";
+import { resolveImageUrl } from "@/lib/admin-api";
+import { LuStore } from "react-icons/lu";
+import "swiper/css";
+
+const fallbackBrands = [
+  { name: "Zara", slug: "zara", tag: "Fashion & Apparel" },
+  { name: "Nike", slug: "nike", tag: "Footwear & Sport" },
+  { name: "H&M", slug: "hm", tag: "Casual Styles" },
+  { name: "Adidas", slug: "adidas", tag: "Athletics & Shoes" },
+  { name: "Levi's", slug: "levis", tag: "Denim & Casual" },
+  { name: "Mango", slug: "mango", tag: "Luxury Fashion" },
+  { name: "Fresh Mart", slug: "fresh-mart", tag: "Daily Grocery" },
+  { name: "Organic Valley", slug: "organic-valley", tag: "Fresh Farm Food" },
+];
+
+export default function Brands({
+  bgClassName = "bg-[#F7FAFD]",
+  variant = "horizontal",
+}: {
+  bgClassName?: string;
+  variant?: "horizontal" | "vertical";
+}) {
+  const [brandList, setBrandList] = useState<any[]>([]);
+
+  useEffect(() => {
+    async function loadBrands() {
+      try {
+        const fetched = await fetchShopBrands();
+        if (fetched && fetched.length > 0) {
+          setBrandList(
+            fetched.map((b) => ({
+              id: b.id,
+              name: b.name,
+              slug: b.slug,
+              logo: b.logoUrl ? resolveImageUrl(b.logoUrl) : null,
+              tag: "Verified Vendor",
+            }))
+          );
+        } else {
+          setBrandList(fallbackBrands);
+        }
+      } catch (error) {
+        console.error("Failed to load brands:", error);
+        setBrandList(fallbackBrands);
+      }
+    }
+    loadBrands();
+  }, []);
+
+  const activeBrands = brandList.length > 0 ? brandList : fallbackBrands;
+
+  return (
+    <section className={`w-full py-14 sm:py-20 ${bgClassName} border-t border-stone-200/70`}>
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
+        <div className="flex flex-col items-center text-center mb-10 sm:mb-14">
+
+          <h2 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight mb-3">
+            Featured Brands & Verified Vendors
+          </h2>
+
+          <p className="max-w-2xl text-zinc-500 text-sm sm:text-base leading-relaxed">
+            Shop authentic products directly from certified multi-vendors, world-renowned fashion labels, organic food producers, and local specialty stores.
+          </p>
+        </div>
+
+        {/* Brands Carousel */}
+        <StoreCarousel
+          modules={[Autoplay]}
+          spaceBetween={20}
+          slidesPerView={2}
+          slidesPerGroup={1}
+          loop={activeBrands.length >= 3}
+          speed={1200}
+          autoplay={{
+            delay: 3500,
+            disableOnInteraction: false,
+            pauseOnMouseEnter: true,
+          }}
+          effect="slide"
+          breakpoints={{
+            500: { slidesPerView: 3, spaceBetween: 18 },
+            768: { slidesPerView: 4, spaceBetween: 20 },
+            1024: { slidesPerView: 5, spaceBetween: 24 },
+            1280: { slidesPerView: 6, spaceBetween: 28 },
+          }}
+          className="brands-swiper py-2"
+        >
+          {activeBrands.map((brand, index) => (
+            <SwiperSlide key={brand.id || index}>
+              <Link
+                href={`/products?search=${encodeURIComponent(brand.name)}`}
+                className="flex flex-col items-center justify-center p-6 rounded-2xl bg-white border border-stone-200/80 hover:border-[#174A76]/50 shadow-sm hover:shadow-lg hover:-translate-y-2 transition-all duration-500 group h-36 cursor-pointer"
+              >
+                {brand.logo ? (
+                  <div className="relative h-14 w-full">
+                    <Image
+                      src={brand.logo}
+                      alt={brand.name}
+                      fill
+                      className="object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500"
+                    />
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center gap-2 text-center">
+                    <div className="w-10 h-10 rounded-full bg-[#F2EEE7] flex items-center justify-center group-hover:bg-indigo-100 transition-all duration-300 group-hover:scale-110">
+                      <LuStore className="w-5 h-5 text-[#174A76]" />
+                    </div>
+                    <span className="font-semibold text-zinc-800 group-hover:text-[#174A76] text-sm sm:text-[15px] transition-colors line-clamp-1">
+                      {brand.name}
+                    </span>
+                    <span className="text-[10px] text-zinc-400 font-medium tracking-wide uppercase">
+                      {brand.tag || "Official Store"}
+                    </span>
+                  </div>
+                )}
+              </Link>
+            </SwiperSlide>
+          ))}
+        </StoreCarousel>
+      </div>
+    </section>
+  );
+}
