@@ -43,6 +43,7 @@ export type AdminIconName =
   | "upload"
   | "user"
   | "variants"
+  | "video"
   | "voucher"
   | "wholesale"
   | "x"
@@ -299,6 +300,12 @@ const iconPaths: Record<AdminIconName, ReactNode> = {
       <path d="M7 17h10" />
       <circle cx="7" cy="7" r="3" />
       <circle cx="17" cy="17" r="3" />
+    </>
+  ),
+  video: (
+    <>
+      <polygon points="23 7 16 12 23 17 23 7" fill="currentColor" stroke="none" />
+      <rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
     </>
   ),
   voucher: (

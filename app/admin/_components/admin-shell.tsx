@@ -87,6 +87,7 @@ const menuGroups: {
           { label: "Reviews", href: "/admin/reviews", icon: "reviews" },
         ],
       },
+      { label: "Videos / Reels", href: "/admin/videos", icon: "video" },
       { label: "News & Blog", href: "/admin/news", icon: "report" },
     ],
   },
