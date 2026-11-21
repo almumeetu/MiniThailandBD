@@ -19,6 +19,7 @@ import {
   LuLoaderCircle,
 } from 'react-icons/lu';
 import { FaWhatsapp } from 'react-icons/fa6';
+import ProductVideoStrip from '../product-video-strip';
 import { useCart } from '@/app/_providers/cart-provider';
 import { setBuyNowItem } from '@/lib/buy-now';
 import { toast } from 'sonner';
@@ -399,6 +400,11 @@ export default function ProductInfo({
           </div>
         </div>
       </section>
+
+      {/* ── Watch It In Action Video Strip ── */}
+      <div className="w-full lg:col-span-12">
+        <ProductVideoStrip productId={productId} />
+      </div>
 
       {/* ── Product description, delivery information, and reviews ── */}
       <section

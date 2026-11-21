@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, Suspense } from "react";
 import Link from "next/link";
 import ProductCard, { ProductCardSkeleton } from "@/components/sections/ui/product-card";
 import StoreHero from "@/components/sections/store-hero";
 import BrowseCategories from "@/components/sections/browse-categories";
 import HorizontalScroller from "@/components/sections/ui/horizontal-scroller";
 import StorefrontCta from "@/components/sections/storefront-cta";
-import FacebookLiveShowcase from "@/components/sections/facebook-live-showcase";
+import WatchAndShop from "@/components/sections/watch-and-shop";
 import StyleLookbook from "@/components/sections/style-lookbook";
 import BoutiqueTrust from "@/components/sections/boutique-trust";
 import FacebookReviews from "@/components/sections/facebook-reviews";
@@ -359,8 +359,10 @@ export default function Home() {
         {/* ── Mini Thailand Lookbook & Occasions ── */}
         <StyleLookbook />
 
-        {/* ── Trending Outfits from Facebook Live & Reels ── */}
-        <FacebookLiveShowcase />
+        {/* ── Watch & Shop Our Reels (As Seen on Facebook) ── */}
+        <Suspense fallback={<div className="h-48 w-full animate-pulse" />}>
+          <WatchAndShop />
+        </Suspense>
 
         <StorefrontCta featuredProduct={featuredProducts[0]} />
 
