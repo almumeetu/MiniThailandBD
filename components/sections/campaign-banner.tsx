@@ -7,7 +7,7 @@ import { FaWhatsapp } from "react-icons/fa";
 
 export default function CampaignBanner() {
   const whatsappUrl =
-    "https://wa.me/8801722301927?text=" +
+    "https://wa.me/8801706126663?text=" +
     encodeURIComponent(
       "Hello Mini Thailand! I want to avail the MINITHAI15 offer for Thai Cord Sets / Party Gowns."
     );

@@ -20,11 +20,11 @@ export default function StorefrontHeader() {
       {/* Top Announcement Bar */}
       <section className="bg-[#c0185a] px-4 py-2 text-center text-[10.5px] font-semibold tracking-wide text-white">
         <span className="hidden sm:inline">✨ </span>
-        <span>Mini Thailand — Premier Bangkok Fashion, Velvet Gowns &amp; Luxury Abayas</span>
+        <span>Mini Thailand — 534K Followers • 282M Views • Bangkok Fashion, Velvet Gowns &amp; Luxury Abayas</span>
         <span className="mx-2 hidden sm:inline">•</span>
         <span className="hidden sm:inline">Cash on Delivery Nationwide</span>
         <span className="mx-2 hidden sm:inline">•</span>
-        <span className="font-bold underline decoration-rose-300">Hotline: 01722-301927</span>
+        <span className="font-bold underline decoration-rose-300">Hotline: 01706-126663</span>
       </section>
 
       <header className="sticky top-0 z-40 border-b border-neutral-200 bg-white/95 backdrop-blur-md">
@@ -82,14 +82,14 @@ export default function StorefrontHeader() {
           <div className="flex items-center gap-3 sm:gap-4">
             {/* WhatsApp Quick Order Button (Desktop) */}
             <a
-              href="https://wa.me/8801722301927?text=Hello%20Mini%20Thailand,%20I%20want%20to%20order..."
+              href="https://wa.me/8801706126663?text=Hello%20Mini%20Thailand,%20I%20want%20to%20order..."
               target="_blank"
               rel="noopener noreferrer"
               className="hidden xl:inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1.5 text-xs font-semibold text-emerald-700 hover:bg-emerald-100 transition-colors shadow-2xs"
               title="Chat with boutique stylist"
             >
               <FaWhatsapp className="h-3.5 w-3.5 text-emerald-600" />
-              <span>01722-301927</span>
+              <span>01706-126663</span>
             </a>
 
             {/* Desktop Search Link */}

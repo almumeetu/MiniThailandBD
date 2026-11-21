@@ -36,17 +36,17 @@ const footerGroups = [
 
 export default function StorefrontFooter() {
   return (
-    <footer className="bg-white px-4 py-14 sm:px-8 lg:py-20">
+    <footer className="bg-[#180816] text-zinc-300 border-t border-rose-950/40 px-4 py-14 sm:px-8 lg:py-20">
       <div className="mx-auto max-w-[1180px]">
         {/* Brand strip */}
-        <div className="mb-10 flex flex-col items-start gap-3 border-b border-neutral-200 pb-10 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mb-10 flex flex-col items-start gap-3 border-b border-white/10 pb-10 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-2xl font-extrabold tracking-tight">
               <span className="text-[#c0185a]">Mini</span>
               <span className="text-[#e8a020]">Thailand</span>
-              <span className="text-neutral-700">BD</span>
+              <span className="text-white">BD</span>
             </p>
-            <p className="mt-1 max-w-sm text-sm text-neutral-500">
+            <p className="mt-1 max-w-sm text-sm text-zinc-400">
               Bangladesh&apos;s premier boutique destination for authentic Thai cord sets, luxury party gowns, Dubai-style abayas, and winter velvet collections.
             </p>
           </div>
@@ -61,7 +61,7 @@ export default function StorefrontFooter() {
               <FaFacebookF className="text-sm" />
             </Link>
             <Link
-              href="https://wa.me/8801722301927"
+              href="https://wa.me/8801706126663"
               target="_blank"
               rel="noopener noreferrer"
               className="flex h-10 w-10 items-center justify-center rounded-full bg-[#25D366] text-white transition hover:opacity-80"
@@ -70,7 +70,7 @@ export default function StorefrontFooter() {
               <FaWhatsapp className="text-base" />
             </Link>
             <Link
-              href="https://instagram.com/minithailandbd"
+              href="https://www.instagram.com/mini_thailand123"
               target="_blank"
               rel="noopener noreferrer"
               className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-[#f09433] via-[#e6683c] to-[#bc1888] text-white transition hover:opacity-80"
@@ -79,7 +79,7 @@ export default function StorefrontFooter() {
               <FaInstagram className="text-base" />
             </Link>
             <Link
-              href="https://youtube.com/@minithailandbd"
+              href="https://www.youtube.com/@MiniThailand-pk5rs"
               target="_blank"
               rel="noopener noreferrer"
               className="flex h-10 w-10 items-center justify-center rounded-full bg-[#FF0000] text-white transition hover:opacity-80"
@@ -93,7 +93,7 @@ export default function StorefrontFooter() {
         <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-[1.2fr_1.2fr_1.2fr_1fr]">
           {footerGroups.map((group) => (
             <div key={group.title}>
-              <h2 className="text-sm font-bold uppercase tracking-[0.08em] text-[#c0185a]">
+              <h2 className="text-sm font-bold uppercase tracking-[0.08em] text-[#e8a020]">
                 {group.title}
               </h2>
               <ul className="mt-5 space-y-2">
@@ -101,7 +101,7 @@ export default function StorefrontFooter() {
                   <li key={link.label}>
                     <Link
                       href={link.href}
-                      className="text-sm font-medium text-neutral-500 transition hover:text-[#c0185a]"
+                      className="text-sm font-medium text-zinc-400 transition hover:text-[#e8a020]"
                     >
                       {link.label}
                     </Link>
@@ -112,28 +112,28 @@ export default function StorefrontFooter() {
           ))}
 
           <div>
-            <h2 className="text-sm font-bold uppercase tracking-[0.08em] text-[#c0185a]">
+            <h2 className="text-sm font-bold uppercase tracking-[0.08em] text-[#e8a020]">
               Contact Us
             </h2>
-            <ul className="mt-5 space-y-2 text-sm text-neutral-500">
-              <li>📞 +880 1722-301927</li>
-              <li>📞 01722301927</li>
+            <ul className="mt-5 space-y-2 text-sm text-zinc-400">
+              <li>📞 +880 1706-126663</li>
+              <li>📞 01706126663</li>
               <li>
                 <Link
                   href="https://www.facebook.com/minithailand2022/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#1877F2] hover:underline"
+                  className="text-rose-300 hover:underline"
                 >
                   facebook.com/minithailand2022
                 </Link>
               </li>
             </ul>
 
-            <h2 className="mt-8 text-sm font-bold uppercase tracking-[0.08em] text-[#c0185a]">
+            <h2 className="mt-8 text-sm font-bold uppercase tracking-[0.08em] text-[#e8a020]">
               Payment Methods
             </h2>
-            <div className="mt-4">
+            <div className="mt-4 rounded-xl bg-white/95 p-2 inline-block">
               <Image
                 src="/images/payment/all-payment.jpg"
                 alt="Payment methods — bKash, Nagad, Visa, Mastercard"
@@ -145,7 +145,7 @@ export default function StorefrontFooter() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-neutral-200 pt-8 text-center text-xs font-medium text-neutral-400">
+        <div className="mt-12 border-t border-white/10 pt-8 text-center text-xs font-medium text-zinc-500">
           © {new Date().getFullYear()}{" "}
           <span className="font-bold text-[#c0185a]">MiniThailandBD</span>
           {" "}| All Rights Reserved. Bangladesh&apos;s Premier Thai Fashion &amp; Lifestyle Store.

@@ -165,8 +165,8 @@ function LoginFormContent() {
                 <FiMapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                 <span>Dhaka</span>
               </div>
-              <a href="tel:01722301927" className="text-zinc-300 hover:text-store-light font-semibold block mt-0.5">
-                01722301927
+              <a href="tel:01706126663" className="text-zinc-300 hover:text-store-light font-semibold block mt-0.5">
+                01706126663
               </a>
             </div>
           </div>
@@ -252,10 +252,10 @@ function LoginFormContent() {
                     Password
                   </label>
                   <a
-                    href="tel:01722301927"
+                    href="tel:01706126663"
                     className="text-[11px] font-semibold text-store-primary hover:underline"
                   >
-                    Call for sign-in help
+                    Call for sign-in help (01706-126663)
                   </a>
                 </div>
                 <div className="relative">

@@ -134,39 +134,39 @@ export default async function Mainfooter() {
   const primaryEmail = finalEmails[0]?.value || "support@minithailandbd.com.bd";
 
   return (
-    <footer className="w-full bg-white font-sans text-zinc-700 border-t border-zinc-200">
+    <footer className="w-full bg-[#180816] font-sans text-zinc-300 border-t border-rose-950/40">
       <div className="mx-auto max-w-[1440px] px-4 pt-8 pb-6 sm:px-6 sm:pt-10 sm:pb-8 md:px-10 lg:px-16">
         <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-12 lg:gap-8 items-start">
           {/* Column 1: Brand Info, Contacts, Social & Mobile App Download */}
           <div className="min-w-0 lg:col-span-4 space-y-3">
-            <Logo variant="dark" size="md" />
+            <Logo variant="light" size="md" />
 
-            <p className="max-w-sm text-sm sm:text-[14.5px] leading-relaxed text-zinc-600 font-normal">
+            <p className="max-w-sm text-sm sm:text-[14.5px] leading-relaxed text-zinc-300 font-normal">
               {shopName} is an e-commerce platform dedicated to providing safe and reliable products to every home.
             </p>
 
             {/* Address & Primary Contact list (Clean, compact, non-duplicated) */}
-            <div className="space-y-2 text-sm sm:text-[14px] text-zinc-700 font-medium">
+            <div className="space-y-2 text-sm sm:text-[14px] text-zinc-300 font-medium">
               <div className="flex items-start gap-2.5">
-                <IoLocationOutline className="h-4 w-4 shrink-0 text-zinc-500 mt-0.5" />
+                <IoLocationOutline className="h-4 w-4 shrink-0 text-amber-300 mt-0.5" />
                 <span className="leading-snug">{address}</span>
               </div>
 
               <div className="flex items-center gap-2.5">
-                <HiPhone className="h-4 w-4 shrink-0 text-zinc-500" />
+                <HiPhone className="h-4 w-4 shrink-0 text-amber-300" />
                 <a
                   href={`tel:${primaryPhone.replace(/[^\d+]/g, "")}`}
-                  className="hover:text-orange-600 transition-colors leading-snug"
+                  className="hover:text-amber-300 text-zinc-300 transition-colors leading-snug"
                 >
                   {primaryPhone}
                 </a>
               </div>
 
               <div className="flex items-center gap-2.5">
-                <HiMail className="h-4 w-4 shrink-0 text-zinc-500" />
+                <HiMail className="h-4 w-4 shrink-0 text-amber-300" />
                 <a
                   href={`mailto:${primaryEmail}`}
-                  className="hover:text-orange-600 transition-colors leading-snug"
+                  className="hover:text-amber-300 text-zinc-300 transition-colors leading-snug"
                 >
                   {primaryEmail}
                 </a>
@@ -183,7 +183,7 @@ export default async function Mainfooter() {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={label}
-                    className="flex h-8 w-8 items-center justify-center rounded-full bg-orange-50 text-orange-600 border border-orange-100 hover:bg-orange-500 hover:text-white hover:border-orange-500 transition-all duration-200 shadow-2xs"
+                    className="flex h-8 w-8 items-center justify-center rounded-full bg-white/10 text-white border border-white/15 hover:bg-[#c0185a] hover:border-[#c0185a] transition-all duration-200 shadow-2xs"
                   >
                     <Icon className="h-3.5 w-3.5" />
                   </a>
@@ -194,7 +194,7 @@ export default async function Mainfooter() {
 
           {/* Column 2: Information */}
           <div className="min-w-0 lg:col-span-2">
-            <h3 className="text-sm sm:text-[15px] font-bold text-zinc-900 mb-3.5 tracking-tight">
+            <h3 className="text-sm sm:text-[15px] font-bold text-white mb-3.5 tracking-tight">
               Information
             </h3>
             <ul className="space-y-3 text-sm sm:text-[14px]">
@@ -202,7 +202,7 @@ export default async function Mainfooter() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-zinc-600 hover:text-orange-600 transition-colors block py-0.5 leading-normal"
+                    className="text-zinc-400 hover:text-amber-300 transition-colors block py-0.5 leading-normal"
                   >
                     {link.label}
                   </Link>
@@ -213,7 +213,7 @@ export default async function Mainfooter() {
 
           {/* Column 3: Shop By */}
           <div className="min-w-0 lg:col-span-2">
-            <h3 className="text-sm sm:text-[15px] font-bold text-zinc-900 mb-3.5 tracking-tight">
+            <h3 className="text-sm sm:text-[15px] font-bold text-white mb-3.5 tracking-tight">
               Shop By
             </h3>
             <ul className="space-y-3 text-sm sm:text-[14px]">
@@ -221,7 +221,7 @@ export default async function Mainfooter() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-zinc-600 hover:text-orange-600 transition-colors block truncate py-0.5 leading-normal"
+                    className="text-zinc-400 hover:text-amber-300 transition-colors block truncate py-0.5 leading-normal"
                   >
                     {link.label}
                   </Link>
@@ -232,7 +232,7 @@ export default async function Mainfooter() {
 
           {/* Column 4: Support */}
           <div className="min-w-0 lg:col-span-2">
-            <h3 className="text-sm sm:text-[15px] font-bold text-zinc-900 mb-3.5 tracking-tight">
+            <h3 className="text-sm sm:text-[15px] font-bold text-white mb-3.5 tracking-tight">
               Support
             </h3>
             <ul className="space-y-3 text-sm sm:text-[14px]">
@@ -240,7 +240,7 @@ export default async function Mainfooter() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-zinc-600 hover:text-orange-600 transition-colors block py-0.5 leading-normal"
+                    className="text-zinc-400 hover:text-amber-300 transition-colors block py-0.5 leading-normal"
                   >
                     {link.label}
                   </Link>
@@ -251,7 +251,7 @@ export default async function Mainfooter() {
 
           {/* Column 5: Consumer Policy */}
           <div className="min-w-0 lg:col-span-2">
-            <h3 className="text-sm sm:text-[15px] font-bold text-zinc-900 mb-3.5 tracking-tight">
+            <h3 className="text-sm sm:text-[15px] font-bold text-white mb-3.5 tracking-tight">
               Consumer Policy
             </h3>
             <ul className="space-y-3 text-sm sm:text-[14px]">
@@ -259,7 +259,7 @@ export default async function Mainfooter() {
                 <li key={link.label}>
                   <Link
                     href={link.href}
-                    className="text-zinc-600 hover:text-orange-600 transition-colors block py-0.5 leading-normal"
+                    className="text-zinc-400 hover:text-amber-300 transition-colors block py-0.5 leading-normal"
                   >
                     {link.label}
                   </Link>

@@ -97,14 +97,14 @@ export default function CorporateFAQ() {
 
             <div className="flex flex-col sm:flex-row md:flex-col gap-3 shrink-0 w-full md:w-auto">
               <a
-                href="tel:01722301927"
+                href="tel:01706126663"
                 className="px-6 py-3 rounded-xl bg-store-primary hover:bg-store-hover text-white font-bold text-sm text-center transition-colors flex items-center justify-center gap-2"
               >
                 <FiPhone className="w-4 h-4" />
-                <span>Call Executive: 01722301927</span>
+                <span>Call Executive: 01706126663</span>
               </a>
               <a
-                href="https://wa.me/8801722301927?text=Hello%2C%20I%20would%20like%20to%20discuss%20a%20corporate%20order%20for%20our%20company."
+                href="https://wa.me/8801706126663?text=Hello%2C%20I%20would%20like%20to%20discuss%20a%20corporate%20order%20for%20our%20company."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3 rounded-xl bg-[#25D366] hover:bg-[#20ba59] text-white font-bold text-xs uppercase tracking-wider text-center transition-all flex items-center justify-center gap-2"

@@ -32,7 +32,7 @@ export default function Navigation() {
   const searchParams = useSearchParams();
   const [categories, setCategories] = useState<ShopCategory[]>(initialFallbackCats);
   const [activeCategory, setActiveCategory] = useState<string>("cat-skincare");
-  const [hotlinePhone, setHotlinePhone] = useState<string>("+8801722301927");
+  const [hotlinePhone, setHotlinePhone] = useState<string>("+880 1706-126663");
   const [isTeasHovered, setIsTeasHovered] = useState(false);
   const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -154,9 +154,9 @@ export default function Navigation() {
           </span>
         ) : item.isOffer ? (
           <span
-            className={`flex items-center whitespace-nowrap rounded-[3px] px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider transition-all duration-200 ${isActive(item.href)
-                ? "bg-[#F26522] text-white shadow-xs"
-                : "bg-orange-500/20 text-orange-200 hover:bg-[#F26522] hover:text-white border border-orange-400/40"
+            className={`flex items-center whitespace-nowrap rounded-[4px] px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider transition-all duration-200 ${isActive(item.href)
+                ? "bg-gradient-to-r from-[#c0185a] to-[#e8a020] text-white shadow-xs"
+                : "bg-rose-950/50 text-rose-200 hover:bg-gradient-to-r hover:from-[#c0185a] hover:to-[#e8a020] hover:text-white border border-rose-500/30"
               }`}
           >
             <span>{item.label}</span>
@@ -258,12 +258,12 @@ export default function Navigation() {
         className="group inline-flex items-center gap-2 py-1 text-xs transition-colors duration-200"
         title={`Call & Order: ${hotlinePhone}`}
       >
-        <LuPhoneCall className="h-3.5 w-3.5 text-[#F26522] transition-transform duration-200 group-hover:scale-110" />
+        <LuPhoneCall className="h-3.5 w-3.5 text-[#e8a020] transition-transform duration-200 group-hover:scale-110" />
         <span className="text-[12px] font-medium text-slate-300 transition-colors group-hover:text-white">
           Call &amp; Order
         </span>
         <span className="text-slate-500">·</span>
-        <span className="text-[12px] font-bold tracking-wide text-white transition-colors group-hover:text-orange-400">
+        <span className="text-[12px] font-bold tracking-wide text-white transition-colors group-hover:text-amber-300">
           {hotlinePhone}
         </span>
       </a>

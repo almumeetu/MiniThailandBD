@@ -185,7 +185,7 @@ function ProfilePageContent() {
               {/* Direct Help */}
               {(() => {
                 const contact = parseContactEntries(settings?.contactNumber);
-                const phoneNum = contact[0]?.value || "01722301927";
+                const phoneNum = contact[0]?.value || "+880 1706-126663";
                 const cleanNum = phoneNum.replace(/[^\d+]/g, "");
                 return (
                   <div className="mt-6 text-xs text-zinc-500 flex flex-wrap items-center justify-center gap-1.5">
@@ -277,7 +277,7 @@ function ProfilePageContent() {
                     <FiPhone className="w-4 h-4 text-emerald-600" />
                     {(() => {
                       const contacts = parseContactEntries(settings?.contactNumber);
-                      const phone = contacts[0]?.value || "01722301927";
+                      const phone = contacts[0]?.value || "+880 1706-126663";
                       return (
                         <a href={`tel:${phone.replace(/[^\d+]/g, "")}`} className="hover:underline">
                           {phone}

@@ -451,10 +451,10 @@ export default function Header() {
                         Customer Support
                       </p>
                       <a
-                        href="tel:01722301927"
+                        href="tel:01706126663"
                         className="text-xs font-bold text-store-primary hover:underline"
                       >
-                        +880 1722-301927
+                        +880 1706-126663
                       </a>
                     </div>
 
@@ -495,7 +495,7 @@ export default function Header() {
       </div>
 
       {/* ═══════════════ Desktop Navigation Bar ═══════════════ */}
-      <div className="hidden xl:block border-t border-white/10 bg-[#14293a] text-white shadow-sm">
+      <div className="hidden xl:block border-t border-white/10 bg-[#180816] text-white shadow-sm">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
           <Navigation />
         </div>

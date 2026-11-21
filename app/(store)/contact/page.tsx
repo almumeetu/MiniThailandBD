@@ -23,12 +23,12 @@ export default function ContactPage() {
   }, []);
 
   const shopName = settings?.shopName?.trim() || 'MiniThailandBD';
-  const primaryPhone = parseContactEntries(settings?.contactNumber)[0]?.value || '+880 1722-301927';
-  const cleanPhone = primaryPhone.replace(/[^\d+]/g, '') || '01722301927';
-  const whatsappNumber = (settings?.socialContact?.whatsapp || primaryPhone).replace(/[^\d]/g, '') || '8801722301927';
+  const primaryPhone = parseContactEntries(settings?.contactNumber)[0]?.value || '+880 1706-126663';
+  const cleanPhone = primaryPhone.replace(/[^\d+]/g, '') || '01706126663';
+  const whatsappNumber = (settings?.socialContact?.whatsapp || primaryPhone).replace(/[^\d]/g, '') || '8801706126663';
   const fullWhatsapp = whatsappNumber.startsWith('88') ? whatsappNumber : `88${whatsappNumber.replace(/^0+/, '')}`;
   const primaryEmail = parseContactEntries(settings?.email)[0]?.value || 'support@minithailandbd.com';
-  const branchAddress = settings?.branchAddress?.trim() || 'Uttara Sector-11, Dhaka, Bangladesh';
+  const branchAddress = settings?.branchAddress?.trim() || 'Jamuna Future Park (Shop 11, Ground Fl), Dhanmondi (Shop 3060, L3), Uttara (Shop 23-24, L2) & Adabor (Shop 43, L2), Dhaka';
 
   const contactMethods = [
     {

@@ -65,10 +65,10 @@ export default function ConfirmationPage() {
   });
 
   const whatsappInquiryUrl = order?.orderNumber
-    ? `https://wa.me/8801722301927?text=${encodeURIComponent(
+    ? `https://wa.me/8801706126663?text=${encodeURIComponent(
         `Hello MiniThailandBD, I have placed Order #${order.orderNumber}. I would like to inquire about my delivery.`
       )}`
-    : "https://wa.me/8801722301927";
+    : "https://wa.me/8801706126663";
 
   if (!hasMounted) {
     return (
@@ -494,7 +494,7 @@ export default function ConfirmationPage() {
                 </div>
                 <div>
                   <p className="text-xs font-medium text-zinc-900">24/7 Priority Support</p>
-                  <p className="text-[11px] text-zinc-500">Hotline: 01722301927</p>
+                  <p className="text-[11px] text-zinc-500">Hotline: 01706-126663</p>
                 </div>
               </div>
               <div className="pt-2 border-t border-zinc-200/60 flex items-center justify-between text-[11px] text-zinc-400">

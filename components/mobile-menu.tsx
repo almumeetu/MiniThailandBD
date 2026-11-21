@@ -168,7 +168,7 @@ export default function MobileMenu() {
 
         {/* Quick Announcement Bar in Drawer */}
         <div className="bg-[#c0185a] px-4 py-2 text-center text-[10px] font-semibold uppercase tracking-wider text-white">
-          ✨ Cash on Delivery Nationwide | Hotline: 01722-301927
+          ✨ 534K Followers • Hotline: 01706-126663
         </div>
 
         {/* Navigation Links */}
@@ -243,13 +243,13 @@ export default function MobileMenu() {
         {/* Drawer Footer with Direct Social & WhatsApp Contact */}
         <div className="border-t border-neutral-200 p-4 bg-neutral-50 space-y-2.5">
           <a
-            href="https://wa.me/8801722301927?text=Hello%20Mini%20Thailand,%20I%20want%20to%20order..."
+            href="https://wa.me/8801706126663?text=Hello%20Mini%20Thailand,%20I%20want%20to%20order..."
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white hover:bg-emerald-500 transition-colors shadow-xs"
           >
             <FaWhatsapp className="h-4 w-4" />
-            <span>Order on WhatsApp: 01722-301927</span>
+            <span>Order on WhatsApp: 01706-126663</span>
           </a>
 
           <a

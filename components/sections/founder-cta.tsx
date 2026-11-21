@@ -26,10 +26,10 @@ export default function FounderCta() {
 
   const shopName = settings?.shopName?.trim() || "MiniThailandBD";
   const contactEntries = parseContactEntries(settings?.contactNumber);
-  const primaryPhone = contactEntries[0]?.value || "01722301927";
-  const cleanPhone = primaryPhone.replace(/[^\d+]/g, "") || "01722301927";
+  const primaryPhone = contactEntries[0]?.value || "+880 1706-126663";
+  const cleanPhone = primaryPhone.replace(/[^\d+]/g, "") || "01706126663";
   const rawWhatsapp = settings?.socialContact?.whatsapp || primaryPhone;
-  const whatsappNumber = rawWhatsapp.replace(/[^\d]/g, "") || "8801722301927";
+  const whatsappNumber = rawWhatsapp.replace(/[^\d]/g, "") || "8801706126663";
   const fullWhatsapp = whatsappNumber.startsWith("88")
     ? whatsappNumber
     : `88${whatsappNumber.replace(/^0+/, "")}`;

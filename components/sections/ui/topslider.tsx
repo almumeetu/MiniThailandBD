@@ -3,12 +3,22 @@
 import { SwiperSlide } from 'swiper/react';
 import StoreCarousel from "@/components/ui/store-carousel";
 import { Autoplay } from 'swiper/modules';
+import { useNotificationSettings } from "@/lib/notification-store";
 import data from "@/data/top-header.json";
 import 'swiper/css';
 
 export default function TopSlider() {
-  const { slider } = data;
-  const slides = slider.slides;
+  const notificationSettings = useNotificationSettings();
+  const slides = notificationSettings?.slides?.length > 0 
+    ? notificationSettings.slides 
+    : data.slider.slides;
+
+  const autoplayDelay = notificationSettings?.autoplayDelay || data.slider.autoplayDelay || 3500;
+  const speed = notificationSettings?.speed || data.slider.speed || 600;
+
+  if (notificationSettings && !notificationSettings.enabled) {
+    return null;
+  }
 
   return (
     <div className="flex items-center gap-1 sm:gap-2 text-[#94A3B8] w-full justify-center">
@@ -17,11 +27,11 @@ export default function TopSlider() {
           compactPlayback
           modules={[Autoplay]}
           autoplay={{
-            delay: slider.autoplayDelay || 3500,
+            delay: autoplayDelay,
             disableOnInteraction: false,
           }}
           loop={true}
-          speed={slider.speed || 600}
+          speed={speed}
           className="topslider-swiper"
         >
           {slides.map((text: string, index: number) => (
@@ -35,8 +45,6 @@ export default function TopSlider() {
           ))}
         </StoreCarousel>
       </div>
-
     </div>
   );
 }
-

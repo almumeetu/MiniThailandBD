@@ -231,8 +231,8 @@ export default function AuthModal() {
                 <FiMapPin className="w-3 h-3 text-emerald-400 shrink-0" />
                 <span>Dhaka</span>
               </div>
-              <a href="tel:01722301927" className="text-zinc-300 hover:text-indigo-300 font-semibold block mt-0.5">
-                01722301927
+              <a href="tel:01706126663" className="text-zinc-300 hover:text-indigo-300 font-semibold block mt-0.5">
+                01706126663
               </a>
             </div>
           </div>
@@ -380,8 +380,8 @@ export default function AuthModal() {
 
             {view === "login" && (
               <div className="flex justify-end text-xs pt-1">
-                <a href="tel:01722301927" className="text-[#174A76] hover:underline">
-                  Call for sign-in help
+                <a href="tel:01706126663" className="text-[#174A76] hover:underline">
+                  Call for sign-in help (01706-126663)
                 </a>
               </div>
             )}

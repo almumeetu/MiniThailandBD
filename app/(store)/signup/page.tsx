@@ -182,8 +182,8 @@ function SignUpFormContent() {
                 <FiMapPin className="w-3.5 h-3.5 text-emerald-400 shrink-0" />
                 <span>Dhaka</span>
               </div>
-              <a href="tel:01722301927" className="text-zinc-300 hover:text-store-light font-semibold block mt-0.5">
-                01722301927
+              <a href="tel:01706126663" className="text-zinc-300 hover:text-store-light font-semibold block mt-0.5">
+                01706126663
               </a>
             </div>
           </div>
@@ -335,7 +335,7 @@ function SignUpFormContent() {
             </form>
 
             <p className="mt-8 text-center text-[11px] text-zinc-400">
-              Need help? Hotline: <strong className="text-zinc-600">01722301927</strong>
+              Need help? Hotline: <strong className="text-zinc-600">01706-126663</strong>
             </p>
           </div>
         </div>

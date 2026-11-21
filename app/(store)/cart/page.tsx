@@ -324,7 +324,7 @@ export default function CartPage() {
 
   const hotlinePhone = useMemo(() => {
     const contacts = parseContactEntries(settings?.contactNumber);
-    return contacts[0]?.value || "01722301927";
+    return contacts[0]?.value || "+880 1706-126663";
   }, [settings]);
   const cleanHotlinePhone = useMemo(() => hotlinePhone.replace(/[^0-9+]/g, ""), [hotlinePhone]);
 

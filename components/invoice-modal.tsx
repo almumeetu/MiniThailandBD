@@ -8,9 +8,9 @@ import Logo from "@/components/ui/logo";
 
 const COMPANY = {
   name: "MiniThailandBD Bangladesh",
-  addressLine: "Uttara Sector-11, Dhaka, Bangladesh",
-  phone: "+880 1722-301927 (01722301927)",
-  email: "support@minithailandbd.com.bd",
+  addressLine: "Jamuna Future Park, Dhanmondi, Uttara & Adabor, Dhaka, Bangladesh",
+  phone: "+880 1706-126663 (01706126663)",
+  email: "support@minithailandbd.com",
 };
 
 const currency = (n: number) =>

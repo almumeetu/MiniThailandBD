@@ -8,7 +8,7 @@ export default function FloatingSocialWidget() {
   const [expanded, setExpanded] = useState(false);
 
   const whatsappUrl =
-    "https://wa.me/8801722301927?text=" +
+    "https://wa.me/8801706126663?text=" +
     encodeURIComponent(
       "Hello Mini Thailand! I am visiting your website and would like to ask about product availability and ordering."
     );
@@ -51,7 +51,7 @@ export default function FloatingSocialWidget() {
             className="flex items-center gap-2.5 rounded-xl bg-[#25D366] hover:bg-[#20ba59] px-3 py-2.5 text-xs font-semibold text-white shadow-xs transition-colors"
           >
             <FaWhatsapp className="h-4 w-4" />
-            <span>Chat on WhatsApp (01722-301927)</span>
+            <span>Chat on WhatsApp (01706-126663)</span>
           </a>
 
           <a
