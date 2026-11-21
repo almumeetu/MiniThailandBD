@@ -24,13 +24,13 @@ export default function Quality() {
             </h2>
             
             <p className="mx-auto mt-6 font-sans text-sm leading-relaxed md:text-base font-normal text-zinc-600 max-w-3xl">
-                We follow a strict clean confidentiality and quality control policy governing our operations. NovaMart is{" "}
+                We follow a strict clean confidentiality and quality control policy governing our operations. MiniThailandBD is{" "}
                 <span className="font-medium text-zinc-900">committed to verified consumer protection, authentic origin validation</span>{" "}
                 and transparent ethical trading practices across Bangladesh.
             </p>
             
             <p className="mx-auto mt-4 font-sans text-xs text-zinc-400 font-medium uppercase tracking-wider">
-                NovaMart is verified and certified with
+                MiniThailandBD is verified and certified with
             </p>
             </div>
             {/* Certification Logos */}

@@ -30,12 +30,12 @@ export async function POST(request: Request) {
         }
 
         const { error } = await resend.emails.send({
-            from: `NovaMart <${fromEmail}>`,
+            from: `MiniThailandBD <${fromEmail}>`,
             to: [toEmail],
-            subject: 'New Corporate Order Inquiry From NovaMart',
+            subject: 'New Corporate Order Inquiry From MiniThailandBD',
             html: `
                 <div style="font-family: sans-serif; line-height: 1.6; color: #333;">
-                    <h1 style="color: #000;">New Corporate Order Inquiry From NovaMart</h1>
+                    <h1 style="color: #000;">New Corporate Order Inquiry From MiniThailandBD</h1>
                     <p>Someone just submitted a corporate order inquiry!</p>
                     <table style="border-collapse: collapse; width: 100%;">
                         <tr><td style="padding: 6px 12px; border: 1px solid #ddd;"><b>Full Name</b></td><td style="padding: 6px 12px; border: 1px solid #ddd;">${body.fullName}</td></tr>

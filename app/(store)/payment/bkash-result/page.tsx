@@ -20,7 +20,7 @@ function BkashResultContent() {
         </h1>
         <p className="mt-2 text-sm leading-6 text-zinc-500">
           {success
-            ? "Your bKash payment has been verified. Thank you for shopping with NovaMart."
+            ? "Your bKash payment has been verified. Thank you for shopping with MiniThailandBD."
             : "No payment was captured. You can try again from checkout or continue shopping."}
         </p>
         <Link href={success ? "/confirmation" : "/checkout"} className="mt-6 inline-flex rounded-lg bg-store-primary px-5 py-3 text-sm font-medium text-white transition-colors hover:bg-store-hover">

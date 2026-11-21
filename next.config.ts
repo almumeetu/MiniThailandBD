@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
         hostname: "lh3.googleusercontent.com",
         pathname: "/**",
       },
-      // production path resolver for TinyEcom API - Humana Vintage
+      // production CDN / partner API path resolver
       {
         protocol: "https",
         hostname: "tinyecomapi.neocomerz.com",
@@ -58,7 +58,7 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "api-novamart.webdevss.tech",
+        hostname: "api-minithailandbd.webdevss.tech",
         pathname: "/**",
       },
     ],

@@ -9,7 +9,7 @@ export default function FloatingWhatsApp() {
   const pathname = usePathname();
   const isPurchasePage = ["/cart", "/checkout", "/confirmation"].includes(pathname) || pathname.startsWith("/products/");
   const [phone, setPhone] = useState("+880 1722-301927");
-  const [shopName, setShopName] = useState("NovaMart");
+  const [shopName, setShopName] = useState("MiniThailandBD");
   const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {

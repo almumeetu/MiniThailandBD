@@ -1,10 +1,10 @@
-// PM2 Ecosystem Configuration for NovaMart
+// PM2 Ecosystem Configuration for MiniThailandBD
 // Use this for production deployment with PM2
 
 module.exports = {
   apps: [
     {
-      name: 'novamart-store',
+      name: 'minithailandbd-store',
       script: 'node_modules/next/dist/bin/next',
       args: 'start -p 3002',
       instances: 1,

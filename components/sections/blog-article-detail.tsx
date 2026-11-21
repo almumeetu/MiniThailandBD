@@ -51,7 +51,7 @@ export default function BlogArticleDetail({ article }: { article: News }) {
                 <LuClock3 className="h-4 w-4" aria-hidden="true" />
                 {readingTime(article.content)} min read
               </span>
-              <span>By {article.author?.trim() || "NovaMart Editorial Team"}</span>
+              <span>By {article.author?.trim() || "MiniThailandBD Editorial Team"}</span>
             </div>
           </header>
 

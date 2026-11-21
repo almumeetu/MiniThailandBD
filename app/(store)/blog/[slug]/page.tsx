@@ -11,13 +11,13 @@ type BlogArticlePageProps = {
 export async function generateMetadata({ params }: BlogArticlePageProps): Promise<Metadata> {
   const { slug } = await params;
   const article = await fetchShopNewsBySlug(slug);
-  if (!article) return { title: "Story Not Found | NovaMart" };
+  if (!article) return { title: "Story Not Found | MiniThailandBD" };
 
   const description = article.excerpt?.trim() || article.content.replace(/\s+/g, " ").slice(0, 160);
   const image = article.coverImageUrl ? resolveImageUrl(article.coverImageUrl) : undefined;
 
   return {
-    title: `${article.title} | NovaMart Journal`,
+    title: `${article.title} | MiniThailandBD`,
     description,
     openGraph: {
       type: "article",

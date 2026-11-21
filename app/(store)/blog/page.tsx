@@ -3,8 +3,8 @@ import BlogArticles from "@/components/sections/blog-articles";
 import { fetchShopNews } from "@/lib/shop-api";
 
 export const metadata: Metadata = {
-  title: "Blog and Buying Guides | NovaMart",
-  description: "Practical advice on shopping, choosing products and everyday living from NovaMart.",
+  title: "Blog and Buying Guides | MiniThailandBD",
+  description: "Practical advice on shopping, choosing products and everyday living from MiniThailandBD.",
 };
 
 export default async function BlogPage() {

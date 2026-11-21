@@ -367,33 +367,33 @@ export const DEFAULT_NOVAMART_CATEGORIES: ShopCategory[] = [
 ];
 
 export const DEFAULT_NOVAMART_SETTINGS: ShopSettings = {
-  id: "novamart-settings-default",
-  shopName: "NovaMart",
-  slogan: "YOUR PREMIER MULTI-CATEGORY ONLINE STORE",
+  id: "minithailandbd-settings-default",
+  shopName: "MiniThailandBD",
+  slogan: "Bangladesh's premier fashion online store for skincare, digital electronics, perfumes, fashion, baby products and home essentials",
   contactNumber: [
     { title: "Hotline Support", value: "+880 1722-301927" },
     { title: "Customer Care", value: "01722301927" },
   ],
   email: [
-    { title: "Customer Support", value: "support@novamart.com.bd" },
-    { title: "Corporate Inquiries", value: "sales@novamart.com.bd" },
+    { title: "Customer Support", value: "support@minithailandbd.com" },
+    { title: "Corporate Inquiries", value: "sales@minithailandbd.com" },
   ],
   socialContact: {
     whatsapp: "8801722301927",
-    facebook: "https://facebook.com/novamart.bd",
-    instagram: "https://instagram.com/novamart.bd",
-    youtube: "https://youtube.com/@novamartbd",
+    facebook: "https://www.facebook.com/minithailand2022/",
+    instagram: "https://instagram.com/minithailandbd",
+    youtube: "https://youtube.com/@minithailandbd",
   },
   currency: "BDT",
   language: "en",
   deliveryChargeInside: 60,
   deliveryChargeOutside: 120,
   deliveryChargeNearCity: 80,
-  branchName: "NovaMart Central Flagship & Fulfillment",
+  branchName: "MiniThailandBD Central Flagship & Fulfillment",
   branchAddress: "Uttara Sector-11, Dhaka, Bangladesh",
   copyrightYear: "2026",
-  parentCompany: "NovaMart Retail Bangladesh Limited",
-  parentCompanyLink: "https://novamart.com.bd",
+  parentCompany: "MiniThailandBD Bangladesh",
+  parentCompanyLink: "https://www.facebook.com/minithailand2022/",
   logo: "/images/logo/update-logo.png",
   isTopBarVisible: true,
   hideOutOfStock: false,
@@ -486,11 +486,11 @@ export async function fetchStorePolicies(): Promise<StorePolicies | null> {
     },
     privacy: {
       title: "Data Privacy & Security",
-      content: "NovaMart respects your privacy and utilizes SSL bank-grade encryption to protect customer payment and personal information.",
+      content: "MiniThailandBD respects your privacy and utilizes SSL bank-grade encryption to protect customer payment and personal information.",
     },
     terms: {
       title: "Terms & Conditions",
-      content: "All purchases made on NovaMart Bangladesh are backed by authentic brand guarantees, valid commercial VAT invoices, and consumer protection regulations.",
+      content: "All purchases made on MiniThailandBD Bangladesh are backed by authentic brand guarantees, valid commercial VAT invoices, and consumer protection regulations.",
     },
   };
 }

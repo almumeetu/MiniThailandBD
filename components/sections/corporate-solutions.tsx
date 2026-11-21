@@ -76,7 +76,7 @@ export default function CorporateSolutions() {
               Curated Corporate Solutions
             </h2>
             <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
-              Whether you are rewarding 50 executives, sending 2,000 Eid gift hampers, or sourcing wholesale inventory, NovaMart delivers uncompromising quality and verified origin.
+              Whether you are rewarding 50 executives, sending 2,000 Eid gift hampers, or sourcing wholesale inventory, MiniThailandBD delivers uncompromising quality and verified origin.
             </p>
           </div>
         </ScrollAnimate>

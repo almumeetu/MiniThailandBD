@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
   if (!product) {
     return {
-      title: "Product Not Found | NovaMart",
+      title: "Product Not Found | MiniThailandBD",
     };
   }
 
@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     : undefined;
 
   return {
-    title: `${product.metaTitle ?? product.name} | NovaMart`,
+    title: `${product.metaTitle ?? product.name} | MiniThailandBD`,
     description:
       product.metaDescription ??
       product.shortDescription ??

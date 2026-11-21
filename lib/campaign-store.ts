@@ -2,8 +2,8 @@
 
 import { type Campaign, API_BASE_URL, resolveImageUrl } from "./admin-api";
 
-export const CAMPAIGNS_STORAGE_KEY = "novamart_campaigns_v4";
-export const CAMPAIGNS_UPDATED_EVENT = "novamart_campaigns_updated";
+export const CAMPAIGNS_STORAGE_KEY = "minithailandbd_campaigns_v4";
+export const CAMPAIGNS_UPDATED_EVENT = "minithailandbd_campaigns_updated";
 
 /**
  * Universal normalizer: ensures all campaign titles, descriptions, badges, and CTAs
@@ -60,17 +60,17 @@ export function normalizeCampaignToEnglish(campaign: Campaign): Campaign {
     badge = "Baby & Kids";
     ctaText = "Shop Kids Care";
   }
-  // 4. Welcome to NovaMart / Everyday Essentials
+  // 4. Welcome to MiniThailandBD / Everyday Essentials
   else if (
     title.includes("স্বাগতম") ||
-    title.includes("NovaMart-এ") ||
+    title.includes("MiniThailandBD-এ") ||
     description.includes("বিশ্বস্ত উৎসের") ||
     description.includes("অথেনটিক পণ্য") ||
     description.includes("ক্যাশ অন ডেলিভারি")
   ) {
     title = "Everyday Essentials, All in One Place";
     description =
-      "Trusted quality, honest pricing, and fast delivery nationwide across Bangladesh — everything you need at NovaMart.";
+      "Trusted quality, honest pricing, and fast delivery nationwide across Bangladesh — everything you need at MiniThailandBD.";
     badge = "Everyday Essentials";
     ctaText = "Explore Products";
   }
@@ -78,7 +78,7 @@ export function normalizeCampaignToEnglish(campaign: Campaign): Campaign {
   else if (/[\u0980-\u09FF]/.test(title) || /[\u0980-\u09FF]/.test(description)) {
     title = "Exclusive Campaign Deals";
     description =
-      "Discover handpicked deals, verified authentic quality, and fast nationwide delivery at NovaMart.";
+      "Discover handpicked deals, verified authentic quality, and fast nationwide delivery at MiniThailandBD.";
     badge = badge || "Special Offer";
     ctaText = ctaText || "Explore Deals";
   }
@@ -93,116 +93,88 @@ export function normalizeCampaignToEnglish(campaign: Campaign): Campaign {
 }
 
 /**
- * Built-in default hero campaigns matching NovaMart's high-converting,
+ * Built-in default hero campaigns matching MiniThailandBD's high-converting,
  * multi-category store (Groceries, Electronics, Skincare, Perfumes, Baby products).
  */
 export const DEFAULT_HERO_CAMPAIGNS: Campaign[] = [
   {
     id: "camp-hero-1",
-    title: "Everyday Essentials, All in One Place",
-    description: "Trusted quality, honest pricing, and fast delivery nationwide across Bangladesh — everything you need at NovaMart.",
+    title: "নতুন কর্ড সেট কালেকশন এসেছে",
+    description: "থাইল্যান্ড থেকে আনা প্রিমিয়াম কর্ড সেট — সফট ফেব্রিক, স্টাইলিশ ডিজাইন। সীমিত স্টক, এখনই অর্ডার করুন।",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
-    hasDiscount: false,
-    badge: "Everyday Essentials",
-    ctaText: "Explore Products",
+    hasDiscount: true,
+    badge: "New Arrival",
+    ctaText: "Shop Now",
+    linkUrl: "/products",
     sectionId: "sec-hero",
-    section: {
-      id: "sec-hero",
-      title: "Hero Campaign",
-      position: 1,
-      page: "home",
-    },
-    images: [
-      {
-        id: "img-hero-1",
-        images: [
-          "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1600&auto=format&fit=crop&q=80",
-        ],
-      },
-    ],
+    section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
+    images: [{ id: "img-hero-1", images: ["/products/cords set/905937710_1118136247512437_2099551318531647321_n.jpg"] }],
     createdAt: new Date().toISOString(),
   },
   {
     id: "camp-hero-2",
-    title: "Smart Gadgets & Digital Electronics",
-    description: "Up to 40% off premium headphones, smartwatches, speakers, and modern tech accessories.",
+    title: "থাই ফ্যাশন — বিশেষ ছাড়",
+    description: "MiniThailandBD-এর এক্সক্লুসিভ ফ্যাশন কালেকশনে ২০% পর্যন্ত ছাড়। কর্ড ড্রেস, টপস, লাইফস্টাইল পণ্য।",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "Digital Electronics",
-    ctaText: "Shop Tech Deals",
+    badge: "Special Offer",
+    ctaText: "দেখুন",
+    linkUrl: "/products",
     sectionId: "sec-hero",
-    section: {
-      id: "sec-hero",
-      title: "Hero Campaign",
-      position: 1,
-      page: "home",
-    },
-    images: [
-      {
-        id: "img-hero-2",
-        images: [
-          "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1600&auto=format&fit=crop&q=80",
-        ],
-      },
-    ],
+    section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
+    images: [{ id: "img-hero-2", images: ["/products/cords set/910465086_1119291994063529_6730173952863950097_n.jpg"] }],
     createdAt: new Date().toISOString(),
   },
   {
     id: "camp-hero-3",
-    title: "Skincare & Luxury Fragrances",
-    description: "Exclusive discounts on authentic Korean serums, cleansers, and original designer perfumes.",
+    title: "প্রিমিয়াম কর্ড ড্রেস কালেকশন",
+    description: "ঈদ ও পার্টির জন্য পারফেক্ট — এম্ব্রয়ডারি করা থাই কর্ড ড্রেস। লাইটওয়েট ও আরামদায়ক ফেব্রিক।",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "Beauty & Fragrance",
-    ctaText: "Discover Beauty",
+    badge: "Eid Collection",
+    ctaText: "অর্ডার করুন",
+    linkUrl: "/products",
     sectionId: "sec-hero",
-    section: {
-      id: "sec-hero",
-      title: "Hero Campaign",
-      position: 1,
-      page: "home",
-    },
-    images: [
-      {
-        id: "img-hero-3",
-        images: [
-          "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1600&auto=format&fit=crop&q=80",
-        ],
-      },
-    ],
+    section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
+    images: [{ id: "img-hero-3", images: ["/products/cords set/913180013_1120115427314519_7306115019982798276_n.jpg"] }],
     createdAt: new Date().toISOString(),
   },
   {
     id: "camp-hero-4",
-    title: "Premium Baby Care & Kids Fashion",
-    description: "Gentle skincare for little ones, safe diapers, nutritious essentials, and comfortable children's clothing.",
+    title: "MiniThailandBD — Fashion Store",
+    description: "Bangladesh's most loved Thai fashion destination. Authentic cord sets, dresses & lifestyle products. Fast delivery nationwide.",
+    status: "active",
+    startAt: new Date().toISOString(),
+    endAt: null,
+    hasDiscount: false,
+    badge: "Trending",
+    ctaText: "Explore All",
+    linkUrl: "/products",
+    sectionId: "sec-hero",
+    section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
+    images: [{ id: "img-hero-4", images: ["/products/cords set/916496639_2050418568951611_3231227725146044425_n.jpeg"] }],
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "camp-hero-5",
+    title: "সামার কালেকশন ২০২৫",
+    description: "গরমের মৌসুমে আরামদায়ক ও ফ্যাশনেবল থাই পোশাক। মিন্ট, পিচ, লেভেন্ডার — সব রঙে পাওয়া যাচ্ছে।",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "Baby & Kids",
-    ctaText: "Shop Kids Care",
+    badge: "Summer 2025",
+    ctaText: "Shop Collection",
+    linkUrl: "/products",
     sectionId: "sec-hero",
-    section: {
-      id: "sec-hero",
-      title: "Hero Campaign",
-      position: 1,
-      page: "home",
-    },
-    images: [
-      {
-        id: "img-hero-4",
-        images: [
-          "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=1600&auto=format&fit=crop&q=80",
-        ],
-      },
-    ],
+    section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
+    images: [{ id: "img-hero-5", images: ["/products/cords set/907179635_1119377164055012_4690738175147170981_n.jpg"] }],
     createdAt: new Date().toISOString(),
   },
 ];
@@ -217,9 +189,9 @@ export function getStoredCampaigns(): Campaign[] {
 
   try {
     // Clean up older cached storage keys if present
-    localStorage.removeItem("novamart_campaigns_v1");
-    localStorage.removeItem("novamart_campaigns_v2");
-    localStorage.removeItem("novamart_campaigns_v3");
+    localStorage.removeItem("minithailandbd_campaigns_v1");
+    localStorage.removeItem("minithailandbd_campaigns_v2");
+    localStorage.removeItem("minithailandbd_campaigns_v3");
 
     const raw = localStorage.getItem(CAMPAIGNS_STORAGE_KEY);
     if (raw) {

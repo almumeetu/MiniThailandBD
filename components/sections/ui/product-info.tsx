@@ -376,7 +376,7 @@ export default function ProductInfo({
             {/* WhatsApp order */}
             <a
               href={`https://wa.me/${formattedWhatsapp}?text=${encodeURIComponent(
-                `Hello NovaMart, I want to order this product:\n\n*${name}*\nPrice: ${displayPrice}\nLink: ${
+                `Hello MiniThailandBD, I want to order this product:\n\n*${name}*\nPrice: ${displayPrice}\nLink: ${
                   typeof window !== 'undefined' ? window.location.href : ''
                 }`
               )}`}
@@ -555,7 +555,7 @@ export default function ProductInfo({
                 {
                   id: 'demo-2',
                   rating: 5,
-                  comment: 'Good genuine product. Exactly as shown in the picture. Will order again from NovaMart.',
+                  comment: 'Good genuine product. Exactly as shown in the picture. Will order again from MiniThailandBD.',
                   createdAt: '2026-09-25',
                   user: { id: 'u2', name: 'Nusrat Jahan' },
                 },

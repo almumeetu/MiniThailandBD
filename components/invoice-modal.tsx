@@ -7,10 +7,10 @@ import type { OrderResult } from "@/lib/types";
 import Logo from "@/components/ui/logo";
 
 const COMPANY = {
-  name: "NovaMart Bangladesh",
+  name: "MiniThailandBD Bangladesh",
   addressLine: "Uttara Sector-11, Dhaka, Bangladesh",
   phone: "+880 1722-301927 (01722301927)",
-  email: "support@novamart.com.bd",
+  email: "support@minithailandbd.com.bd",
 };
 
 const currency = (n: number) =>

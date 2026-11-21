@@ -14,7 +14,7 @@ const POLICY_LINKS = [
   { key: 'terms',    label: 'Terms & Conditions',  href: '/terms'    },
   { key: 'privacy',  label: 'Privacy Policy',       href: '/privacy'  },
   { key: 'contact',  label: 'Customer FAQs',        href: '/contact'  },
-  { key: 'about',    label: 'About NovaMart',       href: '/about'    },
+  { key: 'about',    label: 'About MiniThailandBD',       href: '/about'    },
 ];
 
 export default function PolicyNav({ currentKey }: PolicyNavProps) {

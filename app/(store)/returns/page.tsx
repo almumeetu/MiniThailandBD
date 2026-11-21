@@ -17,7 +17,7 @@ export default function ReturnsPage() {
     });
   }, []);
 
-  const shopName = settings?.shopName?.trim() || 'NovaMart';
+  const shopName = settings?.shopName?.trim() || 'MiniThailandBD';
   const contactEntries = parseContactEntries(settings?.contactNumber);
   const primaryPhone = contactEntries[0]?.value || '+880 1722-301927';
 

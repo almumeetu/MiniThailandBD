@@ -36,7 +36,7 @@ export default function Sustainable() {
           </h3>
 
           <p className="mt-6 max-w-3xl font-sans text-sm md:text-base leading-relaxed text-zinc-200">
-            NovaMart has built a sustainable, transparent and ethical multi-category sourcing supply chain. We work directly with farmers, agro-growers, certified manufacturers, and local craftsmen to ensure due diligence and fair pay across our network. Every purchase on NovaMart directly empowers ethical commerce and dignified livelihoods.
+            MiniThailandBD has built a sustainable, transparent and ethical multi-category sourcing supply chain. We work directly with farmers, agro-growers, certified manufacturers, and local craftsmen to ensure due diligence and fair pay across our network. Every purchase on MiniThailandBD directly empowers ethical commerce and dignified livelihoods.
           </p>
         </div>
       </div>

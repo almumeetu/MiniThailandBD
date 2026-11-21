@@ -80,7 +80,7 @@ function ProfilePageContent() {
             <TrackOrderView />
           </div>
           <div className="flex items-center justify-between p-4 bg-emerald-50/70 border border-emerald-200/80 rounded-2xl text-xs">
-            <span className="text-zinc-600 font-medium">Already have an account with NovaMart?</span>
+            <span className="text-zinc-600 font-medium">Already have an account with MiniThailandBD?</span>
             <button
               onClick={() => {
                 setActiveTab("details");

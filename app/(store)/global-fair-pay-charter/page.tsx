@@ -3,12 +3,12 @@ import GlobalFairPayCharter from "@/components/sections/global-fair-pay/global-f
 import PageBanner from "@/components/ui/page-banner";
 
 export const metadata: Metadata = {
-  title: "Global Fair Pay Charter | NovaMart",
+  title: "Global Fair Pay Charter | MiniThailandBD",
   description:
-    "NovaMart Global Fair Pay Charter — committed to guaranteed living wages, verified ethical trade, prompt vendor payments, and dignified labor standards across our multi-vendor marketplace.",
+    "MiniThailandBD Global Fair Pay Charter — committed to guaranteed living wages, verified ethical trade, prompt vendor payments, and dignified labor standards across our multi-vendor marketplace.",
   keywords: [
     "Global Fair Pay Charter",
-    "NovaMart",
+    "MiniThailandBD",
     "ethical trade",
     "fair wages",
     "living wage guarantee",

@@ -102,7 +102,7 @@ function LoginFormContent() {
 
 
             <h2 className="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight">
-              Welcome back to NovaMart
+              Welcome back to MiniThailandBD
             </h2>
 
             <p className="text-xs sm:text-sm text-zinc-400 mt-3 leading-relaxed">
@@ -156,7 +156,7 @@ function LoginFormContent() {
                 />
               </div>
               <div className="text-[11px] leading-tight">
-                <div className="text-white font-bold">NovaMart Team</div>
+                <div className="text-white font-bold">MiniThailandBD Team</div>
                 <div className="text-[10px] text-store-light font-medium">Customer support</div>
               </div>
             </div>

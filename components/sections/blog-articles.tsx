@@ -160,7 +160,7 @@ export default function BlogArticles({ variant, initialArticles }: BlogArticlesP
             {isPreview ? "Practical ideas for everyday life" : "Stories and practical guides"}
           </Heading>
           <p className="mt-2 max-w-2xl text-sm leading-6 text-zinc-600">
-            Helpful shopping advice, product guides and everyday ideas from NovaMart.
+            Helpful shopping advice, product guides and everyday ideas from MiniThailandBD.
           </p>
         </div>
 

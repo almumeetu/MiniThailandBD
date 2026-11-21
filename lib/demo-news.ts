@@ -29,7 +29,7 @@ Confirm your phone number and delivery address, including a useful landmark if n
 
 Save the order number or confirmation message. It makes it easier to track your purchase and explain the issue if you need to contact customer support. These small habits can save time long after you click the order button.`,
     coverImageUrl: "https://images.unsplash.com/photo-1607082349566-187342175e2f?w=1200&auto=format&fit=crop&q=85",
-    author: "NovaMart Editorial Team", isPublished: true,
+    author: "MiniThailandBD Editorial Team", isPublished: true,
     publishedAt: "2026-10-02T08:30:00.000Z", createdAt: "2026-10-02T08:30:00.000Z", updatedAt: "2026-10-02T08:30:00.000Z",
   },
   {
@@ -57,7 +57,7 @@ If you have a persistent skin concern, allergies or questions about a treatment,
 
 The goal is not to follow every trend. Choose products thoughtfully, pay attention to how your skin feels and adjust your routine when necessary.`,
     coverImageUrl: "https://images.unsplash.com/photo-1608248543803-ba4f8c70ae0b?w=1200&auto=format&fit=crop&q=85",
-    author: "NovaMart Editorial Team", isPublished: true,
+    author: "MiniThailandBD Editorial Team", isPublished: true,
     publishedAt: "2026-09-18T08:30:00.000Z", createdAt: "2026-09-18T08:30:00.000Z", updatedAt: "2026-09-18T08:30:00.000Z",
   },
   {
@@ -83,7 +83,7 @@ Read what is included in the box and check the warranty or support information w
 
 You do not need to replace your whole setup at once. Choose the accessory that addresses your biggest daily frustration, try it in your routine and decide what else you need later. A considered purchase is often the one you continue to use.`,
     coverImageUrl: "https://images.unsplash.com/photo-1498049794561-7780e7231661?w=1200&auto=format&fit=crop&q=85",
-    author: "NovaMart Editorial Team", isPublished: true,
+    author: "MiniThailandBD Editorial Team", isPublished: true,
     publishedAt: "2026-09-04T08:30:00.000Z", createdAt: "2026-09-04T08:30:00.000Z", updatedAt: "2026-09-04T08:30:00.000Z",
   },
 ];

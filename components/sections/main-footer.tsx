@@ -30,13 +30,13 @@ export default async function Mainfooter() {
     fetchShopCategories(),
   ]);
 
-  const shopName = settings?.shopName?.trim() || "NovaMart";
+  const shopName = settings?.shopName?.trim() || "MiniThailandBD";
   const rawContactEntries = parseContactEntries(settings?.contactNumber);
   const rawEmailEntries = parseContactEntries(settings?.email);
 
   const validContacts = rawContactEntries.filter(
     (contact) =>
-      !contact.extra?.includes("NovaMart Team") &&
+      !contact.extra?.includes("MiniThailandBD Team") &&
       !contact.title?.toLowerCase().includes("executive desk")
   );
   const displayedContacts =
@@ -52,7 +52,7 @@ export default async function Mainfooter() {
   const finalEmails =
     displayedEmails.length > 0
       ? displayedEmails
-      : [{ title: "Email", value: "support@novamart.com.bd" }];
+      : [{ title: "Email", value: "support@minithailandbd.com.bd" }];
 
   const address =
     settings?.branchAddress?.trim() || "Uttara Sector-11, Dhaka, Bangladesh";
@@ -131,7 +131,7 @@ export default async function Mainfooter() {
   ].filter((item): item is { Icon: any; label: string; href: string } => Boolean(item.href));
 
   const primaryPhone = displayedContacts[0]?.value || "+880 1722-301927";
-  const primaryEmail = finalEmails[0]?.value || "support@novamart.com.bd";
+  const primaryEmail = finalEmails[0]?.value || "support@minithailandbd.com.bd";
 
   return (
     <footer className="w-full bg-white font-sans text-zinc-700 border-t border-zinc-200">

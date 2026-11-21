@@ -22,21 +22,22 @@
   --color-dark-charcoal: #18181b;
   --color-dark-crimson: #d31f3a;
 
-  --color-store-primary: #174a76;
-  --color-store-accent: #62717d;
-  --color-store-hover: #103858;
-  --color-store-deep: #142638;
-  --color-store-ink: #252a30;
+  /* MiniThailandBD — Thai fashion-inspired rose/pink + gold palette */
+  --color-store-primary: #E91E63;
+  --color-store-accent: #e8a020;
+  --color-store-hover: #c2185b;
+  --color-store-deep: #880e4f;
+  --color-store-ink: #1a0010;
   --color-store-page: #ffffff;
-  --color-store-surface: #f5f6f7;
-  --color-store-surface-strong: #e9edf0;
-  --color-store-border: #e4e7eb;
-  --color-store-light: #dfe8ef;
-  --color-store-price: #1a4168;
-  --color-store-orange: #e88443;
-  --color-store-orange-hover: #a3562e;
-  --color-store-orange-soft: #faeee4;
-  --color-store-orange-ink: #8b4f2b;
+  --color-store-surface: #fff5f8;
+  --color-store-surface-strong: #fce4ec;
+  --color-store-border: #f8bbd0;
+  --color-store-light: #fce8f0;
+  --color-store-price: #c0185a;
+  --color-store-orange: #e8a020;
+  --color-store-orange-hover: #c47a10;
+  --color-store-orange-soft: #fef3e0;
+  --color-store-orange-ink: #7a4a00;
 
   --color-khaki-gold: #C5A880;
   --color-sage-gold: #A89F91;
@@ -49,11 +50,11 @@
   --color-btn-gold-from: #C5A880;
   --color-btn-gold-to: #A89F91;
 
-  --color-brand-primary: var(--color-warm-gold);
-  --color-brand-2: var(--color-warm-gray);
-  --color-brand-3: var(--color-warm-gold);
-  --color-brand-4: var(--color-warm-gold);
-  --color-brand-5: var(--color-warm-gold);
+  --color-brand-primary: var(--color-store-primary);
+  --color-brand-2: var(--color-store-accent);
+  --color-brand-3: var(--color-store-primary);
+  --color-brand-4: var(--color-store-accent);
+  --color-brand-5: var(--color-store-primary);
 
   --color-text-primary: var(--color-rich-black);
   --color-text-secondary: var(--color-olive-slate);
@@ -65,9 +66,9 @@
   --color-bg-muted: var(--color-pearl-gray);
   --color-bg-dark: var(--color-dark-charcoal);
 
-  --color-primary: var(--color-warm-gold);
-  --color-secondary: var(--color-warm-gold);
-  --color-accent: var(--color-light-gold);
+  --color-primary: var(--color-store-primary);
+  --color-secondary: var(--color-store-accent);
+  --color-accent: var(--color-store-orange);
 
   --color-border: var(--color-pearl-gray);
   --color-border-dark: var(--color-greenish-gray);
@@ -114,7 +115,7 @@ body {
   font-weight: 400;
 }
 
-/* Keep every public storefront page on the NovaMart blue and orange system. */
+/* Keep every public storefront page on the MiniThailandBD pink and gold system. */
 .storefront {
   min-height: 100vh;
   color: var(--color-store-ink);

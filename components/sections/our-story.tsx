@@ -10,7 +10,7 @@ export default function OurStory() {
             
             {/* First paragraph */}
             <p className="text-lg md:text-xl mb-8 leading-relaxed text-gray-800">
-              From agricultural fields to verified artisanal workshops across Bangladesh, authenticity sets the standard. Built upon the visionary principles of NovaMart, we follow a simple belief:
+              From agricultural fields to verified artisanal workshops across Bangladesh, authenticity sets the standard. Built upon the visionary principles of MiniThailandBD, we follow a simple belief:
             </p>
             
             {/* Highlighted text */}

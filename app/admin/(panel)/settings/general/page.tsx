@@ -291,7 +291,7 @@ export default function GeneralSettingsPage() {
                   <FieldLabel required>Shop Name</FieldLabel>
                   <Input
                     onChange={(v) => setSettings((p) => ({ ...p, shopName: v }))}
-                    placeholder="e.g. NovaMart"
+                    placeholder="e.g. MiniThailandBD"
                     value={settings.shopName ?? ""}
                   />
                 </div>

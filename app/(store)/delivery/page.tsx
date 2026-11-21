@@ -16,7 +16,7 @@ export default function DeliveryPage() {
     });
   }, []);
 
-  const shopName = settings?.shopName?.trim() || 'NovaMart';
+  const shopName = settings?.shopName?.trim() || 'MiniThailandBD';
   const deliveryInside =
     settings?.deliveryChargeInside !== undefined && settings?.deliveryChargeInside !== null
       ? Number(settings.deliveryChargeInside) === 0

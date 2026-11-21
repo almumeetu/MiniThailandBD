@@ -40,7 +40,7 @@ export default function PageBanner({
             )}
 
             {showTrustChips && (
-              <ul aria-label="NovaMart service highlights" className="mt-4 flex flex-wrap gap-2 sm:mt-5">
+              <ul aria-label="MiniThailandBD service highlights" className="mt-4 flex flex-wrap gap-2 sm:mt-5">
                 {trustPoints.map(({ label, icon: Icon }) => (
                   <li
                     key={label}

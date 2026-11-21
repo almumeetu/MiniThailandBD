@@ -21,7 +21,7 @@ function getOrigin(request: NextRequest): string {
     if (siteUrl && !siteUrl.includes("localhost")) {
       return siteUrl.replace(/\/+$/, "");
     }
-    return "https://novamart.webdevss.tech";
+    return "https://minithailandbd.webdevss.tech";
   }
 
   // Development: preserve localhost with appropriate protocol and port

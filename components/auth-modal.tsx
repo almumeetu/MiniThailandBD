@@ -222,7 +222,7 @@ export default function AuthModal() {
                 />
               </div>
               <div className="text-[11px] leading-tight">
-                <div className="text-white font-bold">NovaMart Team</div>
+                <div className="text-white font-bold">MiniThailandBD Team</div>
                 <div className="text-[10px] text-[#C7D5DF] font-medium">Customer support</div>
               </div>
             </div>

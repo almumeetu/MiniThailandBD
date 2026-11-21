@@ -166,14 +166,14 @@ function SignUpFormContent() {
               <div className="relative w-10 h-10 rounded-full overflow-hidden border border-store-primary/40 ring-2 ring-store-primary/20 shrink-0">
                 <Image
                   src="/images/team/abdullah-2.jpg"
-                  alt="NovaMart Team"
+                  alt="MiniThailandBD Team"
                   width={40}
                   height={40}
                   className="w-full h-full object-cover object-top"
                 />
               </div>
               <div className="text-[11px] leading-tight">
-                <div className="text-white font-bold">NovaMart Team</div>
+                <div className="text-white font-bold">MiniThailandBD Team</div>
                 <div className="text-[10px] text-store-light font-medium">Founder &amp; CEO</div>
               </div>
             </div>

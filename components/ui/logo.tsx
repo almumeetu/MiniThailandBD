@@ -10,26 +10,20 @@ interface LogoProps {
 
 const logoSizes = {
   sm: {
-    frame: "h-[30px] w-11",
-    imageSize: 70,
-    imageLeft: -13,
-    imageTop: -16,
+    frame: "h-[30px] w-[30px]",
+    imageSize: 30,
     text: "text-[17px]",
     gap: "gap-1.5",
   },
   md: {
-    frame: "h-[42px] w-[72px]",
-    imageSize: 98,
-    imageLeft: -18,
-    imageTop: -22,
+    frame: "h-[42px] w-[42px]",
+    imageSize: 42,
     text: "text-[22px]",
     gap: "gap-2",
   },
   lg: {
-    frame: "h-12 w-[84px]",
-    imageSize: 114,
-    imageLeft: -21,
-    imageTop: -25,
+    frame: "h-12 w-12",
+    imageSize: 48,
     text: "text-2xl sm:text-3xl",
     gap: "gap-2.5",
   },
@@ -48,25 +42,21 @@ export default function Logo({
     <Link
       href={href}
       className={`group inline-flex select-none items-center ${logoSize.gap} transition-opacity duration-200 hover:opacity-90 ${className}`}
-      aria-label="NovaMart home"
+      aria-label="MiniThailandBD home"
     >
-      <span className={`relative block shrink-0 overflow-hidden rounded-md bg-white ${logoSize.frame}`} aria-hidden="true">
+      <span className={`relative block shrink-0 overflow-hidden rounded-full ${logoSize.frame}`} aria-hidden="true">
         <Image
-          src="/images/logo/update-logo.png"
-          alt=""
+          src="/products/logo.jpg"
+          alt="MiniThailandBD Logo"
           width={logoSize.imageSize}
           height={logoSize.imageSize}
-          sizes="(max-width: 640px) 70px, 114px"
-          className="absolute max-w-none"
-          style={{
-            left: logoSize.imageLeft,
-            top: logoSize.imageTop,
-          }}
+          className="h-full w-full object-cover"
         />
       </span>
-      <span className={`${logoSize.text} inline-flex items-baseline font-extrabold leading-none tracking-[-0.055em]`}>
-        <span className={isLight ? "text-white" : "text-[#0751b8]"}>Nova</span>
-        <span className="text-[#f47721]">Mart</span>
+      <span className={`${logoSize.text} inline-flex items-baseline font-extrabold leading-none tracking-[-0.045em]`}>
+        <span className={isLight ? "text-white" : "text-[#c0185a]"}>Mini</span>
+        <span className={isLight ? "text-yellow-300" : "text-[#e8a020]"}>Thailand</span>
+        <span className={isLight ? "text-white/80" : "text-neutral-700"}>BD</span>
       </span>
     </Link>
   );

@@ -28,7 +28,7 @@ export default function CorporateFAQ() {
     },
     {
       q: 'Do you provide official Mushak-6.3 VAT Challans and Tax Invoices?',
-      a: 'Yes. NovaMart operates under complete regulatory compliance in Bangladesh. Every corporate order receives an official VAT Challan (Mushak-6.3) and commercial tax invoice suitable for enterprise accounting and audits.',
+      a: 'Yes. MiniThailandBD operates under complete regulatory compliance in Bangladesh. Every corporate order receives an official VAT Challan (Mushak-6.3) and commercial tax invoice suitable for enterprise accounting and audits.',
     },
     {
       q: 'Can we inspect a sample box before finalizing a large corporate order?',

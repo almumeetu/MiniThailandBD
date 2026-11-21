@@ -4,7 +4,7 @@ import { fetchShopSettings } from "@/lib/shop-api";
 export default async function Bottomfooter() {
   const settings = await fetchShopSettings();
 
-  const shopName = settings?.shopName?.trim() || "NovaMart";
+  const shopName = settings?.shopName?.trim() || "MiniThailandBD";
   const copyrightYear = settings?.copyrightYear || new Date().getFullYear();
 
   return (

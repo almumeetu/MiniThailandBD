@@ -19,7 +19,7 @@ export default function Prestige() {
               <p 
                 className="text-sm md:text-base leading-relaxed text-zinc-600 font-sans"
               >
-                Headquartered in Uttara, Dhaka, NovaMart bridges the gap between verified producers and modern consumers. Built upon uncompromising quality and transparent origin, we position every selection not as a commodity, but as a trusted expression of authenticity.
+                Headquartered in Uttara, Dhaka, MiniThailandBD bridges the gap between verified producers and modern consumers. Built upon uncompromising quality and transparent origin, we position every selection not as a commodity, but as a trusted expression of authenticity.
               </p>
 
               {/* Exceptional Quality Quote Banner */}
@@ -36,7 +36,7 @@ export default function Prestige() {
                   Verified Quality
                 </h4>
                 <blockquote className="font-sans font-normal text-base md:text-lg text-zinc-800 leading-relaxed">
-                  &ldquo;For those who value authenticity at the highest level, NovaMart is the choice without compromise.&rdquo;
+                  &ldquo;For those who value authenticity at the highest level, MiniThailandBD is the choice without compromise.&rdquo;
                 </blockquote>
               </div>
             </div>

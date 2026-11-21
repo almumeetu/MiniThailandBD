@@ -10,8 +10,8 @@ import ScrollAnimate from '@/components/ui/scroll-animate';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Corporate & Wholesale Orders | NovaMart Bangladesh',
-  description: 'Custom corporate gifting, bulk wholesale orders, employee celebration packages, and business supply across all categories with nationwide dispatch from NovaMart.',
+  title: 'Corporate & Wholesale Orders | MiniThailandBD Bangladesh',
+  description: 'Custom corporate gifting, bulk wholesale orders, employee celebration packages, and business supply across all categories with nationwide dispatch from MiniThailandBD.',
 };
 
 export default function CorporateOrderPage() {

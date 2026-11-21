@@ -104,7 +104,7 @@ export default function About() {
                 </h2>
 
                 <p className="text-sm sm:text-base text-zinc-700 leading-relaxed">
-                  <strong className="text-zinc-950 font-bold">NovaMart</strong> is Bangladesh&apos;s premier multi-category online shopping platform, built with one clear mission: to provide families across Bangladesh with guaranteed genuine products, transparent pricing, and dependable doorstep delivery.
+                  <strong className="text-zinc-950 font-bold">MiniThailandBD</strong> is Bangladesh&apos;s premier multi-category online shopping platform, built with one clear mission: to provide families across Bangladesh with guaranteed genuine products, transparent pricing, and dependable doorstep delivery.
                 </p>
 
                 <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
@@ -179,7 +179,7 @@ export default function About() {
                 <div className="relative rounded-2xl overflow-hidden shadow-xl border border-zinc-200 bg-zinc-900 aspect-[4/5] sm:aspect-square lg:aspect-[4/5] group">
                   <img
                     src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=1000&auto=format&fit=crop&q=80"
-                    alt="NovaMart Fulfillment & Operations"
+                    alt="MiniThailandBD Fulfillment & Operations"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/20 to-transparent" />
@@ -192,7 +192,7 @@ export default function About() {
                       </div>
                       <div>
                         <h4 className="text-sm font-bold text-zinc-950 leading-tight">
-                          NovaMart Bangladesh
+                          MiniThailandBD Bangladesh
                         </h4>
                         <p className="text-xs text-zinc-600 mt-0.5">
                           Multi-Category E-Commerce Mart
@@ -224,7 +224,7 @@ export default function About() {
                 </h3>
 
                 <p className="text-sm text-zinc-300 leading-relaxed">
-                  We believe that online shopping in Bangladesh deserves uncompromised confidence. When you shop on NovaMart, you receive genuine merchandise backed by verifiable manufacturer warranties, protective packaging, transparent return windows, and attentive customer service.
+                  We believe that online shopping in Bangladesh deserves uncompromised confidence. When you shop on MiniThailandBD, you receive genuine merchandise backed by verifiable manufacturer warranties, protective packaging, transparent return windows, and attentive customer service.
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">

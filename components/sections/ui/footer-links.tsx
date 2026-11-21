@@ -44,7 +44,7 @@ export default async function FooterLinks() {
 
         <div className="text-center">
           <p className="font-['Gotham'] text-white text-xs">
-            © {new Date().getFullYear()} NovaMart (নোভামার্ট). All rights reserved.
+            © {new Date().getFullYear()} MiniThailandBD (নোভামার্ট). All rights reserved.
           </p>
         </div>
       </div>

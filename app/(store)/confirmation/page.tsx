@@ -66,7 +66,7 @@ export default function ConfirmationPage() {
 
   const whatsappInquiryUrl = order?.orderNumber
     ? `https://wa.me/8801722301927?text=${encodeURIComponent(
-        `Hello NovaMart, I have placed Order #${order.orderNumber}. I would like to inquire about my delivery.`
+        `Hello MiniThailandBD, I have placed Order #${order.orderNumber}. I would like to inquire about my delivery.`
       )}`
     : "https://wa.me/8801722301927";
 

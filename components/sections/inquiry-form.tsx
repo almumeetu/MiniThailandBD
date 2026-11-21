@@ -403,7 +403,7 @@ Corporate Gifting / Event Inquiry Details:
                     {submitting ? 'SUBMITTING INQUIRY...' : 'Submit Corporate Inquiry'}
                   </button>
                   <span className="text-[11px] text-stone-400 text-center sm:text-right">
-                    Direct Desk: 01722301927 (NovaMart Team)
+                    Direct Desk: 01722301927 (MiniThailandBD Team)
                   </span>
                 </div>
 

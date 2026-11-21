@@ -17,11 +17,11 @@ export default function TheBrands() {
               </h2>
               
               <p className="mt-6 font-['Bembo_Std'] text-lg font-normal leading-6">
-                NovaMart is an innovative multi-category hypermarket and marketplace platform founded by entrepreneur <span className="italic">NovaMart Team</span>. Originating from Uttara, Dhaka, we bridge the gap between primary producers, agro-farms, and consumer households with authentic goods, fair pricing, and transparent standards.
+                MiniThailandBD is an innovative multi-category hypermarket and marketplace platform founded by entrepreneur <span className="italic">MiniThailandBD Team</span>. Originating from Uttara, Dhaka, we bridge the gap between primary producers, agro-farms, and consumer households with authentic goods, fair pricing, and transparent standards.
               </p>
               
               <p className="mt-4 font-['Bembo_Std'] text-lg font-normal">
-                No one delivers that kind of multi-category shopping experience with such care and authenticity quite like NovaMart.
+                No one delivers that kind of multi-category shopping experience with such care and authenticity quite like MiniThailandBD.
               </p>
 
               {/* Two Small Images with Our Promise */}
@@ -69,12 +69,12 @@ export default function TheBrands() {
           <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-2">
             <div>
               <p className="font-['Bembo_Std'] text-lg font-normal leading-6">
-                NovaMart presents an exceptional vision for digital commerce in Bangladesh. Serving the growing demand for authentic groceries, lifestyle fashion, and modern tech, NovaMart operates a cost-efficient supply chain directly from farmgate and verified manufacturers.
+                MiniThailandBD presents an exceptional vision for digital commerce in Bangladesh. Serving the growing demand for authentic groceries, lifestyle fashion, and modern tech, MiniThailandBD operates a cost-efficient supply chain directly from farmgate and verified manufacturers.
               </p>
             </div>
             <div>
               <p className="font-['Bembo_Std'] text-lg font-normal leading-6">
-                NovaMart offers products across multiple departments. Review product and delivery details before placing an order.
+                MiniThailandBD offers products across multiple departments. Review product and delivery details before placing an order.
               </p>
             </div>
           </div>

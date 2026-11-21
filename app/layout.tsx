@@ -4,8 +4,8 @@ import "./mega-menu.css";
 import "./slider-enhancements.css";
 
 export const metadata: Metadata = {
-  title: "NovaMart | Bangladesh's Premier Multi-Category E-Commerce Store",
-  description: "NovaMart — Bangladesh's premier online store for authentic skin care, digital electronics, luxury perfumes, fashion apparel, baby products, and home lifestyle essentials.",
+  title: "MiniThailandBD | Bangladesh's Premier Fashion & Lifestyle Store",
+  description: "MiniThailandBD — Bangladesh's premier online store for authentic skincare, digital electronics, luxury perfumes, fashion apparel, baby products, and home lifestyle essentials.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },

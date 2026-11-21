@@ -81,7 +81,7 @@ export default function MobileMenu({ navItems, categories = [] }: MobileMenuProp
           <div ref={panelRef} role="dialog" aria-modal="true" aria-label="Store menu" className="relative flex h-dvh w-[min(88vw,400px)] flex-col overflow-hidden bg-store-page shadow-2xl">
             <div className="flex items-center justify-between border-b border-store-border bg-white px-5 py-5">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-store-orange-ink">NovaMart</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-store-orange-ink">MiniThailandBD</span>
                 <p className="mt-1 text-xl font-semibold tracking-tight text-store-deep">Explore the store</p>
               </div>
               <button ref={closeRef} type="button" aria-label="Close menu" onClick={dismissMenu} className="grid h-11 w-11 place-items-center rounded-full border border-store-border bg-store-page text-store-deep">

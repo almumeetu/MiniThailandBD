@@ -2,15 +2,15 @@ import About from '@/components/sections/about-us/about';
 import PageBanner from '@/components/ui/page-banner';
 
 export const metadata = {
-  title: "About Us | NovaMart — Bangladesh's Premier Multi-Category Shopping Platform",
-  description: "Discover NovaMart, a multi-category online store featuring skin care, digital electronics, perfumes, fashion, baby care, and home essentials.",
+  title: "About Us | MiniThailandBD — Bangladesh's Premier Fashion Online Store",
+  description: "Discover MiniThailandBD, Bangladesh's premier fashion online store for skincare, digital electronics, perfumes, fashion, baby products and home essentials.",
 };
 
 export default function AboutPage() {
   return (
     <div className="w-full">
       <PageBanner
-        title="About NovaMart"
+        title="About MiniThailandBD"
         subtitle="Explore products across skin care, electronics, fashion, baby care, and home essentials. Delivery options and charges are shown at checkout."
         breadcrumbs={[
           { label: "About Us" },
