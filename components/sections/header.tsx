@@ -183,14 +183,14 @@ export default function Header() {
               <input
                 type="text"
                 aria-label="Search products"
-                placeholder="Search honey, ghee, rice, oil, cosmetics, electronics..."
+                placeholder="Search skincare, perfumes, fashion, cord sets, gowns, electronics..."
                 value={searchQuery}
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
                   setShowSuggestions(true);
                 }}
                 onFocus={() => setShowSuggestions(true)}
-                className="w-full h-11 pl-11 pr-28 rounded-full border border-zinc-200 bg-zinc-50/80 text-sm text-zinc-800 placeholder:text-zinc-400 outline-none     transition-all shadow-2xs"
+                className="w-full h-11 pl-11 pr-28 rounded-full border border-zinc-200 bg-zinc-50/80 text-sm text-zinc-800 placeholder:text-zinc-400 outline-none focus:border-rose-400 focus:bg-white transition-all shadow-2xs"
               />
               {searchQuery && (
                 <button
@@ -480,7 +480,7 @@ export default function Header() {
             <button
               type="button"
               onClick={openBag}
-              className="relative p-2 rounded-[3px] bg-zinc-100 hover:bg-store-surface text-zinc-800 hover:text-store-primary transition-colors cursor-pointer select-none"
+              className="relative p-2 rounded-xl bg-zinc-100 hover:bg-rose-50 text-zinc-800 hover:text-rose-600 transition-colors cursor-pointer select-none"
               aria-label={mounted && cartItemCount > 0 ? `Shopping Cart (${cartItemCount} items)` : "Shopping Cart"}
             >
               <LuShoppingBag className="w-5 h-5" />

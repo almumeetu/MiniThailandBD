@@ -2,7 +2,7 @@
 
 import { type Campaign, API_BASE_URL, resolveImageUrl } from "./admin-api";
 
-export const CAMPAIGNS_STORAGE_KEY = "minithailandbd_campaigns_v4";
+export const CAMPAIGNS_STORAGE_KEY = "minithailandbd_campaigns_v5";
 export const CAMPAIGNS_UPDATED_EVENT = "minithailandbd_campaigns_updated";
 
 /**
@@ -17,70 +17,77 @@ export function normalizeCampaignToEnglish(campaign: Campaign): Campaign {
   let badge = campaign.badge?.trim();
   let ctaText = campaign.ctaText?.trim();
 
-  // 1. Skincare & Luxury Original Perfumes
+  // 1. Cord Set Collection
   if (
-    title.includes("স্কিন কেয়ার") ||
-    title.includes("পারফিউম") ||
-    description.includes("কোরিয়ান সিরাম") ||
-    description.includes("সুগন্ধি") ||
-    description.includes("আতর") ||
-    description.includes("ফেসওয়াশ")
+    title.includes("কর্ড") ||
+    description.includes("কর্ড সেট") ||
+    title.toLowerCase().includes("cord")
   ) {
-    title = "Skincare & Luxury Original Perfumes";
+    title = "Exclusive Thai Cord Sets Collection";
     description =
-      "Special discounts on authentic Korean serums, gentle face washes, and Arabian attar & luxury perfumes.";
-    badge = "Beauty & Fragrance";
-    ctaText = "Discover Beauty";
+      "Premium imported 2-piece cord sets from Bangkok — lightweight, ultra-soft fabric and modern stylish silhouettes.";
+    badge = "New Arrival";
+    ctaText = "Shop Cord Sets";
   }
-  // 2. Smart Gadgets & Digital Electronics
+  // 2. Velvet & Party Gowns
   else if (
-    title.includes("স্মার্ট গ্যাজেট") ||
-    title.includes("ইলেকট্রনিক্স") ||
-    description.includes("হেডফোন") ||
-    description.includes("স্মার্টওয়াচ") ||
-    description.includes("টেক")
+    title.includes("ভেলভেট") ||
+    title.includes("গাউন") ||
+    description.includes("পার্টি") ||
+    title.toLowerCase().includes("velvet") ||
+    title.toLowerCase().includes("gown")
   ) {
-    title = "Smart Gadgets & Digital Electronics";
+    title = "Luxury Velvet & Festive Party Gowns";
     description =
-      "Up to 40% off premium headphones, smartwatches, wireless speakers, and modern tech accessories.";
-    badge = "Digital Electronics";
-    ctaText = "Shop Tech Deals";
+      "Royal flared gowns, intricate embroidery and opulent velvet dresses crafted for special weddings and evening celebrations.";
+    badge = "Festive Edit";
+    ctaText = "Explore Gowns";
   }
-  // 3. Premium Baby Care & Kids Fashion
+  // 3. Abayas & Modest Fashion
   else if (
-    title.includes("বেবি কেয়ার") ||
-    title.includes("কিডস") ||
-    description.includes("শিশুদের") ||
-    description.includes("ডায়াপার") ||
-    description.includes("পোশাক")
+    title.includes("আবায়া") ||
+    title.includes("বোরকা") ||
+    description.includes("হিজাব") ||
+    title.toLowerCase().includes("abaya")
   ) {
-    title = "Premium Baby Care & Kids Fashion";
+    title = "Dubai Style Luxury Abaya & Modest Wear";
     description =
-      "Gentle skincare for little ones, safe diapers, nutritious essentials, and comfortable children's clothing.";
-    badge = "Baby & Kids";
-    ctaText = "Shop Kids Care";
+      "Sophisticated front-open shrug abayas, embroidered borka sets, and matching luxury georgette hijabs.";
+    badge = "Modest Elegance";
+    ctaText = "View Abayas";
   }
-  // 4. Welcome to MiniThailandBD / Everyday Essentials
+  // 4. Winter Collection
+  else if (
+    title.includes("উইন্টার") ||
+    title.includes("শীতকালীন") ||
+    description.includes("কোট") ||
+    title.toLowerCase().includes("winter")
+  ) {
+    title = "Winter Velvet & Cozy Chic Fashion Edit";
+    description =
+      "Statement animal-print long coats, textured velvet jackets, and warm stylish fleece co-ords.";
+    badge = "Winter Collection";
+    ctaText = "Shop Winter Wear";
+  }
+  // 5. Welcome to Mini Thailand
   else if (
     title.includes("স্বাগতম") ||
-    title.includes("MiniThailandBD-এ") ||
-    description.includes("বিশ্বস্ত উৎসের") ||
-    description.includes("অথেনটিক পণ্য") ||
-    description.includes("ক্যাশ অন ডেলিভারি")
+    title.includes("MiniThailand") ||
+    title.includes("ফ্যাশন")
   ) {
-    title = "Everyday Essentials, All in One Place";
+    title = "Mini Thailand — Premier Boutique Fashion";
     description =
-      "Trusted quality, honest pricing, and fast delivery nationwide across Bangladesh — everything you need at MiniThailandBD.";
-    badge = "Everyday Essentials";
-    ctaText = "Explore Products";
+      "Discover authentic imported Thai fashion, cord dresses, festive sets, and modest wear with Cash on Delivery nationwide.";
+    badge = "Boutique Exclusive";
+    ctaText = "Explore Collection";
   }
-  // 5. Catch any other residual Bengali text
+  // 6. Catch any other residual Bengali text
   else if (/[\u0980-\u09FF]/.test(title) || /[\u0980-\u09FF]/.test(description)) {
-    title = "Exclusive Campaign Deals";
+    title = "Exclusive Boutique Fashion Deals";
     description =
-      "Discover handpicked deals, verified authentic quality, and fast nationwide delivery at MiniThailandBD.";
-    badge = badge || "Special Offer";
-    ctaText = ctaText || "Explore Deals";
+      "Handpicked imported Thai collections, superior fabric quality, and fast 2-3 day delivery across Bangladesh.";
+    badge = badge || "Boutique Exclusive";
+    ctaText = ctaText || "Shop Now";
   }
 
   return {
@@ -88,7 +95,7 @@ export function normalizeCampaignToEnglish(campaign: Campaign): Campaign {
     title,
     description,
     badge: badge || "Special Offer",
-    ctaText: ctaText || "Explore Products",
+    ctaText: ctaText || "Explore Collection",
   };
 }
 
@@ -99,15 +106,15 @@ export function normalizeCampaignToEnglish(campaign: Campaign): Campaign {
 export const DEFAULT_HERO_CAMPAIGNS: Campaign[] = [
   {
     id: "camp-hero-1",
-    title: "নতুন কর্ড সেট কালেকশন এসেছে",
-    description: "থাইল্যান্ড থেকে আনা প্রিমিয়াম কর্ড সেট — সফট ফেব্রিক, স্টাইলিশ ডিজাইন। সীমিত স্টক, এখনই অর্ডার করুন।",
+    title: "Exclusive Thai Cord Sets Collection",
+    description: "সরাসরি ব্যাংকক থেকে আনা ১০০% অরিজিনাল সফট প্রিমিয়াম কর্ড সেট — ট্রেন্ডি ডিজাইন ও অতুলনীয় আরাম। সীমিত স্টক, এখনই অর্ডার করুন।",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "New Arrival",
-    ctaText: "Shop Now",
-    linkUrl: "/products",
+    badge: "Trending on FB",
+    ctaText: "Shop Cord Sets",
+    linkUrl: "/products?category=Cord%20Sets",
     sectionId: "sec-hero",
     section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
     images: [{ id: "img-hero-1", images: ["/products/cords set/905937710_1118136247512437_2099551318531647321_n.jpg"] }],
@@ -115,47 +122,47 @@ export const DEFAULT_HERO_CAMPAIGNS: Campaign[] = [
   },
   {
     id: "camp-hero-2",
-    title: "থাই ফ্যাশন — বিশেষ ছাড়",
-    description: "MiniThailandBD-এর এক্সক্লুসিভ ফ্যাশন কালেকশনে ২০% পর্যন্ত ছাড়। কর্ড ড্রেস, টপস, লাইফস্টাইল পণ্য।",
+    title: "Luxury Velvet & Festive Party Gowns",
+    description: "যেকোনো বিয়ে ও পার্টির জন্য সম্পূর্ণ রাজকীয় সাজ — এক্সক্লুসিভ ভেলভেট, এমব্রয়ডারি ও গর্জিয়াস টিয়ার্ড গাউন।",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "Special Offer",
-    ctaText: "দেখুন",
-    linkUrl: "/products",
+    badge: "Festive Edit",
+    ctaText: "Explore Gowns",
+    linkUrl: "/products?category=Party%20Gowns",
     sectionId: "sec-hero",
     section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
-    images: [{ id: "img-hero-2", images: ["/products/cords set/910465086_1119291994063529_6730173952863950097_n.jpg"] }],
+    images: [{ id: "img-hero-2", images: ["/products/cords set/907179635_1119377164055012_4690738175147170981_n.jpg"] }],
     createdAt: new Date().toISOString(),
   },
   {
     id: "camp-hero-3",
-    title: "প্রিমিয়াম কর্ড ড্রেস কালেকশন",
-    description: "ঈদ ও পার্টির জন্য পারফেক্ট — এম্ব্রয়ডারি করা থাই কর্ড ড্রেস। লাইটওয়েট ও আরামদায়ক ফেব্রিক।",
+    title: "Dubai Style Luxury Abaya & Modest Wear",
+    description: "মার্জিত ও আভিজাত্যপূর্ণ ডিজাইনের ফ্রন্ট ওপেন আবায়া, বোরকা সেট এবং ম্যাচিং প্রিমিয়াম হিজাব কালেকশন।",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "Eid Collection",
-    ctaText: "অর্ডার করুন",
-    linkUrl: "/products",
+    badge: "Modest Elegance",
+    ctaText: "View Abayas",
+    linkUrl: "/products?category=Luxury%20Abayas",
     sectionId: "sec-hero",
     section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
-    images: [{ id: "img-hero-3", images: ["/products/cords set/913180013_1120115427314519_7306115019982798276_n.jpg"] }],
+    images: [{ id: "img-hero-3", images: ["/products/cords set/910465086_1119291994063529_6730173952863950097_n.jpg"] }],
     createdAt: new Date().toISOString(),
   },
   {
     id: "camp-hero-4",
-    title: "MiniThailandBD — Fashion Store",
-    description: "Bangladesh's most loved Thai fashion destination. Authentic cord sets, dresses & lifestyle products. Fast delivery nationwide.",
+    title: "Winter Velvet & Cozy Chic Fashion Edit",
+    description: "চিটা প্রিন্ট লং কোট, ভেলভেট জ্যাকেট এবং শীতকালীন ট্রেন্ডি ফ্লিস সুইটশার্ট — ক্যাশ অন ডেলিভারি সারা বাংলাদেশে।",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: false,
-    badge: "Trending",
-    ctaText: "Explore All",
-    linkUrl: "/products",
+    badge: "Winter 2026",
+    ctaText: "Shop Winter Wear",
+    linkUrl: "/products?category=Winter%20Collection",
     sectionId: "sec-hero",
     section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
     images: [{ id: "img-hero-4", images: ["/products/cords set/916496639_2050418568951611_3231227725146044425_n.jpeg"] }],
@@ -163,18 +170,18 @@ export const DEFAULT_HERO_CAMPAIGNS: Campaign[] = [
   },
   {
     id: "camp-hero-5",
-    title: "সামার কালেকশন ২০২৫",
-    description: "গরমের মৌসুমে আরামদায়ক ও ফ্যাশনেবল থাই পোশাক। মিন্ট, পিচ, লেভেন্ডার — সব রঙে পাওয়া যাচ্ছে।",
+    title: "Mini Thailand — Premier Boutique Fashion",
+    description: "বাংলাদেশের বিশ্বস্ত থাই ফ্যাশন ব্র্যান্ড — প্রিমিয়াম কোয়ালিটি, লাইভ ভিডিও চেকিং ও দ্রুত হোম ডেলিভারি সুবিধা।",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "Summer 2025",
-    ctaText: "Shop Collection",
+    badge: "Boutique Choice",
+    ctaText: "Explore All Products",
     linkUrl: "/products",
     sectionId: "sec-hero",
     section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
-    images: [{ id: "img-hero-5", images: ["/products/cords set/907179635_1119377164055012_4690738175147170981_n.jpg"] }],
+    images: [{ id: "img-hero-5", images: ["/products/cords set/913180013_1120115427314519_7306115019982798276_n.jpg"] }],
     createdAt: new Date().toISOString(),
   },
 ];
@@ -192,12 +199,18 @@ export function getStoredCampaigns(): Campaign[] {
     localStorage.removeItem("minithailandbd_campaigns_v1");
     localStorage.removeItem("minithailandbd_campaigns_v2");
     localStorage.removeItem("minithailandbd_campaigns_v3");
+    localStorage.removeItem("minithailandbd_campaigns_v4");
 
     const raw = localStorage.getItem(CAMPAIGNS_STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        return parsed.map(normalizeCampaignToEnglish);
+        const hasBoutique = parsed.some((c) =>
+          /cord|velvet|gown|abaya|winter/i.test(c.title || "")
+        );
+        if (hasBoutique) {
+          return parsed.map(normalizeCampaignToEnglish);
+        }
       }
     }
   } catch (err) {

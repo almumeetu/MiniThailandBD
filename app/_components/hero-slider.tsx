@@ -121,22 +121,13 @@ export default function HeroSlider() {
         </button>
 
         <div className="absolute inset-x-0 bottom-0 px-6 pb-12 text-white sm:px-12 sm:pb-16">
-          <p className="text-xs font-bold uppercase tracking-[0.18em] opacity-90 text-[#e8d48a]">
-            MiniThailandBD
-          </p>
-          <h1 className="mt-3 max-w-3xl text-4xl font-extrabold leading-tight sm:text-6xl animate-in slide-in-from-bottom-4 fade-in duration-700">
+          <h1 className="max-w-3xl text-3xl font-bold leading-tight sm:text-5xl lg:text-6xl font-bengali tracking-normal animate-in slide-in-from-bottom-4 fade-in duration-700">
             {slides[activeSlide].title}
           </h1>
-          <p className="mt-1 max-w-xl text-sm font-semibold opacity-80 animate-in slide-in-from-bottom-2 fade-in duration-700">
-            {slides[activeSlide].titleEn}
-          </p>
-          <p className="mt-4 max-w-xl text-sm font-medium leading-7 opacity-90 sm:text-base animate-in slide-in-from-bottom-2 fade-in duration-700 delay-150">
-            {slides[activeSlide].copy}
-          </p>
-          <div className="mt-8 flex flex-wrap gap-4 animate-in slide-in-from-bottom fade-in duration-700 delay-300">
+          <div className="mt-7 flex flex-wrap gap-3.5 animate-in slide-in-from-bottom fade-in duration-700 delay-300">
             <Link
               href="/products"
-              className="inline-flex bg-[#c0185a] px-8 py-4 text-sm font-bold uppercase tracking-[0.12em] text-white transition-all hover:bg-[#9e1049] hover:scale-105"
+              className="inline-flex rounded-xl bg-[#c0185a] px-8 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-white shadow-lg shadow-[#c0185a]/30 transition-all hover:bg-[#9e1049] hover:scale-105"
             >
               Shop Now
             </Link>
@@ -144,7 +135,7 @@ export default function HeroSlider() {
               href="https://www.facebook.com/minithailand2022/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex border-2 border-white px-8 py-4 text-sm font-bold uppercase tracking-[0.12em] text-white transition-all hover:bg-white hover:text-[#c0185a]"
+              className="inline-flex rounded-xl border-2 border-white/80 bg-white/10 backdrop-blur-xs px-7 py-3.5 text-xs sm:text-sm font-bold uppercase tracking-wider text-white transition-all hover:bg-white hover:text-[#c0185a]"
             >
               Facebook Page
             </Link>

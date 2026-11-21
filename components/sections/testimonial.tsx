@@ -67,15 +67,9 @@ export default function Testimonial() {
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
         {/* Section Header with orange-bordered indicator */}
         <div className="flex flex-col items-center text-center mb-10 sm:mb-12">
-          <div className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-[3px] border border-orange-500 bg-white text-orange-600 text-xs font-semibold uppercase tracking-wider mb-3.5 shadow-2xs">
-            <span>Customer Reviews</span>
-          </div>
           <h2 className="text-zinc-900 text-2xl sm:text-3xl font-bold tracking-tight">
             What Our Customers Say
           </h2>
-          <p className="mt-2 text-zinc-500 text-xs sm:text-sm max-w-lg leading-relaxed">
-            Real stories and experiences from verified shoppers across Bangladesh.
-          </p>
         </div>
 
         {/* Testimonials Carousel */}

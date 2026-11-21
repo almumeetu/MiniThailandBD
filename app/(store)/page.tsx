@@ -6,10 +6,12 @@ import ProductCard, { ProductCardSkeleton } from "@/components/sections/ui/produ
 import StoreHero from "@/components/sections/store-hero";
 import BrowseCategories from "@/components/sections/browse-categories";
 import HorizontalScroller from "@/components/sections/ui/horizontal-scroller";
-import BlogArticles from "@/components/sections/blog-articles";
-import Testimonial from "@/components/sections/testimonial";
 import StorefrontCta from "@/components/sections/storefront-cta";
-import StorefrontStyleRail from "@/components/sections/storefront-style-rail";
+import FacebookLiveShowcase from "@/components/sections/facebook-live-showcase";
+import StyleLookbook from "@/components/sections/style-lookbook";
+import BoutiqueTrust from "@/components/sections/boutique-trust";
+import FacebookReviews from "@/components/sections/facebook-reviews";
+import FloatingSocialWidget from "@/components/sections/floating-social-widget";
 import {
   fetchShopProducts,
   fetchShopCategories,
@@ -97,36 +99,30 @@ export default function Home() {
           return true;
         }
 
-        // Category-specific semantic aliases
-        if (sel.includes("watch") || sel.includes("accessor")) {
-          return cat.includes("watch") || cat.includes("accessor") || cat.includes("eyewear") || cat.includes("belt") || cat.includes("wallet") || name.includes("watch");
+        // Category-specific semantic aliases for boutique fashion
+        if (sel.includes("cord") || sel.includes("two piece") || sel.includes("set")) {
+          return cat.includes("cord") || name.includes("cord") || name.includes("set");
         }
-        if (sel.includes("footwear") || sel.includes("shoe")) {
-          return cat.includes("footwear") || cat.includes("shoe") || cat.includes("sneaker") || cat.includes("loafer");
+        if (sel.includes("gown") || sel.includes("anarkali") || sel.includes("party")) {
+          return cat.includes("gown") || cat.includes("party") || name.includes("gown") || name.includes("anarkali");
         }
-        if (sel.includes("food") || sel.includes("agro") || sel.includes("grocer")) {
-          return cat.includes("food") || cat.includes("agro") || cat.includes("grocer") || cat.includes("honey") || cat.includes("ghee") || cat.includes("oil");
+        if (sel.includes("abaya") || sel.includes("borka") || sel.includes("modest") || sel.includes("kaftan")) {
+          return cat.includes("abaya") || cat.includes("modest") || name.includes("abaya") || name.includes("borka");
         }
-        if (sel.includes("health") || sel.includes("wellness") || sel.includes("fitness")) {
-          return cat.includes("health") || cat.includes("wellness") || cat.includes("fitness") || cat.includes("vitamin");
+        if (sel.includes("velvet")) {
+          return cat.includes("velvet") || name.includes("velvet");
         }
-        if (sel.includes("cloth") || sel.includes("fashion") || sel.includes("apparel")) {
-          return cat.includes("cloth") || cat.includes("fashion") || cat.includes("apparel") || cat.includes("wear");
+        if (sel.includes("winter") || sel.includes("coat") || sel.includes("jacket") || sel.includes("sweatshirt")) {
+          return cat.includes("winter") || name.includes("coat") || name.includes("jacket") || name.includes("sweatshirt");
         }
-        if (sel.includes("skin") || sel.includes("beauty")) {
-          return cat.includes("skin") || cat.includes("beauty") || cat.includes("serum") || cat.includes("lotion");
+        if (sel.includes("three") || sel.includes("3-piece") || sel.includes("designer")) {
+          return cat.includes("3-piece") || cat.includes("three") || name.includes("3-piece") || name.includes("kurti");
         }
-        if (sel.includes("electr") || sel.includes("tech") || sel.includes("gadget") || sel.includes("digital")) {
-          return cat.includes("electr") || cat.includes("tech") || cat.includes("gadget") || cat.includes("digital") || team.includes("apple") || team.includes("sony") || team.includes("anker");
+        if (sel.includes("casual")) {
+          return cat.includes("casual") || name.includes("maxi") || name.includes("peplum");
         }
-        if (sel.includes("perfume") || sel.includes("fragrance")) {
-          return cat.includes("perfume") || cat.includes("fragrance") || cat.includes("attar");
-        }
-        if (sel.includes("baby") || sel.includes("kid")) {
-          return cat.includes("baby") || cat.includes("kid");
-        }
-        if (sel.includes("home") || sel.includes("living")) {
-          return cat.includes("home") || cat.includes("living");
+        if (sel.includes("hijab") || sel.includes("scarf")) {
+          return cat.includes("hijab") || name.includes("hijab") || name.includes("scarf");
         }
 
         return false;
@@ -233,9 +229,11 @@ export default function Home() {
     }
 
     const priorityCategories = [
-      "Digital Electronics",
-      "Skin Care & Beauty",
-      "Perfumes & Fragrances",
+      "Cord Sets",
+      "Party Gowns",
+      "Luxury Abayas",
+      "Velvet Collection",
+      "Winter Collection",
     ];
 
     const sorted = [...groups.entries()]
@@ -330,16 +328,16 @@ export default function Home() {
             {shoppingBenefits.map(({ icon: Icon, title, description }) => (
               <div
                 key={title}
-                className="flex min-w-0 flex-col items-start gap-3 rounded-xl bg-store-surface px-4 py-4 sm:flex-row sm:items-center sm:gap-3 sm:px-5 sm:py-5"
+                className="flex min-w-0 flex-col items-start gap-3 rounded-2xl bg-white border border-zinc-200/80 px-4 py-4 sm:flex-row sm:items-center sm:gap-3.5 sm:px-5 sm:py-4 shadow-2xs hover:shadow-xs transition-shadow"
               >
-                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-store-surface text-store-primary">
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-rose-50 text-rose-600">
                   <Icon aria-hidden="true" className="h-5 w-5" />
                 </span>
                 <span className="min-w-0">
-                  <span className="block text-xs font-semibold leading-5 text-store-ink sm:text-sm">
+                  <span className="block text-xs font-bold leading-5 text-zinc-900 sm:text-sm">
                     {title}
                   </span>
-                  <span className="mt-0.5 block text-[11px] leading-4 text-store-accent sm:text-xs">
+                  <span className="mt-0.5 block text-[11px] leading-4 text-zinc-500 sm:text-xs">
                     {description}
                   </span>
                 </span>
@@ -348,12 +346,21 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ── 3. Browse Categories Section (Circular Cards matching Screenshot) ── */}
+        {/* ── 3. Browse Categories Section ── */}
         <BrowseCategories
           categories={categories}
           selectedCategory={selectedCategory}
           onSelectCategory={handleSelectCategory}
         />
+
+        {/* ── Mini Thailand Trust & Service Guarantees ── */}
+        <BoutiqueTrust />
+
+        {/* ── Mini Thailand Lookbook & Occasions ── */}
+        <StyleLookbook />
+
+        {/* ── Trending Outfits from Facebook Live & Reels ── */}
+        <FacebookLiveShowcase />
 
         <StorefrontCta featuredProduct={featuredProducts[0]} />
 
@@ -497,7 +504,7 @@ export default function Home() {
           </div>
 
           {/* ── Category Filter Tabs (Pill Buttons) ── */}
-          <div className="storefront-scroll-track flex items-center gap-2.5 overflow-x-auto pb-3 mb-6 sm:mb-7">
+          <div className="storefront-scroll-track flex items-center gap-2 overflow-x-auto pb-3 mb-6 sm:mb-7">
             {categoryTabs.map((tab) => {
               const isActive = selectedCategory === tab.slug;
               return (
@@ -506,13 +513,13 @@ export default function Home() {
                   type="button"
                   aria-pressed={isActive}
                   onClick={() => setSelectedCategory(tab.slug)}
-                  className={`shrink-0 px-4 py-2.5 rounded-full text-xs sm:text-[13px] font-medium whitespace-nowrap transition-colors duration-200 cursor-pointer flex items-center gap-1.5 ${
+                  className={`shrink-0 px-4 py-2 rounded-full text-xs sm:text-[13px] font-medium whitespace-nowrap transition-all duration-200 cursor-pointer flex items-center gap-1.5 ${
                     isActive
-                      ? "bg-store-primary text-white"
-                      : "bg-white text-zinc-700 hover:bg-store-surface hover:text-store-accent border border-zinc-200/80"
+                      ? "bg-rose-600 text-white shadow-xs"
+                      : "bg-white text-zinc-700 hover:bg-rose-50 hover:text-rose-600 border border-zinc-200/80 shadow-2xs"
                   }`}
                 >
-                  {isActive && <LuCheck className="w-3.5 h-3.5 text-blue-100" />}
+                  {isActive && <LuCheck className="w-3.5 h-3.5 text-white" />}
                   <span>{tab.name}</span>
                 </button>
               );
@@ -558,15 +565,18 @@ export default function Home() {
             )}
             <Link
               href="/products"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-lg border border-store-primary bg-white hover:bg-store-primary text-store-accent hover:text-white font-medium text-sm active:scale-95 transition-all"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-rose-200 bg-white hover:bg-rose-600 text-rose-600 hover:text-white font-semibold text-sm shadow-2xs active:scale-95 transition-all duration-200"
             >
               <span>Explore All Products</span>
               <LuArrowRight className="w-4 h-4" />
             </Link>
           </div>
         </section>
-        <Testimonial />
-        <BlogArticles variant="preview" />
+        {/* ── Real Customer Love from Facebook ── */}
+        <FacebookReviews />
+
+        {/* ── Floating WhatsApp & Messenger Support Widget ── */}
+        <FloatingSocialWidget />
       </div>
     </main>
   );

@@ -53,7 +53,7 @@ export default function FloatingWhatsApp() {
         }`}
       >
         <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse" />
-        <span>WhatsApp এ অর্ডার বা সাহায্য চান?</span>
+        <span className="font-bengali tracking-normal">WhatsApp এ অর্ডার বা সাহায্য চান?</span>
       </div>
 
       {/* WhatsApp keeps its recognizable brand green. */}

@@ -73,22 +73,23 @@
   --color-border: var(--color-pearl-gray);
   --color-border-dark: var(--color-greenish-gray);
 
-  --font-sans: 'Plus Jakarta Sans', 'Noto Sans Bengali', 'DM Sans', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-body: 'Plus Jakarta Sans', 'Noto Sans Bengali', 'DM Sans', system-ui, -apple-system, sans-serif;
-  --font-heading: 'Plus Jakarta Sans', 'Noto Sans Bengali', 'DM Sans', system-ui, -apple-system, sans-serif;
-  --font-bembo: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
-  --font-snell: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
-  --font-gotham: 'Plus Jakarta Sans', 'DM Sans', system-ui, sans-serif;
+  --font-bengali: 'Hind Siliguri', 'Noto Sans Bengali', system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', 'Hind Siliguri', 'Noto Sans Bengali', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', 'Hind Siliguri', 'Noto Sans Bengali', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Plus Jakarta Sans', 'Hind Siliguri', 'Noto Sans Bengali', system-ui, -apple-system, sans-serif;
+  --font-bembo: 'Plus Jakarta Sans', 'Hind Siliguri', system-ui, sans-serif;
+  --font-snell: 'Plus Jakarta Sans', 'Hind Siliguri', system-ui, sans-serif;
+  --font-gotham: 'Plus Jakarta Sans', 'Hind Siliguri', system-ui, sans-serif;
 
-  --radius-xs: 2px;
-  --radius-sm: 2px;
-  --radius: 3px;
-  --radius-md: 3px;
-  --radius-lg: 3px;
-  --radius-xl: 3px;
-  --radius-2xl: 3px;
-  --radius-3xl: 3px;
-  --radius-4xl: 3px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius: 8px;
+  --radius-md: 10px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-3xl: 24px;
+  --radius-4xl: 32px;
 
   --spacing-section-top: 9rem;
   --spacing-section-bottom: 6rem;
@@ -352,12 +353,31 @@ body {
 /* Keep storefront type clean while preserving a clear weight hierarchy. */
 .storefront :is(h1, h2, h3, h4, h5, h6) {
   font-family: var(--font-heading), var(--font-sans), sans-serif;
-  font-weight: 500;
-  letter-spacing: -0.015em;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Bangla Clean Typography Rules */
+:lang(bn),
+.font-bengali,
+.bangla-clean {
+  font-family: var(--font-bengali);
+  letter-spacing: normal !important;
+  word-spacing: normal;
+  line-height: 1.6;
+}
+
+.storefront :is(h1, h2, h3, h4, h5, h6):lang(bn),
+.storefront :is(h1, h2, h3, h4, h5, h6) [lang="bn"],
+.storefront .bangla-clean {
+  letter-spacing: normal !important;
 }
 
 .storefront .font-black,
-.storefront .font-extrabold,
+.storefront .font-extrabold {
+  font-weight: 700 !important;
+}
+
 .storefront .font-bold {
   font-weight: 600 !important;
 }

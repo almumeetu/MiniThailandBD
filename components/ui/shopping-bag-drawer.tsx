@@ -75,12 +75,12 @@ function DrawerItemCard({
   const isFreeGift = item.price === 0;
 
   return (
-    <div data-product-card="product" className="bg-white rounded-[3px] border border-zinc-200/80 p-3 sm:p-3.5 mb-3 shadow-[0_1px_4px_rgba(0,0,0,0.02)] grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-2 transition-shadow hover:shadow-xs">
+    <div className="bg-white rounded-xl border border-zinc-200/80 p-3 sm:p-3.5 mb-3 shadow-2xs grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-2 transition-shadow hover:shadow-xs">
       {/* Thumbnail */}
       <Link
         href={productUrl}
         onClick={onClose}
-        className="relative row-span-1 sm:row-span-2 w-16 h-16 sm:w-18 sm:h-18 rounded-[2px] border border-zinc-200/70 p-1 shrink-0 bg-white flex items-center justify-center overflow-hidden hover:opacity-90 transition-opacity"
+        className="relative row-span-1 sm:row-span-2 w-16 h-16 sm:w-18 sm:h-18 rounded-lg border border-zinc-200/70 p-1 shrink-0 bg-white flex items-center justify-center overflow-hidden hover:opacity-90 transition-opacity"
       >
         <Image
           src={image}

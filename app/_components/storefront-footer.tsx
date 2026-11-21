@@ -47,7 +47,7 @@ export default function StorefrontFooter() {
               <span className="text-neutral-700">BD</span>
             </p>
             <p className="mt-1 max-w-sm text-sm text-neutral-500">
-              Bangladesh&apos;s premier online store for authentic Thai fashion, skincare, perfumes, electronics &amp; more.
+              Bangladesh&apos;s premier boutique destination for authentic Thai cord sets, luxury party gowns, Dubai-style abayas, and winter velvet collections.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">

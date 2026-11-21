@@ -55,7 +55,7 @@ export default function TeaLifestyle() {
       <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 md:px-12 flex flex-col items-center gap-12">
         
         {/* Section Title */}
-        <div className="self-stretch flex flex-col justify-center items-center gap-3 overflow-hidden text-center">
+        <div className="self-stretch flex flex-col justify-center items-center overflow-hidden text-center">
           <h2 className="inline-flex justify-center flex-wrap items-center gap-2">
             <span className="text-zinc-900 text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight">
               Lifestyle
@@ -64,9 +64,6 @@ export default function TeaLifestyle() {
               Journal
             </span>
           </h2>
-          <p className="max-w-[700px] text-center text-zinc-500 text-sm lg:text-base font-normal leading-relaxed">
-            Discover recipes, wellness benefits, and preparation guides from our team of tea specialists.
-          </p>
         </div>
 
         {/* Lifestyle Grid */}

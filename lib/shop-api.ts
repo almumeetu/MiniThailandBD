@@ -213,10 +213,12 @@ export async function fetchShopProducts(
     if (res.status === 200) {
       const paginated: PaginatedProducts = await res.json();
       const mapped = (paginated.data ?? []).map(mapProduct);
-      return {
-        data: mapped,
-        total: paginated.meta?.total ?? mapped.length,
-      };
+      if (mapped.length > 0) {
+        return {
+          data: mapped,
+          total: paginated.meta?.total ?? mapped.length,
+        };
+      }
     }
   } catch (err) {
     console.warn("API product fetch failed, using fallback:", err);
@@ -354,29 +356,67 @@ export async function fetchShopNewsBySlug(slug: string): Promise<News | null> {
 }
 
 export const DEFAULT_NOVAMART_CATEGORIES: ShopCategory[] = [
-  { id: "cat-skincare", name: "Skin Care & Beauty", slug: "skin-care", imageUrl: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&auto=format&fit=crop&q=80" },
-  { id: "cat-electronics", name: "Digital Electronics", slug: "digital-electronics", imageUrl: "https://images.unsplash.com/photo-1600294037681-c80b4cb5b434?w=800&auto=format&fit=crop&q=80" },
-  { id: "cat-perfume", name: "Perfumes & Fragrances", slug: "perfume", imageUrl: "https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&auto=format&fit=crop&q=80" },
-  { id: "cat-clothing", name: "Clothing & Fashion", slug: "clothing", imageUrl: "https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&auto=format&fit=crop&q=80" },
-  { id: "cat-baby", name: "Baby & Kids Products", slug: "baby-products", imageUrl: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&auto=format&fit=crop&q=80" },
-  { id: "cat-home", name: "Home & Living", slug: "home-living", imageUrl: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800&auto=format&fit=crop&q=80" },
-  { id: "cat-footwear", name: "Footwear & Shoes", slug: "footwear", imageUrl: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800&auto=format&fit=crop&q=80" },
-  { id: "cat-groceries", name: "Gourmet Foods & Agro", slug: "groceries", imageUrl: "https://images.unsplash.com/photo-1587049352846-4a222e784d38?w=800&auto=format&fit=crop&q=80" },
-  { id: "cat-health", name: "Health, Wellness & Fitness", slug: "health-wellness", imageUrl: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?w=800&auto=format&fit=crop&q=80" },
-  { id: "cat-watches", name: "Watches & Premium Accessories", slug: "watches-accessories", imageUrl: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800&auto=format&fit=crop&q=80" },
+  {
+    id: "cat-cord-sets",
+    name: "Cord Sets",
+    slug: "cord-sets",
+    imageUrl: "/products/cords set/905937710_1118136247512437_2099551318531647321_n.jpg",
+  },
+  {
+    id: "cat-party-gowns",
+    name: "Party Gowns",
+    slug: "party-gowns",
+    imageUrl: "/products/cords set/907179635_1119377164055012_4690738175147170981_n.jpg",
+  },
+  {
+    id: "cat-luxury-abayas",
+    name: "Luxury Abayas",
+    slug: "luxury-abayas",
+    imageUrl: "/products/cords set/910465086_1119291994063529_6730173952863950097_n.jpg",
+  },
+  {
+    id: "cat-velvet-collection",
+    name: "Velvet Collection",
+    slug: "velvet-collection",
+    imageUrl: "/products/cords set/913180013_1120115427314519_7306115019982798276_n.jpg",
+  },
+  {
+    id: "cat-winter-collection",
+    name: "Winter Collection",
+    slug: "winter-collection",
+    imageUrl: "/products/cords set/916496639_2050418568951611_3231227725146044425_n.jpeg",
+  },
+  {
+    id: "cat-designer-3piece",
+    name: "Designer 3-Piece",
+    slug: "designer-3piece",
+    imageUrl: "/products/cords set/906970787_1118136294179099_2969676140071058051_n.jpg",
+  },
+  {
+    id: "cat-casual-modest",
+    name: "Casual & Modest",
+    slug: "casual-modest",
+    imageUrl: "/products/cords set/907848890_1120439970615398_2739248965153845733_n.jpg",
+  },
+  {
+    id: "cat-hijabs-scarves",
+    name: "Hijabs & Scarves",
+    slug: "hijabs-scarves",
+    imageUrl: "/products/cords set/911960050_2550810655401790_1836484421752711846_n.jpeg",
+  },
 ];
 
 export const DEFAULT_NOVAMART_SETTINGS: ShopSettings = {
   id: "minithailandbd-settings-default",
-  shopName: "MiniThailandBD",
-  slogan: "Bangladesh's premier fashion online store for skincare, digital electronics, perfumes, fashion, baby products and home essentials",
+  shopName: "Mini Thailand",
+  slogan: "Exclusive Thai Cord Sets, Luxury Party Gowns, Dubai Abayas & Velvet Boutique Fashion",
   contactNumber: [
-    { title: "Hotline Support", value: "+880 1722-301927" },
-    { title: "Customer Care", value: "01722301927" },
+    { title: "Hotline & WhatsApp", value: "+880 1722-301927" },
+    { title: "Order Desk", value: "01722301927" },
   ],
   email: [
-    { title: "Customer Support", value: "support@minithailandbd.com" },
-    { title: "Corporate Inquiries", value: "sales@minithailandbd.com" },
+    { title: "Customer Care", value: "support@minithailandbd.com" },
+    { title: "Wholesale & Inquiries", value: "orders@minithailandbd.com" },
   ],
   socialContact: {
     whatsapp: "8801722301927",
@@ -386,30 +426,26 @@ export const DEFAULT_NOVAMART_SETTINGS: ShopSettings = {
   },
   currency: "BDT",
   language: "en",
-  deliveryChargeInside: 60,
-  deliveryChargeOutside: 120,
-  deliveryChargeNearCity: 80,
-  branchName: "MiniThailandBD Central Flagship & Fulfillment",
-  branchAddress: "Uttara Sector-11, Dhaka, Bangladesh",
+  deliveryChargeInside: 70,
+  deliveryChargeOutside: 130,
+  deliveryChargeNearCity: 100,
+  branchName: "Mini Thailand Boutique Flagship & Dispatch",
+  branchAddress: "Dhaka, Bangladesh — Nationwide Home Delivery Available",
   copyrightYear: "2026",
-  parentCompany: "MiniThailandBD Bangladesh",
+  parentCompany: "Mini Thailand BD",
   parentCompanyLink: "https://www.facebook.com/minithailand2022/",
-  logo: "/images/logo/update-logo.png",
+  logo: "/products/logo.jpg",
   isTopBarVisible: true,
   hideOutOfStock: false,
 };
 
 export const DEFAULT_NOVAMART_BRANDS: ShopBrand[] = [
-  { id: "b-apple", name: "Apple", slug: "apple" },
-  { id: "b-samsung", name: "Samsung", slug: "samsung" },
-  { id: "b-dior", name: "Dior", slug: "dior" },
-  { id: "b-chanel", name: "Chanel", slug: "chanel" },
-  { id: "b-theordinary", name: "The Ordinary", slug: "the-ordinary" },
-  { id: "b-cerave", name: "CeraVe", slug: "cerave" },
-  { id: "b-pampers", name: "Pampers", slug: "pampers" },
-  { id: "b-philips", name: "Philips Avent", slug: "philips-avent" },
-  { id: "b-anker", name: "Anker", slug: "anker" },
-  { id: "b-sony", name: "Sony", slug: "sony" },
+  { id: "b-minithai", name: "Mini Thailand Exclusive", slug: "mini-thailand-exclusive" },
+  { id: "b-bangkok", name: "Bangkok Boutique", slug: "bangkok-boutique" },
+  { id: "b-dubai", name: "Dubai Modest Wear", slug: "dubai-modest-wear" },
+  { id: "b-pakistani", name: "Pakistani Designer", slug: "pakistani-designer" },
+  { id: "b-royal-velvet", name: "Royal Velvet Edit", slug: "royal-velvet-edit" },
+  { id: "b-thai-silk", name: "Thai Silk & Linen", slug: "thai-silk-linen" },
 ];
 
 export async function fetchShopBrands(): Promise<ShopBrand[]> {

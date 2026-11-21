@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { X, ChevronRight, ChevronDown, Menu } from "lucide-react";
+import { FaWhatsapp, FaFacebookF } from "react-icons/fa";
 
 interface SubCategory {
   name: string;
@@ -12,6 +13,7 @@ interface SubCategory {
 interface MenuCategory {
   name: string;
   href: string;
+  badge?: string;
   sections?: {
     title: string;
     items: SubCategory[];
@@ -20,70 +22,94 @@ interface MenuCategory {
 
 const mobileMenuData: MenuCategory[] = [
   {
-    name: "Shop",
-    href: "/products",
+    name: "Thai Cord Sets",
+    href: "/products?category=Cord%20Sets",
+    badge: "Trending",
     sections: [
       {
-        title: "By Sport",
+        title: "By Style",
         items: [
-          { name: "Football", href: "/products?sport=football" },
-          { name: "Basketball", href: "/products?sport=basketball" },
-          { name: "Cricket", href: "/products?sport=cricket" },
-          { name: "Tennis", href: "/products?sport=tennis" },
-        ],
-      },
-      {
-        title: "By Type",
-        items: [
-          { name: "Jerseys", href: "/products?type=jerseys" },
-          { name: "Training Kits", href: "/products?type=training" },
-          { name: "Fan Wear", href: "/products?type=fanwear" },
-          { name: "Accessories", href: "/products?type=accessories" },
+          { name: "All Cord Sets", href: "/products?category=Cord%20Sets" },
+          { name: "Pastel & Solid Sets", href: "/products?category=Cord%20Sets" },
+          { name: "Floral & Printed Sets", href: "/products?category=Cord%20Sets" },
+          { name: "Embroidered Festive Sets", href: "/products?category=Cord%20Sets" },
         ],
       },
     ],
   },
   {
-    name: "New In",
-    href: "/products?filter=new",
+    name: "Party Gowns",
+    href: "/products?category=Party%20Gowns",
+    badge: "Festive",
     sections: [
       {
-        title: "This Week",
+        title: "Festive Collection",
         items: [
-          { name: "Latest Releases", href: "/products?new=this-week" },
-          { name: "Restocked Items", href: "/products?new=restocked" },
-          { name: "Pre-Orders", href: "/products?new=preorder" },
+          { name: "All Party Gowns", href: "/products?category=Party%20Gowns" },
+          { name: "Velvet Tiered Gowns", href: "/products?category=Party%20Gowns" },
+          { name: "Embellished Evening Gowns", href: "/products?category=Party%20Gowns" },
+          { name: "Sequin Party Dresses", href: "/products?category=Party%20Gowns" },
         ],
       },
     ],
   },
   {
-    name: "Brands",
-    href: "/brands",
+    name: "Luxury Abayas",
+    href: "/products?category=Luxury%20Abayas",
     sections: [
       {
-        title: "Top Brands",
+        title: "Modest Fashion",
         items: [
-          { name: "Nike", href: "/brands/nike" },
-          { name: "Adidas", href: "/brands/adidas" },
-          { name: "Puma", href: "/brands/puma" },
+          { name: "Dubai Shrug & Abaya Sets", href: "/products?category=Luxury%20Abayas" },
+          { name: "Front-Open Borka Sets", href: "/products?category=Luxury%20Abayas" },
+          { name: "Embroidered Modest Abayas", href: "/products?category=Luxury%20Abayas" },
+          { name: "Kaftan & Modest Dresses", href: "/products?category=Luxury%20Abayas" },
         ],
       },
     ],
   },
   {
-    name: "Archive",
-    href: "/archive",
+    name: "Velvet Collection",
+    href: "/products?category=Velvet%20Collection",
+    badge: "Winter Edit",
     sections: [
       {
-        title: "By Era",
+        title: "Royal Velvet",
         items: [
-          { name: "1990s", href: "/archive?era=1990s" },
-          { name: "2000s", href: "/archive?era=2000s" },
-          { name: "Retro Classics", href: "/archive?era=retro" },
+          { name: "Crimson & Wine Velvet", href: "/products?category=Velvet%20Collection" },
+          { name: "Navy & Black Velvet", href: "/products?category=Velvet%20Collection" },
+          { name: "Flared Velvet Maxis", href: "/products?category=Velvet%20Collection" },
         ],
       },
     ],
+  },
+  {
+    name: "Winter Wear",
+    href: "/products?category=Winter%20Collection",
+    sections: [
+      {
+        title: "Coats & Warm Wear",
+        items: [
+          { name: "Animal Print Long Coats", href: "/products?category=Winter%20Collection" },
+          { name: "Velvet Long Jackets", href: "/products?category=Winter%20Collection" },
+          { name: "Cozy Fleece Sweatshirts", href: "/products?category=Winter%20Collection" },
+          { name: "Winter Fleece Co-ords", href: "/products?category=Winter%20Collection" },
+        ],
+      },
+    ],
+  },
+  {
+    name: "Designer 3-Piece",
+    href: "/products?category=Designer%203-Piece",
+  },
+  {
+    name: "Hijabs & Scarves",
+    href: "/products?category=Hijabs%20&%20Scarves",
+  },
+  {
+    name: "Special Offers",
+    href: "/offers",
+    badge: "Sale",
   },
 ];
 
@@ -99,136 +125,144 @@ export default function MobileMenu() {
     <>
       {/* Mobile Menu Button */}
       <button
+        type="button"
         onClick={() => setIsOpen(true)}
-        className="lg:hidden text-xl"
+        className="flex items-center gap-1.5 text-black hover:text-[#c0185a] transition-colors p-1"
         aria-label="Open menu"
       >
-        <Menu />
+        <Menu className="h-6 w-6" />
       </button>
 
-      {/* Mobile Menu Overlay */}
+      {/* Drawer Overlay */}
       {isOpen && (
-        <>
-          {/* Backdrop */}
-          <div
-            className="fixed inset-0 z-40 bg-black/50 animate-in fade-in duration-200 lg:hidden"
-            onClick={() => setIsOpen(false)}
-          />
-
-          {/* Slide-out Menu */}
-          <div className="fixed inset-y-0 left-0 z-50 w-[85%] max-w-sm bg-white shadow-2xl animate-in slide-in-from-left duration-300 lg:hidden">
-            <div className="flex h-full flex-col">
-              {/* Header */}
-              <div className="flex items-center justify-between border-b border-neutral-200 px-6 py-4">
-                <span className="text-sm font-bold uppercase tracking-wider">
-                  Menu
-                </span>
-                <button
-                  onClick={() => setIsOpen(false)}
-                  className="rounded-full p-2 hover:bg-neutral-100"
-                  aria-label="Close menu"
-                >
-                  <X className="h-5 w-5" />
-                </button>
-              </div>
-
-              {/* Navigation Content */}
-              <div className="flex-1 overflow-y-auto">
-                {/* Main Navigation */}
-                <div className="p-4">
-                  <Link
-                    href="/"
-                    onClick={() => setIsOpen(false)}
-                    className="block px-4 py-3 text-sm font-semibold uppercase tracking-wider transition-colors hover:bg-neutral-50"
-                  >
-                    Home
-                  </Link>
-
-                  {mobileMenuData.map((category) => (
-                    <div key={category.name} className="border-t border-neutral-100">
-                      <button
-                        onClick={() => toggleCategory(category.name)}
-                        className="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold uppercase tracking-wider transition-colors hover:bg-neutral-50"
-                      >
-                        {category.name}
-                        {category.sections && (
-                          <ChevronDown
-                            className={`h-4 w-4 transition-transform ${
-                              expandedCategory === category.name ? "rotate-180" : ""
-                            }`}
-                          />
-                        )}
-                      </button>
-
-                      {/* Expanded Content */}
-                      {expandedCategory === category.name && category.sections && (
-                        <div className="bg-neutral-50 px-4 pb-4">
-                          <Link
-                            href={category.href}
-                            onClick={() => setIsOpen(false)}
-                            className="mb-3 flex items-center justify-between rounded-lg border border-neutral-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-wider transition-colors hover:bg-neutral-100"
-                          >
-                            View All {category.name}
-                            <ChevronRight className="h-4 w-4" />
-                          </Link>
-
-                          {category.sections.map((section) => (
-                            <div key={section.title} className="mb-4">
-                              <h3 className="mb-2 px-2 text-[10px] font-bold uppercase tracking-[0.12em] text-neutral-500">
-                                {section.title}
-                              </h3>
-                              <ul className="space-y-1">
-                                {section.items.map((item) => (
-                                  <li key={item.name}>
-                                    <Link
-                                      href={item.href}
-                                      onClick={() => setIsOpen(false)}
-                                      className="block rounded px-2 py-2 text-sm text-neutral-700 transition-colors hover:bg-white hover:text-black"
-                                    >
-                                      {item.name}
-                                    </Link>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Footer Quick Links */}
-              <div className="border-t border-neutral-200 bg-neutral-50 p-6">
-                <div className="space-y-2 text-xs">
-                  <Link
-                    href="/delivery"
-                    onClick={() => setIsOpen(false)}
-                    className="block text-neutral-600 hover:text-black"
-                  >
-                    Free Delivery
-                  </Link>
-                  <Link
-                    href="/returns"
-                    onClick={() => setIsOpen(false)}
-                    className="block text-neutral-600 hover:text-black"
-                  >
-                    Easy Returns
-                  </Link>
-                  <Link
-                    href="/gift-sets"
-                    onClick={() => setIsOpen(false)}
-                    className="block text-neutral-600 hover:text-black"
-                  >
-                    Gift Sets
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
+        <div
+          className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs transition-opacity"
+          onClick={() => setIsOpen(false)}
+        />
       )}
+
+      {/* Drawer Content */}
+      <div
+        className={`fixed top-0 left-0 bottom-0 z-50 w-full max-w-sm bg-white shadow-2xl transition-transform duration-300 ease-in-out flex flex-col ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        {/* Drawer Header */}
+        <div className="flex items-center justify-between border-b border-neutral-200 px-5 py-4 bg-[#fff5f8]">
+          <div className="flex items-center gap-2">
+            <span className="text-lg font-black tracking-tight">
+              <span className="text-[#c0185a]">Mini</span>
+              <span className="text-[#e8a020]">Thailand</span>
+              <span className="text-neutral-700">BD</span>
+            </span>
+          </div>
+
+          <button
+            onClick={() => setIsOpen(false)}
+            className="rounded-full p-2 text-neutral-500 hover:bg-neutral-200 transition-colors"
+            aria-label="Close menu"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Quick Announcement Bar in Drawer */}
+        <div className="bg-[#c0185a] px-4 py-2 text-center text-[10px] font-semibold uppercase tracking-wider text-white">
+          ✨ Cash on Delivery Nationwide | Hotline: 01722-301927
+        </div>
+
+        {/* Navigation Links */}
+        <div className="flex-1 overflow-y-auto px-4 py-4 space-y-1">
+          <Link
+            href="/products"
+            onClick={() => setIsOpen(false)}
+            className="flex items-center justify-between rounded-xl px-3 py-3 text-sm font-bold text-neutral-900 hover:bg-rose-50 hover:text-[#c0185a] transition-colors"
+          >
+            <span>Explore All Products</span>
+            <ChevronRight className="h-4 w-4 text-neutral-400" />
+          </Link>
+
+          {mobileMenuData.map((category) => {
+            const hasSub = !!category.sections && category.sections.length > 0;
+            const isExpanded = expandedCategory === category.name;
+
+            return (
+              <div key={category.name} className="border-b border-neutral-100 pb-1">
+                <div className="flex items-center justify-between">
+                  <Link
+                    href={category.href}
+                    onClick={() => setIsOpen(false)}
+                    className="flex-1 py-2.5 px-3 text-sm font-semibold text-neutral-800 hover:text-[#c0185a] transition-colors flex items-center gap-2"
+                  >
+                    <span>{category.name}</span>
+                    {category.badge && (
+                      <span className="rounded-full bg-rose-100 text-[#c0185a] px-2 py-0.5 text-[10px] font-bold">
+                        {category.badge}
+                      </span>
+                    )}
+                  </Link>
+
+                  {hasSub && (
+                    <button
+                      type="button"
+                      onClick={() => toggleCategory(category.name)}
+                      className="p-2 text-neutral-400 hover:text-neutral-700 transition-colors"
+                      aria-label={`Toggle ${category.name}`}
+                    >
+                      <ChevronDown
+                        className={`h-4 w-4 transition-transform duration-200 ${
+                          isExpanded ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                  )}
+                </div>
+
+                {/* Subcategories */}
+                {hasSub && isExpanded && (
+                  <div className="ml-4 pl-3 border-l-2 border-rose-200 py-1 space-y-1">
+                    {category.sections?.map((section) =>
+                      section.items.map((subItem) => (
+                        <Link
+                          key={subItem.name}
+                          href={subItem.href}
+                          onClick={() => setIsOpen(false)}
+                          className="block py-1.5 text-xs font-medium text-neutral-600 hover:text-[#c0185a] transition-colors"
+                        >
+                          {subItem.name}
+                        </Link>
+                      ))
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Drawer Footer with Direct Social & WhatsApp Contact */}
+        <div className="border-t border-neutral-200 p-4 bg-neutral-50 space-y-2.5">
+          <a
+            href="https://wa.me/8801722301927?text=Hello%20Mini%20Thailand,%20I%20want%20to%20order..."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-4 py-2.5 text-xs font-bold text-white hover:bg-emerald-500 transition-colors shadow-xs"
+          >
+            <FaWhatsapp className="h-4 w-4" />
+            <span>Order on WhatsApp: 01722-301927</span>
+          </a>
+
+          <a
+            href="https://www.facebook.com/minithailand2022/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 rounded-xl bg-[#1877F2] px-4 py-2 text-xs font-semibold text-white hover:bg-[#1567d3] transition-colors"
+          >
+            <FaFacebookF className="h-3.5 w-3.5" />
+            <span>Visit Facebook Page</span>
+          </a>
+        </div>
+      </div>
     </>
   );
 }

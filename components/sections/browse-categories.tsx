@@ -54,12 +54,12 @@ export default function BrowseCategories({
               type="button"
               onClick={() => onSelectCategory(cat.name)}
               aria-pressed={isSelected}
-              className={`group relative flex w-[156px] shrink-0 snap-start flex-col overflow-hidden rounded-xl bg-store-surface text-left transition-colors duration-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-store-primary sm:w-[186px] ${
-                isSelected ? "ring-2 ring-store-primary" : "hover:bg-store-surface-strong"
+              className={`group relative flex w-[156px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl bg-white border border-zinc-200/80 shadow-2xs text-left transition-all duration-300 hover:border-rose-300 hover:shadow-md hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500 sm:w-[186px] ${
+                isSelected ? "ring-2 ring-rose-500 border-rose-500" : ""
               }`}
             >
               {/* Category image */}
-              <div className="relative h-28 w-full overflow-hidden bg-store-surface sm:h-36">
+              <div className="relative h-28 w-full overflow-hidden bg-zinc-50 sm:h-36">
                 <Image
                   src={
                     cat.imageUrl ||

@@ -34,19 +34,10 @@ export default function MostPopuler() {
     <section className="relative w-full py-14 sm:py-20 bg-white border-t border-stone-200/70 overflow-hidden">
       <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
         {/* Header */}
-        <div className="flex flex-col items-center text-center mb-10 sm:mb-12">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-100 text-rose-700 text-[11px] font-medium uppercase tracking-wider mb-3">
-            <LuFlame className="w-3.5 h-3.5 text-rose-600" />
-            <span>Customer Favorites</span>
-          </div>
-
-          <h2 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight mb-3">
+        <div className="flex flex-col items-center text-center mb-8 sm:mb-10">
+          <h2 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight">
             Most Popular & Best Sellers
           </h2>
-
-          <p className="max-w-2xl text-zinc-500 text-sm sm:text-base leading-relaxed">
-            Highly rated across verified customer purchases — top fashion essentials, everyday pantry goods, footwear, and accessories.
-          </p>
         </div>
 
         {/* Products Grid */}

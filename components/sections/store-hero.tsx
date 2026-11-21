@@ -113,7 +113,7 @@ export default function StoreHero({
     <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
       <div className="grid grid-cols-1 items-stretch gap-3 lg:grid-cols-12 lg:gap-4">
         {/* ═══════════════ LEFT COLUMN: Shop by Category Sidebar ═══════════════ */}
-        <div className="hidden h-[470px] flex-col overflow-hidden rounded-[3px] border border-store-border bg-white shadow-[0_12px_36px_rgba(20,38,56,0.05)] lg:col-span-3 lg:flex xl:h-[500px]">
+        <div className="hidden h-[470px] flex-col overflow-hidden rounded-2xl border border-zinc-200/90 bg-white shadow-xs lg:col-span-3 lg:flex xl:h-[500px]">
           {/* Header */}
           <div className="flex shrink-0 items-center gap-3 border-b border-store-border px-5 py-5">
             <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-store-deep text-store-orange">
@@ -190,7 +190,7 @@ export default function StoreHero({
           aria-label="Featured campaigns"
           aria-roledescription="carousel"
           ref={carouselRef}
-          className="group relative h-[360px] w-full select-none overflow-hidden rounded-[3px] bg-store-deep shadow-[0_18px_50px_rgba(20,38,56,0.14)] sm:h-[460px] lg:col-span-9 lg:h-[470px] xl:h-[500px]"
+          className="group relative h-[360px] w-full select-none overflow-hidden rounded-2xl bg-zinc-900 shadow-md sm:h-[460px] lg:col-span-9 lg:h-[470px] xl:h-[500px]"
           onTouchStart={(event) => { touchStartX.current = event.touches[0].clientX; }}
           onTouchEnd={handleTouchEnd}
         >
@@ -232,11 +232,11 @@ export default function StoreHero({
                 {/* Banner Content Container */}
                 <div className="absolute inset-0 z-20 flex max-w-[680px] flex-col items-start justify-center px-5 pb-16 pt-5 text-white sm:px-12 sm:pb-20 sm:pt-6 lg:px-14">
                   {/* Campaign Title */}
-                  <h1 className="mb-2 max-w-[600px] text-[clamp(1.6rem,6vw,2rem)] font-semibold leading-[1.16] tracking-[-0.035em] text-white sm:mb-4 sm:text-[clamp(1.8rem,3.6vw,3.4rem)]">
+                  <h1 className="mb-2 max-w-[600px] text-[clamp(1.6rem,6vw,2rem)] font-bold leading-[1.18] tracking-tight text-white sm:mb-4 sm:text-[clamp(1.8rem,3.6vw,3.2rem)]">
                     {camp.title}
                   </h1>
                   {camp.description?.trim() && (
-                    <p className="mb-4 line-clamp-2 max-w-[480px] text-xs leading-5 text-white/80 sm:mb-6 sm:line-clamp-3 sm:text-base sm:leading-7">
+                    <p className="mb-4 line-clamp-2 max-w-[480px] text-xs leading-relaxed text-white/90 sm:mb-6 sm:line-clamp-3 sm:text-base">
                       {camp.description}
                     </p>
                   )}

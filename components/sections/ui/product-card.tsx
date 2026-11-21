@@ -17,16 +17,21 @@ const IMAGE_FRAME_CLASS = "aspect-square";
 
 export function ProductCardSkeleton() {
   return (
-    <div data-product-card="skeleton" aria-hidden="true" className="flex h-full w-full flex-col overflow-hidden rounded-[3px] border border-zinc-200 bg-white animate-pulse">
-      <div className={`${IMAGE_FRAME_CLASS} shrink-0 border-b border-store-surface bg-zinc-100`} />
-      <div className="p-2.5 sm:p-3.5">
-        <div className="flex h-10 flex-col gap-2">
-          <div className="h-3 w-full rounded bg-zinc-100" />
-          <div className="h-3 w-3/4 rounded bg-zinc-100" />
+    <div
+      data-product-card="skeleton"
+      aria-hidden="true"
+      className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white animate-pulse"
+    >
+      <div className={`${IMAGE_FRAME_CLASS} shrink-0 bg-zinc-100`} />
+      <div className="flex flex-1 flex-col justify-between p-3 sm:p-4">
+        <div className="space-y-2">
+          <div className="h-2.5 w-1/3 rounded-full bg-zinc-100" />
+          <div className="h-3.5 w-full rounded-full bg-zinc-100" />
+          <div className="h-3.5 w-2/3 rounded-full bg-zinc-100" />
         </div>
-        <div className="mt-3 flex min-h-8 items-center justify-between gap-2">
-          <div className="h-4 w-16 rounded bg-zinc-100" />
-          <div className="h-7 w-7 rounded-[3px] bg-zinc-100 sm:h-8 sm:w-8" />
+        <div className="mt-3 flex items-center justify-between gap-2 pt-1">
+          <div className="h-4 w-16 rounded-full bg-zinc-100" />
+          <div className="h-8 w-12 rounded-lg bg-zinc-100 sm:w-16" />
         </div>
       </div>
     </div>
@@ -149,7 +154,6 @@ export default function ProductCard({
   };
 
   const isVariantProduct = useMemo(() => {
-    // Products with options open their details before adding to the bag.
     const cat = (category || "").toLowerCase();
     const n = name.toLowerCase();
     return (
@@ -170,65 +174,82 @@ export default function ProductCard({
   return (
     <article
       data-product-card="product"
-      className={`${styles.card} group relative flex h-full w-full flex-col overflow-hidden rounded-[3px] border border-zinc-200 bg-white transition-colors duration-200 hover:border-zinc-300`}
+      className={`${styles.card} group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-zinc-200/90 bg-white transition-all duration-300 hover:border-rose-300 hover:shadow-md hover:-translate-y-0.5`}
     >
-      <div className={`${IMAGE_FRAME_CLASS} relative w-full shrink-0 overflow-hidden border-b border-store-surface bg-store-page`}>
+      {/* Product Image Frame */}
+      <div className={`${IMAGE_FRAME_CLASS} relative w-full shrink-0 overflow-hidden bg-gradient-to-b from-zinc-50/70 to-zinc-100/30`}>
         <Link href={productUrl} aria-label={`View ${name}`} className="relative block h-full w-full">
           <Image
             src={resolvedImage}
             alt={name}
             fill
             sizes="(max-width: 639px) 50vw, (max-width: 1023px) 25vw, 20vw"
-            className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+            className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
             onError={() => setImageError(true)}
             unoptimized={resolvedImage.includes("unsplash.com")}
           />
         </Link>
-        {/* Badges: Discount & Other highlights */}
-        {(hasDiscount || isDiscountBadge) ? (
+
+        {/* Discount & Highlight Badges */}
+        {hasDiscount || isDiscountBadge ? (
           <div className="absolute left-2.5 top-2.5 z-10 flex flex-col items-start gap-1">
-            <span className="inline-flex items-center rounded-[3px] bg-store-primary px-2 py-0.5 text-[10px] font-semibold tracking-tight text-white shadow-2xs sm:text-[10.5px]">
+            <span className="inline-flex items-center rounded-full bg-rose-600 px-2.5 py-0.5 text-[10px] font-bold tracking-tight text-white shadow-xs sm:text-[11px]">
               {isDiscountBadge ? displayBadge : `-${discountPercent}%`}
             </span>
             {displayBadge && !isDiscountBadge && (
-              <span className="max-w-[120px] truncate rounded-[3px] bg-white/95 text-store-ink border border-zinc-200 px-2 py-0.5 text-[9.5px] font-medium shadow-2xs">
+              <span className="max-w-[120px] truncate rounded-full bg-white/95 text-zinc-700 border border-zinc-200/80 px-2 py-0.5 text-[9.5px] font-medium shadow-2xs backdrop-blur-xs">
                 {displayBadge}
               </span>
             )}
           </div>
         ) : displayBadge ? (
-          <span className="absolute left-2.5 top-2.5 z-10 max-w-[calc(100%-3.75rem)] truncate rounded-[3px] bg-store-primary px-2 py-0.5 text-[10px] font-semibold text-white shadow-2xs sm:text-[10.5px]">
+          <span className="absolute left-2.5 top-2.5 z-10 max-w-[calc(100%-3.75rem)] truncate rounded-full bg-rose-600 px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs sm:text-[11px]">
             {displayBadge}
           </span>
         ) : null}
+
+        {/* Floating Wishlist Button */}
         <button
           type="button"
           onClick={handleToggleWishlist}
           aria-label={inWishlist ? `Remove ${name} from wishlist` : `Add ${name} to wishlist`}
           aria-pressed={inWishlist}
-          className="absolute right-1.5 top-1.5 z-10 grid h-10 w-10 place-items-center rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-store-accent"
+          className="absolute right-2 top-2 z-10 grid h-8 w-8 place-items-center rounded-full border border-zinc-200/80 bg-white/90 backdrop-blur-xs shadow-2xs transition-all duration-200 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500 cursor-pointer"
         >
-          <span className={`grid h-8 w-8 place-items-center rounded-full border transition-colors sm:h-9 sm:w-9 ${
-            inWishlist
-              ? "border-rose-100 bg-rose-50 text-rose-500"
-              : "border-zinc-200/80 bg-white/95 text-zinc-400 hover:border-rose-100 hover:text-rose-500"
-          }`}>
-            <LuHeart className={`h-4 w-4 ${inWishlist ? "fill-current" : ""}`} aria-hidden="true" />
-          </span>
+          <LuHeart
+            className={`h-4 w-4 transition-colors ${
+              inWishlist ? "fill-rose-500 text-rose-500" : "text-zinc-400"
+            }`}
+            aria-hidden="true"
+          />
         </button>
       </div>
 
-      <div className="flex min-w-0 flex-1 flex-col p-2.5 sm:p-3.5">
-        <Link href={productUrl} title={name} className={`${styles.cardLink} block rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-store-accent`}>
-          <h3 className="h-10 line-clamp-2 break-words text-[13px] font-medium leading-5 text-zinc-800 transition-colors hover:text-store-accent sm:text-sm">
-            {name}
-          </h3>
-        </Link>
+      {/* Product Content Body */}
+      <div className="flex min-w-0 flex-1 flex-col justify-between p-3 sm:p-3.5">
+        <div>
+          {category && (
+            <span className="mb-1 block truncate text-[10.5px] font-medium uppercase tracking-wider text-zinc-400 sm:text-[11px]">
+              {category}
+            </span>
+          )}
 
-        <div className="mt-auto flex min-h-8 items-center justify-between gap-1 pt-2 sm:gap-1.5 sm:pt-2.5">
+          <Link
+            href={productUrl}
+            title={name}
+            className={`${styles.cardLink} block rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500`}
+          >
+            <h3 className="line-clamp-2 text-[13px] font-medium leading-[1.35] text-zinc-800 transition-colors duration-200 group-hover:text-rose-600 sm:text-[14px]">
+              {name}
+            </h3>
+          </Link>
+        </div>
+
+        {/* Price & Action Row */}
+        <div className="mt-3 flex items-center justify-between gap-2 border-t border-zinc-100 pt-2.5">
           <div className="min-w-0 tabular-nums">
             <div className="flex flex-wrap items-baseline gap-x-1.5 gap-y-0.5">
-              <span className="text-sm font-semibold leading-5 text-store-price sm:text-base [overflow-wrap:anywhere]">
+              <span className="text-sm font-bold text-rose-600 sm:text-[16px] [overflow-wrap:anywhere]">
                 {price}
               </span>
               {originalPrice && (hasDiscount || originalPrice !== price) && (
@@ -238,16 +259,17 @@ export default function ProductCard({
               )}
             </div>
           </div>
+
+          {/* Action CTA Button */}
           {isVariantProduct ? (
             <Link
               href={productUrl}
               aria-label={`Choose options for ${name}`}
               title="Choose options"
-              className="relative z-10 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-store-accent"
+              className="relative z-10 shrink-0 inline-flex items-center justify-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-lg border border-rose-200 bg-rose-50 text-rose-600 text-xs font-semibold hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all duration-200 cursor-pointer shadow-2xs"
             >
-              <span className="grid h-7 w-7 place-items-center rounded-[3px] border border-store-primary bg-white text-store-primary transition-colors hover:bg-store-primary hover:text-white sm:h-8 sm:w-8">
-                <LuShoppingBag className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />
-              </span>
+              <LuShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
+              <span className="hidden sm:inline text-[11px]">Options</span>
             </Link>
           ) : (
             <button
@@ -257,15 +279,25 @@ export default function ProductCard({
               aria-busy={isAdding}
               aria-label={isAdded ? `${name} added to bag` : `Add ${name} to bag`}
               title={isAdded ? "Added to bag" : "Add to bag"}
-              className="relative z-10 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-store-accent disabled:opacity-60 cursor-pointer"
-            >
-              <span className={`grid h-7 w-7 place-items-center rounded-[3px] border transition-colors sm:h-8 sm:w-8 ${
+              className={`relative z-10 shrink-0 inline-flex items-center justify-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-lg border text-xs font-semibold transition-all duration-200 cursor-pointer disabled:opacity-60 shadow-2xs ${
                 isAdded
                   ? "border-emerald-600 bg-emerald-600 text-white"
-                  : "border-store-primary bg-store-primary text-white hover:border-store-hover hover:bg-store-hover"
-              }`}>
-                {isAdding ? <LuLoaderCircle className={`${styles.spinner} h-3.5 w-3.5 sm:h-4 sm:w-4`} aria-hidden="true" /> : isAdded ? <LuCheck className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" /> : <LuShoppingBag className="h-3.5 w-3.5 sm:h-4 sm:w-4" aria-hidden="true" />}
-              </span>
+                  : "border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white hover:border-rose-600"
+              }`}
+            >
+              {isAdding ? (
+                <LuLoaderCircle className={`${styles.spinner} h-3.5 w-3.5`} aria-hidden="true" />
+              ) : isAdded ? (
+                <>
+                  <LuCheck className="h-3.5 w-3.5 text-white" aria-hidden="true" />
+                  <span className="hidden sm:inline text-[11px] text-white">Added</span>
+                </>
+              ) : (
+                <>
+                  <LuShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
+                  <span className="hidden sm:inline text-[11px]">Add</span>
+                </>
+              )}
             </button>
           )}
         </div>

@@ -82,19 +82,10 @@ export default function TheCollection() {
     <section className="relative w-full py-16 md:py-24 bg-white overflow-hidden border-t border-stone-200/70">
       <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 flex flex-col justify-start items-center gap-10 md:gap-14">
         {/* Header */}
-        <div className="flex flex-col justify-center items-center text-center gap-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-zinc-100 text-zinc-800 text-[11px] font-bold uppercase tracking-wider">
-            <LuLayoutGrid className="w-3.5 h-3.5 text-zinc-600" />
-            <span>Marketplace Categories</span>
-          </div>
-
+        <div className="flex flex-col justify-center items-center text-center">
           <h2 className="text-zinc-900 text-3xl sm:text-4xl md:text-5xl font-normal tracking-tight">
             Shop By Department
           </h2>
-
-          <p className="max-w-[700px] text-zinc-500 text-sm sm:text-base leading-relaxed mx-auto">
-            Explore diverse product lines from top global and local vendors — from everyday farm-fresh groceries to signature fashion apparel and luxury accessories.
-          </p>
         </div>
 
         {/* Multi-Category Grid Cards */}

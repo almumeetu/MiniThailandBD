@@ -33,7 +33,7 @@ export default function StorefrontCta({ featuredProduct }: StorefrontCtaProps) {
         <div className="relative grid items-center gap-8 p-6 sm:gap-10 sm:p-9 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12 lg:p-12">
           <div className="max-w-lg">
             <h2 id="storefront-cta-title" className="max-w-md text-3xl font-semibold leading-[1.15] tracking-tight text-white sm:text-4xl lg:text-[2.75rem]">
-              Find your next <span className="text-[#f4c9a9]">everyday favourite.</span>
+              Find your next <span className="text-[#f4c9a9]">boutique favourite.</span>
             </h2>
 
             <div className="mt-7 flex flex-wrap items-center gap-3 sm:mt-8">
@@ -110,7 +110,7 @@ export default function StorefrontCta({ featuredProduct }: StorefrontCtaProps) {
                 <span className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-store-primary text-white shadow-md">
                   <LuShoppingBag className="h-7 w-7" aria-hidden="true" />
                 </span>
-                <p className="mt-4 text-sm font-semibold text-store-ink">Explore beauty, tech, home & more</p>
+                <p className="mt-4 text-sm font-semibold text-store-ink">Explore Thai cord sets, party gowns &amp; abayas</p>
                 <span className="mt-2 inline-flex items-center gap-1.5 text-xs font-semibold text-store-primary">
                   Browse the store <LuArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-1" aria-hidden="true" />
                 </span>

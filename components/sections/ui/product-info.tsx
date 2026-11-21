@@ -308,7 +308,7 @@ export default function ProductInfo({
                 setSelectedVariant(variants.find((variant) => variant.id === event.target.value) ?? null);
                 setQuantity(1);
               }}
-              className="min-h-12 w-full rounded-[3px] border border-zinc-200 bg-white px-3 text-sm text-zinc-900"
+              className="min-h-12 w-full rounded-xl border border-zinc-200 bg-white px-3 text-sm text-zinc-900 focus:outline-rose-500"
             >
               {variants.map((variant) => (
                 <option key={variant.id} value={variant.id}>
@@ -323,12 +323,12 @@ export default function ProductInfo({
         {/* ── 5. Action Row: Stepper + Add to Bag + Buy Now ── */}
         <div className="grid grid-cols-2 items-center gap-2 sm:grid-cols-[auto_minmax(0,1fr)_minmax(0,1fr)]">
           {/* Stepper */}
-          <div className="col-span-2 sm:col-span-1 flex w-fit items-center border border-zinc-200 rounded-[3px] bg-white p-0.5">
+          <div className="col-span-2 sm:col-span-1 flex w-fit items-center border border-zinc-200 rounded-xl bg-white p-0.5">
             <button
               type="button"
               onClick={() => handleQuantityChange('dec')}
               disabled={isOutOfStock || quantity <= 1}
-              className="w-9 h-11 rounded-[3px] hover:bg-zinc-100 flex items-center justify-center text-zinc-700 disabled:opacity-30 cursor-pointer font-bold transition-colors"
+              className="w-9 h-11 rounded-lg hover:bg-zinc-100 flex items-center justify-center text-zinc-700 disabled:opacity-30 cursor-pointer font-bold transition-colors"
               aria-label="Decrease quantity"
             >
               -
@@ -340,7 +340,7 @@ export default function ProductInfo({
               type="button"
               onClick={() => handleQuantityChange('inc')}
               disabled={isOutOfStock || quantity >= stockQty}
-              className="w-9 h-11 rounded-[3px] hover:bg-zinc-100 flex items-center justify-center text-zinc-700 disabled:opacity-30 cursor-pointer font-bold transition-colors"
+              className="w-9 h-11 rounded-lg hover:bg-zinc-100 flex items-center justify-center text-zinc-700 disabled:opacity-30 cursor-pointer font-bold transition-colors"
               aria-label="Increase quantity"
             >
               +
@@ -353,7 +353,7 @@ export default function ProductInfo({
             onClick={handleAddToCart}
             disabled={isOutOfStock || isAdding}
             aria-busy={isAdding}
-            className={`${styles.addButton} min-w-0 px-3 text-white font-medium text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50`}
+            className={`${styles.addButton} min-w-0 px-4 text-white font-semibold text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-xs`}
           >
             {isAdding ? <LuLoaderCircle className={`${styles.spinner} w-4 h-4`} aria-hidden="true" /> : isAdded ? <LuCheck className="w-4 h-4" aria-hidden="true" /> : <LuShoppingBag className="w-4 h-4" aria-hidden="true" />}
             <span>{isAdding ? 'Adding…' : isAdded ? 'Added to bag' : 'Add to Bag'}</span>
@@ -364,7 +364,7 @@ export default function ProductInfo({
             type="button"
             onClick={handleBuyNow}
             disabled={isOutOfStock || isAdding}
-            className={`${styles.buyButton} min-w-0 px-3 font-medium text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50`}
+            className={`${styles.buyButton} min-w-0 px-4 font-semibold text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-xs`}
           >
             <span>Buy Now</span>
           </button>
@@ -382,7 +382,7 @@ export default function ProductInfo({
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="min-h-11 px-3 rounded-[3px] border border-zinc-200 text-zinc-700 hover:bg-zinc-50 font-medium text-sm flex items-center justify-center gap-2 shadow-2xs transition-colors cursor-pointer"
+              className="min-h-11 px-3 rounded-xl border border-zinc-200 text-zinc-700 hover:bg-zinc-50 font-medium text-sm flex items-center justify-center gap-2 shadow-2xs transition-colors cursor-pointer"
             >
               <FaWhatsapp className="w-4.5 h-4.5 text-emerald-600 shrink-0" />
               <span>WhatsApp Order</span>
@@ -391,7 +391,7 @@ export default function ProductInfo({
             {/* Call Hotline */}
             <a
               href={`tel:${primaryPhone.replace(/[^\d+]/g, '')}`}
-              className="min-h-11 px-3 rounded-[3px] border border-zinc-200 text-zinc-700 hover:bg-zinc-50 font-medium text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer"
+              className="min-h-11 px-3 rounded-xl border border-zinc-200 text-zinc-700 hover:bg-zinc-50 font-medium text-sm flex items-center justify-center gap-2 transition-colors cursor-pointer"
             >
               <IoCallOutline className="w-4.5 h-4.5" />
               <span className="break-all">Call {primaryPhone}</span>

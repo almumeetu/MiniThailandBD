@@ -71,13 +71,10 @@ export default function CorporateSolutions() {
         
         {/* Section Header */}
         <ScrollAnimate variant="fade-in-up">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl text-zinc-900 font-normal tracking-tight mb-4">
+          <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl text-zinc-900 font-normal tracking-tight">
               Curated Corporate Solutions
             </h2>
-            <p className="text-stone-600 text-sm sm:text-base leading-relaxed">
-              Whether you are rewarding 50 executives, sending 2,000 Eid gift hampers, or sourcing wholesale inventory, MiniThailandBD delivers uncompromising quality and verified origin.
-            </p>
           </div>
         </ScrollAnimate>
 

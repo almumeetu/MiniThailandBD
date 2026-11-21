@@ -1,41 +1,51 @@
-/* Public storefront typography and surfaces. Admin screens keep their own system. */
+/* Public storefront typography and surfaces. Modern, clean, and product-focused. */
 .storefront :is(h1, h2, h3, h4, h5, h6),
 .storefront :is(h1, h2, h3, h4) :is(span, em) {
   font-family: var(--font-sans);
   font-style: normal;
   font-weight: 600;
-  line-height: 1.3;
-  letter-spacing: -.025em;
+  line-height: 1.35;
+  letter-spacing: -0.01em;
   text-transform: none;
 }
+
+/* Ensure Bengali text in headings/spans stays clean with normal letter spacing */
+.storefront :is(h1, h2, h3, h4, h5, h6):lang(bn),
+.storefront :is(h1, h2, h3, h4, h5, h6) [lang="bn"],
+.storefront .bangla-clean {
+  letter-spacing: normal !important;
+  line-height: 1.6;
+}
+
 .storefront h1, .store-page-title { font-size: clamp(26px, 3vw, 36px); }
-.storefront .store-section-title { margin: 0; color: var(--color-store-ink); font-size: clamp(22px, 2.2vw, 28px); }
-.storefront h3 { font-weight: 500; }
+.storefront .store-section-title { 
+  margin: 0; 
+  color: var(--color-store-ink); 
+  font-size: clamp(22px, 2.2vw, 28px);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+.storefront h3 { font-weight: 600; }
 .storefront :is(button, input, select, textarea) { font-family: var(--font-sans); }
-.storefront :is(section, article, main, header, footer, div, a, button)[class*="shadow"] { box-shadow: none; }
-.storefront article { border-color: transparent; }
-/* Consistent, quiet depth for product cards, including portaled bag cards. */
-.storefront :is(article, div, a)[data-product-card],
-[data-product-card] {
-  border: 1px solid rgba(20, 38, 56, 0.10);
-  box-shadow: 0 2px 5px rgba(20, 38, 56, 0.03), 0 5px 14px rgba(20, 38, 56, 0.045);
+
+/* Elegant, clean depth for product cards across the store */
+.storefront :is(article, div, a)[data-product-card="product"],
+[data-product-card="product"] {
+  border: 1px solid rgba(228, 228, 231, 0.9);
+  background-color: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
+.storefront :is(article, div, a)[data-product-card="product"]:hover,
+[data-product-card="product"]:hover {
+  border-color: rgba(233, 30, 99, 0.25);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.07), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+}
+
 .storefront :is(button, a)[class*="uppercase"] { text-transform: none; letter-spacing: normal; }
-.storefront :is(button, a)[class*="font-bold"] { font-weight: 600; }
-.storefront :is(input, select, textarea):focus-visible { outline: 2px solid var(--color-store-primary); outline-offset: 2px; }
-
-/* Global maximum 2-3px border radius rule across storefront (keeps circles/pills intact) */
-:root {
-  --radius: 3px;
+.storefront :is(input, select, textarea):focus-visible { 
+  outline: 2px solid var(--color-store-primary); 
+  outline-offset: 2px; 
 }
-
-.storefront :is(
-  article, section, main, div, button, input, select, textarea, img, figure, nav, dialog, aside, header, footer
-)[class*="rounded-"]:not([class*="rounded-full"]):not(.rounded-full) {
-  border-radius: 3px !important;
-}
-
-.storefront [class*="rounded-["]:not([class*="rounded-full"]):not(.rounded-full) {
-  border-radius: 3px !important;
-}
-
