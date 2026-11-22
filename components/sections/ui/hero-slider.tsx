@@ -97,7 +97,7 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                 )}
 
                 {/* Main Heading */}
-                <h1 className="text-white leading-[1.1] mb-4 drop-shadow-md">
+                <h1 className="hero-slider-title text-white leading-[1.1] mb-4 drop-shadow-md">
                   <span className="font-['Bembo_Std'] font-medium text-4xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight block sm:inline">
                     {slide.title}{" "}
                   </span>
@@ -109,12 +109,12 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
                 </h1>
 
                 {/* Subtitle */}
-                <p className="max-w-2xl text-zinc-200 text-sm sm:text-base md:text-lg font-light leading-relaxed mb-8 drop-shadow-sm">
+                <p className="hero-slider-desc max-w-2xl text-zinc-200 text-sm sm:text-base md:text-lg font-light leading-relaxed mb-8 drop-shadow-sm">
                   {slide.subtitle}
                 </p>
 
                 {/* CTA Buttons */}
-                <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-4 justify-center w-full max-w-xs sm:max-w-none">
+                <div className="hero-slider-btn flex flex-col sm:flex-row items-center gap-3 sm:gap-4 justify-center w-full max-w-xs sm:max-w-none">
                   <Link
                     href={slide.ctaHref || "/products"}
                     className="w-full sm:w-auto px-7 sm:px-9 py-3.5 sm:py-4 rounded-full bg-emerald-600 hover:bg-emerald-500 text-white font-sans text-xs sm:text-sm font-semibold tracking-wider uppercase transition-all duration-300 flex items-center justify-center gap-2.5 shadow-lg shadow-emerald-900/30 hover:shadow-emerald-700/50 hover:scale-103 active:scale-95 cursor-pointer"

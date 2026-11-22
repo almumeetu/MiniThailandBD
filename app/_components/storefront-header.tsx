@@ -1,8 +1,8 @@
-import Image from "next/image";
 import Link from "next/link";
 import { FiHeart, FiSearch, FiShoppingBag, FiUser } from "react-icons/fi";
 import { FaWhatsapp } from "react-icons/fa";
 import MobileMenu from "@/components/mobile-menu";
+import Logo from "@/components/ui/logo";
 
 const NAV_LINKS = [
   { label: "Shop All", href: "/products" },
@@ -37,27 +37,7 @@ export default function StorefrontHeader() {
             </div>
 
             {/* Logo */}
-            <Link href="/" className="flex items-center gap-2.5" aria-label="Mini Thailand home">
-              <div className="relative h-10 w-10 sm:h-11 sm:w-11 overflow-hidden rounded-full border-2 border-[#c0185a] shadow-xs shrink-0">
-                <Image
-                  src="/products/logo.jpg"
-                  alt="Mini Thailand"
-                  fill
-                  priority
-                  sizes="44px"
-                  className="object-cover"
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-xl sm:text-2xl font-black tracking-tight leading-none">
-                  <span className="text-[#c0185a]">Mini</span>
-                  <span className="text-[#e8a020]">Thailand</span>
-                </span>
-                <span className="text-[9.5px] font-bold tracking-widest uppercase text-neutral-400">
-                  Boutique Fashion
-                </span>
-              </div>
-            </Link>
+            <Logo variant="dark" size="lg" />
           </div>
 
           {/* Center: Desktop Navigation Bar */}

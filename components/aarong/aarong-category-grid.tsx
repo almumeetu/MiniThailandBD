@@ -14,11 +14,11 @@ export function AarongCategoryGridSkeleton() {
   return (
     <section aria-label="Product Categories Loading" className="w-full bg-white py-8 sm:py-12">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
           {Array.from({ length: 8 }).map((_, idx) => (
             <div key={idx} className="flex flex-col bg-white overflow-hidden animate-pulse">
               <div className="relative aspect-square w-full bg-neutral-200" />
-              <div className="bg-white py-3 sm:py-3.5 flex justify-center">
+              <div className="bg-white pt-2.5 sm:pt-3 flex justify-center">
                 <div className="h-3.5 w-24 bg-neutral-200 rounded" />
               </div>
             </div>
@@ -41,8 +41,8 @@ export default function AarongCategoryGrid({ categories, loading }: AarongCatego
   return (
     <section aria-label="Product Categories" className="w-full bg-white py-8 sm:py-12">
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8">
-        {/* 2 Rows x 4 Columns Grid matching Aarong's exact design */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+        {/* 2 Rows x 4 Columns Grid with symmetrical top-bottom and left-right gaps */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-5 lg:gap-6">
           {displayList.map((cat) => {
             const href = `/products?category=${encodeURIComponent(cat.name)}`;
             const imageUrl = cat.imageUrl || "/products/cords set/905937710_1118136247512437_2099551318531647321_n.jpg";
@@ -84,8 +84,8 @@ export default function AarongCategoryGrid({ categories, loading }: AarongCatego
                   </div>
                 </div>
 
-                {/* White strip label with bold uppercase title below image */}
-                <div className="bg-white py-3 sm:py-3.5 text-center">
+                {/* White strip label with bold uppercase title below image with balanced vertical spacing */}
+                <div className="bg-white pt-2.5 sm:pt-3 pb-0 text-center">
                   <span className="block text-xs sm:text-[13px] font-bold tracking-[0.18em] text-zinc-900 uppercase group-hover:text-[#ec1c67] transition-colors duration-200">
                     {cat.name}
                   </span>

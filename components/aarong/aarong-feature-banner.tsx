@@ -9,7 +9,7 @@ import { resolveImageUrl, type Campaign } from "@/lib/admin-api";
 const DEFAULT_BANNER = {
   title: "MINI THAILAND ESSENTIALS",
   subtitle: "Handpicked Bangkok coordinates, velvet party edits & timeless silhouettes",
-  image: "/hero/fashion/slide-velvet-couture.jpg",
+  image: "/images/campaign/minit-2.webp",
   ctaText: "EXPLORE COLLECTION",
   ctaLink: "/products?category=Winter%20Collection",
   badge: "Featured Collection",

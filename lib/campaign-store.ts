@@ -2,7 +2,7 @@
 
 import { type Campaign, API_BASE_URL, resolveImageUrl } from "./admin-api";
 
-export const CAMPAIGNS_STORAGE_KEY = "minithailandbd_campaigns_v21";
+export const CAMPAIGNS_STORAGE_KEY = "minithailandbd_campaigns_v27";
 export const CAMPAIGNS_UPDATED_EVENT = "minithailandbd_campaigns_updated";
 
 /**
@@ -102,99 +102,67 @@ export function normalizeCampaignToEnglish(campaign: Campaign): Campaign {
  */
 export const DEFAULT_HERO_CAMPAIGNS: Campaign[] = [
   {
-    id: "camp-hero-1",
-    title: "Autumn & Winter Haute Couture",
-    description: "Imported luxury Bangkok coordinates, tailored blazers & signature boutique silhouettes for the modern woman.",
+    id: "camp-arch-maroon",
+    title: "Imperial Maroon & Velvet Grandeur",
+    description: "Opulent festive tones, rich tactile textures & majestic silhouettes designed to turn every entrance into a moment.",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "",
-    ctaText: "EXPLORE COLLECTION",
-    linkUrl: "/products?category=Cord%20Sets",
+    badge: "Imperial Edit",
+    ctaText: "SHOP MAROON EDIT",
+    linkUrl: "/products?category=Party%20Gowns",
     sectionId: "sec-hero",
     section: { id: "sec-hero", title: "Hero Slider Banner", position: 1, page: "home" },
-    images: [{ id: "img-hero-1", images: ["/images/campaign/minit-2.webp"] }],
+    images: [{ id: "img-arch-maroon", images: ["/images/sliders/arch-maroon.webp"] }],
     createdAt: new Date().toISOString(),
   },
   {
-    id: "camp-hero-2",
-    title: "Luxury Velvet & Evening Gowns",
-    description: "Hand-beaded lace, opulent velvet finishes & sweeping floor-length gowns crafted for regal celebrations.",
+    id: "camp-arch-blue",
+    title: "Royal Sapphire & Evening Drapes",
+    description: "Statement flowing gowns, luminous silk-touch fabrics & hand-finished Bangkok atelier details for regal celebrations.",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "",
-    ctaText: "DISCOVER GOWNS",
+    badge: "Sapphire Edit",
+    ctaText: "DISCOVER SAPPHIRE",
     linkUrl: "/products?category=Party%20Gowns",
     sectionId: "sec-hero",
     section: { id: "sec-hero", title: "Hero Slider Banner", position: 2, page: "home" },
-    images: [{ id: "img-hero-2", images: ["/images/campaign/minit-3.webp"] }],
+    images: [{ id: "img-arch-blue", images: ["/images/sliders/arch-blue.webp"] }],
     createdAt: new Date().toISOString(),
   },
   {
-    id: "camp-hero-5",
-    title: "Winter Outerwear & Velvet Edit",
-    description: "Statement luxury coats, warm velvet dresses & boutique essentials that turn every entrance into a moment.",
+    id: "camp-arch-purple",
+    title: "Regal Violet & Silk Co-ord Sets",
+    description: "Exquisite Thai coordinates, bespoke drapery & sophisticated contemporary styles imported directly from Bangkok.",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "",
-    ctaText: "SHOP WINTER EDIT",
-    linkUrl: "/products?category=Winter%20Collection",
-    sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Slider Banner", position: 3, page: "home" },
-    images: [{ id: "img-hero-5", images: ["/images/campaign/minit-7.webp"] }],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "camp-hero-slider-3",
-    title: "Exclusive Bangkok Co-ord Sets",
-    description: "Chic premium matching sets, lightweight fabrics & contemporary Thai boutique silhouettes.",
-    status: "active",
-    startAt: new Date().toISOString(),
-    endAt: null,
-    hasDiscount: true,
-    badge: "",
-    ctaText: "SHOP CO-ORD SETS",
+    badge: "Silk Collection",
+    ctaText: "EXPLORE CO-ORD SETS",
     linkUrl: "/products?category=Cord%20Sets",
     sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Slider Banner", position: 4, page: "home" },
-    images: [{ id: "img-hero-slider-3", images: ["/images/sliders/slider-3.webp"] }],
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 3, page: "home" },
+    images: [{ id: "img-arch-purple", images: ["/images/sliders/arch-purple.webp"] }],
     createdAt: new Date().toISOString(),
   },
   {
-    id: "camp-hero-slider-4",
-    title: "Regal Velvet & Festive Party Wear",
-    description: "Intricate handcrafted embroidery, rich royal textures & timeless evening fashion curated from Bangkok.",
+    id: "camp-arch-wine",
+    title: "Signature Burgundy & Wine Luxury",
+    description: "Deep vintage wine hues, fluid evening contours & signature Bangkok atelier designs curated exclusively for you.",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "",
-    ctaText: "EXPLORE PARTY WEAR",
+    badge: "Atelier Signature",
+    ctaText: "SHOP WINE COLLECTION",
     linkUrl: "/products?category=Party%20Gowns",
     sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Slider Banner", position: 5, page: "home" },
-    images: [{ id: "img-hero-slider-4", images: ["/images/sliders/slider-4.webp"] }],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "camp-hero-slider-5",
-    title: "Signature Dubai Abaya & Modest Luxury",
-    description: "Flowing layered silhouettes, modest elegance & artisanal detailing designed for modern occasions.",
-    status: "active",
-    startAt: new Date().toISOString(),
-    endAt: null,
-    hasDiscount: true,
-    badge: "",
-    ctaText: "VIEW ABAYAS",
-    linkUrl: "/products?category=Luxury%20Abayas",
-    sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Slider Banner", position: 6, page: "home" },
-    images: [{ id: "img-hero-slider-5", images: ["/images/sliders/slider-5.webp"] }],
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 4, page: "home" },
+    images: [{ id: "img-arch-wine", images: ["/images/sliders/arch-wine.webp"] }],
     createdAt: new Date().toISOString(),
   },
 ];
@@ -209,7 +177,7 @@ export function getStoredCampaigns(): Campaign[] {
 
   try {
     // Clean up older cached storage keys if present
-    for (let i = 1; i <= 20; i++) {
+    for (let i = 1; i <= 26; i++) {
       localStorage.removeItem(`minithailandbd_campaigns_v${i}`);
     }
 
@@ -217,7 +185,23 @@ export function getStoredCampaigns(): Campaign[] {
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        return parsed.map(normalizeCampaignToEnglish);
+        return parsed
+          .filter((c: Campaign) => {
+            const img = c.images?.[0]?.images?.[0] || "";
+            return (
+              !img.includes("arch-black") &&
+              !img.includes("arch-red") &&
+              !img.includes("minit-3") &&
+              c.id !== "camp-arch-black" &&
+              c.id !== "camp-arch-red" &&
+              c.id !== "camp-hero-2" &&
+              !c.title?.toLowerCase().includes("midnight noir") &&
+              !c.title?.toLowerCase().includes("black edition") &&
+              !c.title?.toLowerCase().includes("scarlet") &&
+              !c.title?.toLowerCase().includes("luxury velvet & evening")
+            );
+          })
+          .map(normalizeCampaignToEnglish);
       }
     }
   } catch (err) {
@@ -299,9 +283,26 @@ export function deleteStoredCampaign(id: string): void {
 export async function fetchActiveHeroCampaigns(): Promise<Campaign[]> {
   let apiCampaigns: Campaign[] = [];
 
-  const isHeroCampaign = (c: Campaign) =>
-    c.status === "active" &&
-    (!c.sectionId || c.sectionId === "sec-hero" || c.id.startsWith("camp-hero-"));
+  const isHeroCampaign = (c: Campaign) => {
+    const rawImg = c.images?.[0]?.images?.[0] || "";
+    const isExcluded =
+      rawImg.includes("arch-black") ||
+      rawImg.includes("arch-red") ||
+      rawImg.includes("minit-3") ||
+      c.id === "camp-arch-black" ||
+      c.id === "camp-arch-red" ||
+      c.id === "camp-hero-2" ||
+      c.title?.toLowerCase().includes("midnight noir") ||
+      c.title?.toLowerCase().includes("black edition") ||
+      c.title?.toLowerCase().includes("scarlet") ||
+      c.title?.toLowerCase().includes("luxury velvet & evening");
+
+    return (
+      !isExcluded &&
+      c.status === "active" &&
+      (!c.sectionId || c.sectionId === "sec-hero" || c.id.startsWith("camp-hero-") || c.id.startsWith("camp-arch-"))
+    );
+  };
 
   try {
     const res = await fetch(`${API_BASE_URL}/campaigns`, {

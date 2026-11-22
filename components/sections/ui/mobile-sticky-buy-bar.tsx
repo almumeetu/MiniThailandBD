@@ -62,7 +62,7 @@ export default function MobileStickyBuyBar({
             onClick={onAddToCart}
             disabled={isOutOfStock || isAdding}
             aria-busy={isAdding}
-            className="min-w-0 h-11 px-3 bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-1.5 transition-colors disabled:opacity-40 cursor-pointer shadow-xs"
+            className="min-w-0 h-11 px-3 bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider rounded-none flex items-center justify-center gap-1.5 transition-colors disabled:opacity-40 cursor-pointer shadow-xs"
             aria-label="Add to Bag"
           >
             <IoBagCheckOutline className="w-4 h-4" />
@@ -73,7 +73,7 @@ export default function MobileStickyBuyBar({
             type="button"
             onClick={onBuyNow}
             disabled={isOutOfStock || isAdding}
-            className="min-w-0 h-11 px-3 bg-gradient-to-r from-[#ec1c67] to-[#d81358] hover:from-[#d81358] hover:to-[#b30c45] text-white font-bold text-xs uppercase tracking-wider rounded-xl flex items-center justify-center gap-1.5 transition-all disabled:opacity-40 shadow-sm cursor-pointer active:scale-95"
+            className="min-w-0 h-11 px-3 bg-gradient-to-r from-[#ec1c67] to-[#d81358] hover:from-[#d81358] hover:to-[#b30c45] text-white font-bold text-xs uppercase tracking-wider rounded-none flex items-center justify-center gap-1.5 transition-all disabled:opacity-40 shadow-sm cursor-pointer active:scale-95"
             aria-label="Buy Now"
           >
             <IoFlashOutline className="w-3.5 h-3.5" />

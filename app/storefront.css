@@ -28,12 +28,12 @@
 .storefront h3 { font-weight: 600; }
 .storefront :is(button, input, select, textarea) { font-family: var(--font-sans); }
 
-/* Elegant, clean depth for product cards across the store */
+/* Elegant, clean depth for product cards across the store (Aarong luxury sharp aesthetic) */
 .storefront :is(article, div, a)[data-product-card="product"],
 [data-product-card="product"] {
   border: 1px solid rgba(228, 228, 231, 0.9);
   background-color: #ffffff;
-  border-radius: 14px;
+  border-radius: 0px;
   box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }

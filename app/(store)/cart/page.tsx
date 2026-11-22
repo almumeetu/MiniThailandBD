@@ -408,16 +408,16 @@ export default function CartPage() {
         {!initialised ? (
           <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[minmax(0,1fr)_380px] gap-6 sm:gap-8 lg:gap-10 animate-pulse">
             <div className="space-y-4">
-              <div className="h-8 bg-zinc-200 rounded w-1/4" />
-              <div className="h-32 bg-white rounded-xl border border-zinc-200" />
-              <div className="h-32 bg-white rounded-xl border border-zinc-200" />
+              <div className="h-8 bg-zinc-200 rounded-none w-1/4" />
+              <div className="h-32 bg-white rounded-none border border-zinc-200" />
+              <div className="h-32 bg-white rounded-none border border-zinc-200" />
             </div>
-            <div className="h-96 bg-white rounded-xl border border-zinc-200" />
+            <div className="h-96 bg-white rounded-none border border-zinc-200" />
           </div>
         ) : items.length === 0 ? (
           /* ── Modern Empty Cart State ── */
           <div className="max-w-2xl mx-auto text-center py-16 px-4">
-            <div className="w-24 h-24 rounded-3xl bg-store-surface text-store-primary flex items-center justify-center mx-auto mb-6 shadow-sm border border-store-border">
+            <div className="w-24 h-24 rounded-none bg-store-surface text-store-primary flex items-center justify-center mx-auto mb-6 shadow-sm border border-store-border">
               <LuTruck className="w-12 h-12" />
             </div>
 
@@ -431,7 +431,7 @@ export default function CartPage() {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/products"
-                className="bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider px-8 py-3.5 rounded-full shadow-sm transition-all cursor-pointer"
+                className="bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider px-8 py-3.5 rounded-none shadow-sm transition-all cursor-pointer"
               >
                 Browse Marketplace
               </Link>
@@ -439,7 +439,7 @@ export default function CartPage() {
                 <Link
                   key={category.id}
                   href={`/products?category=${encodeURIComponent(category.slug || category.name)}`}
-                  className="bg-white hover:bg-zinc-100 text-zinc-800 font-semibold text-sm px-6 py-3.5 rounded-full border border-zinc-200 transition-all"
+                  className="bg-white hover:bg-zinc-100 text-zinc-800 font-semibold text-sm px-6 py-3.5 rounded-none border border-zinc-200 transition-all"
                 >
                   {category.name}
                 </Link>
@@ -447,8 +447,8 @@ export default function CartPage() {
             </div>
 
             {/* Helpline Callout */}
-            <div className="mt-12 p-4 rounded-xl bg-white border border-zinc-200/80 inline-flex min-w-0 items-center gap-3 text-left">
-              <div className="w-10 h-10 rounded-full bg-store-surface text-store-primary flex items-center justify-center shrink-0">
+            <div className="mt-12 p-4 rounded-none bg-white border border-zinc-200/80 inline-flex min-w-0 items-center gap-3 text-left">
+              <div className="w-10 h-10 rounded-none bg-store-surface text-store-primary flex items-center justify-center shrink-0">
                 <IoCallOutline className="w-5 h-5" />
               </div>
               <div>
@@ -474,7 +474,7 @@ export default function CartPage() {
                 <div className="flex items-center gap-3">
                   <Link
                     href="/products"
-                    className="p-2 rounded-full hover:bg-zinc-100 text-zinc-600 transition-colors"
+                    className="p-2 rounded-none hover:bg-zinc-100 text-zinc-600 transition-colors"
                     aria-label="Back to products"
                   >
                     <LuArrowLeft className="w-5 h-5" />
@@ -509,9 +509,9 @@ export default function CartPage() {
                   const optionSummary = match ? match[2] : (item.color || item.size || "");
 
                   return (
-                    <article data-product-card="product" key={itemId} className="min-w-0 rounded-xl border border-[#DED7CC] bg-white p-4 sm:p-5">
+                    <article data-product-card="product" key={itemId} className="min-w-0 rounded-none border border-[#DED7CC] bg-white p-4 sm:p-5">
                       <div className="grid grid-cols-[72px_minmax(0,1fr)] items-start gap-4 sm:grid-cols-[104px_minmax(0,1fr)] sm:gap-5">
-                        <Link href={productUrl} className="relative aspect-square w-full rounded-lg overflow-hidden bg-zinc-50 border border-zinc-100">
+                        <Link href={productUrl} className="relative aspect-square w-full rounded-none overflow-hidden bg-zinc-50 border border-zinc-100">
                           <Image
                             src={item.image || "/images/no-image-icon-6.png"}
                             alt={item.name}
@@ -530,7 +530,7 @@ export default function CartPage() {
                               onClick={() => handleDropdownToggle(itemId, item.productId || "", item)}
                               aria-expanded={openDropdownId === itemId}
                               aria-controls={`cart-options-${itemId}`}
-                              className="inline-flex min-h-11 max-w-full items-center gap-2 rounded-lg border border-zinc-200 px-3 py-2 text-left text-xs text-zinc-600 hover:bg-zinc-50"
+                              className="inline-flex min-h-11 max-w-full items-center gap-2 rounded-none border border-zinc-200 px-3 py-2 text-left text-xs text-zinc-600 hover:bg-zinc-50"
                             >
                               <span className="min-w-0 break-words">{optionSummary}</span>
                               <IoChevronDownOutline className="h-4 w-4 shrink-0" />
@@ -547,12 +547,12 @@ export default function CartPage() {
                         </div>
                       </div>
                       <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-zinc-100 pt-4">
-                        <div className="flex items-center rounded-lg border border-zinc-200 bg-white">
-                          <button type="button" onClick={() => handleDecrement(itemId, item.quantity)} className="flex h-11 w-11 items-center justify-center rounded-lg text-zinc-600 hover:bg-zinc-50" aria-label={`Decrease quantity of ${displayName}`}>
+                        <div className="flex items-center rounded-none border border-zinc-200 bg-white">
+                          <button type="button" onClick={() => handleDecrement(itemId, item.quantity)} className="flex h-11 w-11 items-center justify-center rounded-none text-zinc-600 hover:bg-zinc-50" aria-label={`Decrease quantity of ${displayName}`}>
                             <LuMinus className="h-4 w-4" />
                           </button>
                           <span className="w-8 text-center text-sm font-medium text-zinc-900">{item.quantity}</span>
-                          <button type="button" onClick={() => updateQuantity(itemId, item.quantity + 1)} className="flex h-11 w-11 items-center justify-center rounded-lg text-zinc-600 hover:bg-zinc-50" aria-label={`Increase quantity of ${displayName}`}>
+                          <button type="button" onClick={() => updateQuantity(itemId, item.quantity + 1)} className="flex h-11 w-11 items-center justify-center rounded-none text-zinc-600 hover:bg-zinc-50" aria-label={`Increase quantity of ${displayName}`}>
                             <LuPlus className="h-4 w-4" />
                           </button>
                         </div>
@@ -562,7 +562,7 @@ export default function CartPage() {
                             onClick={() => handleToggleWishlist(item)}
                             aria-label={`Save ${displayName} to wishlist`}
                             aria-pressed={inWishlist}
-                            className={`inline-flex min-h-11 items-center gap-2 rounded-lg px-3 text-sm transition-colors ${inWishlist ? "bg-rose-50 text-rose-600" : "text-zinc-500 hover:bg-zinc-50"}`}
+                            className={`inline-flex min-h-11 items-center gap-2 rounded-none px-3 text-sm transition-colors ${inWishlist ? "bg-rose-50 text-rose-600" : "text-zinc-500 hover:bg-zinc-50"}`}
                           >
                             {inWishlist ? <IoHeart className="h-4 w-4" /> : <IoHeartOutline className="h-4 w-4" />}
                             <span>{inWishlist ? "Saved" : "Save"}</span>
@@ -574,14 +574,14 @@ export default function CartPage() {
                               toast.info("Item removed from cart");
                             }}
                             aria-label={`Remove ${displayName} from cart`}
-                            className="flex h-11 w-11 items-center justify-center rounded-lg text-zinc-500 hover:bg-rose-50 hover:text-rose-600"
+                            className="flex h-11 w-11 items-center justify-center rounded-none text-zinc-500 hover:bg-rose-50 hover:text-rose-600"
                           >
                             <LuTrash2 className="h-4 w-4" />
                           </button>
                         </div>
                       </div>
                       {openDropdownId === itemId && (
-                        <div id={`cart-options-${itemId}`} className="mt-4 min-w-0 rounded-lg border border-zinc-200 bg-zinc-50/50 p-4">
+                        <div id={`cart-options-${itemId}`} className="mt-4 min-w-0 rounded-none border border-zinc-200 bg-zinc-50/50 p-4">
                           {loadingProducts[item.productId || ""] ? (
                             <div className="p-4 text-xs text-zinc-500 flex items-center gap-2 justify-center">
                               <LuLoader className="w-4 h-4 animate-spin text-emerald-600" />
@@ -590,7 +590,7 @@ export default function CartPage() {
                           ) : (
                             <div className="space-y-4">
                               <div className="flex min-w-0 gap-3 items-center border-b border-zinc-100 pb-3">
-                                <div className="w-12 h-12 relative bg-zinc-50 rounded-lg overflow-hidden shrink-0 border border-zinc-200">
+                                <div className="w-12 h-12 relative bg-zinc-50 rounded-none overflow-hidden shrink-0 border border-zinc-200">
                                   <Image
                                     src={getMatchedVariantImage(item) || item.image}
                                     alt={item.name}
@@ -625,7 +625,7 @@ export default function CartPage() {
                                             type="button"
                                             aria-pressed={isSelected}
                                             onClick={() => setSelectedOptions((prev) => ({ ...prev, [attrName]: val }))}
-                                            className={`max-w-full break-words min-h-11 px-3 py-2 text-sm rounded-lg border transition-all cursor-pointer ${
+                                            className={`max-w-full break-words min-h-11 px-3 py-2 text-sm rounded-none border transition-all cursor-pointer ${
                                               isSelected
                                                 ? "border-store-primary bg-store-surface text-store-primary font-medium"
                                                 : "border-zinc-200 bg-white text-zinc-700 hover:border-zinc-400"
@@ -642,7 +642,7 @@ export default function CartPage() {
 
                               {/* Stock warning */}
                               {isMatchedVariantOutOfStock(item) && (
-                                <div className="flex items-center gap-1.5 p-2 bg-amber-50 text-amber-700 text-xs rounded-lg">
+                                <div className="flex items-center gap-1.5 p-2 bg-amber-50 text-amber-700 text-xs rounded-none">
                                   <IoAlertCircleOutline className="w-4 h-4 shrink-0" />
                                   <span>Sold out in this combination</span>
                                 </div>
@@ -652,7 +652,7 @@ export default function CartPage() {
                                 <button
                                   type="button"
                                   onClick={() => setOpenDropdownId(null)}
-                                  className="flex-1 min-h-11 py-2 text-sm border border-zinc-200 rounded-lg text-zinc-600 hover:bg-zinc-50"
+                                  className="flex-1 min-h-11 py-2 text-sm border border-zinc-200 rounded-none text-zinc-600 hover:bg-zinc-50"
                                 >
                                   Cancel
                                 </button>
@@ -660,7 +660,7 @@ export default function CartPage() {
                                   type="button"
                                   disabled={isApplyDisabled(item)}
                                   onClick={() => handleApplyChange(item)}
-                                  className="flex-1 min-h-11 py-2 text-xs font-bold uppercase tracking-wider bg-zinc-950 hover:bg-zinc-800 text-white rounded-lg disabled:opacity-50 cursor-pointer transition-colors"
+                                  className="flex-1 min-h-11 py-2 text-xs font-bold uppercase tracking-wider bg-zinc-950 hover:bg-zinc-800 text-white rounded-none disabled:opacity-50 cursor-pointer transition-colors"
                                 >
                                   Apply
                                 </button>
@@ -676,7 +676,7 @@ export default function CartPage() {
             </div>
 
             {/* Order summary */}
-            <section aria-labelledby="order-summary-title" className="min-w-0 self-start rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 lg:sticky lg:top-36 shadow-xs">
+            <section aria-labelledby="order-summary-title" className="min-w-0 self-start rounded-none border border-zinc-200 bg-white p-5 sm:p-6 lg:sticky lg:top-36 shadow-xs">
               <h2 id="order-summary-title" className="text-xl font-bold tracking-tight text-zinc-950">Order summary</h2>
 
               <div className="mt-6">
@@ -686,8 +686,8 @@ export default function CartPage() {
                     { zone: "dhaka" as const, label: "Inside Dhaka", rate: insideRate },
                     { zone: "outside" as const, label: "Outside Dhaka", rate: outsideRate },
                   ]).map(({ zone, label, rate }) => (
-                    <button key={zone} type="button" onClick={() => selectDeliveryZone(zone)} aria-pressed={deliveryZone === zone} className={`flex w-full items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left transition-colors cursor-pointer ${deliveryZone === zone ? "border-zinc-950 bg-stone-50" : "border-stone-200 bg-white hover:bg-stone-50"}`}>
-                      <span className="flex items-center gap-3 text-sm font-medium text-zinc-900"><span aria-hidden="true" className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${deliveryZone === zone ? "bg-zinc-950 text-white" : "border border-stone-300"}`}>{deliveryZone === zone && <LuCheck className="h-3 w-3" />}</span>{label}</span>
+                    <button key={zone} type="button" onClick={() => selectDeliveryZone(zone)} aria-pressed={deliveryZone === zone} className={`flex w-full items-center justify-between gap-3 rounded-none border px-4 py-3 text-left transition-colors cursor-pointer ${deliveryZone === zone ? "border-zinc-950 bg-stone-50" : "border-stone-200 bg-white hover:bg-stone-50"}`}>
+                      <span className="flex items-center gap-3 text-sm font-medium text-zinc-900"><span aria-hidden="true" className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-none ${deliveryZone === zone ? "bg-zinc-950 text-white" : "border border-stone-300"}`}>{deliveryZone === zone && <LuCheck className="h-3 w-3" />}</span>{label}</span>
                       <span className="shrink-0 text-sm font-semibold text-zinc-950">{rate === 0 ? "Free" : formatCurrency(rate)}</span>
                     </button>
                   ))}
@@ -701,14 +701,14 @@ export default function CartPage() {
                   {promoOpen ? <LuChevronUp className="h-4 w-4" /> : <IoChevronDownOutline className="h-4 w-4" />}
                 </button>}
                 {appliedCoupon ? (
-                  <div className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-stone-100 p-3 text-sm">
+                  <div className="mt-3 flex items-center justify-between gap-3 rounded-none bg-stone-100 p-3 text-sm">
                     <span className="min-w-0 break-all font-medium text-zinc-900">{appliedCoupon.code} applied</span>
                     <button type="button" onClick={handleRemovePromo} className="shrink-0 text-xs font-semibold text-rose-600 hover:underline cursor-pointer">Remove</button>
                   </div>
                 ) : promoOpen ? (
                   <form id="cart-promo" onSubmit={handleApplyPromo} className="mt-3 flex min-w-0 gap-2">
-                    <input type="text" aria-label="Promo code" value={promoInput} onChange={(e) => setPromoInput(e.target.value)} placeholder="Enter promo code" className="min-h-11 min-w-0 flex-1 rounded-xl border border-stone-200 px-3 text-sm uppercase text-zinc-900" />
-                    <button type="submit" disabled={isApplyingPromo || !promoInput.trim()} className="rounded-xl bg-zinc-950 px-5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-zinc-800 disabled:opacity-50 cursor-pointer">{isApplyingPromo ? "Applying..." : "Apply"}</button>
+                    <input type="text" aria-label="Promo code" value={promoInput} onChange={(e) => setPromoInput(e.target.value)} placeholder="Enter promo code" className="min-h-11 min-w-0 flex-1 rounded-none border border-stone-200 px-3 text-sm uppercase text-zinc-900" />
+                    <button type="submit" disabled={isApplyingPromo || !promoInput.trim()} className="rounded-none bg-zinc-950 px-5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-zinc-800 disabled:opacity-50 cursor-pointer">{isApplyingPromo ? "Applying..." : "Apply"}</button>
                   </form>
                 ) : null}
               </div>
@@ -724,7 +724,7 @@ export default function CartPage() {
                 if (!isAuthenticated) { setShowAuthModal(true); return; }
                 clearBuyNowItem();
                 router.push("/checkout");
-              }} className="mt-6 flex min-h-12 w-full items-center justify-center rounded-xl bg-zinc-950 px-4 py-3.5 text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-zinc-800 shadow-sm cursor-pointer">Proceed to checkout</button>
+              }} className="mt-6 flex min-h-12 w-full items-center justify-center rounded-none bg-zinc-950 px-4 py-3.5 text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-zinc-800 shadow-sm cursor-pointer">Proceed to checkout</button>
             </section>
 
           </div>

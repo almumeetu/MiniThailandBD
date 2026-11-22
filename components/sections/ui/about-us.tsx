@@ -41,7 +41,7 @@ export default function AboutUs() {
             <div className="lg:col-span-5 flex justify-center lg:justify-end">
               <div className="relative w-full max-w-[450px] aspect-square overflow-hidden border border-stone-800 shadow-2xl">
                 <Image
-                  src="/images/about/about.png"
+                  src="/about-us-bag.webp"
                   alt="MiniThailandBD Operations"
                   fill
                   className="object-cover hover:scale-105 transition-transform duration-700"

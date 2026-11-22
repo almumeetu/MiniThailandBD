@@ -41,7 +41,7 @@ export default function AddressSelectModal({
 
   return (
     <div role="dialog" aria-modal="true" aria-labelledby="saved-addresses-title" className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-3 sm:p-4">
-      <div className="relative min-w-0 w-full max-w-xl bg-white rounded-xl shadow-xl overflow-hidden max-h-[90dvh] flex flex-col border border-zinc-200">
+      <div className="relative min-w-0 w-full max-w-xl bg-white rounded-none shadow-xl overflow-hidden max-h-[90dvh] flex flex-col border border-zinc-200">
         {/* Header */}
         <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-4 border-b border-zinc-100 shrink-0">
           <div>
@@ -50,7 +50,7 @@ export default function AddressSelectModal({
           <button
             type="button"
             onClick={onClose}
-            className="w-11 h-11 shrink-0 rounded-full bg-zinc-50 hover:bg-zinc-100 text-zinc-500 flex items-center justify-center transition-colors cursor-pointer"
+            className="w-11 h-11 shrink-0 rounded-none bg-zinc-50 hover:bg-zinc-100 text-zinc-500 flex items-center justify-center transition-colors cursor-pointer"
             aria-label="Close modal"
           >
             <LuX className="w-5 h-5" />
@@ -66,7 +66,7 @@ export default function AddressSelectModal({
             </div>
           ) : addresses.length === 0 ? (
             <div className="text-center py-12 px-4">
-              <div className="w-12 h-12 rounded-2xl bg-zinc-100 flex items-center justify-center mx-auto mb-3 text-zinc-400">
+              <div className="w-12 h-12 rounded-none bg-zinc-100 flex items-center justify-center mx-auto mb-3 text-zinc-400">
                 <LuMapPin className="w-6 h-6" />
               </div>
               <p className="text-sm font-bold text-zinc-800">No saved addresses found</p>
@@ -87,7 +87,7 @@ export default function AddressSelectModal({
                       onSelect(addr);
                       onClose();
                     }}
-                    className={`w-full min-w-0 p-4 text-left rounded-lg cursor-pointer transition-colors border flex items-start justify-between gap-3 ${
+                    className={`w-full min-w-0 p-4 text-left rounded-none cursor-pointer transition-colors border flex items-start justify-between gap-3 ${
                       isSelected
                         ? "border-store-primary bg-store-surface"
                         : "border-zinc-200 bg-white hover:border-zinc-300 hover:bg-zinc-50/50"
@@ -95,7 +95,7 @@ export default function AddressSelectModal({
                   >
                     <div className="flex items-start gap-3 min-w-0">
                       <div
-                        className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 mt-0.5 ${
+                        className={`w-8 h-8 rounded-none flex items-center justify-center shrink-0 mt-0.5 ${
                           isSelected ? "bg-emerald-600 text-white" : "bg-zinc-100 text-zinc-500"
                         }`}
                       >
@@ -107,7 +107,7 @@ export default function AddressSelectModal({
                             {addr.fullName}
                           </span>
                           {addr.isDefault && (
-                            <span className="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full">
+                            <span className="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-xs">
                               Default
                             </span>
                           )}
@@ -160,7 +160,7 @@ export default function AddressSelectModal({
           <button
             type="button"
             onClick={onClose}
-            className="min-h-11 px-5 py-2 rounded-lg bg-white border border-zinc-200 text-zinc-700 font-medium text-sm hover:bg-zinc-100 transition-colors cursor-pointer"
+            className="min-h-11 px-5 py-2 rounded-none bg-white border border-zinc-200 text-zinc-700 font-medium text-sm hover:bg-zinc-100 transition-colors cursor-pointer"
           >
             Close
           </button>

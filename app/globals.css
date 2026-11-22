@@ -347,7 +347,7 @@ body {
 }
 
 @media (max-width: 359px) {
-  .storefront-mobile-logo > span:first-child { display: none; }
+  .storefront-mobile-logo img { max-height: 28px; width: auto; }
 }
 
 /* Keep storefront type clean while preserving a clear weight hierarchy. */

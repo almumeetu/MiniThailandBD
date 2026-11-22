@@ -20,18 +20,18 @@ export function ProductCardSkeleton() {
     <div
       data-product-card="skeleton"
       aria-hidden="true"
-      className="flex h-full w-full flex-col overflow-hidden rounded-2xl border border-zinc-200/80 bg-white animate-pulse"
+      className="flex h-full w-full flex-col overflow-hidden rounded-none border border-zinc-200/80 bg-white animate-pulse"
     >
       <div className={`${IMAGE_FRAME_CLASS} shrink-0 bg-zinc-100`} />
       <div className="flex flex-1 flex-col justify-between p-3 sm:p-4">
         <div className="space-y-2">
-          <div className="h-2.5 w-1/3 rounded-full bg-zinc-100" />
-          <div className="h-3.5 w-full rounded-full bg-zinc-100" />
-          <div className="h-3.5 w-2/3 rounded-full bg-zinc-100" />
+          <div className="h-2.5 w-1/3 rounded-xs bg-zinc-100" />
+          <div className="h-3.5 w-full rounded-xs bg-zinc-100" />
+          <div className="h-3.5 w-2/3 rounded-xs bg-zinc-100" />
         </div>
         <div className="mt-3 flex items-center justify-between gap-2 pt-1">
-          <div className="h-4 w-16 rounded-full bg-zinc-100" />
-          <div className="h-8 w-12 rounded-lg bg-zinc-100 sm:w-16" />
+          <div className="h-4 w-16 rounded-xs bg-zinc-100" />
+          <div className="h-8 w-12 rounded-none bg-zinc-100 sm:w-16" />
         </div>
       </div>
     </div>
@@ -174,7 +174,7 @@ export default function ProductCard({
   return (
     <article
       data-product-card="product"
-      className={`${styles.card} group relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-zinc-200/90 bg-white transition-all duration-300 hover:border-rose-300 hover:shadow-md hover:-translate-y-0.5`}
+      className={`${styles.card} group relative flex h-full w-full flex-col overflow-hidden rounded-none border border-zinc-200/90 bg-white transition-all duration-300 hover:border-rose-300 hover:shadow-md hover:-translate-y-0.5`}
     >
       {/* Product Image Frame */}
       <div className={`${IMAGE_FRAME_CLASS} relative w-full shrink-0 overflow-hidden bg-gradient-to-b from-zinc-50/70 to-zinc-100/30`}>
@@ -194,17 +194,17 @@ export default function ProductCard({
         {/* Discount & Highlight Badges */}
         {hasDiscount || isDiscountBadge ? (
           <div className="absolute left-2.5 top-2.5 z-10 flex flex-col items-start gap-1">
-            <span className="inline-flex items-center rounded-full bg-rose-600 px-2.5 py-0.5 text-[10px] font-bold tracking-tight text-white shadow-xs sm:text-[11px]">
+            <span className="inline-flex items-center rounded-xs bg-rose-600 px-2 py-0.5 text-[10px] font-bold tracking-tight text-white shadow-xs sm:text-[11px]">
               {isDiscountBadge ? displayBadge : `-${discountPercent}%`}
             </span>
             {displayBadge && !isDiscountBadge && (
-              <span className="max-w-[120px] truncate rounded-full bg-white/95 text-zinc-700 border border-zinc-200/80 px-2 py-0.5 text-[9.5px] font-medium shadow-2xs backdrop-blur-xs">
+              <span className="max-w-[120px] truncate rounded-xs bg-white/95 text-zinc-700 border border-zinc-200/80 px-2 py-0.5 text-[9.5px] font-medium shadow-2xs backdrop-blur-xs">
                 {displayBadge}
               </span>
             )}
           </div>
         ) : displayBadge ? (
-          <span className="absolute left-2.5 top-2.5 z-10 max-w-[calc(100%-3.75rem)] truncate rounded-full bg-rose-600 px-2.5 py-0.5 text-[10px] font-bold text-white shadow-xs sm:text-[11px]">
+          <span className="absolute left-2.5 top-2.5 z-10 max-w-[calc(100%-3.75rem)] truncate rounded-xs bg-rose-600 px-2 py-0.5 text-[10px] font-bold text-white shadow-xs sm:text-[11px]">
             {displayBadge}
           </span>
         ) : null}
@@ -272,7 +272,7 @@ export default function ProductCard({
               href={productUrl}
               aria-label={`Choose options for ${name}`}
               title="Choose options"
-              className="relative z-10 shrink-0 inline-flex items-center justify-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-lg border border-rose-200 bg-rose-50 text-rose-600 text-xs font-semibold hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all duration-200 cursor-pointer shadow-2xs"
+              className="relative z-10 shrink-0 inline-flex items-center justify-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-none border border-rose-200 bg-rose-50 text-rose-600 text-xs font-semibold hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all duration-200 cursor-pointer shadow-2xs"
             >
               <LuShoppingBag className="h-3.5 w-3.5" aria-hidden="true" />
               <span className="hidden sm:inline text-[11px]">Options</span>
@@ -285,7 +285,7 @@ export default function ProductCard({
               aria-busy={isAdding}
               aria-label={isAdded ? `${name} added to bag` : `Add ${name} to bag`}
               title={isAdded ? "Added to bag" : "Add to bag"}
-              className={`relative z-10 shrink-0 inline-flex items-center justify-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-lg border text-xs font-semibold transition-all duration-200 cursor-pointer disabled:opacity-60 shadow-2xs ${
+              className={`relative z-10 shrink-0 inline-flex items-center justify-center gap-1.5 h-8 px-2.5 sm:px-3 rounded-none border text-xs font-semibold transition-all duration-200 cursor-pointer disabled:opacity-60 shadow-2xs ${
                 isAdded
                   ? "border-emerald-600 bg-emerald-600 text-white"
                   : "border-rose-200 bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white hover:border-rose-600"

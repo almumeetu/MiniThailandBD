@@ -102,7 +102,7 @@ export default function ProductGallery({
             onMouseLeave={() => setIsZoomed(false)}
             onMouseMove={handleMouseMove}
             onClick={() => openLightboxAt(activeIndex)}
-            className="relative w-full aspect-[3/4] rounded-2xl border border-zinc-200/90 bg-white overflow-hidden flex items-center justify-center cursor-zoom-in group shadow-xs transition-all hover:border-rose-200 hover:shadow-md"
+            className="relative w-full aspect-[3/4] rounded-none border border-zinc-200/90 bg-white overflow-hidden flex items-center justify-center cursor-zoom-in group shadow-xs transition-all hover:border-rose-200 hover:shadow-md"
           >
             <div key={currentImg} className="relative w-full h-full overflow-hidden flex items-center justify-center">
               <Image
@@ -173,7 +173,7 @@ export default function ProductGallery({
 
             {/* Counter badge */}
             {displayImages.length > 1 && (
-              <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1 text-[11px] font-medium text-white rounded-full shadow-sm">
+              <div className="absolute bottom-3 left-3 bg-black/60 backdrop-blur-md px-3 py-1 text-[11px] font-medium text-white rounded-none shadow-sm">
                 {activeIndex + 1} / {displayImages.length}
               </div>
             )}
@@ -189,7 +189,7 @@ export default function ProductGallery({
                     key={idx}
                     type="button"
                     onClick={() => setActiveIndex(idx)}
-                    className={`relative w-16 h-20 rounded-xl overflow-hidden bg-white border-2 transition-all cursor-pointer shrink-0 ${
+                    className={`relative w-16 h-20 rounded-none overflow-hidden bg-white border-2 transition-all cursor-pointer shrink-0 ${
                       isActive
                         ? 'border-[#ec1c67] ring-2 ring-[#ec1c67]/20 opacity-100 shadow-xs'
                         : 'border-zinc-200 hover:border-zinc-400 opacity-60 hover:opacity-100'
@@ -218,7 +218,7 @@ export default function ProductGallery({
                   <div
                     key={realIdx}
                     onClick={() => openLightboxAt(realIdx)}
-                    className="relative aspect-[4/3] rounded-xl overflow-hidden bg-white border border-zinc-200/90 group cursor-zoom-in flex items-center justify-center transition-all hover:border-[#ec1c67] shadow-2xs"
+                    className="relative aspect-[4/3] rounded-none overflow-hidden bg-white border border-zinc-200/90 group cursor-zoom-in flex items-center justify-center transition-all hover:border-[#ec1c67] shadow-2xs"
                   >
                     <Image
                       src={img}
@@ -242,7 +242,7 @@ export default function ProductGallery({
           {displayImages.length >= 4 && (
             <div
               onClick={() => openLightboxAt(3)}
-              className="relative w-full aspect-[16/9] rounded-xl overflow-hidden bg-white border border-zinc-200/90 group cursor-zoom-in flex items-center justify-center transition-all hover:border-[#ec1c67] shadow-2xs"
+              className="relative w-full aspect-[16/9] rounded-none overflow-hidden bg-white border border-zinc-200/90 group cursor-zoom-in flex items-center justify-center transition-all hover:border-[#ec1c67] shadow-2xs"
             >
               <Image
                 src={displayImages[3]}
@@ -268,7 +268,7 @@ export default function ProductGallery({
                   <div
                     key={realIdx}
                     onClick={() => openLightboxAt(realIdx)}
-                    className="relative aspect-[4/3] rounded-xl overflow-hidden bg-white border border-zinc-200/90 group cursor-zoom-in flex items-center justify-center transition-all hover:border-[#ec1c67] shadow-2xs"
+                    className="relative aspect-[4/3] rounded-none overflow-hidden bg-white border border-zinc-200/90 group cursor-zoom-in flex items-center justify-center transition-all hover:border-[#ec1c67] shadow-2xs"
                   >
                     <Image
                       src={img}
@@ -340,7 +340,7 @@ export default function ProductGallery({
 
             {/* Counter Badge */}
             {displayImages.length > 1 && (
-              <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-0.5 text-[11px] font-medium text-white rounded-full shadow-2xs z-10">
+              <div className="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md px-2.5 py-0.5 text-[11px] font-medium text-white rounded-none shadow-2xs z-10">
                 {activeIndex + 1} / {displayImages.length}
               </div>
             )}
@@ -369,7 +369,7 @@ export default function ProductGallery({
                     key={idx}
                     type="button"
                     onClick={() => setActiveIndex(idx)}
-                    className={`relative w-14 h-16 rounded-lg overflow-hidden bg-white border-2 transition-all shrink-0 ${
+                    className={`relative w-14 h-16 rounded-none overflow-hidden bg-white border-2 transition-all shrink-0 ${
                       isActive
                         ? 'border-[#ec1c67] ring-1 ring-[#ec1c67] opacity-100'
                         : 'border-zinc-200 opacity-60 hover:opacity-100'

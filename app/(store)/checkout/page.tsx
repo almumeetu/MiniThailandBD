@@ -328,8 +328,8 @@ export default function CheckoutPage() {
   if (mounted && checkoutItems.length === 0) {
     return (
       <main className="flex-grow bg-zinc-50/50 w-full min-h-screen py-16 px-4">
-        <div className="max-w-md mx-auto text-center bg-white p-8 rounded-xl border border-zinc-200/80 shadow-sm">
-          <div className="w-16 h-16 rounded-lg bg-zinc-100 flex items-center justify-center mx-auto mb-4 text-zinc-400">
+        <div className="max-w-md mx-auto text-center bg-white p-8 rounded-none border border-zinc-200/80 shadow-sm">
+          <div className="w-16 h-16 rounded-none bg-zinc-100 flex items-center justify-center mx-auto mb-4 text-zinc-400">
             <LuPackage className="w-8 h-8" />
           </div>
           <h1 className="text-xl font-medium text-zinc-900 mb-2">Your checkout cart is empty</h1>
@@ -338,7 +338,7 @@ export default function CheckoutPage() {
           </p>
           <Link
             href="/products"
-            className="inline-flex items-center justify-center gap-2 w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium uppercase tracking-wider rounded-xl transition-all shadow-md shadow-emerald-600/20"
+            className="inline-flex items-center justify-center gap-2 w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-medium uppercase tracking-wider rounded-none transition-all shadow-md shadow-emerald-600/20"
           >
             Browse Products
           </Link>
@@ -360,7 +360,7 @@ export default function CheckoutPage() {
             {/* ── Left Column: Checkout Forms ── */}
             <div className="min-w-0 space-y-4">
               {/* Step 1: Customer Contact Info Card */}
-              <div className="min-w-0 bg-white rounded-xl p-4 sm:p-5 border border-[#DED7CC] space-y-3">
+              <div className="min-w-0 bg-white rounded-none p-4 sm:p-5 border border-[#DED7CC] space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-zinc-100">
                   <div className="flex items-center gap-2.5">
                     <span className="w-7 h-7 shrink-0 rounded-full bg-store-primary text-white text-xs font-semibold flex items-center justify-center">
@@ -387,7 +387,7 @@ export default function CheckoutPage() {
                         value={address.fullName}
                         onChange={(e) => updateAddressField("fullName", e.target.value)}
                         placeholder="e.g. Tanvir Ahmed"
-                        className="w-full pl-10 pr-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-lg text-sm text-zinc-900 placeholder:text-zinc-400     focus:outline-none transition-all"
+                        className="w-full pl-10 pr-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-none text-sm text-zinc-900 placeholder:text-zinc-400     focus:outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -407,7 +407,7 @@ export default function CheckoutPage() {
                         value={address.phone}
                         onChange={(e) => updateAddressField("phone", e.target.value)}
                         placeholder="01XXXXXXXXX"
-                        className="w-full pl-10 pr-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-lg text-sm text-zinc-900 placeholder:text-zinc-400     focus:outline-none transition-all"
+                        className="w-full pl-10 pr-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-none text-sm text-zinc-900 placeholder:text-zinc-400     focus:outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -426,7 +426,7 @@ export default function CheckoutPage() {
                         value={address.email}
                         onChange={(e) => updateAddressField("email", e.target.value)}
                         placeholder="yourname@gmail.com"
-                        className="w-full pl-10 pr-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-lg text-sm text-zinc-900 placeholder:text-zinc-400     focus:outline-none transition-all"
+                        className="w-full pl-10 pr-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-none text-sm text-zinc-900 placeholder:text-zinc-400     focus:outline-none transition-all"
                       />
                     </div>
                   </div>
@@ -434,7 +434,7 @@ export default function CheckoutPage() {
               </div>
 
               {/* Step 2: Delivery address Card */}
-              <div className="min-w-0 bg-white rounded-xl p-4 sm:p-5 border border-[#DED7CC] space-y-3">
+              <div className="min-w-0 bg-white rounded-none p-4 sm:p-5 border border-[#DED7CC] space-y-3">
                 <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-zinc-100">
                   <div className="flex items-center gap-2.5">
                     <span className="w-7 h-7 shrink-0 rounded-full bg-store-primary text-white text-xs font-semibold flex items-center justify-center">
@@ -445,11 +445,11 @@ export default function CheckoutPage() {
                     </h2>
                   </div>
                   <div className="flex flex-wrap items-center gap-2">
-                  {isAuthenticated && savedAddresses.length > 0 && <button type="button" onClick={() => setAddressModalOpen(true)} className="min-h-10 rounded-lg border border-store-border px-3 text-xs font-medium text-store-primary hover:bg-store-surface">Saved addresses</button>}
+                  {isAuthenticated && savedAddresses.length > 0 && <button type="button" onClick={() => setAddressModalOpen(true)} className="min-h-10 rounded-none border border-store-border px-3 text-xs font-medium text-store-primary hover:bg-store-surface">Saved addresses</button>}
                   <button
                     type="button"
                     onClick={() => setMapPickerOpen(true)}
-                    className="inline-flex items-center gap-1.5 text-xs font-medium text-store-primary bg-store-surface hover:bg-store-surface-strong min-h-11 px-3 py-2 rounded-lg border border-emerald-200/80 transition-colors cursor-pointer"
+                    className="inline-flex items-center gap-1.5 text-xs font-medium text-store-primary bg-store-surface hover:bg-store-surface-strong min-h-11 px-3 py-2 rounded-none border border-emerald-200/80 transition-colors cursor-pointer"
                   >
                     <LuMapPin className="w-3.5 h-3.5" />
                     <span>Set from map</span>
@@ -469,7 +469,7 @@ export default function CheckoutPage() {
                       autoComplete="address-level1"
                       value={address.state}
                       onChange={(e) => updateAddressField("state", e.target.value)}
-                      className="w-full px-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-lg text-sm text-zinc-900     focus:outline-none transition-all"
+                      className="w-full px-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-none text-sm text-zinc-900     focus:outline-none transition-all"
                     >
                       {BD_DIVISIONS.map((div) => (
                         <option key={div} value={div}>
@@ -492,7 +492,7 @@ export default function CheckoutPage() {
                       value={address.city}
                       onChange={(e) => updateAddressField("city", e.target.value)}
                       placeholder="e.g. Dhaka, Gulshan, or Mirpur"
-                      className="w-full px-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-lg text-sm text-zinc-900 placeholder:text-zinc-400     focus:outline-none transition-all"
+                      className="w-full px-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-none text-sm text-zinc-900 placeholder:text-zinc-400     focus:outline-none transition-all"
                     />
                   </div>
 
@@ -508,7 +508,7 @@ export default function CheckoutPage() {
                       value={address.postalCode}
                       onChange={(e) => updateAddressField("postalCode", e.target.value)}
                       placeholder="e.g. Sector 3, 1230"
-                      className="w-full px-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-lg text-sm text-zinc-900 placeholder:text-zinc-400     focus:outline-none transition-all"
+                      className="w-full px-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-none text-sm text-zinc-900 placeholder:text-zinc-400     focus:outline-none transition-all"
                     />
                   </div>
                 </div>
@@ -526,7 +526,7 @@ export default function CheckoutPage() {
                     value={address.addressLine1}
                     onChange={(e) => updateAddressField("addressLine1", e.target.value)}
                     placeholder="House / Holding number, Road number, Block, Area landmark..."
-                    className="w-full px-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-lg text-sm text-zinc-900 placeholder:text-zinc-400     focus:outline-none transition-all"
+                    className="w-full px-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-none text-sm text-zinc-900 placeholder:text-zinc-400     focus:outline-none transition-all"
                   />
                 </div>
 
@@ -542,7 +542,7 @@ export default function CheckoutPage() {
                     value={address.addressLine2 || ""}
                     onChange={(e) => updateAddressField("addressLine2", e.target.value)}
                     placeholder="e.g. Apt 4B, Level 4"
-                    className="w-full px-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-lg text-sm text-zinc-900 placeholder:text-zinc-400     focus:outline-none transition-all"
+                    className="w-full px-3.5 min-h-11 py-2.5 bg-white border border-zinc-200 rounded-none text-sm text-zinc-900 placeholder:text-zinc-400     focus:outline-none transition-all"
                   />
                 </div>
 
@@ -553,7 +553,7 @@ export default function CheckoutPage() {
                       type="button"
                       disabled={addingAddress}
                       onClick={handleAddAddress}
-                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-medium text-xs rounded-xl transition-colors cursor-pointer disabled:opacity-50"
+                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-700 font-medium text-xs rounded-none transition-colors cursor-pointer disabled:opacity-50"
                     >
                       {addingAddress ? (
                         <LuLoader className="w-3.5 h-3.5 animate-spin" />
@@ -566,35 +566,35 @@ export default function CheckoutPage() {
                 )}
               </div>
 
-              <section className="min-w-0 rounded-xl border border-store-border bg-white p-4 sm:p-5">
+              <section className="min-w-0 rounded-none border border-store-border bg-white p-4 sm:p-5">
                 <h2 className="text-base font-semibold text-store-ink">Delivery options</h2>
                 <div className="mt-3 grid gap-2 sm:grid-cols-2" role="group" aria-label="Delivery location">
                   {([{ zone: "dhaka" as const, label: "Inside Dhaka", rate: insideRate }, { zone: "outside" as const, label: "Outside Dhaka", rate: outsideRate }]).map(({ zone, label, rate }) => (
-                    <button key={zone} type="button" onClick={() => setDeliveryZone(zone)} aria-pressed={deliveryZone === zone} className={`flex min-h-12 items-center justify-between gap-3 rounded-lg border px-3 text-left text-sm transition-colors ${deliveryZone === zone ? "border-store-primary/50 bg-store-surface/60" : "border-zinc-200 hover:bg-zinc-50"}`}>
+                    <button key={zone} type="button" onClick={() => setDeliveryZone(zone)} aria-pressed={deliveryZone === zone} className={`flex min-h-12 items-center justify-between gap-3 rounded-none border px-3 text-left text-sm transition-colors ${deliveryZone === zone ? "border-store-primary/50 bg-store-surface/60" : "border-zinc-200 hover:bg-zinc-50"}`}>
                       <span className="flex items-center gap-2"><span aria-hidden="true" className={`flex h-4 w-4 items-center justify-center rounded-full ${deliveryZone === zone ? "bg-store-primary text-white" : "border border-zinc-300"}`}>{deliveryZone === zone && <LuCheck className="h-3 w-3" />}</span>{label}</span><span className="font-semibold text-store-ink">{rate === 0 ? "Free" : formatCurrency(rate)}</span>
                     </button>
                   ))}
                 </div>
               </section>
 
-              <section className="min-w-0 rounded-xl border border-store-border bg-white p-4 sm:p-5">
+              <section className="min-w-0 rounded-none border border-store-border bg-white p-4 sm:p-5">
                 <h2 className="text-base font-semibold text-store-ink">Payment</h2>
-                <div className="mt-3 flex items-center gap-2 rounded-lg border border-store-primary/30 bg-store-surface/50 px-3 py-3 text-sm text-store-ink"><LuCheck className="h-4 w-4 text-store-primary" /> Cash on delivery</div>
+                <div className="mt-3 flex items-center gap-2 rounded-none border border-store-primary/30 bg-store-surface/50 px-3 py-3 text-sm text-store-ink"><LuCheck className="h-4 w-4 text-store-primary" /> Cash on delivery</div>
                 <details className="mt-4 border-t border-zinc-100 pt-3">
                   <summary className="cursor-pointer text-sm font-medium text-store-primary">Add an order note <span className="font-normal text-zinc-400">(optional)</span></summary>
-                  <textarea aria-label="Order note" value={orderNote} onChange={(e) => setOrderNote(e.target.value)} rows={2} className="mt-3 w-full resize-y rounded-lg border border-zinc-200 px-3 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400" placeholder="Special delivery instructions" />
+                  <textarea aria-label="Order note" value={orderNote} onChange={(e) => setOrderNote(e.target.value)} rows={2} className="mt-3 w-full resize-y rounded-none border border-zinc-200 px-3 py-2.5 text-sm text-zinc-900 placeholder:text-zinc-400" placeholder="Special delivery instructions" />
                 </details>
               </section>
             </div>
 
             {/* ── Right Column: Production-Ready Order Summary Sidebar ── */}
             <div className="min-w-0 w-full lg:sticky lg:top-36 space-y-4">
-              <div className="min-w-0 bg-white rounded-xl p-4 sm:p-5 border border-[#DED7CC] space-y-4">
+              <div className="min-w-0 bg-white rounded-none p-4 sm:p-5 border border-[#DED7CC] space-y-4">
                 {/* Header */}
                 <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-zinc-100">
                   <div className="flex items-center gap-2.5">
                     <h3 className="text-base font-semibold text-zinc-950 tracking-tight">Order Summary</h3>
-                    <span className="text-xs font-medium text-store-primary bg-store-surface px-2.5 py-0.5 rounded-full border border-store-border/70">
+                    <span className="text-xs font-medium text-store-primary bg-store-surface px-2.5 py-0.5 rounded-xs border border-store-border/70">
                       {checkoutItems.length} {checkoutItems.length === 1 ? "Item" : "Items"}
                     </span>
                   </div>
@@ -621,7 +621,7 @@ export default function CheckoutPage() {
                         key={item.id ?? item.variantId ?? `${item.slug}-${idx}`}
                         className="grid grid-cols-[48px_minmax(0,1fr)] items-start gap-3 py-3 border-b border-zinc-100 last:border-0"
                       >
-                        <div className="w-12 h-12 relative bg-zinc-50 rounded-lg overflow-hidden border border-zinc-100">
+                        <div className="w-12 h-12 relative bg-zinc-50 rounded-none overflow-hidden border border-zinc-100">
                           <Image src={item.image || "/images/no-image-icon-6.png"} alt={item.name} fill sizes="48px" className="object-contain p-1" />
                         </div>
                         <div className="min-w-0 space-y-1.5">
@@ -644,14 +644,14 @@ export default function CheckoutPage() {
                       <span>Promo Code / Voucher</span>
                     </span>
                     {appliedCoupon && (
-                      <span className="text-[10px] font-medium uppercase text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-full">
+                      <span className="text-[10px] font-medium uppercase text-emerald-700 bg-emerald-50 border border-emerald-200 px-2 py-0.5 rounded-xs">
                         Applied
                       </span>
                     )}
                   </div>
 
                   {appliedCoupon ? (
-                    <div className="flex items-center justify-between p-2.5 rounded-xl bg-emerald-50/80 border border-emerald-200">
+                    <div className="flex items-center justify-between p-2.5 rounded-none bg-emerald-50/80 border border-emerald-200">
                       <div className="flex items-center gap-2 min-w-0">
                         <div className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
                           <LuCheck className="w-3 h-3 stroke-[3]" />
@@ -681,13 +681,13 @@ export default function CheckoutPage() {
                         value={couponInput}
                         onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
                         placeholder="Enter promo code (e.g. MINITHAILAND)"
-                        className="min-w-0 flex-1 min-h-12 px-3 py-3 bg-white border border-zinc-200 rounded-lg text-sm uppercase placeholder:normal-case placeholder:text-zinc-400  focus:outline-none    transition-all"
+                        className="min-w-0 flex-1 min-h-12 px-3 py-3 bg-white border border-zinc-200 rounded-none text-sm uppercase placeholder:normal-case placeholder:text-zinc-400  focus:outline-none    transition-all"
                       />
                       <button
                         type="button"
                         disabled={applyingCoupon || !couponInput.trim()}
                         onClick={handleApplyCoupon}
-                        className="px-4 py-2.5 bg-store-primary hover:bg-store-accent active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed text-white font-medium text-xs uppercase tracking-wider rounded-xl cursor-pointer transition-all shadow-xs shrink-0 flex items-center justify-center min-w-[70px]"
+                        className="px-4 py-2.5 bg-store-primary hover:bg-store-accent active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed text-white font-medium text-xs uppercase tracking-wider rounded-none cursor-pointer transition-all shadow-xs shrink-0 flex items-center justify-center min-w-[70px]"
                       >
                         {applyingCoupon ? <LuLoader className="w-3.5 h-3.5 animate-spin" /> : "Apply"}
                       </button>
@@ -699,7 +699,7 @@ export default function CheckoutPage() {
                 <div className="border-t border-zinc-100 pt-4">
                   <p className="mb-2 text-sm font-medium text-zinc-800">Payment method</p>
                   <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                    <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-200 p-3 text-sm text-zinc-700 has-[:checked]:border-store-primary has-[:checked]:bg-store-primary/5">
+                    <label className="flex cursor-pointer items-center gap-2 rounded-none border border-zinc-200 p-3 text-sm text-zinc-700 has-[:checked]:border-store-primary has-[:checked]:bg-store-primary/5">
                       <input
                         type="radio"
                         name="paymentMethod"
@@ -710,7 +710,7 @@ export default function CheckoutPage() {
                       />
                       <span>Cash on Delivery</span>
                     </label>
-                    <label className="flex cursor-pointer items-center gap-2 rounded-lg border border-zinc-200 p-3 text-sm text-zinc-700 has-[:checked]:border-store-primary has-[:checked]:bg-store-primary/5">
+                    <label className="flex cursor-pointer items-center gap-2 rounded-none border border-zinc-200 p-3 text-sm text-zinc-700 has-[:checked]:border-store-primary has-[:checked]:bg-store-primary/5">
                       <input
                         type="radio"
                         name="paymentMethod"
@@ -736,7 +736,7 @@ export default function CheckoutPage() {
                     </span>
                     <span className="font-medium text-zinc-900">
                       {shipping === 0 ? (
-                        <span className="text-emerald-700 font-medium uppercase bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200/60">FREE</span>
+                        <span className="text-emerald-700 font-medium uppercase bg-emerald-50 px-2 py-0.5 rounded-xs border border-emerald-200/60">FREE</span>
                       ) : (
                         formatCurrency(shipping)
                       )}
@@ -775,7 +775,7 @@ export default function CheckoutPage() {
                         onChange={(e) => setAgreeToTerms(e.target.checked)}
                         className="peer sr-only"
                       />
-                      <div className="w-5 h-5 border border-zinc-300 rounded peer-focus-visible:ring-2 peer-focus-visible:ring-store-primary peer-focus-visible:ring-offset-2 peer-checked:bg-store-primary peer-checked:border-store-primary flex items-center justify-center transition-colors">
+                      <div className="w-5 h-5 border border-zinc-300 rounded-none peer-focus-visible:ring-2 peer-focus-visible:ring-store-primary peer-focus-visible:ring-offset-2 peer-checked:bg-store-primary peer-checked:border-store-primary flex items-center justify-center transition-colors">
                         {agreeToTerms && <LuCheck className="w-3 h-3 text-white stroke-[3]" />}
                       </div>
                     </div>
@@ -797,7 +797,7 @@ export default function CheckoutPage() {
                 <button
                   type="submit"
                   disabled={submitting || !agreeToTerms}
-                  className="w-full min-h-12 px-4 py-3 bg-store-primary hover:bg-store-accent text-white font-medium text-sm rounded-lg transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
+                  className="w-full min-h-12 px-4 py-3 bg-store-primary hover:bg-store-accent text-white font-medium text-sm rounded-none transition-colors disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
                 >
                   {submitting ? (
                     <>

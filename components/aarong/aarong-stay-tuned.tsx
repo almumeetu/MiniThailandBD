@@ -52,6 +52,7 @@ export default function AarongStayTuned() {
 
   return (
     <section
+      id="stay-tuned-section"
       aria-label="Stay Tuned Newsletter"
       className="w-full bg-[#f8f7f5] border-t border-b border-zinc-200/80 py-10 sm:py-14 text-zinc-900"
     >

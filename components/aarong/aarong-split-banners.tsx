@@ -9,7 +9,7 @@ import { resolveImageUrl, type Campaign } from "@/lib/admin-api";
 const DEFAULT_SPLIT_1 = {
   title: "Royal Party Gowns",
   subtitle: "Hand-beaded lace & opulent velvet for regal celebrations",
-  image: "/hero/fashion/slide-luxury-evening-gown.jpg",
+  image: "/images/campaign/bottom-campain-1.webp",
   ctaText: "EXPLORE GOWNS",
   ctaLink: "/products?category=Party%20Gowns",
 };
@@ -17,7 +17,7 @@ const DEFAULT_SPLIT_1 = {
 const DEFAULT_SPLIT_2 = {
   title: "Festive Cord Sets",
   subtitle: "Imported 2-piece coordinates & premium Bangkok fashion",
-  image: "/hero/fashion/slide-bangkok-cord-set.jpg",
+  image: "/images/campaign/bottom-campain-2.webp",
   ctaText: "SHOP CORD SETS",
   ctaLink: "/products?category=Cord%20Sets",
 };
@@ -92,12 +92,13 @@ export default function AarongSplitBanners() {
               <p className="mt-1.5 text-xs sm:text-sm font-medium text-white/90 drop-shadow line-clamp-2 max-w-sm">
                 {subtitle1}
               </p>
-              <div className="mt-4">
+              <div className="mt-5">
                 <Link
                   href={ctaLink1}
-                  className="inline-block bg-black text-white px-7 py-2.5 sm:px-9 sm:py-3 text-xs sm:text-[13px] font-bold tracking-[0.2em] uppercase hover:bg-zinc-800 active:scale-95 transition-all duration-200 shadow-md border border-white/10"
+                  className="inline-flex items-center gap-2 bg-white text-zinc-950 hover:bg-[#c5a880] hover:text-white px-8 py-3 sm:px-10 sm:py-3.5 text-xs sm:text-[13px] font-extrabold tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_10px_25px_rgba(0,0,0,0.5)] hover:shadow-[0_12px_30px_rgba(197,168,128,0.4)] border border-white/90 hover:scale-[1.03] active:scale-95 group/btn cursor-pointer"
                 >
-                  {ctaText1}
+                  <span>{ctaText1}</span>
+                  <span className="transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
                 </Link>
               </div>
             </div>
@@ -124,12 +125,13 @@ export default function AarongSplitBanners() {
               <p className="mt-1.5 text-xs sm:text-sm font-medium text-white/90 drop-shadow line-clamp-2 max-w-sm">
                 {subtitle2}
               </p>
-              <div className="mt-4">
+              <div className="mt-5">
                 <Link
                   href={ctaLink2}
-                  className="inline-block bg-black text-white px-7 py-2.5 sm:px-9 sm:py-3 text-xs sm:text-[13px] font-bold tracking-[0.2em] uppercase hover:bg-zinc-800 active:scale-95 transition-all duration-200 shadow-md border border-white/10"
+                  className="inline-flex items-center gap-2 bg-white text-zinc-950 hover:bg-[#c5a880] hover:text-white px-8 py-3 sm:px-10 sm:py-3.5 text-xs sm:text-[13px] font-extrabold tracking-[0.2em] uppercase transition-all duration-300 shadow-[0_10px_25px_rgba(0,0,0,0.5)] hover:shadow-[0_12px_30px_rgba(197,168,128,0.4)] border border-white/90 hover:scale-[1.03] active:scale-95 group/btn cursor-pointer"
                 >
-                  {ctaText2}
+                  <span>{ctaText2}</span>
+                  <span className="transition-transform duration-300 group-hover/btn:translate-x-1">→</span>
                 </Link>
               </div>
             </div>

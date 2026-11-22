@@ -263,8 +263,8 @@ export default function ProductDetails({
 
   return (
     <main className={`${styles.page} flex-grow min-w-0 w-full`}>
-      {/* ── Desktop Breadcrumbs (Hidden on mobile where floating header is active) ── */}
-      <div className="hidden lg:block">
+      {/* ── Breadcrumbs Navigation Bar (Responsive on all screens) ── */}
+      <div className="w-full">
         <Breadcrumbs
           items={[
             { label: "Products", href: "/products" },
@@ -276,10 +276,11 @@ export default function ProductDetails({
           trailingContent={(
             <Link
               href="/products"
-              className="hidden shrink-0 items-center gap-1.5 text-xs font-semibold text-white/90 transition-all hover:text-white bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 shadow-xs md:inline-flex"
+              className="inline-flex shrink-0 items-center gap-1.5 text-xs sm:text-sm font-semibold text-white/95 transition-all hover:text-white bg-white/15 hover:bg-white/25 active:scale-95 backdrop-blur-md border border-white/25 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 shadow-xs"
             >
-              <IoChevronBackOutline className="h-3.5 w-3.5" />
-              <span>Back to Products</span>
+              <IoChevronBackOutline className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">Back to Products</span>
+              <span className="sm:hidden">Back</span>
             </Link>
           )}
         />

@@ -47,8 +47,12 @@ export default function Testimonial() {
   ];
 
   return (
-    <section className="w-full py-14 sm:py-16 lg:py-20 bg-[#FAF8F5] border-t border-zinc-200/70 overflow-hidden font-sans">
-      <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
+    <section
+      className="relative w-full py-14 sm:py-16 lg:py-20 bg-cover bg-center overflow-hidden font-sans border-t border-zinc-200/70"
+      style={{ backgroundImage: "url('/images/bredcump-main.webp')" }}
+    >
+      <div className="absolute inset-0 bg-[#FAF8F5]/90 pointer-events-none" />
+      <div className="relative z-10 w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
         {/* Section Header matching site typography */}
         <div className="flex flex-col items-center text-center mb-10 sm:mb-12">
           <span className="text-xs sm:text-[13px] font-semibold tracking-[0.22em] text-[#ec1c67] uppercase mb-2">

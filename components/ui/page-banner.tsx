@@ -26,7 +26,7 @@ export default function PageBanner({
   breadcrumbs,
   showTrustChips = false,
   className = "",
-  bgImage = "/images/bredcump-main.webp",
+  bgImage = "/images/campaign/minit-2.webp",
 }: PageBannerProps) {
   return (
     <section

@@ -117,13 +117,13 @@ export default function About() {
         {/* ── 2. Editorial Heritage Split ── */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* Campaign Image */}
-          <div className="lg:col-span-6 relative aspect-[16/10] sm:aspect-[4/3] w-full overflow-hidden bg-zinc-100 border border-zinc-200">
+          <div className="lg:col-span-6 relative aspect-[16/10] sm:aspect-[4/3] w-full overflow-hidden bg-zinc-100 border border-zinc-200 shadow-sm">
             <Image
-              src="/images/campaign/minit-6.webp"
+              src="/about-us-bag.webp"
               alt="Mini Thailand Bangkok Collection Story"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
+              className="object-cover hover:scale-105 transition-transform duration-700"
               priority
             />
           </div>

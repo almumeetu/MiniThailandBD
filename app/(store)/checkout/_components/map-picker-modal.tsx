@@ -182,7 +182,7 @@ export default function MapPickerModal({ open, onClose, onSelect }: MapPickerMod
 
   return (
     <div role="dialog" aria-modal="true" aria-labelledby="delivery-map-title" className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/50 p-3 sm:p-4">
-      <div className="relative min-w-0 w-full max-w-3xl bg-white rounded-xl shadow-xl overflow-y-auto overscroll-y-contain max-h-[90dvh] flex flex-col border border-zinc-200">
+      <div className="relative min-w-0 w-full max-w-3xl bg-white rounded-none shadow-xl overflow-y-auto overscroll-y-contain max-h-[90dvh] flex flex-col border border-zinc-200">
         {/* Header */}
         <div className="flex items-center justify-between gap-3 px-4 sm:px-6 py-4 border-b border-zinc-100 shrink-0">
           <div>
@@ -191,7 +191,7 @@ export default function MapPickerModal({ open, onClose, onSelect }: MapPickerMod
           <button
             type="button"
             onClick={onClose}
-            className="w-11 h-11 shrink-0 rounded-full bg-zinc-50 hover:bg-zinc-100 text-zinc-500 flex items-center justify-center transition-colors cursor-pointer"
+            className="w-11 h-11 shrink-0 rounded-none bg-zinc-50 hover:bg-zinc-100 text-zinc-500 flex items-center justify-center transition-colors cursor-pointer"
             aria-label="Close map"
           >
             <LuX className="w-5 h-5" />
@@ -215,13 +215,13 @@ export default function MapPickerModal({ open, onClose, onSelect }: MapPickerMod
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search area, road, or city in Bangladesh (e.g. Uttara Sector 3)..."
-                className="w-full min-h-12 pl-10 pr-4 py-3 bg-white border border-zinc-200 rounded-lg text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none    transition-all"
+                className="w-full min-h-12 pl-10 pr-4 py-3 bg-white border border-zinc-200 rounded-none text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none    transition-all"
               />
             </div>
             <button
               type="submit"
               disabled={loading || !searchQuery.trim()}
-              className="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-bold rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 cursor-pointer shrink-0"
+              className="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-bold rounded-none transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1.5 cursor-pointer shrink-0"
             >
               {loading ? <LuLoader className="w-3.5 h-3.5 animate-spin" /> : <LuMapPin className="w-3.5 h-3.5" />}
               <span>Find</span>
@@ -236,7 +236,7 @@ export default function MapPickerModal({ open, onClose, onSelect }: MapPickerMod
         <div className="px-4 sm:px-6 py-4 border-t border-zinc-100 flex flex-col sm:flex-row items-center justify-between gap-3 shrink-0 bg-zinc-50/70">
           {selectedAddress ? (
             <div className="min-w-0 w-full text-center sm:text-left">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full inline-block mb-1">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-xs inline-block mb-1">
                 Detected Location
               </span>
               <p className="text-sm text-zinc-900 break-words">
@@ -253,7 +253,7 @@ export default function MapPickerModal({ open, onClose, onSelect }: MapPickerMod
             <button
               type="button"
               onClick={onClose}
-              className="min-h-11 px-4 py-2.5 rounded-lg border border-zinc-200 text-zinc-600 hover:bg-zinc-100 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
+              className="min-h-11 px-4 py-2.5 rounded-none border border-zinc-200 text-zinc-600 hover:bg-zinc-100 text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer"
             >
               Cancel
             </button>
@@ -265,7 +265,7 @@ export default function MapPickerModal({ open, onClose, onSelect }: MapPickerMod
                 }
               }}
               disabled={!selectedAddress}
-              className="min-h-11 px-4 py-2.5 bg-store-primary hover:bg-store-accent active:scale-[0.98] text-white font-bold text-xs uppercase tracking-wider rounded-xl shadow-md shadow-emerald-600/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 cursor-pointer"
+              className="min-h-11 px-4 py-2.5 bg-store-primary hover:bg-store-accent active:scale-[0.98] text-white font-bold text-xs uppercase tracking-wider rounded-none shadow-md shadow-emerald-600/20 transition-all disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-1.5 cursor-pointer"
             >
               <LuCheck className="w-4 h-4 stroke-[3]" />
               <span>Use This Address</span>

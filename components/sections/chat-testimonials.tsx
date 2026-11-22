@@ -127,16 +127,16 @@ export default function ChatTestimonials() {
         }}
       />
 
-      {/* ══════════ Bottom Zone: Angular Geometric Shape with minit-7.webp Image ══════════ */}
+      {/* ══════════ Bottom Zone: Angular Geometric Shape with bredcump-main.webp Image ══════════ */}
       <div
         className="absolute inset-x-0 bottom-0 h-[64%] sm:h-[62%] md:h-[60%] z-0 pointer-events-none overflow-hidden"
         style={{
           clipPath: "polygon(0 20%, 100% 8%, 100% 100%, 0% 100%)",
         }}
       >
-        {/* Background Image: minit-7.webp */}
+        {/* Background Image: bredcump-main.webp */}
         <Image
-          src="/images/campaign/minit-7.webp"
+          src="/images/bredcump-main.webp"
           alt="Testimonials boutique background"
           fill
           priority

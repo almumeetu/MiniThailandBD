@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { fetchActiveHeroCampaigns, CAMPAIGNS_UPDATED_EVENT } from "@/lib/campaign-store";
 import { resolveImageUrl, type Campaign } from "@/lib/admin-api";
 
@@ -19,84 +20,60 @@ export interface HeroSlide {
 }
 
 /**
- * 5 Default Curated Hero Sliders using MiniThailandBD/public/images/campaign
+ * Curated Arch Collection Hero Sliders using MiniThailandBD/public/images/sliders
  */
 export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
   {
-    id: "slide-campaign-1",
-    title: "Autumn & Winter Haute Couture",
-    subtitle: "Imported luxury Bangkok coordinates, tailored blazers & signature boutique silhouettes for the modern woman.",
-    ctaText: "EXPLORE COLLECTION",
-    ctaLink: "/products?category=Cord%20Sets",
-    secondaryCtaText: "ALL PRODUCTS",
+    id: "slide-arch-maroon",
+    title: "Imperial Maroon & Velvet Grandeur",
+    subtitle: "Opulent festive tones, rich tactile textures & majestic silhouettes designed to turn every entrance into a moment.",
+    ctaText: "SHOP MAROON EDIT",
+    ctaLink: "/products?category=Party%20Gowns",
+    secondaryCtaText: "VIEW COLLECTION",
     secondaryCtaLink: "/products",
-    image: "/images/campaign/minit-2.webp",
-    bgColor: "#12141a",
+    image: "/images/sliders/arch-maroon.webp",
+    bgColor: "#1a1012",
   },
   {
-    id: "slide-campaign-2",
-    title: "Luxury Velvet & Evening Gowns",
-    subtitle: "Hand-beaded lace, opulent velvet finishes & sweeping floor-length gowns crafted for regal celebrations.",
-    ctaText: "DISCOVER GOWNS",
+    id: "slide-arch-blue",
+    title: "Royal Sapphire & Evening Drapes",
+    subtitle: "Statement flowing gowns, luminous silk-touch fabrics & hand-finished Bangkok atelier details for regal celebrations.",
+    ctaText: "DISCOVER SAPPHIRE",
     ctaLink: "/products?category=Party%20Gowns",
     secondaryCtaText: "NEW ARRIVALS",
-    secondaryCtaLink: "/products",
-    image: "/images/campaign/minit-3.webp",
-    bgColor: "#1a1218",
+    secondaryCtaLink: "/products?sort=newest",
+    image: "/images/sliders/arch-blue.webp",
+    bgColor: "#101622",
   },
   {
-    id: "slide-campaign-5",
-    title: "Winter Outerwear & Velvet Edit",
-    subtitle: "Statement luxury coats, warm velvet dresses & boutique essentials that turn every entrance into a moment.",
-    ctaText: "SHOP WINTER EDIT",
-    ctaLink: "/products?category=Winter%20Collection",
-    secondaryCtaText: "SHOP ALL",
-    secondaryCtaLink: "/products",
-    image: "/images/campaign/minit-7.webp",
-    bgColor: "#1d1416",
-  },
-  {
-    id: "slide-slider-3",
-    title: "Exclusive Bangkok Co-ord Sets",
-    subtitle: "Chic premium matching sets, lightweight fabrics & contemporary Thai boutique silhouettes.",
-    ctaText: "SHOP CO-ORD SETS",
+    id: "slide-arch-purple",
+    title: "Regal Violet & Silk Co-ord Sets",
+    subtitle: "Exquisite Thai coordinates, bespoke drapery & sophisticated contemporary styles imported directly from Bangkok.",
+    ctaText: "EXPLORE CO-ORD SETS",
     ctaLink: "/products?category=Cord%20Sets",
-    secondaryCtaText: "ALL PRODUCTS",
-    secondaryCtaLink: "/products",
-    image: "/images/sliders/slider-3.webp",
-    bgColor: "#10141b",
+    secondaryCtaText: "SHOP NEW IN",
+    secondaryCtaLink: "/products?sort=newest",
+    image: "/images/sliders/arch-purple.webp",
+    bgColor: "#17111c",
   },
   {
-    id: "slide-slider-4",
-    title: "Regal Velvet & Festive Party Wear",
-    subtitle: "Intricate handcrafted embroidery, rich royal textures & timeless evening fashion curated from Bangkok.",
-    ctaText: "EXPLORE PARTY WEAR",
+    id: "slide-arch-wine",
+    title: "Signature Burgundy & Wine Luxury",
+    subtitle: "Deep vintage wine hues, fluid evening contours & signature Bangkok atelier designs curated exclusively for you.",
+    ctaText: "SHOP WINE COLLECTION",
     ctaLink: "/products?category=Party%20Gowns",
-    secondaryCtaText: "NEW ARRIVALS",
-    secondaryCtaLink: "/products",
-    image: "/images/sliders/slider-4.webp",
-    bgColor: "#181116",
-  },
-  {
-    id: "slide-slider-5",
-    title: "Signature Dubai Abaya & Modest Luxury",
-    subtitle: "Flowing layered silhouettes, modest elegance & artisanal detailing designed for modern occasions.",
-    ctaText: "VIEW ABAYAS",
-    ctaLink: "/products?category=Luxury%20Abayas",
-    secondaryCtaText: "SHOP COLLECTION",
-    secondaryCtaLink: "/products",
-    image: "/images/sliders/slider-5.webp",
-    bgColor: "#14151a",
+    secondaryCtaText: "WHATSAPP STYLIST",
+    secondaryCtaLink: "/contact",
+    image: "/images/sliders/arch-wine.webp",
+    bgColor: "#181014",
   },
 ];
 
 export const CAMPAIGN_IMAGES = [
-  "/images/campaign/minit-2.webp",
-  "/images/campaign/minit-3.webp",
-  "/images/campaign/minit-7.webp",
-  "/images/sliders/slider-3.webp",
-  "/images/sliders/slider-4.webp",
-  "/images/sliders/slider-5.webp",
+  "/images/sliders/arch-maroon.webp",
+  "/images/sliders/arch-blue.webp",
+  "/images/sliders/arch-purple.webp",
+  "/images/sliders/arch-wine.webp",
 ];
 
 function mapCampaignToHeroSlide(c: Campaign, idx: number): HeroSlide {
@@ -123,6 +100,9 @@ export default function AarongHeroSlider() {
   const [slides, setSlides] = useState<HeroSlide[]>(DEFAULT_HERO_SLIDES);
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const isAdvancingRef = useRef<boolean>(false);
+
+  const ZOOM_DURATION = 6500; // 6.5s subtle Ken Burns synchronized with slide transition
 
   // Touch & Pointer Swipe Handling ("হাত দিয়ে সোয়াইপ")
   const touchStartX = useRef<number | null>(null);
@@ -137,10 +117,23 @@ export default function AarongHeroSlider() {
     try {
       const activeCampaigns = await fetchActiveHeroCampaigns();
       if (activeCampaigns && activeCampaigns.length > 0) {
-        const mapped = activeCampaigns.map(mapCampaignToHeroSlide);
-        setSlides(mapped);
-        setCurrent((prev) => (prev >= mapped.length ? 0 : prev));
-        return;
+        const mapped = activeCampaigns
+          .map(mapCampaignToHeroSlide)
+          .filter(
+            (s) =>
+              !s.image.includes("arch-black") &&
+              !s.image.includes("arch-red") &&
+              !s.image.includes("minit-3") &&
+              !s.title.toLowerCase().includes("midnight noir") &&
+              !s.title.toLowerCase().includes("black edition") &&
+              !s.title.toLowerCase().includes("scarlet") &&
+              !s.title.toLowerCase().includes("luxury velvet & evening")
+          );
+        if (mapped.length > 0) {
+          setSlides(mapped);
+          setCurrent((prev) => (prev >= mapped.length ? 0 : prev));
+          return;
+        }
       }
     } catch (err) {
       console.warn("Failed to sync hero slides:", err);
@@ -159,23 +152,31 @@ export default function AarongHeroSlider() {
   }, [syncSlides]);
 
   const handlePrev = useCallback(() => {
-    if (slides.length <= 1) return;
+    if (slides.length <= 1 || isAdvancingRef.current) return;
+    isAdvancingRef.current = true;
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
+    setTimeout(() => {
+      isAdvancingRef.current = false;
+    }, 600);
   }, [slides.length]);
 
   const handleNext = useCallback(() => {
-    if (slides.length <= 1) return;
+    if (slides.length <= 1 || isAdvancingRef.current) return;
+    isAdvancingRef.current = true;
     setCurrent((prev) => (prev + 1) % slides.length);
+    setTimeout(() => {
+      isAdvancingRef.current = false;
+    }, 600);
   }, [slides.length]);
 
-  // Auto-slide every 5 seconds
+  // Transition to next slide exactly when the zoom-in finishes
   useEffect(() => {
     if (isPaused || slides.length <= 1) return;
-    const timer = setInterval(() => {
+    const timer = setTimeout(() => {
       handleNext();
-    }, 5000);
-    return () => clearInterval(timer);
-  }, [isPaused, slides.length, handleNext]);
+    }, ZOOM_DURATION);
+    return () => clearTimeout(timer);
+  }, [current, isPaused, slides.length, handleNext, ZOOM_DURATION]);
 
   // Touch Swipe Handlers (Mobile)
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -224,6 +225,7 @@ export default function AarongHeroSlider() {
     if (e.pointerType === "touch") return; // Touch is handled by touch events
     if (e.button !== 0) return; // Only left-click
     isPointerDown.current = true;
+    setIsPaused(true);
     pointerStartX.current = e.clientX;
     pointerStartY.current = e.clientY;
     draggedFar.current = false;
@@ -250,6 +252,7 @@ export default function AarongHeroSlider() {
       }
     }
     isPointerDown.current = false;
+    setIsPaused(false);
     pointerStartX.current = null;
     pointerStartY.current = null;
     setTimeout(() => {
@@ -259,12 +262,16 @@ export default function AarongHeroSlider() {
 
   const handlePointerCancel = () => {
     isPointerDown.current = false;
+    setIsPaused(false);
     pointerStartX.current = null;
     pointerStartY.current = null;
     draggedFar.current = false;
   };
 
   const handleClickCapture = (e: React.MouseEvent) => {
+    if ((e.target as HTMLElement).closest("button")) {
+      return;
+    }
     if (draggedFar.current) {
       e.preventDefault();
       e.stopPropagation();
@@ -276,9 +283,7 @@ export default function AarongHeroSlider() {
   return (
     <section
       aria-label="Hero Highlights"
-      className="relative w-full h-[58vw] min-h-[460px] max-h-[840px] overflow-hidden bg-zinc-950 select-none group touch-pan-y cursor-grab active:cursor-grabbing"
-      onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      className="relative w-full h-[78vh] min-h-[600px] max-h-[760px] sm:h-[58vw] sm:min-h-[520px] sm:max-h-[840px] overflow-hidden bg-zinc-950 select-none group touch-pan-y cursor-grab active:cursor-grabbing"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -306,43 +311,78 @@ export default function AarongHeroSlider() {
               isActive ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
             }`}
           >
-            {/* Background Image with subtle scale */}
+            {/* Background Image with slow cinematic Ken Burns zoom (barely perceptible) */}
             <div className="relative w-full h-full overflow-hidden">
-              <Image
-                src={slide.image}
-                alt={slide.title}
-                fill
-                quality={95}
-                priority={idx === 0}
-                sizes="100vw"
-                className={`object-cover object-center transition-transform duration-1000 ease-out ${
-                  isActive ? "scale-100" : "scale-105"
-                } group-hover:scale-[1.02]`}
-              />
+              <div
+                key={isActive ? `zoom-active-${slide.id}-${current}` : `zoom-idle-${slide.id}`}
+                className={`absolute inset-0 w-full h-full will-change-transform ${
+                  isActive ? "animate-hero-ken-burns" : "scale-[1.02] transition-transform duration-1000 ease-out"
+                }`}
+                style={
+                  isActive
+                    ? {
+                        animationDuration: `${ZOOM_DURATION}ms`,
+                        animationPlayState: isPaused ? "paused" : "running",
+                      }
+                    : undefined
+                }
+                onAnimationEnd={(e) => {
+                  if (e.target === e.currentTarget && isActive && slides.length > 1) {
+                    handleNext();
+                  }
+                }}
+              >
+                <Image
+                  src={slide.image}
+                  alt={slide.title}
+                  fill
+                  quality={95}
+                  priority={idx === 0}
+                  sizes="100vw"
+                  className="object-cover object-center pointer-events-none select-none"
+                />
+              </div>
 
               {/* Ambient Center Scrim for optimal centered text contrast */}
               <div className="absolute inset-0 bg-black/25 via-black/15 to-black/40 pointer-events-none" />
               <div className="absolute inset-0 bg-radial-gradient from-transparent via-black/10 to-black/45 pointer-events-none" />
 
-              {/* Centered Editorial Text & CTA Overlay */}
-              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 sm:px-8 md:px-12 lg:px-20 pt-20 sm:pt-24 md:pt-28 pb-10 sm:pb-14">
-                <div className="max-w-3xl space-y-2 sm:space-y-4 md:space-y-5 flex flex-col items-center">
+              {/* Centered Editorial Text & CTA Overlay with staggered slide-change animation */}
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 sm:px-8 md:px-12 lg:px-20 pt-20 sm:pt-24 md:pt-28 pb-12 sm:pb-14 pointer-events-none">
+                <div
+                  key={isActive ? `content-${slide.id}-${current}` : `content-${slide.id}-idle`}
+                  className="max-w-3xl space-y-3 sm:space-y-4 md:space-y-5 flex flex-col items-center pointer-events-auto"
+                >
                   {/* Centered Headline */}
-                  <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight sm:leading-[1.08] drop-shadow-2xl">
+                  <h1
+                    className={`text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight sm:leading-[1.08] drop-shadow-2xl ${
+                      isActive ? "animate-hero-title" : "opacity-0"
+                    }`}
+                  >
                     {slide.title}
                   </h1>
 
-                  {/* Centered Subtitle */}
+                  {/* Centered Subtitle / Description */}
                   {slide.subtitle && (
-                    <p className="text-xs sm:text-sm md:text-base lg:text-lg text-slate-100 font-normal leading-relaxed max-w-xl drop-shadow-md line-clamp-2 sm:line-clamp-3">
+                    <p
+                      className={`text-xs sm:text-sm md:text-base lg:text-lg text-slate-100 font-normal leading-relaxed max-w-xl drop-shadow-md line-clamp-2 sm:line-clamp-3 ${
+                        isActive ? "animate-hero-desc" : "opacity-0"
+                      }`}
+                    >
                       {slide.subtitle}
                     </p>
                   )}
 
                   {/* Centered CTA Buttons */}
-                  <div className="pt-2 sm:pt-5 flex items-center justify-center gap-2.5 sm:gap-4 flex-wrap">
+                  <div
+                    className={`pt-3 sm:pt-5 flex items-center justify-center gap-2.5 sm:gap-4 flex-wrap ${
+                      isActive ? "animate-hero-btn" : "opacity-0"
+                    }`}
+                  >
                     <Link
                       href={slide.ctaLink}
+                      onMouseEnter={() => setIsPaused(true)}
+                      onMouseLeave={() => setIsPaused(false)}
                       className="inline-flex items-center gap-1.5 sm:gap-2 px-5 sm:px-8 py-2.5 sm:py-3.5 rounded-full bg-white text-zinc-950 hover:bg-amber-400 hover:text-zinc-950 active:scale-95 text-[11px] sm:text-xs md:text-sm font-black tracking-[0.14em] uppercase transition-all duration-200 shadow-2xl group/btn cursor-pointer"
                     >
                       <span>{slide.ctaText}</span>
@@ -352,6 +392,8 @@ export default function AarongHeroSlider() {
                     {slide.secondaryCtaText && (
                       <Link
                         href={slide.secondaryCtaLink || "/products"}
+                        onMouseEnter={() => setIsPaused(true)}
+                        onMouseLeave={() => setIsPaused(false)}
                         className="inline-flex items-center gap-1.5 sm:gap-2 px-4.5 sm:px-7 py-2.5 sm:py-3.5 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 backdrop-blur-md border border-white/25 text-white text-[11px] sm:text-xs md:text-sm font-bold tracking-[0.14em] uppercase transition-all duration-200 cursor-pointer shadow-lg"
                       >
                         {slide.secondaryCtaText}
@@ -365,9 +407,56 @@ export default function AarongHeroSlider() {
         );
       })}
 
+      {/* 2 Simple Clean Navigation Buttons (Appear on Slider Hover) */}
+      {slides.length > 1 && (
+        <>
+          {/* Left Navigation Button */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handlePrev();
+            }}
+            onMouseDown={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            aria-label="Previous slide"
+            className="absolute left-3 sm:left-6 md:left-8 top-1/2 -translate-y-1/2 z-35 w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-full bg-black/50 hover:bg-white text-white hover:text-zinc-950 border border-white/30 hover:border-white shadow-2xl backdrop-blur-md flex items-center justify-center opacity-90 sm:opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-1 sm:-translate-x-3 pointer-events-auto transition-all duration-300 ease-out hover:scale-108 active:scale-95 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white group/navbtn"
+          >
+            <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 -translate-x-0.5 transition-transform duration-200 group-hover/navbtn:-translate-x-1 stroke-[2.2]" />
+          </button>
+
+          {/* Right Navigation Button */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleNext();
+            }}
+            onMouseDown={(e) => e.stopPropagation()}
+            onPointerDown={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            aria-label="Next slide"
+            className="absolute right-3 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 z-35 w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-full bg-black/50 hover:bg-white text-white hover:text-zinc-950 border border-white/30 hover:border-white shadow-2xl backdrop-blur-md flex items-center justify-center opacity-90 sm:opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-1 sm:translate-x-3 pointer-events-auto transition-all duration-300 ease-out hover:scale-108 active:scale-95 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white group/navbtn"
+          >
+            <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 translate-x-0.5 transition-transform duration-200 group-hover/navbtn:translate-x-1 stroke-[2.2]" />
+          </button>
+        </>
+      )}
+
       {/* Simple & Clean Pagination Indicators (Centered at bottom) */}
       {slides.length > 1 && (
-        <div className="absolute bottom-4 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 sm:gap-2.5">
+        <div
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          className="absolute bottom-5 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 sm:gap-2.5"
+        >
           {slides.map((_, i) => (
             <button
               key={i}
@@ -375,7 +464,13 @@ export default function AarongHeroSlider() {
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                setCurrent(i);
+                if (current !== i && !isAdvancingRef.current) {
+                  isAdvancingRef.current = true;
+                  setCurrent(i);
+                  setTimeout(() => {
+                    isAdvancingRef.current = false;
+                  }, 600);
+                }
               }}
               aria-label={`Go to slide ${i + 1}`}
               className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer drop-shadow ${

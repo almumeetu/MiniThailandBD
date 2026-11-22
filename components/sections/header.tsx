@@ -35,11 +35,14 @@ export default function Header() {
   const [isSearching, setIsSearching] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [categories, setCategories] = useState<ShopCategory[]>([]);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const desktopDropdownRef = useRef<HTMLDivElement>(null);
   const mobileDropdownRef = useRef<HTMLDivElement>(null);
   const desktopSearchRef = useRef<HTMLDivElement>(null);
   const mobileSearchRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+  const mobileSearchInputRef = useRef<HTMLInputElement>(null);
 
   // Fetch categories dynamically for mobile menu navigation
   useEffect(() => {
@@ -63,12 +66,24 @@ export default function Header() {
     ];
   }, []);
 
-  // Close dropdowns/suggestions and scroll to top on route changes
+  // Close dropdowns/suggestions/search and scroll to top on route changes
   useEffect(() => {
     setDropdownOpen(false);
     setShowSuggestions(false);
+    setIsSearchOpen(false);
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [pathname]);
+
+  // Auto-focus search input when opened
+  useEffect(() => {
+    if (isSearchOpen) {
+      const timer = setTimeout(() => {
+        searchInputRef.current?.focus();
+        mobileSearchInputRef.current?.focus();
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [isSearchOpen]);
 
   const isHome = pathname === "/";
   const [isScrolled, setIsScrolled] = useState(false);
@@ -156,12 +171,14 @@ export default function Header() {
         !mobileSearchRef.current?.contains(target)
       ) {
         setShowSuggestions(false);
+        setIsSearchOpen(false);
       }
     };
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
         setShowSuggestions(false);
+        setIsSearchOpen(false);
       }
     };
 
@@ -199,132 +216,150 @@ export default function Header() {
         </div>
 
       {/* ═══════════════ Desktop Main Header ═══════════════ */}
-      <div className="hidden lg:block bg-transparent">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 flex items-center justify-between h-[60px] gap-6 xl:gap-8">
+      <div className="hidden lg:block bg-transparent relative">
+        <div
+          className={`max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 xl:px-12 ${
+            isScrolled
+              ? "flex items-center justify-between h-[56px]"
+              : "grid grid-cols-[1fr_auto_1fr] items-center h-[60px]"
+          } gap-3 xl:gap-6 transition-all duration-300`}
+        >
           {/* Logo */}
-          <div className="shrink-0">
-            <Logo variant="light" size="lg" />
+          <div className="flex items-center justify-start shrink-0 min-w-0">
+            <Logo variant="light" size={isScrolled ? "md" : "lg"} />
           </div>
 
-          {/* Search Bar — smart, sleek & compact matching reference image */}
-          <div className="flex-1 max-w-[420px] lg:max-w-[460px] xl:max-w-[500px] mx-auto relative" ref={desktopSearchRef}>
-            <form
-              onSubmit={(e) => { handleSearchSubmit(e); setShowSuggestions(false); }}
-              className="relative flex items-center w-full"
+          {/* Sticky Navigation in Single Line (when scrolled) OR Search Bar (when at top) */}
+          {isScrolled ? (
+            <div className="flex-1 flex justify-center px-2 min-w-0 animate-fadeIn">
+              <Navigation />
+            </div>
+          ) : (
+            <div
+              className="w-[420px] lg:w-[460px] xl:w-[500px] 2xl:w-[540px] relative shrink-0 transition-opacity duration-300"
+              ref={desktopSearchRef}
             >
-              <LuSearch className="absolute left-3.5 w-4 h-4 text-white/90 pointer-events-none stroke-[2.2]" />
-              <input
-                type="text"
-                aria-label="Search products"
-                placeholder="Search skincare, perfumes, fashion, cord sets, gowns, electronics..."
-                value={searchQuery}
-                onChange={(e) => {
-                  setSearchQuery(e.target.value);
-                  setShowSuggestions(true);
+              <form
+                onSubmit={(e) => {
+                  handleSearchSubmit(e);
+                  setShowSuggestions(false);
                 }}
-                onFocus={() => setShowSuggestions(true)}
-                className="w-full h-9 pl-10 pr-26 rounded-full border border-white/20 bg-white/10 hover:bg-white/[0.14] focus:bg-black/60 focus:border-white/40 backdrop-blur-md text-xs text-white placeholder:text-white/60 outline-none transition-all shadow-inner"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    setSearchQuery("");
-                    setShowSuggestions(false);
-                  }}
-                  className="absolute right-22 text-slate-400 hover:text-white p-1 cursor-pointer transition-colors"
-                  aria-label="Clear search"
-                >
-                  <LuX className="w-3.5 h-3.5" />
-                </button>
-              )}
-              <button
-                type="submit"
-                aria-label="Submit Search"
-                className="absolute right-1 h-7 px-3.5 rounded-full bg-[#ec1c67] hover:bg-[#d81358] active:scale-95 text-white text-xs font-bold tracking-wide flex items-center gap-1.5 transition-all shadow-xs cursor-pointer"
+                className="relative flex items-center w-full"
               >
-                <LuSearch className="w-3.5 h-3.5 stroke-[2.5]" />
-                <span>Search</span>
-              </button>
-            </form>
-
-            {/* Search Suggestions Dropdown */}
-            {showSuggestions && searchQuery.trim() !== "" && (
-              <div className="absolute top-full left-0 right-0 mt-2 bg-white text-zinc-800 shadow-2xl border border-zinc-200/80 py-2.5 z-[999] rounded-2xl overflow-hidden animate-fadeIn">
-                {isSearching ? (
-                  <div className="flex items-center justify-center py-6 px-4 gap-2 text-sm text-zinc-500">
-                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-store-primary border-t-transparent" />
-                    Searching...
-                  </div>
-                ) : suggestions.length > 0 ? (
-                  <div className="flex flex-col">
-                    <div className="px-4 pb-2 mb-1 border-b border-zinc-100 text-[10px] uppercase font-bold tracking-wider text-zinc-400 select-none">
-                      Matching Products
-                    </div>
-                    <div className="max-h-[300px] overflow-y-auto">
-                      {suggestions.map((product) => (
-                        <Link
-                          key={product.id}
-                          href={`/products/${product.slug ?? product.id}`}
-                          onClick={() => {
-                            setShowSuggestions(false);
-                            setSearchQuery("");
-                          }}
-                          className="flex items-center gap-3.5 px-4 py-2.5 hover:bg-zinc-50 transition-colors group"
-                        >
-                          <div className="w-11 h-11 shrink-0 relative overflow-hidden bg-zinc-100 rounded-lg border border-zinc-200">
-                            <Image
-                              src={product.image || "/images/no-image-icon-6.png"}
-                              alt={product.name}
-                              fill
-                              sizes="44px"
-                              className="object-cover group-hover:scale-105 transition-transform duration-200"
-                            />
-                          </div>
-                          <div className="flex-grow min-w-0">
-                            <h4 className="text-sm font-medium text-zinc-800 truncate group-hover:text-store-primary transition-colors">
-                              {product.name}
-                            </h4>
-                            <span className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider">
-                              {product.category}
-                            </span>
-                          </div>
-                          <div className="text-sm font-semibold text-zinc-900 shrink-0">
-                            ৳{product.price.toLocaleString()}
-                          </div>
-                        </Link>
-                      ))}
-                    </div>
-                    <div className="border-t border-zinc-100 mt-1 pt-2.5 px-3">
-                      <button
-                        onClick={(e) => {
-                          handleSearchSubmit(e);
-                          setShowSuggestions(false);
-                        }}
-                        className="w-full py-2 bg-store-primary hover:bg-store-accent text-white font-semibold text-xs uppercase tracking-wider text-center transition-colors rounded-xl cursor-pointer shadow-xs"
-                      >
-                        View All Results
-                      </button>
-                    </div>
-                  </div>
-                ) : (
-                  <div className="py-6 px-4 text-center text-sm text-zinc-500 select-none">
-                    No products found for &quot;{searchQuery}&quot;
-                  </div>
+                <LuSearch className="absolute left-3.5 w-4 h-4 text-white/90 pointer-events-none stroke-[2.2]" />
+                <input
+                  type="text"
+                  aria-label="Search products"
+                  placeholder="Search skincare, perfumes, fashion, cord sets, gowns, electronics..."
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setShowSuggestions(true);
+                  }}
+                  onFocus={() => setShowSuggestions(true)}
+                  className="w-full h-9 pl-10 pr-26 rounded-full border border-white/20 bg-white/10 hover:bg-white/[0.14] focus:bg-black/60 focus:border-white/40 backdrop-blur-md text-xs text-white placeholder:text-white/60 outline-none transition-all shadow-inner"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery("");
+                      setShowSuggestions(false);
+                    }}
+                    className="absolute right-22 text-slate-400 hover:text-white p-1 cursor-pointer transition-colors"
+                    aria-label="Clear search"
+                  >
+                    <LuX className="w-3.5 h-3.5" />
+                  </button>
                 )}
-              </div>
-            )}
-          </div>
+                <button
+                  type="submit"
+                  aria-label="Submit Search"
+                  className="absolute right-1 h-7 px-3.5 rounded-full bg-[#ec1c67] hover:bg-[#d81358] active:scale-95 text-white text-xs font-bold tracking-wide flex items-center gap-1.5 transition-all shadow-xs cursor-pointer"
+                >
+                  <LuSearch className="w-3.5 h-3.5 stroke-[2.5]" />
+                  <span>Search</span>
+                </button>
+              </form>
 
-          {/* Right Actions matching Screenshot */}
-          <div className="flex items-center gap-4 xl:gap-5.5 shrink-0 text-xs font-semibold text-white">
+              {/* Search Suggestions Dropdown */}
+              {showSuggestions && searchQuery.trim() !== "" && (
+                <div className="absolute top-full left-0 right-0 mt-2 bg-white text-zinc-800 shadow-2xl border border-zinc-200/80 py-2.5 z-[999] rounded-2xl overflow-hidden animate-fadeIn">
+                  {isSearching ? (
+                    <div className="flex items-center justify-center py-6 px-4 gap-2 text-sm text-zinc-500">
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-store-primary border-t-transparent" />
+                      Searching...
+                    </div>
+                  ) : suggestions.length > 0 ? (
+                    <div className="flex flex-col">
+                      <div className="px-4 pb-2 mb-1 border-b border-zinc-100 text-[10px] uppercase font-bold tracking-wider text-zinc-400 select-none">
+                        Matching Products
+                      </div>
+                      <div className="max-h-[300px] overflow-y-auto">
+                        {suggestions.map((product) => (
+                          <Link
+                            key={product.id}
+                            href={`/products/${product.slug ?? product.id}`}
+                            onClick={() => {
+                              setShowSuggestions(false);
+                              setSearchQuery("");
+                            }}
+                            className="flex items-center gap-3.5 px-4 py-2.5 hover:bg-zinc-50 transition-colors group"
+                          >
+                            <div className="w-11 h-11 shrink-0 relative overflow-hidden bg-zinc-100 rounded-lg border border-zinc-200">
+                              <Image
+                                src={product.image || "/images/no-image-icon-6.png"}
+                                alt={product.name}
+                                fill
+                                sizes="44px"
+                                className="object-cover group-hover:scale-105 transition-transform duration-200"
+                              />
+                            </div>
+                            <div className="flex-grow min-w-0">
+                              <h4 className="text-sm font-medium text-zinc-800 truncate group-hover:text-store-primary transition-colors">
+                                {product.name}
+                              </h4>
+                              <span className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider">
+                                {product.category}
+                              </span>
+                            </div>
+                            <div className="text-sm font-semibold text-zinc-900 shrink-0">
+                              ৳{product.price.toLocaleString()}
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                      <div className="border-t border-zinc-100 mt-1 pt-2.5 px-3">
+                        <button
+                          onClick={(e) => {
+                            handleSearchSubmit(e);
+                            setShowSuggestions(false);
+                          }}
+                          className="w-full py-2 bg-store-primary hover:bg-store-accent text-white font-semibold text-xs uppercase tracking-wider text-center transition-colors rounded-xl cursor-pointer shadow-xs"
+                        >
+                          View All Results
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="py-6 px-4 text-center text-sm text-zinc-500 select-none">
+                      No products found for &quot;{searchQuery}&quot;
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Right Actions */}
+          <div className="flex items-center justify-end gap-3.5 xl:gap-5 shrink-0 text-xs font-semibold text-white min-w-0">
             <Link
               href="/wishlist"
               className="relative hover:text-[#facc15] text-white/90 hover:text-white transition-colors hidden sm:flex items-center gap-1.5 py-1"
               aria-label={mounted && wishlistItemCount > 0 ? `Wishlist (${wishlistItemCount} items)` : "Wishlist"}
             >
               <IoHeartOutline className="w-[18px] h-[18px] text-white/90" />
-              <span className="font-medium text-[13px] tracking-normal">Wishlist</span>
+              <span className="font-medium text-[13px] tracking-normal hidden xl:inline">Wishlist</span>
               {mounted && wishlistItemCount > 0 && (
                 <span className="flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-[#ec1c67] text-[10px] text-white font-bold leading-none shadow-xs">
                   {wishlistItemCount}
@@ -334,7 +369,7 @@ export default function Header() {
 
             <Link
               href="/cart"
-              className="hover:text-[#facc15] text-white/90 hover:text-white transition-colors font-medium text-[13px] tracking-normal py-1"
+              className="hover:text-[#facc15] text-white/90 hover:text-white transition-colors font-medium text-[13px] tracking-normal py-1 hidden xl:inline"
             >
               My Cart
             </Link>
@@ -402,12 +437,12 @@ export default function Header() {
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 rounded-full bg-store-primary text-white flex items-center justify-center font-bold text-xs shrink-0 overflow-hidden">
                           {user?.avatarUrl || (user as any)?.avatar ? (
-                          <Image
-                            src={user?.avatarUrl || (user as any)?.avatar || ""}
+                            <Image
+                              src={user?.avatarUrl || (user as any)?.avatar || ""}
                               alt={user?.name || "User"}
-                            width={36}
-                            height={36}
-                            unoptimized
+                              width={36}
+                              height={36}
+                              unoptimized
                               className="w-full h-full object-cover"
                             />
                           ) : (
@@ -528,14 +563,154 @@ export default function Header() {
             </button>
           </div>
         </div>
+
+        {/* ═══════════════ Sticky Search Overlay ═══════════════ */}
+        {isScrolled && isSearchOpen && (
+          <div
+            ref={desktopSearchRef}
+            className="absolute inset-0 bg-[#121214]/98 backdrop-blur-xl z-50 flex items-center px-4 sm:px-6 md:px-8 xl:px-12 animate-fadeIn border-b border-white/10 shadow-2xl"
+          >
+            <div className="max-w-[760px] w-full mx-auto relative flex items-center gap-3">
+              <form
+                onSubmit={(e) => {
+                  handleSearchSubmit(e);
+                  setShowSuggestions(false);
+                  setIsSearchOpen(false);
+                }}
+                className="relative flex items-center flex-1"
+              >
+                <LuSearch className="absolute left-4 w-4 h-4 text-white/70 pointer-events-none stroke-[2.2]" />
+                <input
+                  ref={searchInputRef}
+                  type="text"
+                  aria-label="Search products"
+                  placeholder="Search skincare, perfumes, fashion, cord sets, gowns, electronics..."
+                  value={searchQuery}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setShowSuggestions(true);
+                  }}
+                  onFocus={() => setShowSuggestions(true)}
+                  className="w-full h-10 pl-11 pr-24 rounded-full border border-white/20 bg-white/10 hover:bg-white/[0.14] focus:bg-black/60 focus:border-[#ec1c67] text-sm text-white placeholder:text-white/50 outline-none transition-all shadow-inner"
+                />
+                {searchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setSearchQuery("");
+                      setShowSuggestions(false);
+                    }}
+                    className="absolute right-20 text-slate-400 hover:text-white p-1 cursor-pointer transition-colors"
+                    aria-label="Clear search"
+                  >
+                    <LuX className="w-4 h-4" />
+                  </button>
+                )}
+                <button
+                  type="submit"
+                  aria-label="Submit Search"
+                  className="absolute right-1 h-8 px-4 rounded-full bg-[#ec1c67] hover:bg-[#d81358] active:scale-95 text-white text-xs font-bold tracking-wide flex items-center gap-1.5 transition-all shadow-xs cursor-pointer"
+                >
+                  <LuSearch className="w-3.5 h-3.5 stroke-[2.5]" />
+                  <span>Search</span>
+                </button>
+              </form>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSearchOpen(false);
+                  setShowSuggestions(false);
+                }}
+                className="flex items-center gap-1.5 text-slate-400 hover:text-white px-2.5 py-1.5 rounded-lg hover:bg-white/10 transition-colors cursor-pointer text-xs font-medium shrink-0"
+                aria-label="Close search"
+                title="Close search (Esc)"
+              >
+                <LuX className="w-5 h-5" />
+                <span className="hidden sm:inline text-[10px] uppercase font-bold tracking-wider text-slate-400">ESC</span>
+              </button>
+
+              {/* Suggestions Dropdown */}
+              {showSuggestions && searchQuery.trim() !== "" && (
+                <div className="absolute top-full left-0 right-14 mt-2 bg-white text-zinc-800 shadow-2xl border border-zinc-200/80 py-2.5 z-[999] rounded-2xl overflow-hidden animate-fadeIn">
+                  {isSearching ? (
+                    <div className="flex items-center justify-center py-6 px-4 gap-2 text-sm text-zinc-500">
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-store-primary border-t-transparent" />
+                      Searching...
+                    </div>
+                  ) : suggestions.length > 0 ? (
+                    <div className="flex flex-col">
+                      <div className="px-4 pb-2 mb-1 border-b border-zinc-100 text-[10px] uppercase font-bold tracking-wider text-zinc-400 select-none">
+                        Matching Products
+                      </div>
+                      <div className="max-h-[300px] overflow-y-auto">
+                        {suggestions.map((product) => (
+                          <Link
+                            key={product.id}
+                            href={`/products/${product.slug ?? product.id}`}
+                            onClick={() => {
+                              setShowSuggestions(false);
+                              setIsSearchOpen(false);
+                              setSearchQuery("");
+                            }}
+                            className="flex items-center gap-3.5 px-4 py-2.5 hover:bg-zinc-50 transition-colors group"
+                          >
+                            <div className="w-11 h-11 shrink-0 relative overflow-hidden bg-zinc-100 rounded-lg border border-zinc-200">
+                              <Image
+                                src={product.image || "/images/no-image-icon-6.png"}
+                                alt={product.name}
+                                fill
+                                sizes="44px"
+                                className="object-cover group-hover:scale-105 transition-transform duration-200"
+                              />
+                            </div>
+                            <div className="flex-grow min-w-0">
+                              <h4 className="text-sm font-medium text-zinc-800 truncate group-hover:text-store-primary transition-colors">
+                                {product.name}
+                              </h4>
+                              <span className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider">
+                                {product.category}
+                              </span>
+                            </div>
+                            <div className="text-sm font-semibold text-zinc-900 shrink-0">
+                              ৳{product.price.toLocaleString()}
+                            </div>
+                          </Link>
+                        ))}
+                      </div>
+                      <div className="border-t border-zinc-100 mt-1 pt-2.5 px-3">
+                        <button
+                          onClick={(e) => {
+                            handleSearchSubmit(e);
+                            setShowSuggestions(false);
+                            setIsSearchOpen(false);
+                          }}
+                          className="w-full py-2 bg-store-primary hover:bg-store-accent text-white font-semibold text-xs uppercase tracking-wider text-center transition-colors rounded-xl cursor-pointer shadow-xs"
+                        >
+                          View All Results
+                        </button>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="py-6 px-4 text-center text-sm text-zinc-500 select-none">
+                      No products found for &quot;{searchQuery}&quot;
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </div>
+        )}
       </div>
 
-      {/* ═══════════════ Desktop Navigation Bar ═══════════════ */}
-      <div className="hidden lg:block bg-transparent text-white pb-1">
-        <div className="w-full max-w-[1440px] mx-auto px-2 sm:px-4">
-          <Navigation />
+      {/* ═══════════════ Desktop Navigation Bar (Only visible at top; in sticky mode it merges into main row) ═══════════════ */}
+      {!isScrolled && (
+        <div className="hidden lg:block bg-transparent text-white pb-1 animate-fadeIn">
+          <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 xl:px-12 flex justify-center">
+            <Navigation />
+          </div>
         </div>
-      </div>
+      )}
 
       {/* ═══════════════ Mobile Header ═══════════════ */}
       <div
@@ -562,8 +737,23 @@ export default function Header() {
             <Logo variant="light" size="md" className="storefront-mobile-logo" />
           </div>
 
-          {/* Mobile Right Action Icons (Wishlist & Shopping Bag) */}
+          {/* Mobile Right Action Icons (Search, Wishlist & Shopping Bag) */}
           <div className="flex items-center gap-0.5 shrink-0">
+            {/* Mobile Search Toggle Icon — shown in sticky mode */}
+            {isScrolled && (
+              <button
+                type="button"
+                onClick={() => {
+                  setIsSearchOpen((prev) => !prev);
+                  setShowSuggestions(true);
+                }}
+                className="relative grid h-10 w-10 place-items-center text-slate-200 transition-colors hover:text-[#ec1c67] cursor-pointer select-none"
+                aria-label="Search"
+              >
+                {isSearchOpen ? <LuX className="w-5 h-5" /> : <LuSearch className="w-5 h-5" />}
+              </button>
+            )}
+
             <Link
               href="/wishlist"
               className="relative grid h-10 w-10 place-items-center text-slate-200 transition-colors hover:text-[#ec1c67]"
@@ -676,94 +866,98 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Mobile search bar — full width below header row */}
-        <div className="relative px-4 pb-3" ref={mobileSearchRef}>
-          <form
-            onSubmit={(e) => { handleSearchSubmit(e); setShowSuggestions(false); }}
-            className="flex items-center w-full relative"
-          >
-            <LuSearch className="absolute left-3.5 w-4 h-4 text-white/90 pointer-events-none stroke-[2.2]" />
-            <input
-              type="text"
-              aria-label="Search products"
-              placeholder="Search products..."
-              value={searchQuery}
-              onChange={(e) => {
-                setSearchQuery(e.target.value);
-                setShowSuggestions(true);
-              }}
-              onFocus={() => setShowSuggestions(true)}
-              className="w-full h-10 pl-10 pr-12 rounded-full border border-white/15 bg-white/10 backdrop-blur-md text-sm text-white placeholder:text-slate-400 outline-none focus:border-[#ec1c67] transition-all shadow-inner"
-            />
-            {searchQuery && (
-              <button
-                type="button"
-                onClick={() => {
-                  setSearchQuery("");
-                  setShowSuggestions(false);
-                }}
-                className="absolute right-12 text-slate-400 hover:text-white p-1 cursor-pointer transition-colors"
-                aria-label="Clear search"
-              >
-                <LuX className="w-3.5 h-3.5" />
-              </button>
-            )}
-            <button
-              type="submit"
-              aria-label="Submit Search"
-              className="absolute right-1 top-1 bottom-1 px-3.5 rounded-full bg-[#ec1c67] hover:bg-[#d81358] text-white text-xs font-semibold flex items-center justify-center cursor-pointer transition-colors shadow-2xs"
+        {/* Mobile search bar — visible at top, hidden when sticky unless toggled */}
+        {(!isScrolled || isSearchOpen) && (
+          <div className="relative px-4 pb-3 animate-fadeIn" ref={mobileSearchRef}>
+            <form
+              onSubmit={(e) => { handleSearchSubmit(e); setShowSuggestions(false); setIsSearchOpen(false); }}
+              className="flex items-center w-full relative"
             >
-              <LuSearch className="w-4 h-4 stroke-[2.5]" />
-            </button>
-          </form>
-
-          {/* Mobile Search Suggestions */}
-          {showSuggestions && searchQuery.trim() !== "" && (
-            <div className="absolute left-4 right-4 top-full z-[999] mt-1.5 max-h-[min(240px,45dvh)] overflow-y-auto rounded-lg border border-zinc-200 bg-white py-2 text-zinc-800 shadow-xl">
-              {isSearching ? (
-                <div className="flex items-center justify-center py-5 gap-2 text-sm text-zinc-500">
-                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-store-primary border-t-transparent" />
-                  Searching...
-                </div>
-              ) : suggestions.length > 0 ? (
-                <div className="max-h-[240px] overflow-y-auto">
-                  {suggestions.map((product) => (
-                    <Link
-                      key={product.id}
-                      href={`/products/${product.slug ?? product.id}`}
-                      onClick={() => {
-                        setShowSuggestions(false);
-                        setSearchQuery("");
-                      }}
-                      className="flex items-center gap-3 px-3 py-2 hover:bg-zinc-50 transition-colors"
-                    >
-                      <div className="w-9 h-9 shrink-0 relative overflow-hidden bg-zinc-100 rounded border border-zinc-200">
-                        <Image
-                          src={product.image || "/images/no-image-icon-6.png"}
-                          alt={product.name}
-                          fill
-                          sizes="36px"
-                          className="object-cover"
-                        />
-                      </div>
-                      <div className="flex-grow min-w-0">
-                        <h4 className="text-xs font-medium text-zinc-800 truncate">{product.name}</h4>
-                        <span className="text-[10px] text-zinc-400">{product.category}</span>
-                      </div>
-                      <span className="text-xs font-semibold text-zinc-900 shrink-0">
-                        ৳{product.price.toLocaleString()}
-                      </span>
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <div className="py-5 text-center text-xs text-zinc-500">
-                  No products found
-                </div>
+              <LuSearch className="absolute left-3.5 w-4 h-4 text-white/90 pointer-events-none stroke-[2.2]" />
+              <input
+                ref={mobileSearchInputRef}
+                type="text"
+                aria-label="Search products"
+                placeholder="Search products..."
+                value={searchQuery}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  setShowSuggestions(true);
+                }}
+                onFocus={() => setShowSuggestions(true)}
+                className="w-full h-10 pl-10 pr-12 rounded-full border border-white/15 bg-white/10 backdrop-blur-md text-sm text-white placeholder:text-slate-400 outline-none focus:border-[#ec1c67] transition-all shadow-inner"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => {
+                    setSearchQuery("");
+                    setShowSuggestions(false);
+                  }}
+                  className="absolute right-12 text-slate-400 hover:text-white p-1 cursor-pointer transition-colors"
+                  aria-label="Clear search"
+                >
+                  <LuX className="w-3.5 h-3.5" />
+                </button>
               )}
-            </div>
-          )}
-        </div>
+              <button
+                type="submit"
+                aria-label="Submit Search"
+                className="absolute right-1 top-1 bottom-1 px-3.5 rounded-full bg-[#ec1c67] hover:bg-[#d81358] text-white text-xs font-semibold flex items-center justify-center cursor-pointer transition-colors shadow-2xs"
+              >
+                <LuSearch className="w-4 h-4 stroke-[2.5]" />
+              </button>
+            </form>
+
+            {/* Mobile Search Suggestions */}
+            {showSuggestions && searchQuery.trim() !== "" && (
+              <div className="absolute left-4 right-4 top-full z-[999] mt-1.5 max-h-[min(240px,45dvh)] overflow-y-auto rounded-lg border border-zinc-200 bg-white py-2 text-zinc-800 shadow-xl">
+                {isSearching ? (
+                  <div className="flex items-center justify-center py-5 gap-2 text-sm text-zinc-500">
+                    <div className="animate-spin rounded-full h-4 w-4 border-2 border-store-primary border-t-transparent" />
+                    Searching...
+                  </div>
+                ) : suggestions.length > 0 ? (
+                  <div className="max-h-[240px] overflow-y-auto">
+                    {suggestions.map((product) => (
+                      <Link
+                        key={product.id}
+                        href={`/products/${product.slug ?? product.id}`}
+                        onClick={() => {
+                          setShowSuggestions(false);
+                          setIsSearchOpen(false);
+                          setSearchQuery("");
+                        }}
+                        className="flex items-center gap-3 px-3 py-2 hover:bg-zinc-50 transition-colors"
+                      >
+                        <div className="w-9 h-9 shrink-0 relative overflow-hidden bg-zinc-100 rounded border border-zinc-200">
+                          <Image
+                            src={product.image || "/images/no-image-icon-6.png"}
+                            alt={product.name}
+                            fill
+                            sizes="36px"
+                            className="object-cover"
+                          />
+                        </div>
+                        <div className="flex-grow min-w-0">
+                          <h4 className="text-xs font-medium text-zinc-800 truncate">{product.name}</h4>
+                          <span className="text-[10px] text-zinc-400">{product.category}</span>
+                        </div>
+                        <span className="text-xs font-semibold text-zinc-900 shrink-0">
+                          ৳{product.price.toLocaleString()}
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="py-5 text-center text-xs text-zinc-500">
+                    No products found
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </header>
     </>

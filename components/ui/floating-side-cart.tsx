@@ -25,7 +25,7 @@ export default function FloatingSideCart() {
       type="button"
       onClick={openBag}
       aria-label={`Open shopping cart (${itemCount} items)`}
-      className="fixed right-0 top-1/2 -translate-y-1/2 z-40 hidden sm:flex flex-col items-center justify-center bg-[#ec1c67] hover:bg-[#d81358] text-white px-2.5 py-3 rounded-l-[3px] shadow-lg shadow-pink-950/20 transition-all duration-200 group cursor-pointer border-y border-l border-pink-700/40 select-none"
+      className="fixed right-0 top-[62%] sm:top-[64%] -translate-y-1/2 z-40 hidden sm:flex flex-col items-center justify-center bg-[#ec1c67] hover:bg-[#d81358] text-white px-2.5 py-3 rounded-l-[3px] shadow-lg shadow-pink-950/20 transition-all duration-200 group cursor-pointer border-y border-l border-pink-700/40 select-none"
     >
       <LuShoppingBag className="w-5 h-5 text-white mb-1 group-hover:scale-110 transition-transform" />
       <span className="text-[11px] font-bold leading-tight tracking-tight text-white">

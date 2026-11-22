@@ -287,7 +287,7 @@ export default function ProductInfo({
           
           {/* Row 1: Brand Eyebrow + Star Rating */}
           <div className="flex items-center justify-between gap-2">
-            <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#fff0f5] text-[#ec1c67] border border-[#fbcfe8]">
+            <span className="inline-flex items-center px-2.5 py-0.5 rounded-xs text-[10px] font-bold uppercase tracking-wider bg-[#fff0f5] text-[#ec1c67] border border-[#fbcfe8]">
               {category || brand || 'Mini Thailand Exclusive'}
             </span>
 
@@ -321,7 +321,7 @@ export default function ProductInfo({
                   {displayOriginalPrice}
                 </span>
               )}
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-rose-50 text-[#ec1c67] border border-rose-200">
+              <span className="px-2 py-0.5 rounded-xs text-[10px] font-bold uppercase tracking-wider bg-rose-50 text-[#ec1c67] border border-rose-200">
                 New Arrivals
               </span>
             </div>
@@ -343,14 +343,14 @@ export default function ProductInfo({
                       key={color}
                       type="button"
                       onClick={() => handleSelectColor(color)}
-                      className={`flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 rounded-full border text-xs transition-all cursor-pointer ${
+                      className={`flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 rounded-none border text-xs transition-all cursor-pointer ${
                         isSelected
                           ? 'border-[#ec1c67] bg-[#fff0f5] text-[#ec1c67] font-bold ring-1 ring-[#ec1c67]'
                           : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-400'
                       }`}
                     >
                       <span
-                        className={`w-3.5 h-3.5 rounded-full border shrink-0 ${isLight ? 'border-zinc-300' : 'border-black/20'}`}
+                        className={`w-3.5 h-3.5 rounded-none border shrink-0 ${isLight ? 'border-zinc-300' : 'border-black/20'}`}
                         style={{ backgroundColor: colorBg }}
                       />
                       <span className="text-[11px] truncate max-w-[90px]">{color}</span>
@@ -385,7 +385,7 @@ export default function ProductInfo({
                     key={size}
                     type="button"
                     onClick={() => handleSelectSize(size)}
-                    className={`min-w-[48px] px-3.5 h-10 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center shrink-0 border ${
+                    className={`min-w-[48px] px-3.5 h-10 rounded-none text-xs font-bold transition-all cursor-pointer flex items-center justify-center shrink-0 border ${
                       isSelected
                         ? 'bg-zinc-950 text-white border-zinc-950 shadow-sm'
                         : 'bg-white text-zinc-800 border-zinc-200 hover:border-zinc-400'
@@ -416,12 +416,12 @@ export default function ProductInfo({
           <div className="space-y-2.5 pt-2">
             <div className="flex items-center gap-2">
               {/* Stepper */}
-              <div className="flex items-center border border-zinc-200 rounded-xl bg-white p-0.5 shrink-0 h-12">
+              <div className="flex items-center border border-zinc-200 rounded-none bg-white p-0.5 shrink-0 h-12">
                 <button
                   type="button"
                   onClick={() => handleQuantityChange('dec')}
                   disabled={isOutOfStock || quantity <= 1}
-                  className="w-9 h-full rounded-lg hover:bg-zinc-100 flex items-center justify-center text-zinc-700 disabled:opacity-30 cursor-pointer font-bold text-sm"
+                  className="w-9 h-full rounded-none hover:bg-zinc-100 flex items-center justify-center text-zinc-700 disabled:opacity-30 cursor-pointer font-bold text-sm"
                 >
                   -
                 </button>
@@ -432,7 +432,7 @@ export default function ProductInfo({
                   type="button"
                   onClick={() => handleQuantityChange('inc')}
                   disabled={isOutOfStock || quantity >= stockQty}
-                  className="w-9 h-full rounded-lg hover:bg-zinc-100 flex items-center justify-center text-zinc-700 disabled:opacity-30 cursor-pointer font-bold text-sm"
+                  className="w-9 h-full rounded-none hover:bg-zinc-100 flex items-center justify-center text-zinc-700 disabled:opacity-30 cursor-pointer font-bold text-sm"
                 >
                   +
                 </button>
@@ -443,7 +443,7 @@ export default function ProductInfo({
                 type="button"
                 onClick={handleAddToCart}
                 disabled={isOutOfStock || isAdding}
-                className="flex-1 h-12 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all shadow-sm disabled:opacity-50"
+                className="flex-1 h-12 rounded-none bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer transition-all shadow-sm disabled:opacity-50"
               >
                 {isAdding ? (
                   <LuLoaderCircle className="w-4 h-4 animate-spin" />
@@ -461,7 +461,7 @@ export default function ProductInfo({
               type="button"
               onClick={handleBuyNow}
               disabled={isOutOfStock || isAdding}
-              className="w-full h-12 rounded-xl bg-gradient-to-r from-[#ec1c67] to-[#d81358] hover:from-[#d81358] hover:to-[#b30c45] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md active:scale-[0.99] disabled:opacity-50"
+              className="w-full h-12 rounded-none bg-gradient-to-r from-[#ec1c67] to-[#d81358] hover:from-[#d81358] hover:to-[#b30c45] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md active:scale-[0.99] disabled:opacity-50"
             >
               <LuZap className="w-4 h-4" />
               <span>Buy It Now</span>
@@ -478,14 +478,14 @@ export default function ProductInfo({
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="h-10 px-3 rounded-xl border border-emerald-200 bg-emerald-50/80 text-emerald-800 hover:bg-emerald-100 font-semibold text-xs flex items-center justify-center gap-2 transition-colors"
+              className="h-10 px-3 rounded-none border border-emerald-200 bg-emerald-50/80 text-emerald-800 hover:bg-emerald-100 font-semibold text-xs flex items-center justify-center gap-2 transition-colors"
             >
               <FaWhatsapp className="w-4 h-4 text-emerald-600 shrink-0" />
               <span>WhatsApp</span>
             </a>
             <a
               href={`tel:${primaryPhone.replace(/[^\d+]/g, '')}`}
-              className="h-10 px-3 rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-100 font-semibold text-xs flex items-center justify-center gap-2 transition-colors"
+              className="h-10 px-3 rounded-none border border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-100 font-semibold text-xs flex items-center justify-center gap-2 transition-colors"
             >
               <IoCallOutline className="w-4 h-4 text-zinc-600 shrink-0" />
               <span>Call Hotline</span>
@@ -493,7 +493,7 @@ export default function ProductInfo({
           </div>
 
           {/* Row 8: Trust Badges */}
-          <div className="rounded-xl border border-zinc-200/80 bg-zinc-50/70 p-3 space-y-2 text-xs text-zinc-600">
+          <div className="rounded-none border border-zinc-200/80 bg-zinc-50/70 p-3 space-y-2 text-xs text-zinc-600">
             <div className="flex items-center gap-2">
               <LuCheck className="w-4 h-4 text-[#ec1c67] shrink-0 stroke-[2.5]" />
               <span>Free delivery on orders over ৳5,000</span>
@@ -570,7 +570,7 @@ export default function ProductInfo({
         
         {/* 1. Category Eyebrow & Brand */}
         <div className="flex items-center justify-between gap-3 flex-wrap">
-          <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold tracking-wider uppercase bg-[#fff0f5] text-[#ec1c67] border border-[#fbcfe8]">
+          <span className="inline-flex items-center px-3 py-1 rounded-xs text-[11px] font-bold tracking-wider uppercase bg-[#fff0f5] text-[#ec1c67] border border-[#fbcfe8]">
             {category || brand || 'Mini Thailand Exclusive'}
           </span>
 
@@ -605,7 +605,7 @@ export default function ProductInfo({
               {displayOriginalPrice}
             </span>
           )}
-          <span className="px-2.5 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider bg-rose-50 text-[#ec1c67] border border-rose-200">
+          <span className="px-2.5 py-0.5 rounded-xs text-[11px] font-bold uppercase tracking-wider bg-rose-50 text-[#ec1c67] border border-rose-200">
             New Arrivals
           </span>
         </div>
@@ -616,7 +616,7 @@ export default function ProductInfo({
         </p>
 
         {/* 5. Variant Selection Box (Card container) */}
-        <div className="rounded-2xl border border-zinc-200/80 bg-zinc-50/60 p-4 space-y-3.5">
+        <div className="rounded-none border border-zinc-200/80 bg-zinc-50/60 p-4 space-y-3.5">
           {/* Color Selector */}
           {availableColors.length > 0 && (
             <div className="space-y-2">
@@ -634,14 +634,14 @@ export default function ProductInfo({
                       type="button"
                       onClick={() => handleSelectColor(color)}
                       title={color}
-                      className={`flex items-center gap-1.5 pl-1.5 pr-3 py-1.5 rounded-full border text-xs transition-all cursor-pointer ${
+                      className={`flex items-center gap-1.5 pl-1.5 pr-3 py-1.5 rounded-none border text-xs transition-all cursor-pointer ${
                         isSelected
                           ? 'border-[#ec1c67] bg-[#fff0f5] text-[#ec1c67] font-bold ring-1 ring-[#ec1c67] shadow-xs'
                           : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-400 hover:bg-zinc-50'
                       }`}
                     >
                       <span
-                        className={`w-4 h-4 rounded-full border shrink-0 ${isLight ? 'border-zinc-300' : 'border-black/20'}`}
+                        className={`w-4 h-4 rounded-none border shrink-0 ${isLight ? 'border-zinc-300' : 'border-black/20'}`}
                         style={{ backgroundColor: colorBg }}
                       />
                       <span className="text-xs truncate">{color}</span>
@@ -676,7 +676,7 @@ export default function ProductInfo({
                     key={size}
                     type="button"
                     onClick={() => handleSelectSize(size)}
-                    className={`min-w-[48px] px-3.5 h-10 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center justify-center shrink-0 border ${
+                    className={`min-w-[48px] px-3.5 h-10 rounded-none text-xs font-bold transition-all cursor-pointer flex items-center justify-center shrink-0 border ${
                       isSelected
                         ? 'bg-zinc-950 text-white border-zinc-950 shadow-sm'
                         : 'bg-white text-zinc-800 border-zinc-200 hover:border-zinc-400 hover:bg-zinc-50'
@@ -694,12 +694,12 @@ export default function ProductInfo({
         <div className="space-y-2.5 pt-1">
           <div className="flex items-center gap-2.5">
             {/* Stepper */}
-            <div className="flex items-center border border-zinc-200 rounded-xl bg-white p-0.5 shrink-0 h-12 shadow-2xs">
+            <div className="flex items-center border border-zinc-200 rounded-none bg-white p-0.5 shrink-0 h-12 shadow-2xs">
               <button
                 type="button"
                 onClick={() => handleQuantityChange('dec')}
                 disabled={isOutOfStock || quantity <= 1}
-                className="w-9 h-full rounded-lg hover:bg-zinc-100 flex items-center justify-center text-zinc-700 disabled:opacity-30 cursor-pointer font-bold text-sm"
+                className="w-9 h-full rounded-none hover:bg-zinc-100 flex items-center justify-center text-zinc-700 disabled:opacity-30 cursor-pointer font-bold text-sm"
               >
                 -
               </button>
@@ -710,7 +710,7 @@ export default function ProductInfo({
                 type="button"
                 onClick={() => handleQuantityChange('inc')}
                 disabled={isOutOfStock || quantity >= stockQty}
-                className="w-9 h-full rounded-lg hover:bg-zinc-100 flex items-center justify-center text-zinc-700 disabled:opacity-30 cursor-pointer font-bold text-sm"
+                className="w-9 h-full rounded-none hover:bg-zinc-100 flex items-center justify-center text-zinc-700 disabled:opacity-30 cursor-pointer font-bold text-sm"
               >
                 +
               </button>
@@ -721,7 +721,7 @@ export default function ProductInfo({
               type="button"
               onClick={handleAddToCart}
               disabled={isOutOfStock || isAdding}
-              className="flex-1 h-12 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm hover:shadow-md active:scale-[0.99] disabled:opacity-50"
+              className="flex-1 h-12 rounded-none bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer shadow-sm hover:shadow-md active:scale-[0.99] disabled:opacity-50"
             >
               {isAdding ? (
                 <LuLoaderCircle className="w-4 h-4 animate-spin" />
@@ -739,7 +739,7 @@ export default function ProductInfo({
             type="button"
             onClick={handleBuyNow}
             disabled={isOutOfStock || isAdding}
-            className="w-full h-12 rounded-xl bg-gradient-to-r from-[#ec1c67] to-[#d81358] hover:from-[#d81358] hover:to-[#b30c45] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md hover:shadow-lg active:scale-[0.99] disabled:opacity-50"
+            className="w-full h-12 rounded-none bg-gradient-to-r from-[#ec1c67] to-[#d81358] hover:from-[#d81358] hover:to-[#b30c45] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 transition-all cursor-pointer shadow-md hover:shadow-lg active:scale-[0.99] disabled:opacity-50"
           >
             <LuZap className="w-4 h-4" />
             <span>Buy it now</span>
@@ -756,14 +756,14 @@ export default function ProductInfo({
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="h-11 px-3.5 rounded-xl border border-emerald-200 bg-emerald-50/80 text-emerald-800 hover:bg-emerald-100 font-semibold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            className="h-11 px-3.5 rounded-none border border-emerald-200 bg-emerald-50/80 text-emerald-800 hover:bg-emerald-100 font-semibold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
           >
             <FaWhatsapp className="w-4 h-4 text-emerald-600 shrink-0" />
             <span>WhatsApp Order</span>
           </a>
           <a
             href={`tel:${primaryPhone.replace(/[^\d+]/g, '')}`}
-            className="h-11 px-3.5 rounded-xl border border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-100 font-semibold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            className="h-11 px-3.5 rounded-none border border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-100 font-semibold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
           >
             <IoCallOutline className="w-4 h-4 text-zinc-600 shrink-0" />
             <span>Call {primaryPhone}</span>
@@ -771,7 +771,7 @@ export default function ProductInfo({
         </div>
 
         {/* 8. Trust Signals Card */}
-        <div className="rounded-xl border border-zinc-200/80 bg-zinc-50/70 p-3.5 space-y-2 text-xs text-zinc-600">
+        <div className="rounded-none border border-zinc-200/80 bg-zinc-50/70 p-3.5 space-y-2 text-xs text-zinc-600">
           <div className="flex items-center gap-2.5">
             <div className="w-5 h-5 rounded-full bg-[#ec1c67]/10 text-[#ec1c67] flex items-center justify-center shrink-0">
               <LuCheck className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -793,7 +793,7 @@ export default function ProductInfo({
         </div>
 
         {/* 9. Product Details Accordion */}
-        <div className="rounded-xl border border-zinc-200/80 bg-white divide-y divide-zinc-100 overflow-hidden">
+        <div className="rounded-none border border-zinc-200/80 bg-white divide-y divide-zinc-100 overflow-hidden">
           {[
             {
               id: 'details',

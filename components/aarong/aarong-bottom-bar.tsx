@@ -21,7 +21,10 @@ export default function AarongBottomBar() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer aria-label="Footer Bottom" className="w-full bg-black text-zinc-400 py-6 sm:py-7 border-t border-white/10 select-none">
+    <footer
+      aria-label="Footer Bottom"
+      className="w-full bg-black text-zinc-400 py-6 sm:py-7 pb-20 md:pb-7 border-t border-white/10 select-none"
+    >
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-5 sm:gap-6">
           {/* Left: Brand Logo & Copyright notice */}
@@ -80,7 +83,7 @@ export default function AarongBottomBar() {
                   rel="noopener noreferrer"
                   aria-label={label}
                   title={label}
-                  className="text-zinc-400 hover:text-[#ec1c67] transition-colors duration-200"
+                  className="text-zinc-400 hover:text-white hover:scale-110 transition-all duration-200"
                 >
                   <Icon className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
                 </Link>
@@ -89,20 +92,20 @@ export default function AarongBottomBar() {
           </div>
         </div>
 
-        {/* Bottom Center: Policy Menu with theme color & smaller size */}
-        <div className="mt-5 pt-4 border-t border-white/10 flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-6 gap-y-2 text-[11px] sm:text-[11.5px] font-medium text-[#ec1c67]">
+        {/* Bottom Center: Policy Menu */}
+        <div className="mt-6 pt-5 border-t border-white/10 flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-6 gap-y-2 text-[11px] sm:text-[11.5px] font-medium text-zinc-400">
           <Link href="/delivery" className="hover:text-white transition-colors duration-200">
             Shipping &amp; Delivery
           </Link>
-          <span className="text-[#ec1c67]/40 select-none">•</span>
+          <span className="text-white/30 select-none">•</span>
           <Link href="/returns" className="hover:text-white transition-colors duration-200">
             Return &amp; Refund Policy
           </Link>
-          <span className="text-[#ec1c67]/40 select-none">•</span>
+          <span className="text-white/30 select-none">•</span>
           <Link href="/terms" className="hover:text-white transition-colors duration-200">
             Terms &amp; Conditions
           </Link>
-          <span className="text-[#ec1c67]/40 select-none">•</span>
+          <span className="text-white/30 select-none">•</span>
           <Link href="/privacy" className="hover:text-white transition-colors duration-200">
             Privacy Policy
           </Link>

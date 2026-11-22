@@ -29,8 +29,8 @@ export default function TopHeader({ isScrolled = false, isHome = false }: TopHea
         isHome && !isScrolled ? "bg-transparent" : "bg-[#090e17]"
       } text-xs text-slate-200 transition-colors duration-300`}
     >
-      <div className="mx-auto flex h-7 sm:h-7.5 max-w-[1440px] items-center justify-between px-4 sm:px-6 md:px-8 xl:px-12 text-[11px] font-sans">
-        <div className="flex items-center gap-2.5 font-medium text-slate-300 shrink-0 whitespace-nowrap">
+      <div className="mx-auto grid grid-cols-[1fr_auto_1fr] h-7 sm:h-7.5 max-w-[1440px] items-center px-4 sm:px-6 md:px-8 xl:px-12 text-[11px] font-sans">
+        <div className="flex items-center justify-start gap-2.5 font-medium text-slate-300 shrink-0 whitespace-nowrap min-w-0">
           <span>
             HOTLINE:{" "}
             <a
@@ -52,13 +52,13 @@ export default function TopHeader({ isScrolled = false, isHome = false }: TopHea
           </a>
         </div>
 
-        <div className="hidden xl:block min-w-0 flex-1 text-center py-0.5 overflow-hidden">
+        <div className="hidden lg:flex items-center justify-center px-4 overflow-hidden whitespace-nowrap text-center">
           <span className="text-slate-200 text-xs font-medium tracking-wide">
             Welcome to Mini Thailand
           </span>
         </div>
 
-        <div className="flex items-center gap-2.5 font-medium text-slate-300 shrink-0 whitespace-nowrap">
+        <div className="flex items-center justify-end gap-2.5 font-medium text-slate-300 shrink-0 whitespace-nowrap min-w-0">
           <a
             href="https://www.facebook.com/minithailand2022/"
             target="_blank"

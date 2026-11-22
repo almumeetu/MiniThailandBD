@@ -148,11 +148,11 @@ function LoginFormContent() {
             <div className="flex items-center gap-2.5">
               <div className="relative w-10 h-10 rounded-full overflow-hidden border border-store-primary/40 ring-2 ring-store-primary/20 shrink-0">
                 <Image
-                  src="/images/logo/update-logo.png"
-                  alt=""
+                  src="/images/fav-icon/favicon-192.png"
+                  alt="Mini Thailand"
                   width={40}
                   height={40}
-                  className="h-full w-full bg-white object-contain"
+                  className="h-full w-full object-contain"
                 />
               </div>
               <div className="text-[11px] leading-tight">

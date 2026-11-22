@@ -435,7 +435,7 @@ export const DEFAULT_SHOP_SETTINGS: ShopSettings = {
   copyrightYear: "2026",
   parentCompany: "Mini Thailand",
   parentCompanyLink: "https://www.facebook.com/minithailand2022/",
-  logo: "/products/logo.jpg",
+  logo: "/images/minithailand-logo.png",
   isTopBarVisible: true,
   hideOutOfStock: false,
 };

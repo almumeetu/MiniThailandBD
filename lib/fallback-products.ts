@@ -428,7 +428,7 @@ function makeProduct(fp: FallbackProduct): AdminProduct {
       id: "b-minithai",
       name: "Mini Thailand Exclusive",
       slug: "mini-thailand-exclusive",
-      logoUrl: "/products/logo.jpg",
+      logoUrl: "/images/minithailand-logo.png",
     },
     category: {
       id: catInfo.id,

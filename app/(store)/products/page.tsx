@@ -895,12 +895,12 @@ function ProductsContent() {
         <button
           type="button"
           onClick={() => setIsMobileFilterOpen(true)}
-          className="w-full py-2.5 px-6 rounded-full border border-neutral-300 bg-white text-sm font-medium text-neutral-800 text-center flex items-center justify-center gap-2 hover:border-neutral-900 active:scale-[0.99] transition-all cursor-pointer shadow-2xs"
+          className="w-full py-2.5 px-6 rounded-none border border-neutral-300 bg-white text-sm font-medium text-neutral-800 text-center flex items-center justify-center gap-2 hover:border-neutral-900 active:scale-[0.99] transition-all cursor-pointer shadow-2xs"
         >
           <LuSlidersHorizontal className="w-4 h-4 text-neutral-700" />
           <span>Show filters</span>
           {activeFiltersCount > 0 && (
-            <span className="w-4.5 h-4.5 rounded-full bg-neutral-900 text-white text-[10px] font-bold flex items-center justify-center">
+            <span className="w-4.5 h-4.5 rounded-xs bg-neutral-900 text-white text-[10px] font-bold flex items-center justify-center">
               {activeFiltersCount}
             </span>
           )}
@@ -918,11 +918,11 @@ function ProductsContent() {
             <button
               type="button"
               onClick={() => setShowSidebar(!showSidebar)}
-              className="hidden lg:inline-flex items-center gap-2 px-5 py-2 rounded-full border border-neutral-300 hover:border-neutral-900 bg-white text-xs sm:text-sm font-medium text-neutral-800 transition-colors cursor-pointer"
+              className="hidden lg:inline-flex items-center gap-2 px-5 py-2 rounded-none border border-neutral-300 hover:border-neutral-900 bg-white text-xs sm:text-sm font-medium text-neutral-800 transition-colors cursor-pointer"
             >
               <span>{showSidebar ? 'Hide filters' : 'Show filters'}</span>
               {activeFiltersCount > 0 && (
-                <span className="w-4.5 h-4.5 rounded-full bg-neutral-900 text-white text-[10px] font-bold flex items-center justify-center ml-0.5">
+                <span className="w-4.5 h-4.5 rounded-xs bg-neutral-900 text-white text-[10px] font-bold flex items-center justify-center ml-0.5">
                   {activeFiltersCount}
                 </span>
               )}
@@ -939,7 +939,7 @@ function ProductsContent() {
                 {activeFilters.map((filter) => (
                   <span
                     key={filter.id}
-                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-neutral-300 bg-white text-xs font-normal text-neutral-800 hover:border-neutral-400 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-none border border-neutral-300 bg-white text-xs font-normal text-neutral-800 hover:border-neutral-400 transition-colors"
                   >
                     <span>{filter.label}</span>
                     <button
@@ -968,12 +968,12 @@ function ProductsContent() {
           <div className="flex items-center gap-3 ml-auto">
             
             {/* Desktop 3-col vs 4-col toggle */}
-            <div className="hidden sm:flex items-center border border-neutral-200 rounded-full p-0.5 bg-neutral-50">
+            <div className="hidden sm:flex items-center border border-neutral-200 rounded-none p-0.5 bg-neutral-50">
               <button
                 type="button"
                 onClick={() => setViewMode('grid3')}
                 title="3 Columns"
-                className={`p-1.5 rounded-full transition-all cursor-pointer ${
+                className={`p-1.5 rounded-none transition-all cursor-pointer ${
                   viewMode === 'grid3'
                     ? 'bg-white text-neutral-950 shadow-xs'
                     : 'text-neutral-400 hover:text-neutral-700'
@@ -985,7 +985,7 @@ function ProductsContent() {
                 type="button"
                 onClick={() => setViewMode('grid4')}
                 title="4 Columns"
-                className={`p-1.5 rounded-full transition-all cursor-pointer ${
+                className={`p-1.5 rounded-none transition-all cursor-pointer ${
                   viewMode === 'grid4'
                     ? 'bg-white text-neutral-950 shadow-xs'
                     : 'text-neutral-400 hover:text-neutral-700'
@@ -1004,7 +1004,7 @@ function ProductsContent() {
               <button
                 type="button"
                 onClick={() => setIsSortDropdownOpen(!isSortDropdownOpen)}
-                className="flex items-center gap-2 text-xs sm:text-sm text-neutral-900 font-medium py-1.5 px-4 rounded-full border border-neutral-300 hover:border-neutral-900 bg-white transition-colors cursor-pointer"
+                className="flex items-center gap-2 text-xs sm:text-sm text-neutral-900 font-medium py-1.5 px-4 rounded-none border border-neutral-300 hover:border-neutral-900 bg-white transition-colors cursor-pointer"
               >
                 <span>{currentSortLabel}</span>
                 <LuChevronDown
@@ -1015,7 +1015,7 @@ function ProductsContent() {
               </button>
 
               {isSortDropdownOpen && (
-                <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-neutral-200 rounded-2xl shadow-xl py-1.5 z-50 animate-fadeIn">
+                <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-neutral-200 rounded-none shadow-xl py-1.5 z-50 animate-fadeIn">
                   {SORT_OPTIONS.map((opt) => (
                     <button
                       key={opt.value}
@@ -1227,7 +1227,7 @@ function ProductsContent() {
                           key={preset.label}
                           type="button"
                           onClick={() => handlePricePreset(preset)}
-                          className={`px-2.5 py-1 rounded-full text-[11px] font-normal transition-colors cursor-pointer border ${
+                          className={`px-2.5 py-1 rounded-none text-[11px] font-normal transition-colors cursor-pointer border ${
                             isPresetActive
                               ? 'bg-neutral-900 text-white border-neutral-900 font-medium'
                               : 'bg-white text-neutral-600 border-neutral-200 hover:border-neutral-400'
@@ -1271,7 +1271,7 @@ function ProductsContent() {
                               type="checkbox"
                               checked={isChecked}
                               onChange={() => toggleColor(name)}
-                              className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-0 cursor-pointer accent-neutral-900"
+                              className="w-4 h-4 rounded-none border-neutral-300 text-neutral-900 focus:ring-0 cursor-pointer accent-neutral-900"
                             />
                             <span
                               className="w-2.5 h-2.5 rounded-full border border-neutral-200"
@@ -1324,7 +1324,7 @@ function ProductsContent() {
                         type="checkbox"
                         checked={inStockOnly}
                         onChange={handleToggleInStock}
-                        className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-0 cursor-pointer accent-neutral-900"
+                        className="w-4 h-4 rounded-none border-neutral-300 text-neutral-900 focus:ring-0 cursor-pointer accent-neutral-900"
                       />
                       <span
                         className={
@@ -1347,7 +1347,7 @@ function ProductsContent() {
                         type="checkbox"
                         checked={onSaleOnly}
                         onChange={handleToggleOnSale}
-                        className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-0 cursor-pointer accent-neutral-900"
+                        className="w-4 h-4 rounded-none border-neutral-300 text-neutral-900 focus:ring-0 cursor-pointer accent-neutral-900"
                       />
                       <span
                         className={
@@ -1394,7 +1394,7 @@ function ProductsContent() {
                           key={tag}
                           type="button"
                           onClick={() => toggleTag(tag)}
-                          className={`px-3 py-1 rounded-full text-xs transition-colors cursor-pointer border ${
+                          className={`px-3 py-1 rounded-none text-xs transition-colors cursor-pointer border ${
                             isSelected
                               ? 'bg-neutral-900 text-white border-neutral-900 font-medium'
                               : 'bg-white text-neutral-700 border-neutral-300 hover:border-neutral-900 hover:text-neutral-900'
@@ -1428,14 +1428,14 @@ function ProductsContent() {
                 ))}
               </div>
             ) : loadError ? (
-              <div className="rounded-2xl border border-neutral-200 bg-neutral-50/50 p-12 text-center space-y-3">
+              <div className="rounded-none border border-neutral-200 bg-neutral-50/50 p-12 text-center space-y-3">
                 <p className="text-sm font-semibold text-neutral-800">
                   Products are temporarily unavailable
                 </p>
                 <button
                   type="button"
                   onClick={() => window.location.reload()}
-                  className="px-5 py-2 rounded-full bg-neutral-900 text-white text-xs font-semibold cursor-pointer hover:bg-neutral-800 transition-colors"
+                  className="px-5 py-2 rounded-none bg-neutral-900 text-white text-xs font-semibold cursor-pointer hover:bg-neutral-800 transition-colors"
                 >
                   Try Again
                 </button>
@@ -1475,7 +1475,7 @@ function ProductsContent() {
                       type="button"
                       onClick={() => goToPage(safePage - 1)}
                       disabled={safePage === 1}
-                      className="h-9 px-4 rounded-full border border-neutral-300 text-xs font-medium text-neutral-700 hover:border-neutral-900 disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                      className="h-9 px-4 rounded-none border border-neutral-300 text-xs font-medium text-neutral-700 hover:border-neutral-900 disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed transition-colors"
                     >
                       Previous
                     </button>
@@ -1490,7 +1490,7 @@ function ProductsContent() {
                           type="button"
                           onClick={() => goToPage(page)}
                           aria-current={isCurrent ? 'page' : undefined}
-                          className={`w-9 h-9 rounded-full text-xs font-medium transition-colors cursor-pointer ${
+                          className={`w-9 h-9 rounded-none text-xs font-medium transition-colors cursor-pointer ${
                             isCurrent
                               ? 'bg-neutral-900 text-white shadow-xs'
                               : 'border border-neutral-200 text-neutral-700 hover:border-neutral-900'
@@ -1505,7 +1505,7 @@ function ProductsContent() {
                       type="button"
                       onClick={() => goToPage(safePage + 1)}
                       disabled={safePage === pageCount}
-                      className="h-9 px-4 rounded-full border border-neutral-300 text-xs font-medium text-neutral-700 hover:border-neutral-900 disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                      className="h-9 px-4 rounded-none border border-neutral-300 text-xs font-medium text-neutral-700 hover:border-neutral-900 disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed transition-colors"
                     >
                       Next
                     </button>
@@ -1514,8 +1514,8 @@ function ProductsContent() {
               </>
             ) : (
               /* Empty state */
-              <div className="flex flex-col items-center justify-center py-20 text-center px-4 bg-neutral-50/50 rounded-2xl border border-neutral-200">
-                <div className="w-12 h-12 rounded-full bg-neutral-100 text-neutral-600 flex items-center justify-center mb-3">
+              <div className="flex flex-col items-center justify-center py-20 text-center px-4 bg-neutral-50/50 rounded-none border border-neutral-200">
+                <div className="w-12 h-12 rounded-none bg-neutral-100 text-neutral-600 flex items-center justify-center mb-3">
                   <LuRotateCcw className="w-5 h-5" />
                 </div>
                 <h3 className="text-base font-semibold text-neutral-950 mb-1">
@@ -1527,7 +1527,7 @@ function ProductsContent() {
                 <button
                   type="button"
                   onClick={clearAllFilters}
-                  className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white font-medium text-xs rounded-full shadow-xs transition-colors cursor-pointer"
+                  className="px-5 py-2.5 bg-neutral-900 hover:bg-neutral-800 text-white font-medium text-xs rounded-none shadow-xs transition-colors cursor-pointer"
                 >
                   Clear All Filters
                 </button>
@@ -1561,7 +1561,7 @@ function ProductsContent() {
                   Filters
                 </h3>
                 {activeFiltersCount > 0 && (
-                  <span className="px-2 py-0.5 rounded-full bg-neutral-900 text-white text-[10px] font-bold">
+                  <span className="px-2 py-0.5 rounded-xs bg-neutral-900 text-white text-[10px] font-bold">
                     {activeFiltersCount}
                   </span>
                 )}
@@ -1569,7 +1569,7 @@ function ProductsContent() {
               <button
                 type="button"
                 onClick={() => setIsMobileFilterOpen(false)}
-                className="w-8 h-8 rounded-full border border-neutral-200 flex items-center justify-center text-neutral-500 hover:text-neutral-950 cursor-pointer"
+                className="w-8 h-8 rounded-none border border-neutral-200 flex items-center justify-center text-neutral-500 hover:text-neutral-950 cursor-pointer"
                 aria-label="Close filters"
               >
                 <LuX className="w-4 h-4" />
@@ -1705,7 +1705,7 @@ function ProductsContent() {
                         key={preset.label}
                         type="button"
                         onClick={() => handlePricePreset(preset)}
-                        className={`px-2.5 py-1 rounded-full text-[11px] transition-colors cursor-pointer border ${
+                        className={`px-2.5 py-1 rounded-none text-[11px] transition-colors cursor-pointer border ${
                           activePricePreset === preset.label
                             ? 'bg-neutral-900 text-white border-neutral-900 font-medium'
                             : 'bg-white text-neutral-600 border-neutral-200'
@@ -1749,7 +1749,7 @@ function ProductsContent() {
                               type="checkbox"
                               checked={isChecked}
                               onChange={() => toggleColor(name)}
-                              className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-0 accent-neutral-900"
+                              className="w-4 h-4 rounded-none border-neutral-300 text-neutral-900 focus:ring-0 accent-neutral-900"
                             />
                             <span
                               className="w-2.5 h-2.5 rounded-full border border-neutral-200"
@@ -1779,7 +1779,7 @@ function ProductsContent() {
                         type="checkbox"
                         checked={inStockOnly}
                         onChange={handleToggleInStock}
-                        className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-0 accent-neutral-900"
+                        className="w-4 h-4 rounded-none border-neutral-300 text-neutral-900 focus:ring-0 accent-neutral-900"
                       />
                       <span className={inStockOnly ? 'font-semibold text-neutral-950' : 'text-neutral-600'}>
                         In Stock Only
@@ -1794,7 +1794,7 @@ function ProductsContent() {
                         type="checkbox"
                         checked={onSaleOnly}
                         onChange={handleToggleOnSale}
-                        className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-0 accent-neutral-900"
+                        className="w-4 h-4 rounded-none border-neutral-300 text-neutral-900 focus:ring-0 accent-neutral-900"
                       />
                       <span className={onSaleOnly ? 'font-semibold text-neutral-950' : 'text-neutral-600'}>
                         Special Offers
@@ -1822,7 +1822,7 @@ function ProductsContent() {
                           key={tag}
                           type="button"
                           onClick={() => toggleTag(tag)}
-                          className={`px-3 py-1 rounded-full text-xs transition-colors cursor-pointer border ${
+                          className={`px-3 py-1 rounded-none text-xs transition-colors cursor-pointer border ${
                             isSelected
                               ? 'bg-neutral-900 text-white border-neutral-900 font-medium'
                               : 'bg-white text-neutral-700 border-neutral-300'
@@ -1843,14 +1843,14 @@ function ProductsContent() {
               <button
                 type="button"
                 onClick={clearAllFilters}
-                className="w-1/3 h-11 rounded-full border border-neutral-300 text-xs font-semibold text-neutral-700 hover:border-neutral-900 cursor-pointer transition-colors"
+                className="w-1/3 h-11 rounded-none border border-neutral-300 text-xs font-semibold text-neutral-700 hover:border-neutral-900 cursor-pointer transition-colors"
               >
                 Reset
               </button>
               <button
                 type="button"
                 onClick={() => setIsMobileFilterOpen(false)}
-                className="w-2/3 h-11 rounded-full bg-neutral-900 text-xs font-semibold text-white hover:bg-neutral-800 cursor-pointer transition-colors shadow-xs flex items-center justify-center gap-1.5"
+                className="w-2/3 h-11 rounded-none bg-neutral-900 text-xs font-semibold text-white hover:bg-neutral-800 cursor-pointer transition-colors shadow-xs flex items-center justify-center gap-1.5"
               >
                 <span>View Results ({filteredProducts.length})</span>
               </button>

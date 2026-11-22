@@ -133,7 +133,7 @@ export default function Navigation() {
   );
 
   return (
-    <nav aria-label="Main navigation" className="relative hidden h-8.5 lg:h-9 w-full items-center justify-center gap-4 sm:gap-5 md:gap-6 lg:gap-7 xl:gap-8 lg:flex flex-nowrap whitespace-nowrap font-sans">
+    <nav aria-label="Main navigation" className="relative hidden h-8.5 lg:h-9 w-full items-center justify-center gap-2.5 sm:gap-3.5 md:gap-4 lg:gap-3 xl:gap-6 2xl:gap-8 lg:flex flex-nowrap whitespace-nowrap font-sans">
       {allNavItems.map(renderNavItem)}
     </nav>
   );

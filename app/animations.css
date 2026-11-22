@@ -180,8 +180,93 @@
   .animate-marquee,
   .marquee-track,
   .marquee-infinite,
-  .marquee-infinite-reverse {
+  .marquee-infinite-reverse,
+  .animate-hero-ken-burns,
+  .animate-hero-title,
+  .animate-hero-desc,
+  .animate-hero-btn {
     animation: none !important;
     opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
   }
+}
+
+/* ==========================================================================
+   Hero Slider Ultra-Subtle Ken Burns Zoom Animation
+   Extremely subtle & slow luxury zoom (barely perceptible / bujai jabe na)
+   Scales gently from 1.0 to 1.025 over 6500ms with linear pacing.
+   ========================================================================== */
+@keyframes heroKenBurnsZoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.025);
+  }
+}
+
+.animate-hero-ken-burns {
+  animation-name: heroKenBurnsZoom;
+  animation-duration: 6500ms;
+  animation-timing-function: linear;
+  animation-fill-mode: forwards;
+  will-change: transform;
+  transform-origin: center center;
+}
+
+/* ==========================================================================
+   Hero Slide Text & Button Animations (Staggered luxury reveal on slide change)
+   Title -> Description -> Buttons gracefully glide up with blur-fade
+   ========================================================================== */
+@keyframes heroSlideTitleIn {
+  0% {
+    opacity: 0;
+    transform: translateY(28px);
+    filter: blur(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes heroSlideDescIn {
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+    filter: blur(3px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes heroSlideBtnIn {
+  0% {
+    opacity: 0;
+    transform: translateY(18px) scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-hero-title {
+  animation: heroSlideTitleIn 850ms cubic-bezier(0.16, 1, 0.3, 1) 160ms both;
+  will-change: transform, opacity, filter;
+}
+
+.animate-hero-desc {
+  animation: heroSlideDescIn 850ms cubic-bezier(0.16, 1, 0.3, 1) 320ms both;
+  will-change: transform, opacity, filter;
+}
+
+.animate-hero-btn {
+  animation: heroSlideBtnIn 800ms cubic-bezier(0.16, 1, 0.3, 1) 480ms both;
+  will-change: transform, opacity;
 }

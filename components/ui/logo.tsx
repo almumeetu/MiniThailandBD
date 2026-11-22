@@ -4,65 +4,69 @@ import Link from "next/link";
 interface LogoProps {
   variant?: "dark" | "light";
   className?: string;
+  imageClassName?: string;
   size?: "sm" | "md" | "lg" | "xl";
   href?: string;
+  priority?: boolean;
+  forceOriginal?: boolean;
 }
 
 const logoSizes = {
   sm: {
-    frame: "h-[30px] w-[30px]",
-    imageSize: 30,
-    text: "text-[17px] sm:text-[18px]",
-    gap: "gap-1.5",
+    width: 64,
+    height: 36,
+    className: "h-[32px] sm:h-[36px] w-auto",
   },
   md: {
-    frame: "h-[36px] w-[36px]",
-    imageSize: 36,
-    text: "text-[20px] sm:text-[21px]",
-    gap: "gap-2",
+    width: 78,
+    height: 44,
+    className: "h-[40px] sm:h-[44px] w-auto",
   },
   lg: {
-    frame: "h-[42px] w-[42px]",
-    imageSize: 42,
-    text: "text-[23px] sm:text-[25px]",
-    gap: "gap-2.5",
+    width: 96,
+    height: 54,
+    className: "h-[46px] lg:h-[52px] w-auto",
   },
   xl: {
-    frame: "h-[48px] w-[48px]",
-    imageSize: 48,
-    text: "text-2xl sm:text-3xl",
-    gap: "gap-3",
+    width: 120,
+    height: 68,
+    className: "h-[60px] sm:h-[66px] w-auto",
   },
 } as const;
 
 export default function Logo({
   variant = "dark",
   className = "",
+  imageClassName = "",
   size = "md",
   href = "/",
+  priority = true,
+  forceOriginal = false,
 }: LogoProps) {
   const isLight = variant === "light";
-  const logoSize = logoSizes[size];
+  const logoSize = logoSizes[size] || logoSizes.md;
+  // Use mini-thailand-white-logo.png on dark backgrounds,
+  // and minithailand-logo.png on light/white backgrounds.
+  const src = forceOriginal
+    ? "/images/minithailand-logo.png"
+    : isLight
+    ? "/images/mini-thailand-white-logo.png"
+    : "/images/minithailand-logo.png";
 
   return (
     <Link
       href={href}
-      className={`group inline-flex select-none items-center ${logoSize.gap} transition-opacity duration-200 hover:opacity-90 ${className}`}
+      className={`group inline-flex select-none items-center shrink-0 transition-opacity duration-200 hover:opacity-90 ${className}`}
       aria-label="Mini Thailand home"
     >
-      <span className={`relative block shrink-0 overflow-hidden rounded-full ring-2 ring-[#ec1c67] shadow-xs ${logoSize.frame}`} aria-hidden="true">
-        <Image
-          src="/products/logo.jpg"
-          alt="Mini Thailand Logo"
-          width={logoSize.imageSize}
-          height={logoSize.imageSize}
-          className="h-full w-full object-cover"
-        />
-      </span>
-      <span className={`${logoSize.text} inline-flex items-baseline font-black leading-none tracking-[-0.03em]`}>
-        <span className={isLight ? "text-white" : "text-neutral-900"}>Mini</span>
-        <span className="text-[#ec1c67]">Thailand</span>
-      </span>
+      <Image
+        src={src}
+        alt="Mini Thailand"
+        width={logoSize.width}
+        height={logoSize.height}
+        priority={priority}
+        className={`${logoSize.className} object-contain transition-transform duration-200 group-hover:scale-[1.02] ${imageClassName}`}
+      />
     </Link>
   );
 }

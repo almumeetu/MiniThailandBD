@@ -61,13 +61,13 @@ export default function Home() {
       {/* 5. Customer Testimonials & Reviews */}
       <ChatTestimonials />
 
-      {/* 6. 2-Column Split Editorial Banners ("Royal Party Gowns" & "Festive Cord Sets") */}
-      <AarongSplitBanners />
-
-      {/* 7. Watch & Shop - Clean Modern Reels & Stories Showcase */}
+      {/* 6. Watch & Shop - Clean Modern Reels & Stories Showcase */}
       <Suspense fallback={<WatchAndShopSkeleton />}>
         <WatchAndShop />
       </Suspense>
+
+      {/* 7. 2-Column Split Editorial Banners ("Royal Party Gowns" & "Festive Cord Sets" - Bottom Campaign) */}
+      <AarongSplitBanners />
     </main>
   );
 }
