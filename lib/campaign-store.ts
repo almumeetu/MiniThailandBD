@@ -2,7 +2,7 @@
 
 import { type Campaign, API_BASE_URL, resolveImageUrl } from "./admin-api";
 
-export const CAMPAIGNS_STORAGE_KEY = "minithailandbd_campaigns_v5";
+export const CAMPAIGNS_STORAGE_KEY = "minithailandbd_campaigns_v20";
 export const CAMPAIGNS_UPDATED_EVENT = "minithailandbd_campaigns_updated";
 
 /**
@@ -14,174 +14,187 @@ export function normalizeCampaignToEnglish(campaign: Campaign): Campaign {
 
   let title = campaign.title?.trim() || "";
   let description = campaign.description?.trim() || "";
-  let badge = campaign.badge?.trim();
   let ctaText = campaign.ctaText?.trim();
 
-  // 1. Cord Set Collection
-  if (
-    title.includes("কর্ড") ||
-    description.includes("কর্ড সেট") ||
-    title.toLowerCase().includes("cord")
-  ) {
-    title = "Exclusive Thai Cord Sets Collection";
-    description =
-      "Premium imported 2-piece cord sets from Bangkok — lightweight, ultra-soft fabric and modern stylish silhouettes.";
-    badge = "New Arrival";
-    ctaText = "Shop Cord Sets";
-  }
-  // 2. Velvet & Party Gowns
-  else if (
-    title.includes("ভেলভেট") ||
-    title.includes("গাউন") ||
-    description.includes("পার্টি") ||
-    title.toLowerCase().includes("velvet") ||
-    title.toLowerCase().includes("gown")
-  ) {
-    title = "Luxury Velvet & Festive Party Gowns";
-    description =
-      "Royal flared gowns, intricate embroidery and opulent velvet dresses crafted for special weddings and evening celebrations.";
-    badge = "Festive Edit";
-    ctaText = "Explore Gowns";
-  }
-  // 3. Abayas & Modest Fashion
-  else if (
-    title.includes("আবায়া") ||
-    title.includes("বোরকা") ||
-    description.includes("হিজাব") ||
-    title.toLowerCase().includes("abaya")
-  ) {
-    title = "Dubai Style Luxury Abaya & Modest Wear";
-    description =
-      "Sophisticated front-open shrug abayas, embroidered borka sets, and matching luxury georgette hijabs.";
-    badge = "Modest Elegance";
-    ctaText = "View Abayas";
-  }
-  // 4. Winter Collection
-  else if (
-    title.includes("উইন্টার") ||
-    title.includes("শীতকালীন") ||
-    description.includes("কোট") ||
-    title.toLowerCase().includes("winter")
-  ) {
-    title = "Winter Velvet & Cozy Chic Fashion Edit";
-    description =
-      "Statement animal-print long coats, textured velvet jackets, and warm stylish fleece co-ords.";
-    badge = "Winter Collection";
-    ctaText = "Shop Winter Wear";
-  }
-  // 5. Welcome to Mini Thailand
-  else if (
-    title.includes("স্বাগতম") ||
-    title.includes("MiniThailand") ||
-    title.includes("ফ্যাশন")
-  ) {
-    title = "Mini Thailand — Premier Boutique Fashion";
-    description =
-      "Discover authentic imported Thai fashion, cord dresses, festive sets, and modest wear with Cash on Delivery nationwide.";
-    badge = "Boutique Exclusive";
-    ctaText = "Explore Collection";
-  }
-  // 6. Catch any other residual Bengali text
-  else if (/[\u0980-\u09FF]/.test(title) || /[\u0980-\u09FF]/.test(description)) {
-    title = "Exclusive Boutique Fashion Deals";
-    description =
-      "Handpicked imported Thai collections, superior fabric quality, and fast 2-3 day delivery across Bangladesh.";
-    badge = badge || "Boutique Exclusive";
-    ctaText = ctaText || "Shop Now";
+  const hasBengali = /[\u0980-\u09FF]/.test(title) || /[\u0980-\u09FF]/.test(description);
+
+  if (hasBengali) {
+    // 1. Cord Set Collection
+    if (
+      title.includes("কর্ড") ||
+      description.includes("কর্ড সেট") ||
+      title.toLowerCase().includes("cord")
+    ) {
+      title = "Exclusive Thai Cord Sets Collection";
+      description =
+        "Premium imported 2-piece cord sets from Bangkok — lightweight, ultra-soft fabric and modern stylish silhouettes.";
+      ctaText = "Shop Cord Sets";
+    }
+    // 2. Velvet & Party Gowns
+    else if (
+      title.includes("ভেলভেট") ||
+      title.includes("গাউন") ||
+      description.includes("পার্টি") ||
+      title.toLowerCase().includes("velvet") ||
+      title.toLowerCase().includes("gown")
+    ) {
+      title = "Luxury Velvet & Festive Party Gowns";
+      description =
+        "Royal flared gowns, intricate embroidery and opulent velvet dresses crafted for special weddings and evening celebrations.";
+      ctaText = "Explore Gowns";
+    }
+    // 3. Abayas & Modest Fashion
+    else if (
+      title.includes("আবায়া") ||
+      title.includes("বোরকা") ||
+      description.includes("হিজাব") ||
+      title.toLowerCase().includes("abaya")
+    ) {
+      title = "Dubai Style Luxury Abaya & Modest Wear";
+      description =
+        "Sophisticated front-open shrug abayas, embroidered borka sets, and matching luxury georgette hijabs.";
+      ctaText = "View Abayas";
+    }
+    // 4. Winter Collection
+    else if (
+      title.includes("উইন্টার") ||
+      title.includes("শীতকালীন") ||
+      description.includes("কোট") ||
+      title.toLowerCase().includes("winter")
+    ) {
+      title = "Winter Velvet & Cozy Chic Fashion Edit";
+      description =
+        "Statement animal-print long coats, textured velvet jackets, and warm stylish fleece co-ords.";
+      ctaText = "Shop Winter Wear";
+    }
+    // 5. Welcome to Mini Thailand
+    else if (
+      title.includes("স্বাগতম") ||
+      title.includes("MiniThailand") ||
+      title.includes("ফ্যাশন")
+    ) {
+      title = "Mini Thailand — Premier Boutique Fashion";
+      description =
+        "Discover authentic imported Thai fashion, cord dresses, festive sets, and modest wear with Cash on Delivery nationwide.";
+      ctaText = "Explore Collection";
+    }
+    // 6. Catch any other residual Bengali text
+    else {
+      title = "Exclusive Boutique Fashion Deals";
+      description =
+        "Handpicked imported Thai collections, superior fabric quality, and fast 2-3 day delivery across Bangladesh.";
+      ctaText = ctaText || "Shop Now";
+    }
   }
 
   return {
     ...campaign,
     title,
     description,
-    badge: badge || "Special Offer",
-    ctaText: ctaText || "Explore Collection",
+    badge: "",
+    ctaText: ctaText || campaign.ctaText || "Shop Now",
   };
 }
 
 /**
  * Built-in default hero campaigns matching MiniThailandBD's high-converting,
- * multi-category store (Groceries, Electronics, Skincare, Perfumes, Baby products).
+ * curated boutique slides.
  */
 export const DEFAULT_HERO_CAMPAIGNS: Campaign[] = [
   {
-    id: "camp-hero-1",
-    title: "Exclusive Thai Cord Sets Collection",
-    description: "সরাসরি ব্যাংকক থেকে আনা ১০০% অরিজিনাল সফট প্রিমিয়াম কর্ড সেট — ট্রেন্ডি ডিজাইন ও অতুলনীয় আরাম। সীমিত স্টক, এখনই অর্ডার করুন।",
+    id: "camp-hero-slider-3",
+    title: "Exclusive Bangkok Co-ord Sets",
+    description: "Chic premium matching sets, lightweight fabrics & contemporary Thai boutique silhouettes.",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "Trending on FB",
-    ctaText: "Shop Cord Sets",
+    badge: "",
+    ctaText: "SHOP CO-ORD SETS",
     linkUrl: "/products?category=Cord%20Sets",
     sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
-    images: [{ id: "img-hero-1", images: ["/products/cords set/905937710_1118136247512437_2099551318531647321_n.jpg"] }],
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 1, page: "home" },
+    images: [{ id: "img-hero-slider-3", images: ["/images/sliders/slider-3.webp"] }],
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "camp-hero-slider-4",
+    title: "Regal Velvet & Festive Party Wear",
+    description: "Intricate handcrafted embroidery, rich royal textures & timeless evening fashion curated from Bangkok.",
+    status: "active",
+    startAt: new Date().toISOString(),
+    endAt: null,
+    hasDiscount: true,
+    badge: "",
+    ctaText: "EXPLORE PARTY WEAR",
+    linkUrl: "/products?category=Party%20Gowns",
+    sectionId: "sec-hero",
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 2, page: "home" },
+    images: [{ id: "img-hero-slider-4", images: ["/images/sliders/slider-4.webp"] }],
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "camp-hero-slider-5",
+    title: "Signature Dubai Abaya & Modest Luxury",
+    description: "Flowing layered silhouettes, modest elegance & artisanal detailing designed for modern occasions.",
+    status: "active",
+    startAt: new Date().toISOString(),
+    endAt: null,
+    hasDiscount: true,
+    badge: "",
+    ctaText: "VIEW ABAYAS",
+    linkUrl: "/products?category=Luxury%20Abayas",
+    sectionId: "sec-hero",
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 3, page: "home" },
+    images: [{ id: "img-hero-slider-5", images: ["/images/sliders/slider-5.webp"] }],
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "camp-hero-1",
+    title: "Autumn & Winter Haute Couture",
+    description: "Imported luxury Bangkok coordinates, tailored blazers & signature boutique silhouettes for the modern woman.",
+    status: "active",
+    startAt: new Date().toISOString(),
+    endAt: null,
+    hasDiscount: true,
+    badge: "",
+    ctaText: "EXPLORE COLLECTION",
+    linkUrl: "/products?category=Cord%20Sets",
+    sectionId: "sec-hero",
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 4, page: "home" },
+    images: [{ id: "img-hero-1", images: ["/images/campaign/minit-2.webp"] }],
     createdAt: new Date().toISOString(),
   },
   {
     id: "camp-hero-2",
-    title: "Luxury Velvet & Festive Party Gowns",
-    description: "যেকোনো বিয়ে ও পার্টির জন্য সম্পূর্ণ রাজকীয় সাজ — এক্সক্লুসিভ ভেলভেট, এমব্রয়ডারি ও গর্জিয়াস টিয়ার্ড গাউন।",
+    title: "Luxury Velvet & Evening Gowns",
+    description: "Hand-beaded lace, opulent velvet finishes & sweeping floor-length gowns crafted for regal celebrations.",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "Festive Edit",
-    ctaText: "Explore Gowns",
+    badge: "",
+    ctaText: "DISCOVER GOWNS",
     linkUrl: "/products?category=Party%20Gowns",
     sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
-    images: [{ id: "img-hero-2", images: ["/products/cords set/907179635_1119377164055012_4690738175147170981_n.jpg"] }],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "camp-hero-3",
-    title: "Dubai Style Luxury Abaya & Modest Wear",
-    description: "মার্জিত ও আভিজাত্যপূর্ণ ডিজাইনের ফ্রন্ট ওপেন আবায়া, বোরকা সেট এবং ম্যাচিং প্রিমিয়াম হিজাব কালেকশন।",
-    status: "active",
-    startAt: new Date().toISOString(),
-    endAt: null,
-    hasDiscount: true,
-    badge: "Modest Elegance",
-    ctaText: "View Abayas",
-    linkUrl: "/products?category=Luxury%20Abayas",
-    sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
-    images: [{ id: "img-hero-3", images: ["/products/cords set/910465086_1119291994063529_6730173952863950097_n.jpg"] }],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "camp-hero-4",
-    title: "Winter Velvet & Cozy Chic Fashion Edit",
-    description: "চিটা প্রিন্ট লং কোট, ভেলভেট জ্যাকেট এবং শীতকালীন ট্রেন্ডি ফ্লিস সুইটশার্ট — ক্যাশ অন ডেলিভারি সারা বাংলাদেশে।",
-    status: "active",
-    startAt: new Date().toISOString(),
-    endAt: null,
-    hasDiscount: false,
-    badge: "Winter 2026",
-    ctaText: "Shop Winter Wear",
-    linkUrl: "/products?category=Winter%20Collection",
-    sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
-    images: [{ id: "img-hero-4", images: ["/products/cords set/916496639_2050418568951611_3231227725146044425_n.jpeg"] }],
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 5, page: "home" },
+    images: [{ id: "img-hero-2", images: ["/images/campaign/minit-3.webp"] }],
     createdAt: new Date().toISOString(),
   },
   {
     id: "camp-hero-5",
-    title: "Mini Thailand — Premier Boutique Fashion",
-    description: "বাংলাদেশের বিশ্বস্ত থাই ফ্যাশন ব্র্যান্ড — প্রিমিয়াম কোয়ালিটি, লাইভ ভিডিও চেকিং ও দ্রুত হোম ডেলিভারি সুবিধা।",
+    title: "Winter Outerwear & Velvet Edit",
+    description: "Statement luxury coats, warm velvet dresses & boutique essentials that turn every entrance into a moment.",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "Boutique Choice",
-    ctaText: "Explore All Products",
-    linkUrl: "/products",
+    badge: "",
+    ctaText: "SHOP WINTER EDIT",
+    linkUrl: "/products?category=Winter%20Collection",
     sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
-    images: [{ id: "img-hero-5", images: ["/products/cords set/913180013_1120115427314519_7306115019982798276_n.jpg"] }],
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 6, page: "home" },
+    images: [{ id: "img-hero-5", images: ["/images/campaign/minit-7.webp"] }],
     createdAt: new Date().toISOString(),
   },
 ];
@@ -196,21 +209,15 @@ export function getStoredCampaigns(): Campaign[] {
 
   try {
     // Clean up older cached storage keys if present
-    localStorage.removeItem("minithailandbd_campaigns_v1");
-    localStorage.removeItem("minithailandbd_campaigns_v2");
-    localStorage.removeItem("minithailandbd_campaigns_v3");
-    localStorage.removeItem("minithailandbd_campaigns_v4");
+    for (let i = 1; i <= 19; i++) {
+      localStorage.removeItem(`minithailandbd_campaigns_v${i}`);
+    }
 
     const raw = localStorage.getItem(CAMPAIGNS_STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        const hasBoutique = parsed.some((c) =>
-          /cord|velvet|gown|abaya|winter/i.test(c.title || "")
-        );
-        if (hasBoutique) {
-          return parsed.map(normalizeCampaignToEnglish);
-        }
+        return parsed.map(normalizeCampaignToEnglish);
       }
     }
   } catch (err) {
@@ -292,6 +299,10 @@ export function deleteStoredCampaign(id: string): void {
 export async function fetchActiveHeroCampaigns(): Promise<Campaign[]> {
   let apiCampaigns: Campaign[] = [];
 
+  const isHeroCampaign = (c: Campaign) =>
+    c.status === "active" &&
+    (!c.sectionId || c.sectionId === "sec-hero" || c.id.startsWith("camp-hero-"));
+
   try {
     const res = await fetch(`${API_BASE_URL}/campaigns`, {
       cache: "no-store",
@@ -299,17 +310,20 @@ export async function fetchActiveHeroCampaigns(): Promise<Campaign[]> {
     if (res.ok) {
       const data = await res.json();
       if (Array.isArray(data)) {
-        apiCampaigns = data.filter((c) => c.status === "active");
+        apiCampaigns = data.filter(isHeroCampaign);
       }
     }
   } catch {
     // API is offline — handled by stored/fallback campaigns
   }
 
-  const stored = getStoredCampaigns().filter((c) => c.status === "active");
+  const stored = getStoredCampaigns().filter(isHeroCampaign);
 
-  // Merge unique campaigns (API campaigns take precedence)
+  // Merge unique campaigns: start with DEFAULT_HERO_CAMPAIGNS so new sliders are always included
   const map = new Map<string, Campaign>();
+  for (const c of DEFAULT_HERO_CAMPAIGNS) {
+    map.set(c.id, c);
+  }
   for (const c of stored) {
     map.set(c.id, c);
   }
@@ -322,3 +336,87 @@ export async function fetchActiveHeroCampaigns(): Promise<Campaign[]> {
   // If no active campaigns found, return default hero campaigns
   return result.length > 0 ? result : DEFAULT_HERO_CAMPAIGNS;
 }
+
+/**
+ * Fetches all active campaigns across API and stored campaigns
+ */
+export async function fetchAllActiveCampaigns(): Promise<Campaign[]> {
+  let apiCampaigns: Campaign[] = [];
+
+  try {
+    const res = await fetch(`${API_BASE_URL}/campaigns`, {
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        apiCampaigns = data.filter((c) => c.status === "active");
+      }
+    }
+  } catch {
+    // API is offline
+  }
+
+  const stored = getStoredCampaigns().filter((c) => c.status === "active");
+  const map = new Map<string, Campaign>();
+  for (const c of stored) map.set(c.id, c);
+  for (const c of apiCampaigns) map.set(c.id, c);
+
+  return Array.from(map.values()).map(normalizeCampaignToEnglish);
+}
+
+/**
+ * Fetches an active campaign assigned to a specific banner slot/section.
+ * Slot IDs:
+ * - "sec-feature-banner": Full-width Feature Campaign Banner
+ * - "sec-split-1": Left Column Split Banner
+ * - "sec-split-2": Right Column Split Banner
+ */
+export async function fetchCampaignForSlot(slotId: string): Promise<Campaign | null> {
+  try {
+    const campaigns = await fetchAllActiveCampaigns();
+    const match = campaigns.find((c) => {
+      const sectionId = c.sectionId || c.section?.id || "";
+      const sectionTitle = (c.section?.title || "").toLowerCase();
+
+      if (sectionId === slotId) return true;
+
+      if (slotId === "sec-feature-banner") {
+        return (
+          sectionId === "sec-feature-banner" ||
+          sectionId === "sec-banner" ||
+          sectionTitle.includes("feature") ||
+          sectionTitle.includes("full-width")
+        );
+      }
+
+      if (slotId === "sec-split-1") {
+        return (
+          sectionId === "sec-split-1" ||
+          sectionId === "sec-split-left" ||
+          sectionTitle.includes("split banner 1") ||
+          sectionTitle.includes("split 1") ||
+          sectionTitle.includes("left")
+        );
+      }
+
+      if (slotId === "sec-split-2") {
+        return (
+          sectionId === "sec-split-2" ||
+          sectionId === "sec-split-right" ||
+          sectionTitle.includes("split banner 2") ||
+          sectionTitle.includes("split 2") ||
+          sectionTitle.includes("right")
+        );
+      }
+
+      return false;
+    });
+
+    return match || null;
+  } catch (err) {
+    console.warn(`Failed to fetch campaign for slot ${slotId}:`, err);
+    return null;
+  }
+}
+

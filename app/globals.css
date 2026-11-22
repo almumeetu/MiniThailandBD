@@ -22,22 +22,22 @@
   --color-dark-charcoal: #18181b;
   --color-dark-crimson: #d31f3a;
 
-  /* MiniThailandBD — Thai fashion-inspired rose/pink + gold palette */
-  --color-store-primary: #E91E63;
-  --color-store-accent: #e8a020;
-  --color-store-hover: #c2185b;
-  --color-store-deep: #880e4f;
-  --color-store-ink: #1a0010;
+  /* Mini Thailand — Official signature Hot Pink theme palette from brand shopping bag */
+  --color-store-primary: #ec1c67;
+  --color-store-accent: #18181b;
+  --color-store-hover: #d81358;
+  --color-store-deep: #b30c45;
+  --color-store-ink: #18181b;
   --color-store-page: #ffffff;
-  --color-store-surface: #fff5f8;
-  --color-store-surface-strong: #fce4ec;
-  --color-store-border: #f8bbd0;
-  --color-store-light: #fce8f0;
-  --color-store-price: #c0185a;
-  --color-store-orange: #e8a020;
-  --color-store-orange-hover: #c47a10;
-  --color-store-orange-soft: #fef3e0;
-  --color-store-orange-ink: #7a4a00;
+  --color-store-surface: #fff0f5;
+  --color-store-surface-strong: #fce7f1;
+  --color-store-border: #fbcfe8;
+  --color-store-light: #fdf2f7;
+  --color-store-price: #ec1c67;
+  --color-store-orange: #ec1c67;
+  --color-store-orange-hover: #d81358;
+  --color-store-orange-soft: #fff0f5;
+  --color-store-orange-ink: #b30c45;
 
   --color-khaki-gold: #C5A880;
   --color-sage-gold: #A89F91;

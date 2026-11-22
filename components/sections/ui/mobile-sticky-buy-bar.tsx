@@ -42,7 +42,7 @@ export default function MobileStickyBuyBar({
   return (
     <div data-mobile-purchase-bar aria-label={`Buy ${name}`} className="fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] left-0 right-0 z-40 md:bottom-0 lg:hidden bg-white/95 backdrop-blur-md border-t border-[#DED7CC] px-4 pt-3 pb-3 md:pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-4px_20px_rgba(0,0,0,0.04)]">
       <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 max-w-xl mx-auto">
-        <span className="max-w-28 break-words text-sm font-semibold text-store-price sm:text-base">
+        <span className="max-w-28 break-words text-sm font-extrabold text-zinc-950 sm:text-base">
           {priceFormatted}
         </span>
 
@@ -53,18 +53,18 @@ export default function MobileStickyBuyBar({
             onClick={onAddToCart}
             disabled={isOutOfStock || isAdding}
             aria-busy={isAdding}
-            className="min-w-0 h-11 px-2 bg-store-primary hover:bg-store-accent text-white font-medium text-xs rounded-lg flex items-center justify-center gap-1.5 transition-colors disabled:opacity-40"
+            className="min-w-0 h-11 px-3 bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider rounded-lg flex items-center justify-center gap-1.5 transition-colors disabled:opacity-40 cursor-pointer shadow-sm"
             aria-label="Add to Bag"
           >
             <IoBagCheckOutline className="w-4 h-4" />
-            <span>{isAdding ? 'Adding…' : 'Add'}</span>
+            <span>{isAdding ? 'Adding…' : 'Add to Bag'}</span>
           </button>
 
           <button
             type="button"
             onClick={onBuyNow}
             disabled={isOutOfStock || isAdding}
-            className="min-w-0 h-11 px-2 bg-store-deep hover:bg-store-hover text-white font-medium text-xs rounded-lg flex items-center justify-center gap-1.5 transition-colors disabled:opacity-40"
+            className="min-w-0 h-11 px-3 bg-black hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider rounded-lg flex items-center justify-center gap-1.5 transition-colors disabled:opacity-40 border border-zinc-800 cursor-pointer shadow-sm"
             aria-label="Buy Now"
           >
             <IoFlashOutline className="w-3.5 h-3.5" />

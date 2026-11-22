@@ -4,12 +4,13 @@ import "./mega-menu.css";
 import "./slider-enhancements.css";
 
 export const metadata: Metadata = {
-  title: "MiniThailandBD | Bangladesh's Premier Fashion & Lifestyle Store",
-  description: "MiniThailandBD — Bangladesh's premier online store for authentic skincare, digital electronics, luxury perfumes, fashion apparel, baby products, and home lifestyle essentials.",
+  title: "Mini Thailand | Women's Boutique Fashion & Apparel",
+  description: "Mini Thailand — Exclusive Thai Cord Sets, Luxury Party Gowns, Dubai Abayas & Velvet Boutique Fashion.",
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon.png", type: "image/png", sizes: "32x32" },
+      { url: "/favicon-192.png", type: "image/png", sizes: "192x192" },
     ],
     shortcut: "/favicon.ico",
     apple: "/apple-touch-icon.png",

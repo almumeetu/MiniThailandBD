@@ -50,7 +50,7 @@ export default function HeaderActions() {
       >
         <LuShoppingBag className="w-5 h-5 sm:w-[22px] sm:h-[22px]" />
         {cartCount > 0 && (
-          <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-0.5 bg-[#F26522] text-white text-[9px] font-bold rounded-full flex items-center justify-center leading-none">
+          <span className="absolute -top-1.5 -right-1.5 min-w-[16px] h-4 px-0.5 bg-[#ec1c67] text-white text-[9px] font-bold rounded-full flex items-center justify-center leading-none">
             {cartCount > 99 ? '99+' : cartCount}
           </span>
         )}

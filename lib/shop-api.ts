@@ -355,59 +355,60 @@ export async function fetchShopNewsBySlug(slug: string): Promise<News | null> {
   return DEMO_NEWS.find((demoArticle) => demoArticle.slug === slug) ?? null;
 }
 
-export const DEFAULT_NOVAMART_CATEGORIES: ShopCategory[] = [
+export const DEFAULT_SHOP_CATEGORIES: ShopCategory[] = [
   {
     id: "cat-cord-sets",
-    name: "Cord Sets",
+    name: "Co-ord Sets",
     slug: "cord-sets",
-    imageUrl: "/products/cords set/905937710_1118136247512437_2099551318531647321_n.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&auto=format&fit=crop&q=90",
   },
   {
     id: "cat-party-gowns",
     name: "Party Gowns",
     slug: "party-gowns",
-    imageUrl: "/products/cords set/907179635_1119377164055012_4690738175147170981_n.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=800&auto=format&fit=crop&q=90",
   },
   {
     id: "cat-luxury-abayas",
     name: "Luxury Abayas",
     slug: "luxury-abayas",
-    imageUrl: "/products/cords set/910465086_1119291994063529_6730173952863950097_n.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?w=800&auto=format&fit=crop&q=90",
   },
   {
     id: "cat-velvet-collection",
     name: "Velvet Collection",
     slug: "velvet-collection",
-    imageUrl: "/products/cords set/913180013_1120115427314519_7306115019982798276_n.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=800&auto=format&fit=crop&q=90",
   },
   {
     id: "cat-winter-collection",
     name: "Winter Collection",
     slug: "winter-collection",
-    imageUrl: "/products/cords set/916496639_2050418568951611_3231227725146044425_n.jpeg",
+    imageUrl: "https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&auto=format&fit=crop&q=90",
   },
   {
     id: "cat-designer-3piece",
     name: "Designer 3-Piece",
     slug: "designer-3piece",
-    imageUrl: "/products/cords set/906970787_1118136294179099_2969676140071058051_n.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&auto=format&fit=crop&q=90",
   },
   {
     id: "cat-casual-modest",
     name: "Casual & Modest",
     slug: "casual-modest",
-    imageUrl: "/products/cords set/907848890_1120439970615398_2739248965153845733_n.jpg",
+    imageUrl: "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?w=800&auto=format&fit=crop&q=90",
   },
   {
     id: "cat-hijabs-scarves",
     name: "Hijabs & Scarves",
     slug: "hijabs-scarves",
-    imageUrl: "/products/cords set/911960050_2550810655401790_1836484421752711846_n.jpeg",
+    imageUrl: "https://images.unsplash.com/photo-1607083206869-4c7672e72a8a?w=800&auto=format&fit=crop&q=90",
   },
 ];
+export const DEFAULT_NOVAMART_CATEGORIES = DEFAULT_SHOP_CATEGORIES;
 
-export const DEFAULT_NOVAMART_SETTINGS: ShopSettings = {
-  id: "minithailandbd-settings-default",
+export const DEFAULT_SHOP_SETTINGS: ShopSettings = {
+  id: "minithailand-settings-default",
   shopName: "Mini Thailand",
   slogan: "Exclusive Thai Cord Sets, Luxury Party Gowns, Dubai Abayas & Velvet Boutique Fashion",
   contactNumber: [
@@ -415,8 +416,8 @@ export const DEFAULT_NOVAMART_SETTINGS: ShopSettings = {
     { title: "Order Desk", value: "01706126663" },
   ],
   email: [
-    { title: "Customer Care", value: "support@minithailandbd.com" },
-    { title: "Wholesale & Inquiries", value: "orders@minithailandbd.com" },
+    { title: "Customer Care", value: "support@minithailand.com" },
+    { title: "Wholesale & Inquiries", value: "orders@minithailand.com" },
   ],
   socialContact: {
     whatsapp: "8801706126663",
@@ -432,14 +433,15 @@ export const DEFAULT_NOVAMART_SETTINGS: ShopSettings = {
   branchName: "Mini Thailand Boutique Flagship & Outlets",
   branchAddress: "Jamuna Future Park (Shop 11, Ground Fl) | Dhanmondi Simanto Somvar (Shop 3060, L3) | Uttara Nigar Plaza (Shop 23-24, L2) | Adabor Shahabuddin Plaza (Shop 43, L2), Dhaka, Bangladesh",
   copyrightYear: "2026",
-  parentCompany: "Mini Thailand BD",
+  parentCompany: "Mini Thailand",
   parentCompanyLink: "https://www.facebook.com/minithailand2022/",
   logo: "/products/logo.jpg",
   isTopBarVisible: true,
   hideOutOfStock: false,
 };
+export const DEFAULT_NOVAMART_SETTINGS = DEFAULT_SHOP_SETTINGS;
 
-export const DEFAULT_NOVAMART_BRANDS: ShopBrand[] = [
+export const DEFAULT_SHOP_BRANDS: ShopBrand[] = [
   { id: "b-minithai", name: "Mini Thailand Exclusive", slug: "mini-thailand-exclusive" },
   { id: "b-bangkok", name: "Bangkok Boutique", slug: "bangkok-boutique" },
   { id: "b-dubai", name: "Dubai Modest Wear", slug: "dubai-modest-wear" },
@@ -447,6 +449,7 @@ export const DEFAULT_NOVAMART_BRANDS: ShopBrand[] = [
   { id: "b-royal-velvet", name: "Royal Velvet Edit", slug: "royal-velvet-edit" },
   { id: "b-thai-silk", name: "Thai Silk & Linen", slug: "thai-silk-linen" },
 ];
+export const DEFAULT_NOVAMART_BRANDS = DEFAULT_SHOP_BRANDS;
 
 export async function fetchShopBrands(): Promise<ShopBrand[]> {
   const result = await safeFetchJson<ShopBrand[]>(`${API_BASE_URL}/brands`, []);
@@ -522,11 +525,11 @@ export async function fetchStorePolicies(): Promise<StorePolicies | null> {
     },
     privacy: {
       title: "Data Privacy & Security",
-      content: "MiniThailandBD respects your privacy and utilizes SSL bank-grade encryption to protect customer payment and personal information.",
+      content: "Mini Thailand respects your privacy and utilizes SSL bank-grade encryption to protect customer payment and personal information.",
     },
     terms: {
       title: "Terms & Conditions",
-      content: "All purchases made on MiniThailandBD Bangladesh are backed by authentic brand guarantees, valid commercial VAT invoices, and consumer protection regulations.",
+      content: "All purchases made on Mini Thailand Bangladesh are backed by authentic brand guarantees, valid commercial VAT invoices, and consumer protection regulations.",
     },
   };
 }

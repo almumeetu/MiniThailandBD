@@ -287,7 +287,7 @@ export default function VideoPlayerModal({
         type="button"
         onClick={handleClose}
         aria-label="Close modal"
-        className="absolute top-4 right-4 z-50 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md hover:bg-white/20 transition-colors focus-visible:outline-2 focus-visible:outline-white"
+        className="absolute top-4 right-4 z-50 flex h-10 w-10 items-center justify-center bg-white/10 text-white backdrop-blur-md hover:bg-white hover:text-black transition-colors focus-visible:outline-2 focus-visible:outline-white cursor-pointer"
       >
         <LuX className="h-5 w-5" />
       </button>
@@ -299,7 +299,7 @@ export default function VideoPlayerModal({
           disabled={!hasPrev}
           onClick={goToPrev}
           aria-label="Previous video"
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md hover:bg-white/25 disabled:opacity-20 transition-all active:scale-95 shadow-lg"
+          className="flex h-11 w-11 items-center justify-center border border-white/20 bg-white/10 text-white backdrop-blur-md hover:bg-white hover:text-black disabled:opacity-20 transition-all active:scale-95 shadow-lg cursor-pointer"
         >
           <LuChevronUp className="h-6 w-6" />
         </button>
@@ -308,7 +308,7 @@ export default function VideoPlayerModal({
           disabled={!hasNext}
           onClick={goToNext}
           aria-label="Next video"
-          className="flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md hover:bg-white/25 disabled:opacity-20 transition-all active:scale-95 shadow-lg"
+          className="flex h-11 w-11 items-center justify-center border border-white/20 bg-white/10 text-white backdrop-blur-md hover:bg-white hover:text-black disabled:opacity-20 transition-all active:scale-95 shadow-lg cursor-pointer"
         >
           <LuChevronDown className="h-6 w-6" />
         </button>
@@ -317,13 +317,13 @@ export default function VideoPlayerModal({
       {/* Main Container: Video + Side Panel */}
       <div className="relative flex flex-col lg:flex-row items-center justify-center w-full h-full lg:h-[88vh] max-w-6xl mx-auto p-0 lg:p-4 gap-0 lg:gap-6 overflow-hidden">
         {/* ── Left / Center: 9:16 Video Player ── */}
-        <div className="relative w-full h-full lg:h-full lg:w-[460px] lg:max-h-[800px] shrink-0 bg-black flex items-center justify-center lg:rounded-3xl overflow-hidden shadow-2xl border border-zinc-800">
-          {currentVideo.source === "upload" && currentVideo.videoUrl ? (
+        <div className="relative w-full h-full lg:h-full lg:w-[460px] lg:max-h-[800px] shrink-0 bg-black flex items-center justify-center overflow-hidden shadow-2xl border border-zinc-800">
+          {Boolean(currentVideo.videoUrl) ? (
             /* Uploaded MP4 / Custom Player */
             <div className="relative w-full h-full flex items-center justify-center group">
               <video
                 ref={videoRef}
-                src={currentVideo.videoUrl}
+                src={currentVideo.videoUrl || undefined}
                 poster={resolveImageUrl(currentVideo.thumbnailUrl)}
                 playsInline
                 autoPlay
@@ -347,7 +347,7 @@ export default function VideoPlayerModal({
                   onClick={togglePlay}
                   className="absolute inset-0 flex items-center justify-center bg-black/30 cursor-pointer pointer-events-auto"
                 >
-                  <span className="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 text-store-primary shadow-xl scale-110 transition-transform">
+                  <span className="flex h-16 w-16 items-center justify-center border border-white/40 bg-black/70 text-white shadow-xl scale-110 transition-transform">
                     <LuPlay className="h-8 w-8 translate-x-1" />
                   </span>
                 </div>
@@ -358,11 +358,11 @@ export default function VideoPlayerModal({
                 {/* Progress bar (scrubbable) */}
                 <div
                   onClick={handleSeek}
-                  className="relative h-1.5 w-full bg-white/20 rounded-full cursor-pointer hover:h-2 transition-all"
+                  className="relative h-1.5 w-full bg-white/20 cursor-pointer hover:h-2 transition-all"
                 >
                   <div
                     style={{ width: `${progress}%` }}
-                    className="absolute top-0 left-0 h-full bg-store-primary rounded-full transition-all"
+                    className="absolute top-0 left-0 h-full bg-store-primary transition-all"
                   />
                 </div>
 
@@ -435,7 +435,7 @@ export default function VideoPlayerModal({
 
           {/* Quick source badge top left */}
           <div className="absolute top-4 left-4 z-20 flex items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-black/60 backdrop-blur-md px-3 py-1 text-[11px] font-semibold text-white border border-white/10">
+            <span className="inline-flex items-center gap-1.5 bg-black/70 backdrop-blur-md px-3 py-1 text-[11px] font-semibold text-white border border-white/10 uppercase tracking-wider">
               {currentVideo.source === "facebook" ? (
                 <>
                   <FaFacebookF className="h-2.5 w-2.5 text-[#1877F2]" />
@@ -450,7 +450,7 @@ export default function VideoPlayerModal({
             </span>
 
             {currentVideo.isFeatured && (
-              <span className="inline-flex items-center gap-1 rounded-full bg-gradient-to-r from-rose-600 to-amber-500 px-2.5 py-1 text-[10px] font-bold text-white shadow-md">
+              <span className="inline-flex items-center gap-1 bg-rose-600 px-2.5 py-1 text-[10px] font-bold text-white uppercase tracking-wider shadow-md">
                 <LuSparkles className="h-2.5 w-2.5" />
                 <span>HOT HIT</span>
               </span>
@@ -459,7 +459,7 @@ export default function VideoPlayerModal({
         </div>
 
         {/* ── Right: Side Panel (Desktop) / Bottom Sheet (Mobile) ── */}
-        <div className="relative flex flex-col justify-between w-full lg:w-[420px] max-h-[46vh] lg:max-h-[800px] lg:h-full bg-zinc-950/95 lg:bg-zinc-950/80 backdrop-blur-xl border-t lg:border border-zinc-800/90 rounded-t-3xl lg:rounded-3xl p-5 lg:p-6 text-white shadow-2xl overflow-y-auto">
+        <div className="relative flex flex-col justify-between w-full lg:w-[420px] max-h-[46vh] lg:max-h-[800px] lg:h-full bg-zinc-950/95 lg:bg-zinc-950/80 backdrop-blur-xl border-t lg:border border-zinc-800/90 p-5 lg:p-6 text-white shadow-2xl overflow-y-auto">
           {/* Header & Captions */}
           <div className="space-y-3">
             <div className="flex items-start justify-between gap-3">
@@ -488,18 +488,18 @@ export default function VideoPlayerModal({
                 <button
                   type="button"
                   onClick={() => setIsShareOpen((prev) => !prev)}
-                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors"
+                  className="flex h-9 w-9 items-center justify-center border border-white/20 bg-white/10 hover:bg-white hover:text-black text-white transition-colors cursor-pointer"
                   title="Share Video"
                 >
                   <LuShare2 className="h-4 w-4" />
                 </button>
 
                 {isShareOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 rounded-2xl border border-zinc-800 bg-zinc-900 p-2 shadow-2xl z-50 text-xs space-y-1">
+                  <div className="absolute right-0 top-full mt-2 w-48 border border-zinc-800 bg-zinc-900 p-2 shadow-2xl z-50 text-xs space-y-1">
                     <button
                       type="button"
                       onClick={handleCopyLink}
-                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-zinc-300 hover:bg-white/10 hover:text-white text-left transition-colors"
+                      className="w-full flex items-center gap-2.5 px-3 py-2 text-zinc-300 hover:bg-white/10 hover:text-white text-left transition-colors cursor-pointer"
                     >
                       <LuLink className="h-3.5 w-3.5" />
                       <span>Copy link</span>
@@ -510,7 +510,7 @@ export default function VideoPlayerModal({
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-emerald-400 hover:bg-emerald-500/10 text-left transition-colors"
+                      className="w-full flex items-center gap-2.5 px-3 py-2 text-emerald-400 hover:bg-emerald-500/10 text-left transition-colors"
                     >
                       <FaWhatsapp className="h-3.5 w-3.5" />
                       <span>Share on WhatsApp</span>
@@ -520,7 +520,7 @@ export default function VideoPlayerModal({
                         href={currentVideo.facebookUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-blue-400 hover:bg-blue-500/10 text-left transition-colors"
+                        className="w-full flex items-center gap-2.5 px-3 py-2 text-blue-400 hover:bg-blue-500/10 text-left transition-colors"
                       >
                         <FaFacebookF className="h-3 w-3" />
                         <span>Open on Facebook</span>
@@ -555,9 +555,9 @@ export default function VideoPlayerModal({
           {/* Linked Product Card & Checkout Actions */}
           <div className="mt-4 pt-4 border-t border-zinc-800/90 space-y-3.5">
             {linkedProduct ? (
-              <div className="rounded-2xl border border-zinc-800 bg-zinc-900/90 p-3.5 space-y-3 shadow-inner">
+              <div className="border border-zinc-800 bg-zinc-900/90 p-3.5 space-y-3 shadow-inner">
                 <div className="flex items-center gap-3">
-                  <div className="relative h-14 w-14 shrink-0 overflow-hidden rounded-xl border border-zinc-700 bg-zinc-800">
+                  <div className="relative h-14 w-14 shrink-0 overflow-hidden border border-zinc-700 bg-zinc-800">
                     {linkedProduct.media?.[0]?.media?.url && (
                       <Image
                         src={resolveImageUrl(linkedProduct.media[0].media.url)}
@@ -594,9 +594,9 @@ export default function VideoPlayerModal({
                           key={v.id}
                           type="button"
                           onClick={() => setSelectedVariantId(v.id)}
-                          className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-all ${
+                          className={`px-3 py-1.5 text-xs font-bold uppercase tracking-wider transition-all cursor-pointer ${
                             selectedVariantId === v.id
-                              ? "bg-store-primary text-white shadow-xs"
+                              ? "bg-white text-black"
                               : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
                           }`}
                         >
@@ -614,10 +614,10 @@ export default function VideoPlayerModal({
                     href={whatsappLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 py-2.5 px-3 text-xs font-bold text-white transition-all shadow-md active:scale-95 text-center"
+                    className="flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 py-2.5 px-3 text-xs font-bold uppercase tracking-wider text-black transition-all shadow-md active:scale-95 text-center cursor-pointer"
                   >
                     <FaWhatsapp className="h-4 w-4" />
-                    <span>WhatsApp Order</span>
+                    <span>WhatsApp</span>
                   </a>
 
                   {/* Add to Cart */}
@@ -625,7 +625,7 @@ export default function VideoPlayerModal({
                     type="button"
                     onClick={handleAddToCart}
                     disabled={isAddingToCart}
-                    className="flex items-center justify-center gap-2 rounded-xl bg-store-primary hover:bg-store-primary/90 py-2.5 px-3 text-xs font-bold text-white transition-all shadow-md active:scale-95 disabled:opacity-50"
+                    className="flex items-center justify-center gap-2 bg-white hover:bg-zinc-200 py-2.5 px-3 text-xs font-bold uppercase tracking-wider text-black transition-all shadow-md active:scale-95 disabled:opacity-50 cursor-pointer"
                   >
                     <LuShoppingBag className="h-4 w-4" />
                     <span>{isAddingToCart ? "Adding..." : "Add to Cart"}</span>
@@ -637,7 +637,7 @@ export default function VideoPlayerModal({
                   <Link
                     href={`/products/${linkedProduct.slug}`}
                     onClick={handleClose}
-                    className="inline-flex items-center gap-1 text-[11px] text-zinc-400 hover:text-white transition-colors"
+                    className="inline-flex items-center gap-1 text-[11px] text-zinc-400 hover:text-white transition-colors uppercase tracking-wider font-semibold"
                   >
                     <span>View full product details</span>
                     <LuExternalLink className="h-3 w-3" />
@@ -651,10 +651,10 @@ export default function VideoPlayerModal({
                   href={whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="w-full flex items-center justify-center gap-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 py-3 px-4 text-xs font-bold text-white transition-all shadow-md active:scale-95"
+                  className="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 py-3 px-4 text-xs font-bold uppercase tracking-wider text-black transition-all shadow-md active:scale-95 cursor-pointer"
                 >
                   <FaWhatsapp className="h-4 w-4" />
-                  <span>Order Shown Outfit on WhatsApp</span>
+                  <span>Order on WhatsApp</span>
                 </a>
               </div>
             )}

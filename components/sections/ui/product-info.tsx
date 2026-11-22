@@ -264,7 +264,7 @@ export default function ProductInfo({
             <span>
               Category: <Link
                 href={`/products?category=${encodeURIComponent(category)}`}
-                className="text-store-primary font-medium hover:underline transition-colors"
+                className="text-zinc-900 font-semibold hover:underline transition-colors"
               >
                 {category || 'General Essentials'}
               </Link>
@@ -289,7 +289,7 @@ export default function ProductInfo({
         </div>
 
         <div className={`${styles.priceBlock} flex flex-wrap items-baseline gap-x-4 gap-y-2`}>
-          <span className="text-3xl font-semibold text-store-price tracking-tight break-words">
+          <span className="text-3xl font-extrabold text-zinc-950 tracking-tight break-words">
             {displayPrice}
           </span>
           {displayOriginalPrice && (
@@ -348,24 +348,24 @@ export default function ProductInfo({
             </button>
           </div>
 
-          {/* Primary action follows the storefront accent palette. */}
+          {/* Primary action: luxury black button */}
           <button
             type="button"
             onClick={handleAddToCart}
             disabled={isOutOfStock || isAdding}
             aria-busy={isAdding}
-            className={`${styles.addButton} min-w-0 px-4 text-white font-semibold text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-xs`}
+            className={`${styles.addButton} min-w-0 px-5 bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-sm transition-all`}
           >
             {isAdding ? <LuLoaderCircle className={`${styles.spinner} w-4 h-4`} aria-hidden="true" /> : isAdded ? <LuCheck className="w-4 h-4" aria-hidden="true" /> : <LuShoppingBag className="w-4 h-4" aria-hidden="true" />}
             <span>{isAdding ? 'Adding…' : isAdded ? 'Added to bag' : 'Add to Bag'}</span>
           </button>
 
-          {/* Direct checkout action */}
+          {/* Direct checkout action: luxury black button */}
           <button
             type="button"
             onClick={handleBuyNow}
             disabled={isOutOfStock || isAdding}
-            className={`${styles.buyButton} min-w-0 px-4 font-semibold text-sm flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-xs`}
+            className={`${styles.buyButton} min-w-0 px-5 bg-black hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 shadow-sm transition-all border border-zinc-800`}
           >
             <span>Buy Now</span>
           </button>
@@ -419,7 +419,7 @@ export default function ProductInfo({
             aria-pressed={activeTab === 'desc'}
             className={`shrink-0 min-h-11 whitespace-nowrap py-3 transition-colors relative cursor-pointer ${
               activeTab === 'desc'
-                ? 'text-store-primary font-bold border-b-2 border-store-primary'
+                ? 'text-zinc-950 font-bold border-b-2 border-zinc-950'
                 : 'text-zinc-500 hover:text-zinc-900'
             }`}
           >
@@ -432,7 +432,7 @@ export default function ProductInfo({
             aria-pressed={activeTab === 'delivery'}
             className={`shrink-0 min-h-11 whitespace-nowrap py-3 transition-colors relative cursor-pointer ${
               activeTab === 'delivery'
-                ? 'text-store-primary font-bold border-b-2 border-store-primary'
+                ? 'text-zinc-950 font-bold border-b-2 border-zinc-950'
                 : 'text-zinc-500 hover:text-zinc-900'
             }`}
           >
@@ -445,7 +445,7 @@ export default function ProductInfo({
             aria-pressed={activeTab === 'reviews'}
             className={`shrink-0 min-h-11 whitespace-nowrap py-3 transition-colors relative cursor-pointer ${
               activeTab === 'reviews'
-                ? 'text-store-primary font-bold border-b-2 border-store-primary'
+                ? 'text-zinc-950 font-bold border-b-2 border-zinc-950'
                 : 'text-zinc-500 hover:text-zinc-900'
             }`}
           >
@@ -584,7 +584,7 @@ export default function ProductInfo({
             {/* Quick Review Form */}
             <form onSubmit={handleSubmitReview} className="space-y-2 pt-2 border-t border-zinc-200">
               <p className="font-bold text-zinc-900 text-xs flex items-center gap-1.5">
-                <LuMessageSquare className="w-3.5 h-3.5 text-store-primary" />
+                <LuMessageSquare className="w-3.5 h-3.5 text-zinc-950" />
                 <span>Write a Review</span>
               </p>
               <div className="flex items-center gap-1">
@@ -609,12 +609,12 @@ export default function ProductInfo({
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder="Share your experience with this product..."
                 rows={2}
-                className="w-full p-3 rounded-[3px] border border-zinc-200 bg-white text-sm outline-none   "
+                className="w-full p-3 rounded-xl border border-zinc-200 bg-white text-sm outline-none"
               />
               <button
                 type="submit"
                 disabled={isSubmittingReview}
-                className="min-h-11 px-4 rounded-[3px] bg-store-primary hover:bg-store-accent text-white font-medium text-sm flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
+                className="min-h-11 px-5 rounded-xl bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider flex items-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50 shadow-sm"
               >
                 <LuSend className="w-3 h-3" />
                 <span>Submit Review</span>

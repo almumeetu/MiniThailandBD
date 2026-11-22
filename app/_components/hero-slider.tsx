@@ -7,6 +7,24 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
   {
+    image: "/images/sliders/slider-3.webp",
+    title: "এক্সক্লুসিভ ব্যাংকক কর্ড সেট",
+    titleEn: "Exclusive Bangkok Co-ord Sets",
+    copy: "প্রিমিয়াম থাই কর্ড সেট কালেকশন — এক্সক্লুসিভ ডিজাইন ও অসাধারণ কোয়ালিটি।",
+  },
+  {
+    image: "/images/sliders/slider-4.webp",
+    title: "রয়েল ভেলভেট ও পার্টি গাউন",
+    titleEn: "Regal Velvet & Festive Party Wear",
+    copy: "অভিজাত ভেলভেট ও জমকালো পার্টি পোশাকের এক্সক্লুসিভ সমাহার Mini Thailand-এ।",
+  },
+  {
+    image: "/images/sliders/slider-5.webp",
+    title: "দুবাই লাক্সারি আবায়া কালেকশন",
+    titleEn: "Signature Dubai Abaya & Modest Luxury",
+    copy: "মডেস্ট লাক্সারি ফ্যাশন — প্রিমিয়াম ফেব্রিক ও নিখুঁত ফিনিশিং সরাসরি ব্যাংকক থেকে।",
+  },
+  {
     image: "/products/cords set/905937710_1118136247512437_2099551318531647321_n.jpg",
     title: "থাই কর্ড সেট কালেকশন",
     titleEn: "Thai Cord Set Collection",

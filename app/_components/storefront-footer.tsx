@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FaFacebookF, FaInstagram, FaYoutube, FaWhatsapp } from "react-icons/fa";
+import Logo from "@/components/ui/logo";
+import { FaFacebookF, FaInstagram, FaYoutube, FaWhatsapp } from "react-icons/fa6";
 
 const footerGroups = [
   {
@@ -41,12 +42,8 @@ export default function StorefrontFooter() {
         {/* Brand strip */}
         <div className="mb-10 flex flex-col items-start gap-3 border-b border-white/10 pb-10 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-2xl font-extrabold tracking-tight">
-              <span className="text-[#c0185a]">Mini</span>
-              <span className="text-[#e8a020]">Thailand</span>
-              <span className="text-white">BD</span>
-            </p>
-            <p className="mt-1 max-w-sm text-sm text-zinc-400">
+            <Logo variant="light" size="xl" />
+            <p className="mt-2 max-w-sm text-sm text-zinc-400">
               Bangladesh&apos;s premier boutique destination for authentic Thai cord sets, luxury party gowns, Dubai-style abayas, and winter velvet collections.
             </p>
           </div>
@@ -145,7 +142,26 @@ export default function StorefrontFooter() {
           </div>
         </div>
 
-        <div className="mt-12 border-t border-white/10 pt-8 text-center text-xs font-medium text-zinc-500">
+        {/* Bottom Center: Policy Menu with theme color & smaller size */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-6 gap-y-2 text-[11px] sm:text-[11.5px] font-medium text-[#ec1c67]">
+          <Link href="/delivery" className="hover:text-white transition-colors duration-200">
+            Shipping &amp; Delivery
+          </Link>
+          <span className="text-[#ec1c67]/40 select-none">•</span>
+          <Link href="/returns" className="hover:text-white transition-colors duration-200">
+            Return &amp; Refund Policy
+          </Link>
+          <span className="text-[#ec1c67]/40 select-none">•</span>
+          <Link href="/terms" className="hover:text-white transition-colors duration-200">
+            Terms &amp; Conditions
+          </Link>
+          <span className="text-[#ec1c67]/40 select-none">•</span>
+          <Link href="/privacy" className="hover:text-white transition-colors duration-200">
+            Privacy Policy
+          </Link>
+        </div>
+
+        <div className="mt-6 border-t border-white/10 pt-6 text-center text-xs font-medium text-zinc-500">
           © {new Date().getFullYear()}{" "}
           <span className="font-bold text-[#c0185a]">MiniThailandBD</span>
           {" "}| All Rights Reserved. Bangladesh&apos;s Premier Thai Fashion &amp; Lifestyle Store.

@@ -11,9 +11,11 @@ export type Section = {
 };
 
 export const DEFAULT_CAMPAIGN_SECTIONS: Section[] = [
-  { id: "sec-hero", title: "Hero Campaign", position: 1, page: "home" },
-  { id: "sec-trend", title: "New Trend Campaign", position: 2, page: "home" },
-  { id: "sec-banner", title: "Banner Campaign", position: 3, page: "home" },
+  { id: "sec-hero", title: "Hero Slider Banners", position: 1, page: "home" },
+  { id: "sec-feature-banner", title: "Feature Banner (Full-Width)", position: 2, page: "home" },
+  { id: "sec-split-1", title: "Split Banner 1 - Left (e.g. Silver Statement)", position: 3, page: "home" },
+  { id: "sec-split-2", title: "Split Banner 2 - Right (e.g. Festive Edit)", position: 4, page: "home" },
+  { id: "sec-trend", title: "Trending / Collection Banner", position: 5, page: "home" },
 ];
 
 export function useSections() {

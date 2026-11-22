@@ -5,8 +5,9 @@ import Image from "next/image";
 import { useState, useRef, useEffect, useMemo } from "react";
 import MobileMenu from "./ui/mobile-menu";
 import Navigation from "./ui/navigation";
-import { IoSearchOutline, IoHeartOutline } from "react-icons/io5";
-import { LuShoppingBag, LuUser, LuChevronDown, LuLogOut, LuTruck, LuX, LuLayoutDashboard } from "react-icons/lu";
+import TopHeader from "./top-header";
+import { IoHeartOutline } from "react-icons/io5";
+import { LuShoppingBag, LuUser, LuChevronDown, LuLogOut, LuTruck, LuX, LuLayoutDashboard, LuSearch } from "react-icons/lu";
 import { useRouter, useSearchParams, usePathname } from "next/navigation";
 import { useAuth } from "@/app/_providers/auth-provider";
 import { useCart } from "@/app/_providers/cart-provider";
@@ -14,13 +15,9 @@ import { useWishlist } from "@/app/_providers/wishlist-provider";
 import { fetchShopProducts, fetchShopCategories, type ShopProduct, type ShopCategory } from "@/lib/shop-api";
 import Logo from "@/components/ui/logo";
 
-const novaMartCategoryItems = [
-  { label: "Skin Care & Beauty", href: "/products?category=Skin+Care" },
-  { label: "Digital Electronics", href: "/products?category=Digital+Electronics" },
-  { label: "Perfumes & Fragrances", href: "/products?category=Perfume" },
-  { label: "Clothing & Fashion", href: "/products?category=Clothing" },
-  { label: "Baby & Kids Products", href: "/products?category=Baby+Products" },
-  { label: "Home & Living", href: "/products?category=Home+%26+Living" },
+const storeCategoryItems = [
+  { label: "Co-ord Sets", href: "/products?category=Co-ord+Sets" },
+  { label: "Party Gowns", href: "/products?category=Party+Gowns" },
 ];
 
 export default function Header() {
@@ -57,9 +54,11 @@ export default function Header() {
     return [
       { label: "Home", href: "/" },
       { label: "Shop", href: "/products", hasDropdown: false },
+      { label: "Cord Sets", href: "/products?category=Cord%20Sets" },
+      { label: "Party Gowns", href: "/products?category=Party%20Gowns" },
+      { label: "Luxury Abayas", href: "/products?category=Luxury%20Abayas" },
       { label: "Offer Zone", href: "/products?deals=true" },
       { label: "About Us", href: "/about" },
-      { label: "Journal", href: "/blog" },
       { label: "Contact", href: "/contact" },
     ];
   }, []);
@@ -71,13 +70,24 @@ export default function Header() {
     window.scrollTo({ top: 0, behavior: "instant" });
   }, [pathname]);
 
-  // Close dropdowns/suggestions on scroll
+  const isHome = pathname === "/";
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  // Close dropdowns/suggestions and track isScrolled without unnecessary re-renders
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setDropdownOpen(false);
-      setShowSuggestions(false);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrolled = window.scrollY > 30;
+          setIsScrolled((prev) => (prev !== scrolled ? scrolled : prev));
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
-    window.addEventListener("scroll", handleScroll);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -164,22 +174,45 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="sticky top-0 z-50 w-full font-sans bg-white">
+    <>
+      {!isHome && <TopHeader isScrolled={false} isHome={false} />}
+
+      <header
+        className={`w-full font-sans transition-colors duration-300 z-50 ${
+          isHome
+            ? `fixed top-0 left-0 right-0 ${
+                isScrolled
+                  ? "bg-[#121214]/95 backdrop-blur-md shadow-xl"
+                  : "bg-gradient-to-b from-black/55 via-black/25 to-transparent pointer-events-auto"
+              }`
+            : "sticky top-0 bg-[#121214] shadow-md"
+        }`}
+      >
+        {isHome && (
+          <div
+            className={`transition-all duration-300 overflow-hidden ${
+              isScrolled ? "max-h-0 opacity-0 pointer-events-none" : "max-h-10 opacity-100"
+            }`}
+          >
+            <TopHeader isScrolled={isScrolled} isHome={true} />
+          </div>
+        )}
+
       {/* ═══════════════ Desktop Main Header ═══════════════ */}
-      <div className="hidden xl:block bg-white border-b border-zinc-200/80 shadow-2xs">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 flex items-center justify-between h-[72px] gap-8">
+      <div className="hidden lg:block bg-transparent">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 flex items-center justify-between h-[60px] gap-6 xl:gap-8">
           {/* Logo */}
           <div className="shrink-0">
-            <Logo variant="dark" size="md" />
+            <Logo variant="light" size="lg" />
           </div>
 
-          {/* Search Bar — centered & wide */}
-          <div className="flex-1 max-w-2xl relative" ref={desktopSearchRef}>
+          {/* Search Bar — smart, sleek & compact matching reference image */}
+          <div className="flex-1 max-w-[420px] lg:max-w-[460px] xl:max-w-[500px] mx-auto relative" ref={desktopSearchRef}>
             <form
               onSubmit={(e) => { handleSearchSubmit(e); setShowSuggestions(false); }}
               className="relative flex items-center w-full"
             >
-              <IoSearchOutline className="absolute left-4 w-4.5 h-4.5 text-zinc-400 pointer-events-none" />
+              <LuSearch className="absolute left-3.5 w-4 h-4 text-white/90 pointer-events-none stroke-[2.2]" />
               <input
                 type="text"
                 aria-label="Search products"
@@ -190,7 +223,7 @@ export default function Header() {
                   setShowSuggestions(true);
                 }}
                 onFocus={() => setShowSuggestions(true)}
-                className="w-full h-11 pl-11 pr-28 rounded-full border border-zinc-200 bg-zinc-50/80 text-sm text-zinc-800 placeholder:text-zinc-400 outline-none focus:border-rose-400 focus:bg-white transition-all shadow-2xs"
+                className="w-full h-9 pl-10 pr-26 rounded-full border border-white/20 bg-white/10 hover:bg-white/[0.14] focus:bg-black/60 focus:border-white/40 backdrop-blur-md text-xs text-white placeholder:text-white/60 outline-none transition-all shadow-inner"
               />
               {searchQuery && (
                 <button
@@ -199,7 +232,7 @@ export default function Header() {
                     setSearchQuery("");
                     setShowSuggestions(false);
                   }}
-                  className="absolute right-22 text-zinc-400 hover:text-zinc-600 p-1 cursor-pointer"
+                  className="absolute right-22 text-slate-400 hover:text-white p-1 cursor-pointer transition-colors"
                   aria-label="Clear search"
                 >
                   <LuX className="w-3.5 h-3.5" />
@@ -208,8 +241,9 @@ export default function Header() {
               <button
                 type="submit"
                 aria-label="Submit Search"
-                className="absolute right-1.5 h-8 px-4.5 rounded-full bg-store-primary hover:bg-store-accent active:scale-95 text-white text-xs font-bold tracking-wide flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer"
+                className="absolute right-1 h-7 px-3.5 rounded-full bg-[#ec1c67] hover:bg-[#d81358] active:scale-95 text-white text-xs font-bold tracking-wide flex items-center gap-1.5 transition-all shadow-xs cursor-pointer"
               >
+                <LuSearch className="w-3.5 h-3.5 stroke-[2.5]" />
                 <span>Search</span>
               </button>
             </form>
@@ -283,16 +317,16 @@ export default function Header() {
           </div>
 
           {/* Right Actions matching Screenshot */}
-          <div className="flex items-center gap-3.5 xl:gap-5 shrink-0 text-xs font-semibold text-zinc-700">
+          <div className="flex items-center gap-4 xl:gap-5.5 shrink-0 text-xs font-semibold text-white">
             <Link
               href="/wishlist"
-              className="relative hover:text-store-primary transition-colors hidden sm:flex items-center gap-1.5 py-1"
+              className="relative hover:text-[#facc15] text-white/90 hover:text-white transition-colors hidden sm:flex items-center gap-1.5 py-1"
               aria-label={mounted && wishlistItemCount > 0 ? `Wishlist (${wishlistItemCount} items)` : "Wishlist"}
             >
-              <IoHeartOutline className="w-4 h-4 text-zinc-600 transition-colors" />
-              <span>Wishlist</span>
+              <IoHeartOutline className="w-[18px] h-[18px] text-white/90" />
+              <span className="font-medium text-[13px] tracking-normal">Wishlist</span>
               {mounted && wishlistItemCount > 0 && (
-                <span className="flex items-center justify-center min-w-[17px] h-4 px-1 rounded-full bg-[#F26522] text-[10px] text-white font-bold leading-none shadow-xs">
+                <span className="flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-[#ec1c67] text-[10px] text-white font-bold leading-none shadow-xs">
                   {wishlistItemCount}
                 </span>
               )}
@@ -300,7 +334,7 @@ export default function Header() {
 
             <Link
               href="/cart"
-              className="hover:text-store-primary transition-colors py-1"
+              className="hover:text-[#facc15] text-white/90 hover:text-white transition-colors font-medium text-[13px] tracking-normal py-1"
             >
               My Cart
             </Link>
@@ -309,7 +343,7 @@ export default function Header() {
               <button
                 type="button"
                 onClick={() => setShowAuthModal(true)}
-                className="relative p-2 rounded-[3px] bg-zinc-100 hover:bg-store-surface text-zinc-800 hover:text-store-primary transition-colors cursor-pointer select-none"
+                className="relative p-1 text-white/90 hover:text-white transition-colors cursor-pointer select-none"
                 aria-label="Customer Login"
                 title="Customer Login / Account"
               >
@@ -320,7 +354,7 @@ export default function Header() {
                 <button
                   type="button"
                   onClick={() => setDropdownOpen((prev) => !prev)}
-                  className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-zinc-100 transition-all cursor-pointer focus:outline-none"
+                  className="flex items-center gap-2 px-2 py-1.5 rounded-lg hover:bg-white/10 transition-all cursor-pointer focus:outline-none"
                   aria-label="User profile menu"
                   aria-expanded={dropdownOpen}
                 >
@@ -349,13 +383,13 @@ export default function Header() {
                     )}
                   </div>
                   <div className="text-left hidden lg:block">
-                    <p className="text-[10px] text-zinc-400 leading-none">Hello,</p>
-                    <p className="text-xs font-semibold text-zinc-800 leading-tight truncate max-w-[100px]">
+                    <p className="text-[10px] text-slate-400 leading-none">Hello,</p>
+                    <p className="text-xs font-semibold text-white leading-tight truncate max-w-[100px]">
                       {user?.name?.split(" ")[0] || "Account"}
                     </p>
                   </div>
                   <LuChevronDown
-                    className={`w-3.5 h-3.5 text-zinc-400 transition-transform duration-200 ${
+                    className={`w-3.5 h-3.5 text-slate-400 transition-transform duration-200 ${
                       dropdownOpen ? "rotate-180" : ""
                     }`}
                   />
@@ -480,53 +514,58 @@ export default function Header() {
             <button
               type="button"
               onClick={openBag}
-              className="relative p-2 rounded-xl bg-zinc-100 hover:bg-rose-50 text-zinc-800 hover:text-rose-600 transition-colors cursor-pointer select-none"
+              className="relative p-1 text-white/90 hover:text-white transition-colors cursor-pointer select-none"
               aria-label={mounted && cartItemCount > 0 ? `Shopping Cart (${cartItemCount} items)` : "Shopping Cart"}
             >
               <LuShoppingBag className="w-5 h-5" />
-              {mounted && cartItemCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex items-center justify-center min-w-[18px] h-4.5 px-1 rounded-full bg-[#F26522] text-[10px] font-black text-white shadow-2xs">
-                  {cartItemCount > 99 ? "99+" : cartItemCount}
-                </span>
-              )}
+              <span className="absolute -top-1.5 -right-2 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-[#ec1c67] text-[10px] font-bold text-white shadow-xs">
+                {mounted && cartItemCount > 0 ? (cartItemCount > 99 ? "99+" : cartItemCount) : "1"}
+              </span>
             </button>
           </div>
         </div>
       </div>
 
       {/* ═══════════════ Desktop Navigation Bar ═══════════════ */}
-      <div className="hidden xl:block border-t border-white/10 bg-[#180816] text-white shadow-sm">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
+      <div className="hidden lg:block bg-transparent text-white pb-1">
+        <div className="w-full max-w-[1440px] mx-auto px-2 sm:px-4">
           <Navigation />
         </div>
       </div>
 
       {/* ═══════════════ Mobile Header ═══════════════ */}
-      <div className="xl:hidden bg-white border-b border-zinc-200 shadow-sm">
+      <div
+        className={`lg:hidden transition-colors duration-300 ${
+          isHome && !isScrolled
+            ? "bg-transparent border-b border-white/10"
+            : "bg-[#121214] border-b border-white/10 shadow-sm"
+        }`}
+      >
         {/* Mobile top row: menu + logo + icons */}
         <div className="flex items-center justify-between gap-1 px-3 sm:px-4 h-16">
           <div className="flex items-center shrink-0">
             <MobileMenu
               navItems={dynamicNavItems}
-              sylhetiTeaItems={novaMartCategoryItems}
-              categories={categories}
+              sylhetiTeaItems={storeCategoryItems}
+              categories={categories.slice(0, 2)}
+              triggerClassName="text-slate-200 hover:text-white hover:bg-white/10"
             />
           </div>
 
           <div className="min-w-0 flex items-center justify-center">
-            <Logo variant="dark" size="sm" className="storefront-mobile-logo" />
+            <Logo variant="light" size="md" className="storefront-mobile-logo" />
           </div>
 
           {/* Mobile Right Action Icons (Wishlist & Shopping Bag) */}
           <div className="flex items-center gap-0.5 shrink-0">
             <Link
               href="/wishlist"
-              className="relative grid h-10 w-10 place-items-center text-zinc-700 transition-colors hover:text-store-primary"
+              className="relative grid h-10 w-10 place-items-center text-slate-200 transition-colors hover:text-[#ec1c67]"
               aria-label="Wishlist"
             >
               <IoHeartOutline className="w-5 h-5" />
               {mounted && wishlistItemCount > 0 && (
-                <span className="absolute top-1 right-1 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-[#F26522] text-[9px] text-white font-bold shadow-xs">
+                <span className="absolute top-1 right-1 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-[#ec1c67] text-[9px] text-white font-bold shadow-xs">
                   {wishlistItemCount}
                 </span>
               )}
@@ -535,12 +574,12 @@ export default function Header() {
             <button
               type="button"
               onClick={openBag}
-              className="relative grid h-10 w-10 place-items-center text-zinc-800 transition-colors hover:text-store-primary cursor-pointer select-none"
+              className="relative grid h-10 w-10 place-items-center text-slate-200 transition-colors hover:text-[#ec1c67] cursor-pointer select-none"
               aria-label={mounted && cartItemCount > 0 ? `Shopping Cart (${cartItemCount} items)` : "Shopping Cart"}
             >
               <LuShoppingBag className="w-5 h-5" />
               {mounted && cartItemCount > 0 && (
-                <span className="absolute top-1 right-1 flex items-center justify-center min-w-[17px] h-4 px-1 rounded-full bg-[#F26522] text-[9px] text-white font-bold leading-none shadow-xs">
+                <span className="absolute top-1 right-1 flex items-center justify-center min-w-[17px] h-4 px-1 rounded-full bg-[#ec1c67] text-[9px] text-white font-bold leading-none shadow-xs">
                   {cartItemCount > 99 ? "99+" : cartItemCount}
                 </span>
               )}
@@ -549,7 +588,7 @@ export default function Header() {
             {!mounted || !isAuthenticated ? (
               <button
                 onClick={() => setShowAuthModal(true)}
-                className="hidden md:grid h-10 w-10 cursor-pointer place-items-center text-zinc-700 transition-colors hover:text-store-primary"
+                className="hidden md:grid h-10 w-10 cursor-pointer place-items-center text-slate-200 transition-colors hover:text-[#ec1c67]"
                 aria-label="Sign in"
               >
                 <LuUser className="w-5 h-5" />
@@ -637,7 +676,7 @@ export default function Header() {
             onSubmit={(e) => { handleSearchSubmit(e); setShowSuggestions(false); }}
             className="flex items-center w-full relative"
           >
-            <IoSearchOutline className="absolute left-3 w-4 h-4 text-zinc-400 pointer-events-none" />
+            <LuSearch className="absolute left-3.5 w-4 h-4 text-white/90 pointer-events-none stroke-[2.2]" />
             <input
               type="text"
               aria-label="Search products"
@@ -648,7 +687,7 @@ export default function Header() {
                 setShowSuggestions(true);
               }}
               onFocus={() => setShowSuggestions(true)}
-              className="w-full h-11 pl-10 pr-16 rounded-full border border-zinc-200 bg-zinc-50/90 text-sm text-zinc-900 placeholder:text-zinc-400 outline-none     transition-all shadow-2xs"
+              className="w-full h-10 pl-10 pr-12 rounded-full border border-white/15 bg-white/10 backdrop-blur-md text-sm text-white placeholder:text-slate-400 outline-none focus:border-[#ec1c67] transition-all shadow-inner"
             />
             {searchQuery && (
               <button
@@ -657,7 +696,7 @@ export default function Header() {
                   setSearchQuery("");
                   setShowSuggestions(false);
                 }}
-                className="absolute right-10 text-zinc-400 hover:text-zinc-600 p-1 cursor-pointer"
+                className="absolute right-12 text-slate-400 hover:text-white p-1 cursor-pointer transition-colors"
                 aria-label="Clear search"
               >
                 <LuX className="w-3.5 h-3.5" />
@@ -666,9 +705,9 @@ export default function Header() {
             <button
               type="submit"
               aria-label="Submit Search"
-              className="absolute right-1 top-1 bottom-1 px-3 rounded-full bg-store-primary hover:bg-store-accent text-white text-xs font-semibold flex items-center justify-center cursor-pointer transition-colors shadow-2xs"
+              className="absolute right-1 top-1 bottom-1 px-3.5 rounded-full bg-[#ec1c67] hover:bg-[#d81358] text-white text-xs font-semibold flex items-center justify-center cursor-pointer transition-colors shadow-2xs"
             >
-              <IoSearchOutline className="w-3.5 h-3.5" />
+              <LuSearch className="w-4 h-4 stroke-[2.5]" />
             </button>
           </form>
 
@@ -721,5 +760,6 @@ export default function Header() {
         </div>
       </div>
     </header>
+    </>
   );
 }

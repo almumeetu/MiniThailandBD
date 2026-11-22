@@ -8,9 +8,12 @@ import { LuArrowRight, LuChevronDown, LuX } from "react-icons/lu";
 import type { NavigationProps } from "@/data/types";
 import { DEFAULT_NOVAMART_CATEGORIES, type ShopCategory } from "@/lib/shop-api";
 
-type MobileMenuProps = NavigationProps & { categories?: ShopCategory[] };
+type MobileMenuProps = NavigationProps & { 
+  categories?: ShopCategory[];
+  triggerClassName?: string;
+};
 
-export default function MobileMenu({ navItems, categories = [] }: MobileMenuProps) {
+export default function MobileMenu({ navItems, categories = [], triggerClassName }: MobileMenuProps) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
@@ -71,7 +74,9 @@ export default function MobileMenu({ navItems, categories = [] }: MobileMenuProp
         aria-expanded={open}
         aria-controls="store-mobile-menu"
         onClick={() => setOpen(true)}
-        className="grid h-11 w-11 place-items-center rounded-xl text-store-deep transition-colors hover:bg-store-surface"
+        className={`grid h-11 w-11 place-items-center rounded-xl transition-colors ${
+          triggerClassName || "text-store-deep hover:bg-store-surface"
+        }`}
       >
         <HiOutlineBars3BottomRight className="h-6 w-6" aria-hidden="true" />
       </button>
@@ -81,7 +86,7 @@ export default function MobileMenu({ navItems, categories = [] }: MobileMenuProp
           <div ref={panelRef} role="dialog" aria-modal="true" aria-label="Store menu" className="relative flex h-dvh w-[min(88vw,400px)] flex-col overflow-hidden bg-store-page shadow-2xl">
             <div className="flex items-center justify-between border-b border-store-border bg-white px-5 py-5">
               <div>
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-store-orange-ink">MiniThailandBD</span>
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#ec1c67]">Mini Thailand</span>
                 <p className="mt-1 text-xl font-semibold tracking-tight text-store-deep">Explore the store</p>
               </div>
               <button ref={closeRef} type="button" aria-label="Close menu" onClick={dismissMenu} className="grid h-11 w-11 place-items-center rounded-full border border-store-border bg-store-page text-store-deep">

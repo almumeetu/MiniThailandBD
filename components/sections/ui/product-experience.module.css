@@ -40,16 +40,16 @@
 .galleryMeta strong { color: #594b38; font: italic 18px/1 Georgia, serif; letter-spacing: -.03em; }
 .thumbnail { border-radius: 8px; transition: transform 280ms, border-color 280ms, box-shadow 280ms, opacity 280ms; }
 .thumbnail:hover { transform: translateY(-3px); }
-.thumbnailActive { border-color: var(--color-store-primary, #E91E63); }
-.productEyebrow { color: var(--color-store-primary, #E91E63); font-size: 12px; font-weight: 600; line-height: 1.5; letter-spacing: .08em; text-transform: uppercase; }
+.thumbnailActive { border-color: #09090b; }
+.productEyebrow { color: #52525b; font-size: 12px; font-weight: 700; line-height: 1.5; letter-spacing: .1em; text-transform: uppercase; }
 .infoColumn .title { margin: 0; color: #18181b; font-size: clamp(24px, 2.1vw, 30px); line-height: 1.35; letter-spacing: -.01em; font-weight: 600; }
-.priceBlock { border-radius: 12px; background: #fff5f8; border: 1px solid #fce4ec; padding: 16px 18px; }
-.addButton, .buyButton { position: relative; overflow: hidden; min-height: 48px; border-radius: 10px; white-space: nowrap; transition: background 200ms, transform 150ms; }
-.addButton { background: var(--color-store-primary, #E91E63); }
-.addButton:hover { background: var(--color-store-hover, #c2185b); }
-.buyButton { border: 1px solid #e8a020; color: #fff; background: #e8a020; }
-.buyButton:hover { border-color: #c47a10; background: #c47a10; }
-.addButton:focus-visible, .buyButton:focus-visible { outline: 2px solid var(--color-store-primary, #E91E63); outline-offset: 3px; }
+.priceBlock { border-radius: 12px; background: #fafaf9; border: 1px solid #e7e5e4; padding: 16px 18px; }
+.addButton, .buyButton { position: relative; overflow: hidden; min-height: 48px; border-radius: 12px; white-space: nowrap; transition: background 200ms, transform 150ms; }
+.addButton { background: #09090b; color: #ffffff; }
+.addButton:hover { background: #27272a; }
+.buyButton { border: 1.5px solid #09090b; color: #ffffff; background: #18181b; }
+.buyButton:hover { border-color: #000000; background: #000000; }
+.addButton:focus-visible, .buyButton:focus-visible { outline: 2px solid #09090b; outline-offset: 3px; }
 .addButton:disabled, .buyButton:disabled { transform: none; cursor: default; }
 .spinner { animation: spinner-turn 800ms linear infinite; }
 .card { transition: transform 280ms cubic-bezier(.2,.75,.2,1), border-color 250ms, box-shadow 280ms; }

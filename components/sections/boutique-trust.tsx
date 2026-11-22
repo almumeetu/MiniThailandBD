@@ -45,10 +45,13 @@ export default function BoutiqueTrust() {
   return (
     <section
       aria-label="Why shop from Mini Thailand"
-      className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 md:px-10 lg:px-16"
+      className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 md:px-10 lg:px-16 my-8 sm:my-12"
     >
-      <div className="rounded-2xl bg-gradient-to-r from-rose-50/70 via-white to-pink-50/70 border border-rose-100 p-6 sm:p-8 lg:p-10 shadow-sm">
+      <div className="rounded-2xl bg-gradient-to-r from-rose-50/70 via-white to-[#c5a880]/10 border border-[#9e1049]/15 p-6 sm:p-8 lg:p-10 shadow-sm">
         <div className="text-center max-w-2xl mx-auto mb-8 sm:mb-10">
+          <span className="text-[11px] font-bold uppercase tracking-widest text-[#9e1049] mb-1.5 block">
+            Customer Guarantee &amp; Peace of Mind
+          </span>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900">
             Why 50,000+ Women Trust Mini Thailand
           </h2>
@@ -58,9 +61,9 @@ export default function BoutiqueTrust() {
           {TRUST_POINTS.map(({ icon: Icon, title, description }) => (
             <div
               key={title}
-              className="flex flex-col items-center text-center p-4 rounded-2xl bg-white border border-rose-100/70 shadow-xs hover:border-rose-300 hover:shadow-md transition-all duration-300 hover:-translate-y-1"
+              className="flex flex-col items-center text-center p-4 rounded-2xl bg-white border border-rose-100/70 shadow-xs hover:border-[#c5a880] hover:shadow-md transition-all duration-300 hover:-translate-y-1"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-rose-50 text-rose-600 mb-3 shadow-xs">
+              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#9e1049]/10 text-[#9e1049] border border-[#c5a880]/30 mb-3 shadow-xs">
                 <Icon className="h-6 w-6" />
               </div>
               <h3 className="text-sm font-bold text-zinc-900 leading-snug">

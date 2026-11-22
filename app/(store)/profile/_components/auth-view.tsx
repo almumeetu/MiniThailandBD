@@ -148,7 +148,7 @@ export default function AuthView() {
           <button
             type="submit"
             disabled={authSubmitting}
-            className="w-full bg-store-primary hover:bg-stone-850 text-white font-sans text-xs font-semibold tracking-wider uppercase py-4 shadow transition duration-200 flex items-center justify-center gap-2 cursor-pointer mt-4"
+            className="w-full bg-zinc-950 hover:bg-zinc-800 text-white font-sans text-xs font-bold tracking-wider uppercase py-4 shadow transition duration-200 flex items-center justify-center gap-2 cursor-pointer mt-4 rounded-xl"
           >
             {authSubmitting ? (
               <FiLoader className="animate-spin text-white w-4 h-4" />

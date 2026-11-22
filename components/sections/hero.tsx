@@ -6,6 +6,33 @@ import { resolveImageUrl } from "@/lib/admin-api";
 export default async function Hero() {
   const defaultSlides: Slide[] = [
     {
+      image: "/images/sliders/slider-3.webp",
+      badge: "NEW THAI BOUTIQUE",
+      title: "Exclusive Co-ord Sets",
+      titleItalic: "& Bangkok Fashion",
+      subtitle: "Chic matching coordinates, lightweight imported fabrics & contemporary Thai boutique silhouettes.",
+      ctaText: "EXPLORE COLLECTION",
+      ctaHref: "/products?category=Cord%20Sets",
+    },
+    {
+      image: "/images/sliders/slider-4.webp",
+      badge: "FESTIVE COLLECTION",
+      title: "Royal Velvet Gowns",
+      titleItalic: "& Evening Wear",
+      subtitle: "Intricate handcrafted embroidery, rich royal textures & timeless evening fashion curated from Bangkok.",
+      ctaText: "DISCOVER GOWNS",
+      ctaHref: "/products?category=Party%20Gowns",
+    },
+    {
+      image: "/images/sliders/slider-5.webp",
+      badge: "MODEST LUXURY",
+      title: "Signature Dubai Abayas",
+      titleItalic: "& Modest Fashion",
+      subtitle: "Flowing layered silhouettes, modest elegance & artisanal detailing designed for modern occasions.",
+      ctaText: "VIEW ABAYAS",
+      ctaHref: "/products?category=Luxury%20Abayas",
+    },
+    {
       image: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1600&auto=format&fit=crop&q=80",
       badge: "ORGANIC & FRESH DAILY",
       title: "Fresh Groceries",

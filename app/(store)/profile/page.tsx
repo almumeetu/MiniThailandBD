@@ -75,131 +75,150 @@ function ProfilePageContent() {
     <div className="relative min-h-[calc(100vh-140px)] bg-store-page flex flex-col justify-between font-sans">
       {!isAuthenticated && activeTab === "track" ? (
         /* ── Public / Guest Order Tracking ── */
-        <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full animate-fadeIn">
-          <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-zinc-200/80 mb-6">
-            <TrackOrderView />
-          </div>
-          <div className="flex items-center justify-between p-4 bg-emerald-50/70 border border-emerald-200/80 rounded-2xl text-xs">
-            <span className="text-zinc-600 font-medium">Already have an account with MiniThailandBD?</span>
-            <button
-              onClick={() => {
-                setActiveTab("details");
-                setShowAuthModal(true);
-              }}
-              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-colors cursor-pointer"
-            >
-              Sign In to View All Orders
-            </button>
-          </div>
-        </main>
+        <div className="w-full flex-1 flex flex-col">
+          <PageBanner
+            title="Track Your Order"
+            subtitle="Track real-time shipment updates for orders delivered nationwide."
+            breadcrumbs={[
+              { label: "My Account", href: "/profile" },
+              { label: "Track Order" },
+            ]}
+          />
+          <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full animate-fadeIn">
+            <div className="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-zinc-200/80 mb-6">
+              <TrackOrderView />
+            </div>
+            <div className="flex items-center justify-between p-4 bg-stone-100 border border-stone-200 rounded-2xl text-xs">
+              <span className="text-zinc-700 font-medium">Already have an account with MiniThailandBD?</span>
+              <button
+                onClick={() => {
+                  setActiveTab("details");
+                  setShowAuthModal(true);
+                }}
+                className="px-5 py-2.5 bg-zinc-950 hover:bg-zinc-800 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-colors cursor-pointer shadow-sm"
+              >
+                Sign In to View All Orders
+              </button>
+            </div>
+          </main>
+        </div>
       ) : !isAuthenticated ? (
         /* ── Unauthenticated State ── */
-        <main className="min-h-[75vh] flex items-center justify-center px-4 py-16">
-          {loading ? (
-            <div className="flex flex-col items-center gap-3">
-              <FiLoader className="w-8 h-8 text-emerald-600 animate-spin" />
-              <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
-                Verifying Session...
-              </span>
-            </div>
-          ) : (
-            <div className="w-full max-w-2xl mx-auto bg-white rounded-3xl p-7 sm:p-10 shadow-xl border border-zinc-200/80 text-center animate-fadeIn">
-              <div className="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 shadow-xs border border-emerald-100">
-                <FiUser className="w-7 h-7" />
+        <div className="w-full flex-1 flex flex-col">
+          <PageBanner
+            title="Customer Account"
+            subtitle="Sign in to view real-time delivery tracking across Dhaka & nationwide, access saved addresses, and manage your orders."
+            breadcrumbs={[
+              { label: "My Account" },
+            ]}
+          />
+          <main className="min-h-[50vh] flex items-center justify-center px-4 py-12 sm:py-16">
+            {loading ? (
+              <div className="flex flex-col items-center gap-3">
+                <FiLoader className="w-8 h-8 text-zinc-900 animate-spin" />
+                <span className="text-xs font-semibold text-zinc-500 uppercase tracking-wider">
+                  Verifying Session...
+                </span>
               </div>
+            ) : (
+              <div className="w-full max-w-2xl mx-auto bg-white rounded-3xl p-7 sm:p-10 shadow-xl border border-zinc-200/80 text-center animate-fadeIn">
+                <div className="w-16 h-16 rounded-2xl bg-stone-100 text-zinc-900 flex items-center justify-center mx-auto mb-4 shadow-xs border border-zinc-200">
+                  <FiUser className="w-7 h-7" />
+                </div>
 
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 tracking-tight mt-2">
-                Customer Account Portal
-              </h1>
+                <h1 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 tracking-tight mt-2">
+                  Customer Account Portal
+                </h1>
 
-              <p className="mt-2 text-xs sm:text-sm text-zinc-500 leading-relaxed max-w-md mx-auto">
-                Sign in to view real-time delivery tracking across Dhaka & nationwide, access saved addresses, and manage your orders.
-              </p>
+                <p className="mt-2 text-xs sm:text-sm text-zinc-500 leading-relaxed max-w-md mx-auto">
+                  Sign in to view real-time delivery tracking across Dhaka & nationwide, access saved addresses, and manage your orders.
+                </p>
 
-              {/* Action buttons with no line breaking */}
-              <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
-                <button
-                  type="button"
-                  onClick={() => setShowAuthModal(true)}
-                  className="w-full sm:w-auto whitespace-nowrap bg-emerald-600 hover:bg-emerald-700 active:scale-95 text-white text-xs sm:text-sm font-semibold py-3.5 px-7 rounded-full shadow-md shadow-emerald-600/20 transition-all cursor-pointer"
-                >
-                  Sign In
-                </button>
+                {/* Action buttons with no line breaking */}
+                <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setShowAuthModal(true)}
+                    className="w-full sm:w-auto whitespace-nowrap bg-zinc-950 hover:bg-zinc-800 active:scale-95 text-white text-xs sm:text-sm font-bold uppercase tracking-wider py-3.5 px-8 rounded-full shadow-md transition-all cursor-pointer"
+                  >
+                    Sign In
+                  </button>
 
-                <button
-                  type="button"
-                  onClick={() => setActiveTab("track")}
-                  className="w-full sm:w-auto whitespace-nowrap bg-white hover:bg-zinc-50 border border-zinc-300 text-zinc-800 text-xs sm:text-sm font-semibold py-3.5 px-6 rounded-full transition-all text-center cursor-pointer flex items-center justify-center gap-2"
-                >
-                  <FiSearch className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Track Order as Guest</span>
-                </button>
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab("track")}
+                    className="w-full sm:w-auto whitespace-nowrap bg-white hover:bg-zinc-50 border border-zinc-300 text-zinc-800 text-xs sm:text-sm font-semibold py-3.5 px-6 rounded-full transition-all text-center cursor-pointer flex items-center justify-center gap-2"
+                  >
+                    <FiSearch className="w-3.5 h-3.5 text-zinc-900" />
+                    <span>Track Order as Guest</span>
+                  </button>
 
-                <Link
-                  href="/signup"
-                  className="w-full sm:w-auto whitespace-nowrap bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-zinc-800 text-xs sm:text-sm font-semibold py-3.5 px-7 rounded-full transition-all text-center cursor-pointer"
-                >
-                  Create Account
-                </Link>
-              </div>
+                  <Link
+                    href="/signup"
+                    className="w-full sm:w-auto whitespace-nowrap bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-zinc-800 text-xs sm:text-sm font-semibold py-3.5 px-7 rounded-full transition-all text-center cursor-pointer"
+                  >
+                    Create Account
+                  </Link>
+                </div>
 
-              {/* Feature pills */}
-              <div className="mt-10 pt-6 border-t border-zinc-100 grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
-                <div className="p-3.5 rounded-2xl bg-zinc-50/80 border border-zinc-100 flex items-start gap-2.5 h-full">
-                  <FiTruck className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <div className="min-w-0">
-                    <h5 className="text-xs font-semibold text-zinc-900 leading-snug">
-                      Nationwide Delivery
-                    </h5>
-                    <p className="text-[11px] text-zinc-500 mt-0.5">
-                      Dhaka & across Bangladesh
-                    </p>
+                {/* Feature pills */}
+                <div className="mt-10 pt-6 border-t border-zinc-100 grid grid-cols-1 sm:grid-cols-3 gap-3 text-left">
+                  <div className="p-3.5 rounded-2xl bg-zinc-50/80 border border-zinc-100 flex items-start gap-2.5 h-full">
+                    <FiTruck className="w-4 h-4 text-zinc-900 shrink-0 mt-0.5" />
+                    <div className="min-w-0">
+                      <h5 className="text-xs font-semibold text-zinc-900 leading-snug">
+                        Nationwide Delivery
+                      </h5>
+                      <p className="text-[11px] text-zinc-500 mt-0.5">
+                        Dhaka & across Bangladesh
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-zinc-50/80 border border-zinc-100 flex items-start gap-2.5 h-full">
+                    <FiShield className="w-4 h-4 text-zinc-900 shrink-0 mt-0.5" />
+                    <div className="min-w-0">
+                      <h5 className="text-xs font-semibold text-zinc-900 leading-snug">
+                        100% Genuine
+                      </h5>
+                      <p className="text-[11px] text-zinc-500 mt-0.5">
+                        Verified products & vendors
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="p-3.5 rounded-2xl bg-zinc-50/80 border border-zinc-100 flex items-start gap-2.5 h-full">
+                    <FiLock className="w-4 h-4 text-zinc-900 shrink-0 mt-0.5" />
+                    <div className="min-w-0">
+                      <h5 className="text-xs font-semibold text-zinc-900 leading-snug">
+                        Bank-Grade Safety
+                      </h5>
+                      <p className="text-[11px] text-zinc-500 mt-0.5">
+                        Encrypted checkout & data
+                      </p>
+                    </div>
                   </div>
                 </div>
 
-                <div className="p-3.5 rounded-2xl bg-zinc-50/80 border border-zinc-100 flex items-start gap-2.5 h-full">
-                  <FiShield className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <div className="min-w-0">
-                    <h5 className="text-xs font-semibold text-zinc-900 leading-snug">
-                      100% Genuine
-                    </h5>
-                    <p className="text-[11px] text-zinc-500 mt-0.5">
-                      Verified products & vendors
-                    </p>
-                  </div>
-                </div>
-
-                <div className="p-3.5 rounded-2xl bg-zinc-50/80 border border-zinc-100 flex items-start gap-2.5 h-full">
-                  <FiLock className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                  <div className="min-w-0">
-                    <h5 className="text-xs font-semibold text-zinc-900 leading-snug">
-                      Bank-Grade Safety
-                    </h5>
-                    <p className="text-[11px] text-zinc-500 mt-0.5">
-                      Encrypted checkout & data
-                    </p>
-                  </div>
-                </div>
+                {/* Direct Help */}
+                {(() => {
+                  const contact = parseContactEntries(settings?.contactNumber);
+                  const phoneNum = contact[0]?.value || "+880 1706-126663";
+                  const cleanNum = phoneNum.replace(/[^\d+]/g, "");
+                  return (
+                    <div className="mt-6 text-xs text-zinc-500 flex flex-wrap items-center justify-center gap-1.5">
+                      <FiPhone className="w-3.5 h-3.5 text-zinc-900 shrink-0" />
+                      <span>Need assistance? Call Support:</span>
+                      <a href={`tel:${cleanNum}`} className="font-semibold text-zinc-900 hover:underline transition-colors">
+                        {phoneNum}
+                      </a>
+                    </div>
+                  );
+                })()}
               </div>
-
-              {/* Direct Help */}
-              {(() => {
-                const contact = parseContactEntries(settings?.contactNumber);
-                const phoneNum = contact[0]?.value || "+880 1706-126663";
-                const cleanNum = phoneNum.replace(/[^\d+]/g, "");
-                return (
-                  <div className="mt-6 text-xs text-zinc-500 flex flex-wrap items-center justify-center gap-1.5">
-                    <FiPhone className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                    <span>Need assistance? Call Support:</span>
-                    <a href={`tel:${cleanNum}`} className="font-semibold text-zinc-900 hover:text-emerald-600 hover:underline transition-colors">
-                      {phoneNum}
-                    </a>
-                  </div>
-                );
-              })()}
-            </div>
-          )}
-        </main>
+            )}
+          </main>
+        </div>
       ) : (
         /* ── Authenticated Customer Dashboard ── */
         <div className="relative w-full flex-1 flex flex-col bg-white min-h-[calc(100vh-140px)]">
@@ -219,7 +238,7 @@ function ProfilePageContent() {
               <aside className="lg:col-span-3 bg-zinc-50/80 border border-zinc-200 rounded-3xl p-6 space-y-6 sticky top-24">
                 {/* User Info Capsule */}
                 <div className="flex items-center gap-3.5 pb-5 border-b border-zinc-200">
-                  <div className="w-12 h-12 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-bold text-base shadow-sm shrink-0 overflow-hidden">
+                  <div className="w-12 h-12 rounded-2xl bg-zinc-950 text-white flex items-center justify-center font-bold text-base shadow-sm shrink-0 overflow-hidden">
                     {user?.avatarUrl ? (
                       <img src={user.avatarUrl} alt={user.name || "User"} className="w-full h-full object-cover" />
                     ) : (
@@ -233,7 +252,7 @@ function ProfilePageContent() {
                     <p className="text-xs text-zinc-500 truncate mt-0.5">
                       {user?.email || ""}
                     </p>
-                    <span className="inline-block mt-1 text-xs font-bold text-emerald-700 bg-emerald-100/70 px-2 py-0.5 rounded-full">
+                    <span className="inline-block mt-1 text-xs font-bold text-zinc-800 bg-stone-200/80 px-2 py-0.5 rounded-full">
                       Verified Member
                     </span>
                   </div>
@@ -256,7 +275,7 @@ function ProfilePageContent() {
                       }}
                       className={`w-full flex items-center justify-between px-4 py-3 rounded-2xl transition-all text-xs font-bold cursor-pointer ${
                         activeTab === item.key
-                          ? "bg-emerald-600 text-white shadow-md shadow-emerald-600/20"
+                          ? "bg-zinc-950 text-white shadow-sm"
                           : "text-zinc-600 hover:bg-zinc-200/60 hover:text-zinc-950"
                       }`}
                     >
@@ -265,7 +284,7 @@ function ProfilePageContent() {
                         <span>{item.label}</span>
                       </div>
                       {item.badge && activeTab !== item.key && (
-                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                        <span className="w-2 h-2 rounded-full bg-zinc-900 animate-pulse" />
                       )}
                     </button>
                   ))}

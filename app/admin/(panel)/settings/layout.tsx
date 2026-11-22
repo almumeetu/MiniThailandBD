@@ -8,7 +8,7 @@ import { AdminIcon, type AdminIconName } from "../../_components/admin-shell";
 const NAV_ITEMS: { label: string; href: string; icon: AdminIconName }[] = [
   { label: "General Settings", href: "/admin/settings/general",  icon: "settings"     },
   { label: "Notification",     href: "/admin/settings/notification", icon: "notification" },
-  { label: "Campaign",         href: "/admin/settings/campaigns", icon: "discount"     },
+  { label: "Hero Sliders & Banners", href: "/admin/settings/campaigns", icon: "discount" },
   { label: "Social & Contact", href: "/admin/settings/contact",   icon: "store"        },
   { label: "Manage Policy",    href: "/admin/settings/policy",    icon: "reviews"      },
   { label: "Branch",           href: "/admin/settings/branch",    icon: "stock"        },

@@ -1,22 +1,14 @@
 import About from '@/components/sections/about-us/about';
-import PageBanner from '@/components/ui/page-banner';
 
 export const metadata = {
-  title: "About Us | MiniThailandBD — Bangladesh's Premier Fashion Online Store",
-  description: "Discover MiniThailandBD, Bangladesh's premier fashion online store for skincare, digital electronics, perfumes, fashion, baby products and home essentials.",
+  title: "The Story of Mini Thailand | Authentic Bangkok Boutique Fashion",
+  description: "Discover Mini Thailand: Bangladesh's premier boutique destination for authentic imported Bangkok cord sets, royal velvet party gowns, and modern luxury festive wear.",
 };
 
 export default function AboutPage() {
   return (
-    <div className="w-full">
-      <PageBanner
-        title="About MiniThailandBD"
-        subtitle="Explore products across skin care, electronics, fashion, baby care, and home essentials. Delivery options and charges are shown at checkout."
-        breadcrumbs={[
-          { label: "About Us" },
-        ]}
-      />
+    <main className="w-full min-h-screen bg-white text-zinc-900 font-sans">
       <About />
-    </div>
+    </main>
   );
 }

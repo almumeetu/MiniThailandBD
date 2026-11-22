@@ -10,7 +10,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:5010/
 const SECTION_LABEL = "text-xs font-bold tracking-wider uppercase text-zinc-400";
 const FIELD_LABEL   = "block text-xs font-bold tracking-wider uppercase text-zinc-400 mb-1.5";
 const INPUT_BASE    = "w-full border border-stone-200 bg-white px-4 py-2.5 text-sm font-sans text-zinc-800 outline-none transition  rounded-lg placeholder:text-zinc-300";
-const BTN_PRIMARY   = "inline-flex items-center justify-center gap-2 bg-store-primary hover:bg-stone-800 text-white font-sans text-xs font-bold tracking-wider uppercase px-8 py-3 rounded-full transition cursor-pointer shadow-sm disabled:opacity-50";
+const BTN_PRIMARY   = "inline-flex items-center justify-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white font-sans text-xs font-bold tracking-wider uppercase px-8 py-3 rounded-full transition cursor-pointer shadow-sm disabled:opacity-50";
 const BTN_GHOST     = "inline-flex items-center justify-center gap-2 bg-white hover:bg-stone-50 border border-stone-200 text-zinc-600 font-sans text-xs font-bold tracking-wider uppercase px-8 py-3 rounded-full transition cursor-pointer disabled:opacity-50";
 
 interface Address {
@@ -129,7 +129,7 @@ export default function AddressBookView() {
         </div>
         <button
           onClick={openNew}
-          className="shrink-0 inline-flex items-center gap-2 border border-stone-200 hover:border-store-primary hover:bg-store-primary hover:text-white text-zinc-700 font-sans text-xs font-bold tracking-wider uppercase px-5 py-2.5 rounded-full transition cursor-pointer"
+          className="shrink-0 inline-flex items-center gap-2 border border-zinc-300 hover:border-zinc-950 hover:bg-zinc-950 hover:text-white text-zinc-800 font-sans text-xs font-bold tracking-wider uppercase px-5 py-2.5 rounded-full transition cursor-pointer"
         >
           <FiPlus className="text-xs" /> Add New
         </button>
@@ -261,7 +261,7 @@ export default function AddressBookView() {
               <label className="flex items-center gap-3 cursor-pointer pt-1 group select-none">
                 <div
                   className={`w-4 h-4 rounded border-2 flex items-center justify-center transition shrink-0 ${
-                    form.isDefault ? "bg-store-primary border-store-primary" : "border-stone-300 group-hover:border-stone-400"
+                    form.isDefault ? "bg-zinc-950 border-zinc-950" : "border-stone-300 group-hover:border-stone-400"
                   }`}
                 >
                   {form.isDefault && (

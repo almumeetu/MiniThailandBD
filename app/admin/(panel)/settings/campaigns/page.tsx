@@ -35,11 +35,14 @@ type CampaignForm = {
   discountId: string;
   images: File[];
   existingImages: string[];
+  badge?: string;
+  linkUrl?: string;
+  ctaText?: string;
 };
 
 const EMPTY_FORM: CampaignForm = {
   title: "",
-  sectionId: "sec-hero",
+  sectionId: "sec-feature-banner",
   description: "",
   status: "active",
   startAt: new Date().toISOString().slice(0, 16),
@@ -47,12 +50,16 @@ const EMPTY_FORM: CampaignForm = {
   discountId: "",
   images: [],
   existingImages: [],
+  badge: "Featured Edit",
+  linkUrl: "/products",
+  ctaText: "SHOP NOW",
 };
 
 export default function CampaignsPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
+  const [slotFilter, setSlotFilter] = useState<string>("all");
 
   const [modalOpen, setModalOpen] = useState(false);
   const [form, setForm] = useState<CampaignForm>(EMPTY_FORM);
@@ -92,10 +99,12 @@ export default function CampaignsPage() {
     loadCampaigns();
   }, [loadCampaigns]);
 
-  function openAdd() {
+  function openAdd(defaultSlot?: string) {
     setForm({
       ...EMPTY_FORM,
-      sectionId: sections[0]?.id || "sec-hero",
+      sectionId: defaultSlot || (sections[0]?.id || "sec-hero"),
+      ctaText: defaultSlot === "sec-hero" ? "EXPLORE COLLECTION" : "SHOP NOW",
+      linkUrl: "/products",
     });
     setImageUrlInput("");
     setModalOpen(true);
@@ -105,7 +114,7 @@ export default function CampaignsPage() {
     setForm({
       id: c.id,
       title: c.title,
-      sectionId: c.sectionId || "sec-hero",
+      sectionId: c.sectionId || "sec-feature-banner",
       description: c.description ?? "",
       status: c.status,
       startAt: c.startAt ? c.startAt.slice(0, 16) : new Date().toISOString().slice(0, 16),
@@ -113,6 +122,9 @@ export default function CampaignsPage() {
       discountId: c.discountId ?? "",
       images: [],
       existingImages: (c.images ?? []).flatMap((img) => img.images ?? []),
+      badge: c.badge || "",
+      linkUrl: c.linkUrl || "/products",
+      ctaText: c.ctaText || "SHOP NOW",
     });
     setImageUrlInput("");
     setModalOpen(true);
@@ -144,8 +156,8 @@ export default function CampaignsPage() {
     const combinedImages = [...form.existingImages, ...validFileDataUrls];
 
     const currentSection = sections.find((s) => s.id === form.sectionId) || {
-      id: form.sectionId || "sec-hero",
-      title: "Hero Campaign",
+      id: form.sectionId || "sec-feature-banner",
+      title: "Feature Banner (Full-Width)",
       position: 1,
       page: "home",
     };
@@ -156,12 +168,15 @@ export default function CampaignsPage() {
       title: form.title,
       description: form.description,
       status: form.status,
-      sectionId: form.sectionId || "sec-hero",
+      sectionId: form.sectionId || "sec-feature-banner",
       section: currentSection,
       hasDiscount: !!form.discountId,
       discountId: form.discountId || null,
       startAt: form.startAt ? new Date(form.startAt).toISOString() : new Date().toISOString(),
       endAt: form.endAt ? new Date(form.endAt).toISOString() : null,
+      badge: form.badge || undefined,
+      linkUrl: form.linkUrl || "/products",
+      ctaText: form.ctaText || "SHOP NOW",
       images: [
         {
           id: `img-${Date.now()}`,
@@ -237,27 +252,77 @@ export default function CampaignsPage() {
     ? discounts.find((d) => d.id === form.discountId)
     : null;
 
-  const filtered = campaigns.filter((c) =>
-    `${c.title} ${c.section?.title ?? ""}`.toLowerCase().includes(search.toLowerCase()),
-  );
+  const filtered = campaigns.filter((c) => {
+    const matchesSearch = `${c.title} ${c.section?.title ?? ""}`.toLowerCase().includes(search.toLowerCase());
+    if (!matchesSearch) return false;
+    if (slotFilter === "all") return true;
+    if (slotFilter === "sec-hero") return !c.sectionId || c.sectionId === "sec-hero" || c.id.startsWith("camp-hero-");
+    if (slotFilter === "sec-feature-banner") return c.sectionId === "sec-feature-banner";
+    if (slotFilter === "sec-split") return c.sectionId === "sec-split-1" || c.sectionId === "sec-split-2";
+    return c.sectionId === slotFilter;
+  });
+
+  const heroCount = campaigns.filter(c => !c.sectionId || c.sectionId === "sec-hero" || c.id.startsWith("camp-hero-")).length;
+  const featureCount = campaigns.filter(c => c.sectionId === "sec-feature-banner").length;
+  const splitCount = campaigns.filter(c => c.sectionId === "sec-split-1" || c.sectionId === "sec-split-2").length;
 
   return (
     <>
       <PageHeader
-        title="Campaigns List"
-        description="Manage & customize your website content & interface."
+        title="Hero Sliders & Campaigns"
+        description="Manage, update & customize your homepage hero slider images and banner placements."
         action={
-          <SaveButton onClick={openAdd}>
-            Add Campaign
-          </SaveButton>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => openAdd("sec-hero")}
+              type="button"
+              className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 px-4 py-2.5 text-xs font-black text-white shadow-sm transition active:scale-95 cursor-pointer"
+            >
+              <span>+ Add Hero Slide</span>
+            </button>
+            <SaveButton onClick={() => openAdd()}>
+              Add Campaign
+            </SaveButton>
+          </div>
         }
       />
 
-      <SettingsCard title="Campaign List">
+      <SettingsCard title="All Website Sliders & Banners">
+        {/* Placement Filter Tabs */}
+        <div className="mb-5 flex flex-wrap items-center gap-2 border-b border-slate-100 pb-3">
+          {[
+            { id: "all", label: "All Banners", count: campaigns.length },
+            { id: "sec-hero", label: "🖼️ Hero Slider Banners", count: heroCount },
+            { id: "sec-feature-banner", label: "🌟 Feature Banner", count: featureCount },
+            { id: "sec-split", label: "✨ Split Banners", count: splitCount },
+          ].map((tab) => {
+            const isActive = slotFilter === tab.id;
+            return (
+              <button
+                key={tab.id}
+                type="button"
+                onClick={() => setSlotFilter(tab.id)}
+                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  isActive
+                    ? "bg-slate-900 text-white shadow-xs"
+                    : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                }`}
+              >
+                <span>{tab.label}</span>
+                <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
+                  isActive ? "bg-white/20 text-white" : "bg-slate-200 text-slate-700"
+                }`}>
+                  {tab.count}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+
         {/* Toolbar */}
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-sm font-medium text-slate-500">
-            Displaying {filtered.length} campaign{filtered.length !== 1 ? "s" : ""}
+            Displaying {filtered.length} banner{filtered.length !== 1 ? "s" : ""}
           </p>
           <label className="flex h-10 w-full max-w-xs items-center gap-2 rounded-md border border-slate-200 bg-white px-3">
             <AdminIcon className="h-4 w-4 shrink-0 text-slate-400" name="search" />
@@ -274,7 +339,7 @@ export default function CampaignsPage() {
           <table className="w-full min-w-[640px] text-left">
             <thead className="bg-slate-50">
               <tr>
-                {["Campaign Name", "Slug", "Description", "Status", "Actions"].map((h) => (
+                {["Campaign Title", "Placement / Slot", "Button & Link", "Status", "Actions"].map((h) => (
                   <th className="px-5 py-4 text-sm font-black text-slate-700" key={h}>
                     {h}
                   </th>
@@ -295,43 +360,72 @@ export default function CampaignsPage() {
                   </td>
                 </tr>
               ) : (
-                filtered.map((c) => (
-                  <tr className="odd:bg-white even:bg-slate-50/60" key={c.id}>
-                    <td className="px-5 py-4 text-sm font-black text-slate-800">{c.title}</td>
-                    <td className="px-5 py-4 text-sm font-medium text-slate-600">
-                      {c.section?.title ?? "-"}
-                    </td>
-                    <td className="max-w-[200px] truncate px-5 py-4 text-sm font-medium text-slate-500">
-                      {c.description ?? "-"}
-                    </td>
-                    <td className="px-5 py-4">
-                      <StatusToggle
-                        active={c.status === "active"}
-                        onChange={() => toggleStatus(c)}
-                      />
-                    </td>
-                    <td className="px-5 py-4">
-                      <div className="flex gap-2">
-                        <button
-                          className="grid h-9 w-9 place-items-center rounded-lg border border-slate-200 text-slate-600 transition hover:bg-slate-50"
-                          onClick={() => openEdit(c)}
-                          type="button"
-                          title="Edit campaign"
-                        >
-                          <AdminIcon className="h-4 w-4" name="edit" />
-                        </button>
-                        <button
-                          className="grid h-9 w-9 place-items-center rounded-lg bg-red-50 text-red-600 transition hover:bg-red-100"
-                          onClick={() => setDeleteModal({ open: true, campaign: c })}
-                          type="button"
-                          title="Delete campaign"
-                        >
-                          <AdminIcon className="h-4 w-4" name="trash" />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))
+                filtered.map((c) => {
+                  const rawImg = c.images?.[0]?.images?.[0];
+                  const placementTitle = c.section?.title || (
+                    c.sectionId === "sec-feature-banner" ? "Feature Banner (Full-Width)" :
+                    c.sectionId === "sec-split-1" ? "Split Banner 1 - Left" :
+                    c.sectionId === "sec-split-2" ? "Split Banner 2 - Right" :
+                    c.sectionId === "sec-hero" ? "Hero Slider Banner" : c.sectionId || "General Banner"
+                  );
+
+                  return (
+                    <tr className="odd:bg-white even:bg-slate-50/60" key={c.id}>
+                      <td className="px-5 py-4">
+                        <div className="flex items-center gap-3">
+                          {rawImg && (
+                            <img
+                              src={rawImg}
+                              alt=""
+                              className="w-12 h-12 object-cover rounded-md border border-slate-200 shrink-0"
+                            />
+                          )}
+                          <div className="min-w-0">
+                            <p className="text-sm font-black text-slate-800 truncate max-w-xs">{c.title}</p>
+                            {c.description && (
+                              <p className="text-xs text-slate-500 truncate max-w-xs">{c.description}</p>
+                            )}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-5 py-4">
+                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
+                          {placementTitle}
+                        </span>
+                      </td>
+                      <td className="px-5 py-4 text-xs font-medium text-slate-600">
+                        <span className="font-bold text-slate-800">{c.ctaText || "SHOP NOW"}</span>
+                        <span className="text-slate-400 block truncate max-w-[160px]">{c.linkUrl || "/products"}</span>
+                      </td>
+                      <td className="px-5 py-4">
+                        <StatusToggle
+                          active={c.status === "active"}
+                          onChange={() => toggleStatus(c)}
+                        />
+                      </td>
+                      <td className="px-5 py-4">
+                        <div className="flex gap-2">
+                          <button
+                            className="grid h-9 w-9 place-items-center rounded-lg border border-slate-200 text-slate-600 transition hover:bg-slate-50"
+                            onClick={() => openEdit(c)}
+                            type="button"
+                            title="Edit campaign"
+                          >
+                            <AdminIcon className="h-4 w-4" name="edit" />
+                          </button>
+                          <button
+                            className="grid h-9 w-9 place-items-center rounded-lg bg-red-50 text-red-600 transition hover:bg-red-100"
+                            onClick={() => setDeleteModal({ open: true, campaign: c })}
+                            type="button"
+                            title="Delete campaign"
+                          >
+                            <AdminIcon className="h-4 w-4" name="trash" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
               )}
             </tbody>
           </table>
@@ -371,23 +465,39 @@ export default function CampaignsPage() {
 
             <div className="flex-1 min-h-0 modal-body overflow-y-auto px-6 py-5">
             <div className="space-y-4">
-              {/* Campaign Name (section select) + Status */}
+              {/* Banner Placement / Slot + Status */}
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <FieldLabel required>Campaign Name</FieldLabel>
+                  <FieldLabel required>Banner Placement / Slot</FieldLabel>
                   <select
-                    className="h-12 w-full rounded-md border border-slate-200 bg-white px-4 text-sm font-medium text-slate-800 outline-none transition   "
+                    className="h-12 w-full rounded-md border border-slate-200 bg-white px-4 text-sm font-semibold text-slate-800 outline-none transition focus:border-blue-500"
                     onChange={(e) => setForm((p) => ({ ...p, sectionId: e.target.value }))}
                     required
                     value={form.sectionId}
                   >
-                    <option value="">Select a section</option>
-                    {sections.map((s) => (
-                      <option key={s.id} value={s.id}>
-                        {s.title}
-                      </option>
-                    ))}
+                    <option value="sec-hero">🖼️ Hero Slider Banner (Top Carousel Slide)</option>
+                    <option value="sec-feature-banner">🌟 Feature Banner (Full-Width Editorial)</option>
+                    <option value="sec-split-1">✨ Split Banner 1 - Left (e.g. Silver Statement)</option>
+                    <option value="sec-split-2">✨ Split Banner 2 - Right (e.g. Festive Edit)</option>
+                    <option value="sec-trend">🔥 Trending / Collection Banner</option>
+                    {sections
+                      .filter(
+                        (s) =>
+                          !["sec-feature-banner", "sec-split-1", "sec-split-2", "sec-hero", "sec-trend"].includes(
+                            s.id
+                          )
+                      )
+                      .map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {s.title}
+                        </option>
+                      ))}
                   </select>
+                  <p className="mt-1 text-[11px] text-slate-500">
+                    {form.sectionId === "sec-hero"
+                      ? "🖼️ Appears in the Hero Slider at the top of the homepage."
+                      : "Auto-replaces the slot with this campaign. If inactive, default image design shows."}
+                  </p>
                 </div>
                 <div className="flex items-end gap-3 pb-1">
                   <div className="flex-1">
@@ -400,7 +510,7 @@ export default function CampaignsPage() {
                         }
                       />
                       <span className="ml-3 text-sm font-medium text-slate-600">
-                        {form.status === "active" ? "Active" : "Inactive"}
+                        {form.status === "active" ? "Active (Visible on Storefront)" : "Inactive (Hidden)"}
                       </span>
                     </div>
                   </div>
@@ -409,10 +519,10 @@ export default function CampaignsPage() {
 
               {/* Campaign Title */}
               <div>
-                <FieldLabel required>Title</FieldLabel>
+                <FieldLabel required>Slide Headline / Title</FieldLabel>
                 <Input
                   onChange={(v) => setForm((p) => ({ ...p, title: v }))}
-                  placeholder="Campaign title"
+                  placeholder="e.g. Autumn & Winter Haute Couture"
                   required
                   value={form.title}
                 />
@@ -420,13 +530,33 @@ export default function CampaignsPage() {
 
               {/* Description */}
               <div>
-                <FieldLabel>Description</FieldLabel>
+                <FieldLabel>Description / Subtitle</FieldLabel>
                 <Textarea
                   onChange={(v) => setForm((p) => ({ ...p, description: v }))}
-                  placeholder="Enter campaign description…"
-                  rows={3}
+                  placeholder="e.g. Browse winter essentials & timeless boutique edits…"
+                  rows={2}
                   value={form.description}
                 />
+              </div>
+
+              {/* Button Text & Target Link */}
+              <div className="grid gap-4 sm:grid-cols-2">
+                <div>
+                  <FieldLabel>Button Text</FieldLabel>
+                  <Input
+                    onChange={(v) => setForm((p) => ({ ...p, ctaText: v }))}
+                    placeholder="e.g. SHOP NOW"
+                    value={form.ctaText || ""}
+                  />
+                </div>
+                <div>
+                  <FieldLabel>Button Link URL</FieldLabel>
+                  <Input
+                    onChange={(v) => setForm((p) => ({ ...p, linkUrl: v }))}
+                    placeholder="e.g. /products?category=Party%20Gowns"
+                    value={form.linkUrl || ""}
+                  />
+                </div>
               </div>
 
               {/* Images */}
@@ -458,13 +588,17 @@ export default function CampaignsPage() {
                 </div>
 
                 <div className="mb-2">
-                  <span className="text-xs text-slate-400 font-medium mr-2">Or quick select high-res presets:</span>
+                  <span className="text-xs text-slate-400 font-medium mr-2">Or quick select curated boutique slides:</span>
                   <div className="flex flex-wrap gap-1.5 mt-1">
                     {[
-                      { name: "Organic Grocery", url: "https://images.unsplash.com/photo-1542838132-92c53300491e?w=1600&auto=format&fit=crop&q=80" },
-                      { name: "Smart Gadgets", url: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1600&auto=format&fit=crop&q=80" },
-                      { name: "Skincare & Perfume", url: "https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1600&auto=format&fit=crop&q=80" },
-                      { name: "Baby & Kids", url: "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=1600&auto=format&fit=crop&q=80" },
+                      { name: "Autumn Haute Couture", url: "/images/campaign/minit-2.webp" },
+                      { name: "Luxury Velvet Gowns", url: "/images/campaign/minit-3.webp" },
+                      { name: "Bangkok Co-ord Sets", url: "/images/campaign/minit-5.webp" },
+                      { name: "Modest Luxury Abayas", url: "/images/campaign/minit-6.webp" },
+                      { name: "Winter Velvet Outerwear", url: "/images/campaign/minit-7.webp" },
+                      { name: "Feature Banner Editorial", url: "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=2400&auto=format&fit=crop&q=95" },
+                      { name: "Silver Statement Edit", url: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=1600&auto=format&fit=crop&q=95" },
+                      { name: "Festive Editorial", url: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?w=1600&auto=format&fit=crop&q=95" },
                     ].map((preset, idx) => (
                       <button
                         key={idx}
@@ -475,7 +609,7 @@ export default function CampaignsPage() {
                             existingImages: [...p.existingImages, preset.url],
                           }));
                         }}
-                        className="text-[11px] px-2 py-0.5 rounded-md bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 text-slate-600 border border-slate-200"
+                        className="text-[11px] px-2 py-0.5 rounded-md bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 text-slate-600 border border-slate-200 cursor-pointer"
                       >
                         + {preset.name}
                       </button>

@@ -1,370 +1,307 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  FiCheckCircle,
-  FiTruck,
-  FiShield,
-  FiPhone,
-  FiArrowRight,
-  FiRefreshCw,
-  FiAward,
-  FiPackage,
-  FiHeart,
-} from 'react-icons/fi';
+  LuBadgeCheck,
+  LuCrown,
+  LuVideo,
+  LuRotateCcw,
+  LuSparkles,
+  LuShieldCheck,
+  LuRefreshCw,
+  LuEye,
+  LuArrowRight,
+  LuMapPin,
+  LuClock,
+} from 'react-icons/lu';
 import { FaWhatsapp } from 'react-icons/fa6';
-import { HiCheckCircle, HiSparkles } from 'react-icons/hi';
-import ScrollAnimate from '@/components/ui/scroll-animate';
+import PageBanner from '@/components/ui/page-banner';
 
 export default function About() {
-  const departments = [
+  const parallaxRef = useRef<HTMLElement>(null);
+  const [offsetY, setOffsetY] = useState(0);
+
+  useEffect(() => {
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          if (parallaxRef.current) {
+            const rect = parallaxRef.current.getBoundingClientRect();
+            const winH = window.innerHeight;
+            if (rect.top <= winH && rect.bottom >= 0) {
+              const progress = (winH - rect.top) / (winH + rect.height);
+              setOffsetY((progress - 0.5) * 100);
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const brandPillars = [
     {
-      title: 'Skin Care & Beauty',
-      desc: 'Authentic serums, cleansers, dermatological moisturizers, and Korean beauty essentials.',
-      image: 'https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=800&auto=format&fit=crop&q=80',
-      link: '/products?category=skin-care',
-      tag: '100% Authentic',
+      step: '01',
+      title: '100% Authentic Bangkok Import',
+      desc: 'We eliminate intermediaries and counterfeit copies by sourcing directly from verified boutique atelier designers in Bangkok. Every piece is genuine and original.',
+      icon: LuBadgeCheck,
     },
     {
-      title: 'Digital Electronics',
-      desc: 'Smartwatches, wireless noise-cancelling earbuds, fast power banks, and certified accessories.',
-      image: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&auto=format&fit=crop&q=80',
-      link: '/products?category=digital-electronics',
-      tag: 'Tech Warranty',
+      step: '02',
+      title: 'Signature Fabric & Premium Finish',
+      desc: 'From royal velvet and breathable linen-cotton to chantilly lace and smooth georgette, our garments are chosen for tactile luxury and lasting drape.',
+      icon: LuCrown,
     },
     {
-      title: 'Perfumes & Fragrances',
-      desc: 'Designer Eau De Parfum, luxury Arabian ouds, and long-lasting artisanal perfume sets.',
-      image: 'https://images.unsplash.com/photo-1523293182086-7651a899d37f?w=800&auto=format&fit=crop&q=80',
-      link: '/products?category=perfume',
-      tag: 'Original Seal',
+      step: '03',
+      title: 'Live WhatsApp Video Checking',
+      desc: 'Unsure about color, size, or drape? Our stylists provide live video showcases and detailed measurements directly on WhatsApp before your order is dispatched.',
+      icon: LuVideo,
     },
     {
-      title: 'Clothing & Fashion',
-      desc: 'Royal silk festive panjabis, combed Supima cotton tees, handloom sarees, and smart formalwear.',
-      image: 'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=800&auto=format&fit=crop&q=80',
-      link: '/products?category=clothing',
-      tag: 'Premium Fabric',
-    },
-    {
-      title: 'Baby & Kids Care',
-      desc: 'Hypoallergenic diapers, BPA-free feeding bottles, organic cotton rompers, and pediatric care.',
-      image: 'https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?w=800&auto=format&fit=crop&q=80',
-      link: '/products?category=baby-products',
-      tag: 'Gentle & Safe',
-    },
-    {
-      title: 'Home & Living',
-      desc: 'Ultrasonic aroma diffusers, vacuum-insulated thermal tumblers, and granite cookware sets.',
-      image: 'https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=800&auto=format&fit=crop&q=80',
-      link: '/products?category=home-living',
-      tag: 'Modern Living',
+      step: '04',
+      title: '7-Day Easy Size Exchange',
+      desc: 'Size not fitting perfectly? Swap effortlessly at any of our 4 physical Dhaka boutiques or request a doorstep courier swap anywhere in Bangladesh.',
+      icon: LuRotateCcw,
     },
   ];
 
-  const commitments = [
+  const lookbookCards = [
     {
-      icon: FiShield,
-      title: '100% Genuine Guaranteed',
-      desc: 'Zero tolerance for counterfeit items. Every product is sourced directly from authorized distributors and certified importers.',
+      title: 'Co-ord Sets & Coordinates',
+      tag: 'Signature Line',
+      desc: 'Effortless 2-piece and 3-piece matching sets combining modern Bangkok silhouettes with all-day comfort.',
+      image: '/images/campaign/minit-3.webp',
+      href: '/products?category=Cord%20Sets',
     },
     {
-      icon: FiTruck,
-      title: 'Delivery Options',
-      desc: 'Available delivery options and charges are shown at checkout based on your delivery address.',
+      title: 'Royal Velvet & Evening Gowns',
+      tag: 'Festive Couture',
+      desc: 'Rich jewel-toned velvet gowns, intricate embroidery, and tiered flare dresses crafted for weddings and festive evenings.',
+      image: '/images/campaign/minit-5.webp',
+      href: '/products?category=Party%20Gowns',
     },
     {
-      icon: FiRefreshCw,
-      title: '7-Day Easy Returns',
-      desc: 'Hassle-free replacement or refund policy if an item arrives damaged, defective, or incorrect upon delivery.',
+      title: 'Luxury Abayas & Shrugs',
+      tag: 'Modest Edit',
+      desc: 'Contemporary Dubai-style silhouettes, fluid drapes, and lightweight shrug sets designed for modern occasions.',
+      image: '/images/campaign/minit-7.webp',
+      href: '/products?category=Luxury%20Abayas',
+    },
+  ];
+
+  const showrooms = [
+    {
+      name: 'Jamuna Future Park Flagship',
+      mall: 'Shop 11, Zone C, Ground Floor',
+      address: 'Progoti Shoroni, Kuril, Dhaka',
     },
     {
-      icon: FiPhone,
-      title: 'Dedicated Helpline Support',
-      desc: 'Friendly customer service available via call and WhatsApp to assist with product inquiries and real-time order tracking.',
+      name: 'Dhanmondi Simanto Somvar',
+      mall: 'Shop 3060, Level 3',
+      address: 'Road 2, Dhanmondi, Dhaka',
+    },
+    {
+      name: 'Uttara Nigar Plaza',
+      mall: 'Shop 23-24, Level 2',
+      address: 'Sector 3, Rajlokkhi, Uttara, Dhaka',
+    },
+    {
+      name: 'Adabor Shahabuddin Plaza',
+      mall: 'Shop 43, Level 2',
+      address: 'Ring Road, Adabor, Mohammadpur, Dhaka',
     },
   ];
 
   return (
-    <div className="w-full bg-store-page text-zinc-900 font-sans">
+    <article className="w-full text-zinc-900 bg-white font-sans pb-16">
       
-      {/* ── 1. Our Story & Purpose Section ── */}
-      <section className="py-12 sm:py-16">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
-          <ScrollAnimate variant="fade-in-up">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
-              
-              {/* Left Column: Mission & Narrative */}
-              <div className="lg:col-span-7 space-y-5">
+      {/* ── 1. Hero PageBanner with Campaign Hero Image ── */}
+      <PageBanner
+        title="The Story of Mini Thailand"
+        subtitle="Bangladesh's premier boutique destination for authentic imported Bangkok fashion, luxury coordinate sets, and festive gowns."
+        breadcrumbs={[
+          { label: 'Home', href: '/' },
+          { label: 'About Us' },
+        ]}
+        bgImage="/images/campaign/minit-2.webp"
+        showTrustChips={false}
+      />
 
-                <h2 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-zinc-950 tracking-tight leading-tight">
-                  Authentic Quality &amp; Multi-Category Convenience Across Bangladesh
-                </h2>
-
-                <p className="text-sm sm:text-base text-zinc-700 leading-relaxed">
-                  <strong className="text-zinc-950 font-bold">MiniThailandBD</strong> is Bangladesh&apos;s premier multi-category online shopping platform, built with one clear mission: to provide families across Bangladesh with guaranteed genuine products, transparent pricing, and dependable doorstep delivery.
-                </p>
-
-                <p className="text-sm sm:text-base text-zinc-600 leading-relaxed">
-                  From international dermatological skin care and cutting-edge digital gadgets to luxury perfumes, contemporary lifestyle fashion, and baby care essentials—we eliminate counterfeit risks and unnecessary retail markups by partnering directly with verified brand distributors and authorized importers.
-                </p>
-
-                {/* 4 Feature Badges Grid */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-2">
-                  <div className="flex items-start gap-3 p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs">
-                    <HiCheckCircle className="w-5 h-5 text-store-primary shrink-0 mt-0.5" />
-                    <div>
-                      <h4 className="text-xs sm:text-sm font-bold text-zinc-900">Direct Brand Partnerships</h4>
-                      <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">
-                        Authorized distribution channels with 100% authenticity guarantee.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3 p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs">
-                    <HiCheckCircle className="w-5 h-5 text-store-primary shrink-0 mt-0.5" />
-                    <div>
-                      <h4 className="text-xs sm:text-sm font-bold text-zinc-900">Quality Inspection</h4>
-                      <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">
-                        Every order is sealed and verified before courier dispatch.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3 p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs">
-                    <HiCheckCircle className="w-5 h-5 text-store-primary shrink-0 mt-0.5" />
-                    <div>
-                      <h4 className="text-xs sm:text-sm font-bold text-zinc-900">Delivery Options</h4>
-                      <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">
-                        Available options and charges are shown at checkout.
-                      </p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start gap-3 p-4 rounded-xl bg-white border border-zinc-200/80 shadow-xs">
-                    <HiCheckCircle className="w-5 h-5 text-store-primary shrink-0 mt-0.5" />
-                    <div>
-                      <h4 className="text-xs sm:text-sm font-bold text-zinc-900">Customer Helpline</h4>
-                      <p className="text-xs text-zinc-500 mt-0.5 leading-relaxed">
-                        Direct support team ready to assist via call and WhatsApp.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Actions */}
-                <div className="pt-2 flex flex-wrap items-center gap-3">
-                  <Link
-                    href="/products"
-                    className="inline-flex items-center gap-2 bg-store-primary hover:bg-store-hover active:scale-95 text-white font-semibold text-xs sm:text-sm px-6 py-3 rounded-xl shadow-sm transition-all cursor-pointer"
-                  >
-                    <span>Browse Catalog</span>
-                    <FiArrowRight className="w-4 h-4" />
-                  </Link>
-
-                  <a
-                    href="tel:01706126663"
-                    className="inline-flex items-center gap-2 bg-white hover:bg-zinc-100 active:scale-95 text-zinc-800 font-semibold text-xs sm:text-sm px-6 py-3 rounded-xl border border-zinc-300 shadow-xs transition-all cursor-pointer"
-                  >
-                    <FiPhone className="w-4 h-4 text-store-primary" />
-                    <span>Hotline: +880 1706-126663</span>
-                  </a>
-                </div>
-              </div>
-
-              {/* Right Column: Visual Showcase */}
-              <div className="lg:col-span-5 relative">
-                <div className="relative rounded-2xl overflow-hidden shadow-xl border border-zinc-200 bg-zinc-900 aspect-[4/5] sm:aspect-square lg:aspect-[4/5] group">
-                  <img
-                    src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=1000&auto=format&fit=crop&q=80"
-                    alt="MiniThailandBD Fulfillment & Operations"
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/20 to-transparent" />
-
-                  {/* Bottom Info Card */}
-                  <div className="absolute bottom-5 left-5 right-5 bg-white/95 backdrop-blur-md p-4 rounded-xl border border-white/40 shadow-lg">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-store-primary to-store-hover text-white flex items-center justify-center font-black text-lg shrink-0 shadow-xs">
-                        NM
-                      </div>
-                      <div>
-                        <h4 className="text-sm font-bold text-zinc-950 leading-tight">
-                          MiniThailandBD Bangladesh
-                        </h4>
-                        <p className="text-xs text-zinc-600 mt-0.5">
-                          Multi-Category E-Commerce Mart
-                        </p>
-                        <p className="text-[11px] text-store-primary font-medium mt-0.5">
-                          Uttara Sector-11, Dhaka, Bangladesh
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </ScrollAnimate>
-        </div>
-      </section>
-
-      {/* ── 2. Operational Standard & Standards Strip ── */}
-      <section className="py-12 sm:py-16 bg-store-ink text-white">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
-          <div className="bg-store-deep/90 border border-white/10 rounded-3xl p-6 sm:p-10 shadow-xl">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-              
-              <div className="lg:col-span-8 space-y-4">
-
-                <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
-                  Authenticity First, Customer Always
-                </h3>
-
-                <p className="text-sm text-zinc-300 leading-relaxed">
-                  We believe that online shopping in Bangladesh deserves uncompromised confidence. When you shop on MiniThailandBD, you receive genuine merchandise backed by verifiable manufacturer warranties, protective packaging, transparent return windows, and attentive customer service.
-                </p>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-                  <div className="bg-zinc-800/60 border border-white/5 rounded-xl p-3.5">
-                    <h5 className="text-xs font-bold text-white uppercase tracking-wide">
-                      100% Genuine
-                    </h5>
-                    <p className="text-[11px] text-zinc-400 mt-0.5">
-                      Batch verified directly from official brand suppliers.
-                    </p>
-                  </div>
-
-                  <div className="bg-zinc-800/60 border border-white/5 rounded-xl p-3.5">
-                    <h5 className="text-xs font-bold text-white uppercase tracking-wide">
-                      Fair Pricing
-                    </h5>
-                    <p className="text-[11px] text-zinc-400 mt-0.5">
-                      No deceptive discounts or hidden checkout fees.
-                    </p>
-                  </div>
-
-                  <div className="bg-zinc-800/60 border border-white/5 rounded-xl p-3.5">
-                    <h5 className="text-xs font-bold text-white uppercase tracking-wide">
-                      7-Day Guarantee
-                    </h5>
-                    <p className="text-[11px] text-zinc-400 mt-0.5">
-                      Easy doorstep return and replacement assistance.
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="lg:col-span-4 flex flex-col items-center justify-center p-6 bg-white/5 border border-white/10 rounded-2xl text-center space-y-3">
-                <div className="w-12 h-12 rounded-2xl bg-store-primary text-white flex items-center justify-center shadow-md">
-                  <FiPhone className="w-6 h-6" />
-                </div>
-                <div>
-                  <h4 className="text-sm font-bold text-white">Need Support or Corporate Bulk Order?</h4>
-                  <p className="text-xs text-zinc-400 mt-0.5">Our team is available daily 9 AM – 10 PM</p>
-                </div>
-                <a
-                  href="tel:01706126663"
-                  className="w-full py-2.5 px-4 rounded-xl bg-store-primary hover:bg-store-hover text-white font-bold text-xs uppercase tracking-wider transition-colors"
-                >
-                  Call +880 1706-126663
-                </a>
-              </div>
-
-            </div>
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 pt-12 sm:pt-16 space-y-16 sm:space-y-24">
+        
+        {/* ── 2. Editorial Heritage Split ── */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          {/* Campaign Image */}
+          <div className="lg:col-span-6 relative aspect-[16/10] sm:aspect-[4/3] w-full overflow-hidden bg-zinc-100 border border-zinc-200">
+            <Image
+              src="/images/campaign/minit-6.webp"
+              alt="Mini Thailand Bangkok Collection Story"
+              fill
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              className="object-cover"
+              priority
+            />
           </div>
-        </div>
-      </section>
 
-      {/* ── 3. Marketplace Departments ── */}
-      <section className="py-14 sm:py-20">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
-            <div>
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 tracking-tight mt-1">
-                Explore Our Core Categories
-              </h2>
-              <p className="text-xs sm:text-sm text-zinc-500 mt-1">
-                Curated skin care, digital electronics, luxury perfumes, fashion, and baby essentials.
+          {/* Story Narrative */}
+          <div className="lg:col-span-6 space-y-5">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-zinc-950 leading-tight">
+              Curating Bangkok’s Finest Elegance for Bangladesh.
+            </h2>
+            <div className="space-y-4 text-sm sm:text-base text-zinc-600 leading-relaxed font-light">
+              <p>
+                Mini Thailand was founded to bridge the gap between runway-quality Bangkok tailoring and accessible luxury in Bangladesh. We believe that modern women deserve original, beautifully draped outfits without market duplicates or compromised fabrics.
+              </p>
+              <p>
+                By working directly with certified design ateliers across Bangkok, we eliminate middlemen and bring handpicked collections—from structured coordinate sets to hand-embroidered velvet gowns—directly to our 4 Dhaka boutiques and online store.
               </p>
             </div>
-            <Link
-              href="/products"
-              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-bold text-store-primary hover:text-store-hover transition-colors shrink-0"
-            >
-              <span>View All Products</span>
-              <FiArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {departments.map((d, idx) => (
+            <div className="pt-2 flex flex-wrap items-center gap-4">
               <Link
-                key={idx}
-                href={d.link}
-                className="group rounded-2xl overflow-hidden bg-white border border-zinc-200/90 shadow-2xs hover:shadow-md transition-all flex flex-col"
+                href="/products"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-none bg-zinc-950 hover:bg-[#ec1c67] text-white text-xs font-bold uppercase tracking-[0.14em] transition-all shadow-xs"
               >
-                <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-zinc-100">
-                  <img
-                    src={d.image}
-                    alt={d.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                  />
-                  <span className="absolute top-3 left-3 bg-zinc-900/85 backdrop-blur-xs text-white text-[10px] font-bold px-2.5 py-1 rounded-full uppercase tracking-wider">
-                    {d.tag}
-                  </span>
-                </div>
-                <div className="p-5 flex-1 flex flex-col justify-between">
-                  <div>
-                    <h3 className="text-base font-bold text-zinc-900 group-hover:text-store-primary transition-colors">
-                      {d.title}
-                    </h3>
-                    <p className="text-xs text-zinc-500 mt-1.5 leading-relaxed">
-                      {d.desc}
-                    </p>
-                  </div>
-                  <div className="mt-4 pt-3 border-t border-zinc-100 flex items-center justify-between text-xs font-bold text-store-primary">
-                    <span>Browse Category</span>
-                    <FiArrowRight className="w-3.5 h-3.5" />
-                  </div>
-                </div>
+                <span>Explore Collections</span>
+                <LuArrowRight className="w-3.5 h-3.5" />
               </Link>
-            ))}
+              <a
+                href="https://wa.me/8801706126663"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3.5 rounded-none border border-zinc-300 hover:border-zinc-950 hover:bg-zinc-50 text-zinc-900 text-xs font-bold uppercase tracking-[0.14em] transition-all"
+              >
+                <FaWhatsapp className="w-4 h-4 text-emerald-600" />
+                <span>Chat on WhatsApp</span>
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ── 4. Our Commitments ── */}
-      <section className="py-14 sm:py-20 bg-white border-y border-zinc-200/80">
-        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-2xl sm:text-3xl font-extrabold text-zinc-950 tracking-tight mt-1">
-              Our Core Service Commitments
+        {/* ── 3. Visual Lookbook Showcase (Campaign Images) ── */}
+        <section className="space-y-8">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-400">
+              Curated Aesthetics
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-zinc-950">
+              Signature Bangkok Edits
             </h2>
-            <p className="text-xs sm:text-sm text-zinc-500 mt-1.5 leading-relaxed">
-              Built on transparency, verified authenticity, and reliable customer service across Bangladesh.
+            <p className="text-xs sm:text-sm text-zinc-500">
+              Each piece is thoughtfully selected for premium fabric texture, flattering silhouettes, and timeless appeal.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
-            {commitments.map((c, idx) => {
-              const Icon = c.icon;
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+            {lookbookCards.map((card, idx) => (
+              <div
+                key={idx}
+                className="group border border-zinc-200/90 bg-white overflow-hidden transition-all duration-300 hover:shadow-lg flex flex-col"
+              >
+                <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-100">
+                  <Image
+                    src={card.image}
+                    alt={card.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                  />
+                  <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-none text-[10px] font-bold uppercase tracking-wider text-white">
+                    {card.tag}
+                  </div>
+                </div>
+
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
+                  <div>
+                    <h3 className="text-base font-bold text-zinc-950 group-hover:text-rose-600 transition-colors">
+                      {card.title}
+                    </h3>
+                    <p className="text-xs text-zinc-500 leading-relaxed mt-1">
+                      {card.desc}
+                    </p>
+                  </div>
+                  <Link
+                    href={card.href}
+                    className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-950 group-hover:text-rose-600 pt-1 transition-colors"
+                  >
+                    <span>View Collection</span>
+                    <LuArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                  </Link>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+      </div>
+
+      {/* ── 4. Brand Pillars with Parallax Background (slider-2.webp) ── */}
+      <section
+        ref={parallaxRef}
+        className="relative w-full overflow-hidden bg-zinc-950 py-16 sm:py-24 text-white mt-16 sm:mt-24"
+      >
+        {/* Parallax Background Layer using slider-2.webp */}
+        <div
+          aria-hidden="true"
+          className="absolute -top-[20%] inset-x-0 h-[140%] w-full bg-cover bg-center pointer-events-none will-change-transform"
+          style={{
+            backgroundImage: "url('/images/sliders/slider-2.webp')",
+            transform: `translate3d(0, ${offsetY}px, 0) scale(1.08)`,
+            transition: 'transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1)',
+          }}
+        />
+
+        {/* Deep, clean black overlay for optimal text contrast */}
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-black/85 pointer-events-none"
+        />
+
+        <div className="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 space-y-10 sm:space-y-12">
+          <div className="text-center max-w-xl mx-auto space-y-2">
+            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#ec1c67] block">
+              The Mini Thailand Promise
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-white">
+              Why Choose Mini Thailand
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+            {brandPillars.map((p) => {
+              const Icon = p.icon;
               return (
                 <div
-                  key={idx}
-                  className="p-5 sm:p-6 rounded-2xl bg-zinc-50/70 border border-zinc-200/70 flex flex-col justify-between"
+                  key={p.step}
+                  className="relative rounded-none bg-gradient-to-b from-white via-white to-[#fff0f5] p-6 sm:p-7 space-y-4 transition-all duration-300 group hover:-translate-y-1.5 shadow-2xl shadow-black/30"
                 >
-                  <div>
-                    <div className="w-10 h-10 rounded-xl bg-store-surface text-store-primary flex items-center justify-center mb-4 border border-store-border">
+                  {/* Top Accent Strip in Brand Theme Color (No border radius) */}
+                  <div className="absolute top-0 inset-x-0 h-1.5 bg-[#ec1c67]" />
+
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-mono font-bold text-[#ec1c67] bg-[#fff0f5] px-2.5 py-1 tracking-wider uppercase">
+                      {p.step}
+                    </span>
+                    <div className="w-11 h-11 rounded-none bg-[#ec1c67] text-white flex items-center justify-center shadow-sm group-hover:bg-[#d81358] transition-colors">
                       <Icon className="w-5 h-5" />
                     </div>
-                    <h3 className="text-sm font-bold text-zinc-900 leading-snug mb-1.5">
-                      {c.title}
+                  </div>
+
+                  <div className="space-y-2">
+                    <h3 className="text-base sm:text-lg font-bold text-zinc-950 group-hover:text-[#ec1c67] transition-colors leading-snug">
+                      {p.title}
                     </h3>
-                    <p className="text-xs text-zinc-600 leading-relaxed">
-                      {c.desc}
+                    <p className="text-xs sm:text-[13px] text-zinc-600 leading-relaxed font-normal">
+                      {p.desc}
                     </p>
                   </div>
                 </div>
@@ -374,6 +311,42 @@ export default function About() {
         </div>
       </section>
 
-    </div>
+      {/* ── 5. Physical Showrooms ── */}
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 pt-16 sm:pt-24">
+        <section className="space-y-6">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-zinc-200 pb-4">
+            <div>
+              <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400 block mb-0.5">
+                Physical Showrooms
+              </span>
+              <h2 className="text-xl sm:text-2xl font-serif font-bold text-zinc-950">
+                Experience Our Boutiques in Dhaka
+              </h2>
+            </div>
+            <span className="text-xs text-zinc-500 flex items-center gap-1.5 font-medium">
+              <LuClock className="w-3.5 h-3.5 text-zinc-400" />
+              <span>10:00 AM – 10:00 PM Daily</span>
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {showrooms.map((s, idx) => (
+              <div
+                key={idx}
+                className="p-5 rounded-none border border-zinc-200 bg-white space-y-1.5 hover:border-zinc-900 transition-colors"
+              >
+                <div className="flex items-center gap-2 font-bold text-zinc-950 text-sm">
+                  <LuMapPin className="w-3.5 h-3.5 text-zinc-800 shrink-0" />
+                  <span className="truncate">{s.name}</span>
+                </div>
+                <p className="text-xs text-zinc-800 font-semibold">{s.mall}</p>
+                <p className="text-xs text-zinc-500">{s.address}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+
+    </article>
   );
 }

@@ -11,7 +11,7 @@ import ResolvedImage from "./image-resolver";
 const SECTION_LABEL = "text-xs font-bold tracking-wider uppercase text-zinc-400";
 const FIELD_LABEL   = "block text-xs font-bold tracking-wider uppercase text-zinc-400 mb-1.5";
 const INPUT_BASE    = "w-full border border-stone-200 bg-white px-4 py-3 text-sm font-sans text-zinc-800 outline-none transition   rounded-lg placeholder:text-zinc-300";
-const BTN_PRIMARY   = "inline-flex items-center gap-2 bg-store-primary hover:bg-stone-800 text-white font-sans text-xs font-bold tracking-wider uppercase px-10 py-3.5 rounded-full transition cursor-pointer shadow-sm disabled:opacity-50";
+const BTN_PRIMARY   = "inline-flex items-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white font-sans text-xs font-bold tracking-wider uppercase px-10 py-3.5 rounded-full transition cursor-pointer shadow-sm disabled:opacity-50";
 const BTN_SECONDARY = "inline-flex items-center gap-2 bg-white hover:bg-stone-50 border border-stone-200 text-zinc-700 font-sans text-xs font-bold tracking-wider uppercase px-10 py-3.5 rounded-full transition cursor-pointer shadow-sm disabled:opacity-50";
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -150,7 +150,7 @@ export default function AccountDetailsView() {
           <button
             type="button"
             onClick={() => fileInputRef.current?.click()}
-            className="absolute -bottom-1 -right-1 w-7 h-7 bg-store-primary text-white rounded-full flex items-center justify-center shadow hover:bg-stone-700 transition cursor-pointer"
+            className="absolute -bottom-1 -right-1 w-7 h-7 bg-zinc-950 text-white rounded-full flex items-center justify-center shadow hover:bg-zinc-800 transition cursor-pointer"
             title="Change photo"
           >
             <FiCamera className="text-xs" />

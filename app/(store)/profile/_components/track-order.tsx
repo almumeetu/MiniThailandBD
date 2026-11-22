@@ -120,7 +120,7 @@ export default function TrackOrderView() {
         <button
           type="submit"
           disabled={loading}
-          className="shrink-0 inline-flex items-center gap-2 bg-store-primary hover:bg-stone-800 text-white font-sans text-xs font-bold tracking-wider uppercase px-7 py-3 rounded-xl transition cursor-pointer shadow-sm disabled:opacity-60"
+          className="shrink-0 inline-flex items-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white font-sans text-xs font-bold tracking-wider uppercase px-7 py-3 rounded-xl transition cursor-pointer shadow-sm disabled:opacity-60"
         >
           {loading ? <FiLoader className="animate-spin w-3.5 h-3.5" /> : "Track"}
         </button>

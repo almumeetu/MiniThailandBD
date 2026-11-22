@@ -61,10 +61,13 @@ export default function FacebookReviews() {
   return (
     <section
       aria-label="Customer reviews"
-      className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 md:px-10 lg:px-16"
+      className="mx-auto w-full max-w-[1440px] px-4 sm:px-6 md:px-10 lg:px-16 my-10 sm:my-14"
     >
       <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
         <div>
+          <span className="text-[11px] font-bold uppercase tracking-widest text-[#9e1049] mb-1 block">
+            Verified Feedback
+          </span>
           <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-zinc-900">
             Real Words from Real Customers
           </h2>
@@ -85,17 +88,17 @@ export default function FacebookReviews() {
         {REVIEWS.map((review) => (
           <div
             key={review.id}
-            className="flex flex-col justify-between rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-xs hover:border-rose-300 hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
+            className="flex flex-col justify-between rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-xs hover:border-[#c5a880] hover:shadow-md transition-all duration-300 hover:-translate-y-0.5"
           >
             <div>
               {/* Header: Stars + Quote Icon */}
               <div className="flex items-center justify-between mb-3">
-                <div className="flex items-center gap-0.5 text-amber-400">
+                <div className="flex items-center gap-0.5 text-[#c5a880]">
                   {Array.from({ length: review.rating }).map((_, i) => (
                     <LuStar key={i} className="h-4 w-4 fill-current" />
                   ))}
                 </div>
-                <LuQuote className="h-5 w-5 text-rose-200" />
+                <LuQuote className="h-5 w-5 text-[#9e1049]/20" />
               </div>
 
               {/* Comment */}
@@ -105,7 +108,7 @@ export default function FacebookReviews() {
             </div>
 
             <div className="mt-5 border-t border-zinc-100 pt-3">
-              <span className="text-[11px] font-semibold text-rose-600 block truncate">
+              <span className="text-[11px] font-semibold text-[#9e1049] block truncate">
                 {review.product}
               </span>
               <div className="mt-1.5 flex items-center justify-between">

@@ -183,6 +183,7 @@ export default function ProductCard({
             src={resolvedImage}
             alt={name}
             fill
+            quality={90}
             sizes="(max-width: 639px) 50vw, (max-width: 1023px) 25vw, 20vw"
             className="object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105"
             onError={() => setImageError(true)}
@@ -214,11 +215,16 @@ export default function ProductCard({
           onClick={handleToggleWishlist}
           aria-label={inWishlist ? `Remove ${name} from wishlist` : `Add ${name} to wishlist`}
           aria-pressed={inWishlist}
-          className="absolute right-2 top-2 z-10 grid h-8 w-8 place-items-center rounded-full border border-zinc-200/80 bg-white/90 backdrop-blur-xs shadow-2xs transition-all duration-200 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500 cursor-pointer"
+          title={inWishlist ? "Saved in wishlist" : "Add to wishlist"}
+          className={`absolute right-2 top-2 z-10 grid h-8 w-8 place-items-center rounded-full border shadow-sm transition-all duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500 cursor-pointer ${
+            inWishlist
+              ? "opacity-100 scale-100 bg-white text-rose-600 border-rose-200 shadow-rose-500/15"
+              : "opacity-0 scale-90 -translate-y-1 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:pointer-events-auto bg-white/95 text-zinc-600 border-zinc-200/80 hover:bg-rose-50 hover:text-rose-600 hover:border-rose-200 hover:scale-110 active:scale-95"
+          }`}
         >
           <LuHeart
-            className={`h-4 w-4 transition-colors ${
-              inWishlist ? "fill-rose-500 text-rose-500" : "text-zinc-400"
+            className={`h-4 w-4 transition-all duration-200 ${
+              inWishlist ? "fill-rose-500 text-rose-500 scale-110" : ""
             }`}
             aria-hidden="true"
           />

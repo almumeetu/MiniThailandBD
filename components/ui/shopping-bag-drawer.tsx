@@ -98,7 +98,7 @@ function DrawerItemCard({
         <Link
           href={productUrl}
           onClick={onClose}
-          className="block text-xs sm:text-[13.5px] font-semibold text-zinc-900 truncate hover:text-[#F26522] transition-colors leading-tight"
+          className="block text-xs sm:text-[13.5px] font-semibold text-zinc-900 truncate hover:text-[#ec1c67] transition-colors leading-tight"
           title={item.name}
         >
           {item.name}
@@ -316,7 +316,7 @@ export default function ShoppingBagDrawer({
                       <h3 className="text-sm sm:text-[14.5px] font-bold text-zinc-900 tracking-tight">
                         You May Also Like
                       </h3>
-                      <div className="w-12 h-0.5 bg-[#F26522] mt-1 rounded-full" />
+                      <div className="w-12 h-0.5 bg-[#ec1c67] mt-1 rounded-full" />
                     </div>
 
                     {availableUpsells.length > 1 && (
@@ -324,7 +324,7 @@ export default function ShoppingBagDrawer({
                         <button
                           type="button"
                           onClick={handlePrevUpsell}
-                          className="w-7 h-7 rounded-full bg-[#F26522] hover:bg-[#d95316] text-white flex items-center justify-center transition-colors cursor-pointer shadow-2xs"
+                          className="w-7 h-7 rounded-full bg-[#ec1c67] hover:bg-[#d81358] text-white flex items-center justify-center transition-colors cursor-pointer shadow-2xs"
                           aria-label="Previous recommendation"
                         >
                           <LuChevronLeft className="w-4 h-4" />
@@ -332,7 +332,7 @@ export default function ShoppingBagDrawer({
                         <button
                           type="button"
                           onClick={handleNextUpsell}
-                          className="w-7 h-7 rounded-full bg-[#F26522] hover:bg-[#d95316] text-white flex items-center justify-center transition-colors cursor-pointer shadow-2xs"
+                          className="w-7 h-7 rounded-full bg-[#ec1c67] hover:bg-[#d81358] text-white flex items-center justify-center transition-colors cursor-pointer shadow-2xs"
                           aria-label="Next recommendation"
                         >
                           <LuChevronRight className="w-4 h-4" />
@@ -369,7 +369,7 @@ export default function ShoppingBagDrawer({
                       <button
                         type="button"
                         onClick={() => handleAddUpsell(activeUpsell)}
-                        className="mt-1.5 inline-flex items-center gap-1 bg-[#F26522] hover:bg-[#d95316] text-white text-xs font-bold px-3 py-1 rounded-full transition-colors shadow-2xs cursor-pointer select-none"
+                        className="mt-1.5 inline-flex items-center gap-1 bg-[#ec1c67] hover:bg-[#d81358] text-white text-xs font-bold px-3 py-1 rounded-full transition-colors shadow-2xs cursor-pointer select-none"
                       >
                         <span>+ Add</span>
                       </button>
@@ -378,7 +378,7 @@ export default function ShoppingBagDrawer({
                 </div>
               )}
 
-              {/* Drawer Footer (Total + Solid Orange CHECKOUT Button) */}
+              {/* Drawer Footer (Total + Solid Pink Theme CHECKOUT Button) */}
               <div className="border-t border-zinc-200 bg-white px-5 py-4 shrink-0 space-y-3.5">
                 {/* Total Row */}
                 <div className="flex items-baseline justify-between">
@@ -390,11 +390,11 @@ export default function ShoppingBagDrawer({
                   </span>
                 </div>
 
-                {/* Big Solid Orange Full-Width CHECKOUT Button */}
+                {/* Big Solid Theme Full-Width CHECKOUT Button */}
                 <Link
                   href="/checkout"
                   onClick={onClose}
-                  className="w-full py-3.5 bg-[#F26522] hover:bg-[#d95316] text-white font-bold text-sm tracking-wide uppercase rounded-[3px] text-center block transition-all shadow-md active:scale-[0.99] select-none"
+                  className="w-full py-3.5 bg-[#ec1c67] hover:bg-[#d81358] text-white font-bold text-sm tracking-wide uppercase rounded-[3px] text-center block transition-all shadow-md active:scale-[0.99] select-none"
                 >
                   CHECKOUT
                 </Link>
@@ -403,7 +403,7 @@ export default function ShoppingBagDrawer({
           ) : (
             /* Empty Cart State */
             <div className="flex-1 flex flex-col items-center justify-center p-6 text-center">
-              <div className="w-16 h-16 rounded-full bg-orange-50 border border-orange-100 flex items-center justify-center text-[#F26522] mb-4 shadow-2xs">
+              <div className="w-16 h-16 rounded-full bg-rose-50 border border-rose-100 flex items-center justify-center text-[#ec1c67] mb-4 shadow-2xs">
                 <LuShoppingBag className="w-8 h-8" />
               </div>
               <h3 className="text-base font-bold text-zinc-900">
@@ -415,7 +415,7 @@ export default function ShoppingBagDrawer({
               <Link
                 href="/products"
                 onClick={onClose}
-                className="mt-6 inline-flex items-center gap-2 px-6 py-2.5 rounded-[3px] bg-[#F26522] hover:bg-[#d95316] text-white text-xs font-bold transition-all shadow-sm active:scale-[0.98]"
+                className="mt-6 inline-flex items-center gap-2 px-6 py-2.5 rounded-[3px] bg-[#ec1c67] hover:bg-[#d81358] text-white text-xs font-bold transition-all shadow-sm active:scale-[0.98]"
               >
                 <span>Start Shopping</span>
                 <LuArrowRight className="w-3.5 h-3.5" />

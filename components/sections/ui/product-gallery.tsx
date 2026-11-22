@@ -84,6 +84,7 @@ export default function ProductGallery({
               alt={`${productName} main view`}
               fill
               priority
+              quality={95}
               sizes="(max-width: 1023px) 100vw, 50vw"
               className={`${styles.zoomImage} object-contain p-4 sm:p-5 lg:p-6 will-change-transform`}
               style={{

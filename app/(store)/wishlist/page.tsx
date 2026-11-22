@@ -33,7 +33,7 @@ export default function WishlistPage() {
             </p>
             <Link
               href="/products"
-              className="inline-block px-8 py-3 bg-stone-800 text-white text-sm font-semibold uppercase tracking-wider hover:bg-stone-700 transition-colors"
+              className="inline-block px-8 py-3.5 bg-zinc-950 text-white text-xs font-bold uppercase tracking-wider hover:bg-zinc-800 transition-colors rounded-xl shadow-sm cursor-pointer"
             >
               Browse Products
             </Link>
@@ -99,7 +99,7 @@ export default function WishlistPage() {
                         // Handled
                       }
                     }}
-                    className="flex w-full sm:w-auto items-center justify-center gap-2 px-4 py-2.5 bg-stone-800 text-white text-xs font-semibold uppercase tracking-wider hover:bg-stone-700 transition-colors cursor-pointer whitespace-nowrap"
+                    className="flex w-full sm:w-auto items-center justify-center gap-2 px-5 py-2.5 bg-zinc-950 text-white text-xs font-bold uppercase tracking-wider hover:bg-zinc-800 transition-colors cursor-pointer whitespace-nowrap rounded-lg shadow-sm"
                   >
                     <LuShoppingBag className="w-3.5 h-3.5" />
                     Add to Cart

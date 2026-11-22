@@ -102,7 +102,7 @@ export default function WishlistView() {
               <div className="flex items-center gap-2 shrink-0">
                 <button
                   onClick={() => handleAddToCart(item)}
-                  className="inline-flex items-center gap-2 bg-store-primary hover:bg-stone-800 text-white font-sans text-xs font-bold tracking-wider uppercase px-5 py-2.5 rounded-full transition cursor-pointer shadow-sm"
+                  className="inline-flex items-center gap-2 bg-zinc-950 hover:bg-zinc-800 text-white font-sans text-xs font-bold tracking-wider uppercase px-5 py-2.5 rounded-full transition cursor-pointer shadow-sm"
                   title="Add to cart"
                 >
                   <FiShoppingCart className="text-xs" />

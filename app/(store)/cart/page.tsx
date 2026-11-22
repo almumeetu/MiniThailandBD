@@ -431,7 +431,7 @@ export default function CartPage() {
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Link
                 href="/products"
-                className="bg-store-primary hover:bg-store-accent text-white font-medium text-sm px-8 py-3.5 rounded-full shadow-none transition-all cursor-pointer"
+                className="bg-zinc-950 hover:bg-zinc-800 text-white font-bold text-xs uppercase tracking-wider px-8 py-3.5 rounded-full shadow-sm transition-all cursor-pointer"
               >
                 Browse Marketplace
               </Link>
@@ -660,7 +660,7 @@ export default function CartPage() {
                                   type="button"
                                   disabled={isApplyDisabled(item)}
                                   onClick={() => handleApplyChange(item)}
-                                  className="flex-1 min-h-11 py-2 text-sm bg-store-primary hover:bg-store-accent text-white font-medium rounded-lg disabled:opacity-50"
+                                  className="flex-1 min-h-11 py-2 text-xs font-bold uppercase tracking-wider bg-zinc-950 hover:bg-zinc-800 text-white rounded-lg disabled:opacity-50 cursor-pointer transition-colors"
                                 >
                                   Apply
                                 </button>
@@ -676,19 +676,19 @@ export default function CartPage() {
             </div>
 
             {/* Order summary */}
-            <section aria-labelledby="order-summary-title" className="min-w-0 self-start rounded-2xl border border-store-border bg-white p-5 sm:p-6 lg:sticky lg:top-36">
-              <h2 id="order-summary-title" className="text-xl font-semibold tracking-tight text-store-ink">Order summary</h2>
+            <section aria-labelledby="order-summary-title" className="min-w-0 self-start rounded-2xl border border-zinc-200 bg-white p-5 sm:p-6 lg:sticky lg:top-36 shadow-xs">
+              <h2 id="order-summary-title" className="text-xl font-bold tracking-tight text-zinc-950">Order summary</h2>
 
               <div className="mt-6">
-                <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-store-ink"><LuMapPin className="h-4 w-4 text-store-primary" /> Delivery location</div>
+                <div className="mb-3 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-zinc-700"><LuMapPin className="h-4 w-4 text-zinc-900" /> Delivery location</div>
                 <div className="grid gap-2" role="group" aria-label="Delivery location">
                   {([
                     { zone: "dhaka" as const, label: "Inside Dhaka", rate: insideRate },
                     { zone: "outside" as const, label: "Outside Dhaka", rate: outsideRate },
                   ]).map(({ zone, label, rate }) => (
-                    <button key={zone} type="button" onClick={() => selectDeliveryZone(zone)} aria-pressed={deliveryZone === zone} className={`flex w-full items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left transition-colors ${deliveryZone === zone ? "border-store-primary/50 bg-store-surface/60" : "border-stone-200 bg-white hover:bg-stone-50"}`}>
-                      <span className="flex items-center gap-3 text-sm font-medium text-store-ink"><span aria-hidden="true" className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${deliveryZone === zone ? "bg-store-primary text-white" : "border border-stone-300"}`}>{deliveryZone === zone && <LuCheck className="h-3 w-3" />}</span>{label}</span>
-                      <span className="shrink-0 text-sm font-semibold text-store-ink">{rate === 0 ? "Free" : formatCurrency(rate)}</span>
+                    <button key={zone} type="button" onClick={() => selectDeliveryZone(zone)} aria-pressed={deliveryZone === zone} className={`flex w-full items-center justify-between gap-3 rounded-xl border px-4 py-3 text-left transition-colors cursor-pointer ${deliveryZone === zone ? "border-zinc-950 bg-stone-50" : "border-stone-200 bg-white hover:bg-stone-50"}`}>
+                      <span className="flex items-center gap-3 text-sm font-medium text-zinc-900"><span aria-hidden="true" className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full ${deliveryZone === zone ? "bg-zinc-950 text-white" : "border border-stone-300"}`}>{deliveryZone === zone && <LuCheck className="h-3 w-3" />}</span>{label}</span>
+                      <span className="shrink-0 text-sm font-semibold text-zinc-950">{rate === 0 ? "Free" : formatCurrency(rate)}</span>
                     </button>
                   ))}
                 </div>
@@ -696,35 +696,35 @@ export default function CartPage() {
               </div>
 
               <div className="mt-5 border-t border-stone-100 pt-4">
-                {!appliedCoupon && <button type="button" onClick={() => setPromoOpen(!promoOpen)} aria-expanded={promoOpen} aria-controls={promoOpen && !appliedCoupon ? "cart-promo" : undefined} className="flex w-full items-center justify-between gap-2 py-1 text-left text-sm font-medium text-store-ink hover:text-store-primary">
-                  <span className="flex items-center gap-2"><LuTag className="h-4 w-4 text-store-primary" /> Promo code</span>
+                {!appliedCoupon && <button type="button" onClick={() => setPromoOpen(!promoOpen)} aria-expanded={promoOpen} aria-controls={promoOpen && !appliedCoupon ? "cart-promo" : undefined} className="flex w-full items-center justify-between gap-2 py-1 text-left text-sm font-medium text-zinc-900 hover:text-black">
+                  <span className="flex items-center gap-2"><LuTag className="h-4 w-4 text-zinc-900" /> Promo code</span>
                   {promoOpen ? <LuChevronUp className="h-4 w-4" /> : <IoChevronDownOutline className="h-4 w-4" />}
                 </button>}
                 {appliedCoupon ? (
-                  <div className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-store-surface p-3 text-sm">
-                    <span className="min-w-0 break-all font-medium text-store-deep">{appliedCoupon.code} applied</span>
-                    <button type="button" onClick={handleRemovePromo} className="shrink-0 text-xs font-medium text-store-primary hover:underline">Remove</button>
+                  <div className="mt-3 flex items-center justify-between gap-3 rounded-xl bg-stone-100 p-3 text-sm">
+                    <span className="min-w-0 break-all font-medium text-zinc-900">{appliedCoupon.code} applied</span>
+                    <button type="button" onClick={handleRemovePromo} className="shrink-0 text-xs font-semibold text-rose-600 hover:underline cursor-pointer">Remove</button>
                   </div>
                 ) : promoOpen ? (
                   <form id="cart-promo" onSubmit={handleApplyPromo} className="mt-3 flex min-w-0 gap-2">
-                    <input type="text" aria-label="Promo code" value={promoInput} onChange={(e) => setPromoInput(e.target.value)} placeholder="Enter promo code" className="min-h-11 min-w-0 flex-1 rounded-xl border border-stone-200 px-3 text-sm uppercase text-store-ink" />
-                    <button type="submit" disabled={isApplyingPromo || !promoInput.trim()} className="rounded-xl bg-store-deep px-4 text-sm font-medium text-white transition-colors hover:bg-store-hover disabled:opacity-50">{isApplyingPromo ? "Applying..." : "Apply"}</button>
+                    <input type="text" aria-label="Promo code" value={promoInput} onChange={(e) => setPromoInput(e.target.value)} placeholder="Enter promo code" className="min-h-11 min-w-0 flex-1 rounded-xl border border-stone-200 px-3 text-sm uppercase text-zinc-900" />
+                    <button type="submit" disabled={isApplyingPromo || !promoInput.trim()} className="rounded-xl bg-zinc-950 px-5 text-xs font-bold uppercase tracking-wider text-white transition-colors hover:bg-zinc-800 disabled:opacity-50 cursor-pointer">{isApplyingPromo ? "Applying..." : "Apply"}</button>
                   </form>
                 ) : null}
               </div>
 
               <div className="mt-5 space-y-3 border-t border-stone-100 pt-5 text-sm">
-                <div className="flex justify-between gap-4 text-stone-600"><span>Subtotal ({items.reduce((count, item) => count + item.quantity, 0)} {items.reduce((count, item) => count + item.quantity, 0) === 1 ? "item" : "items"})</span><span className="font-medium text-store-ink">{formatCurrency(subtotal)}</span></div>
-                <div className="flex justify-between gap-4 text-stone-600"><span>Delivery</span><span className="font-medium text-store-ink">{baseShipping === 0 ? "Free" : formatCurrency(baseShipping)}</span></div>
+                <div className="flex justify-between gap-4 text-stone-600"><span>Subtotal ({items.reduce((count, item) => count + item.quantity, 0)} {items.reduce((count, item) => count + item.quantity, 0) === 1 ? "item" : "items"})</span><span className="font-semibold text-zinc-900">{formatCurrency(subtotal)}</span></div>
+                <div className="flex justify-between gap-4 text-stone-600"><span>Delivery</span><span className="font-semibold text-zinc-900">{baseShipping === 0 ? "Free" : formatCurrency(baseShipping)}</span></div>
                 {promoDiscount > 0 && <div className="flex justify-between gap-4 text-emerald-700"><span>Discount</span><span>−{formatCurrency(promoDiscount)}</span></div>}
-                <div className="flex items-baseline justify-between gap-4 border-t border-stone-200 pt-4"><span className="text-base font-semibold text-store-ink">Estimated total</span><span className="text-xl font-semibold text-store-deep">{formatCurrency(total)}</span></div>
+                <div className="flex items-baseline justify-between gap-4 border-t border-stone-200 pt-4"><span className="text-base font-bold text-zinc-950">Estimated total</span><span className="text-xl font-extrabold text-zinc-950">{formatCurrency(total)}</span></div>
               </div>
 
               <button type="button" onClick={() => {
                 if (!isAuthenticated) { setShowAuthModal(true); return; }
                 clearBuyNowItem();
                 router.push("/checkout");
-              }} className="mt-6 flex min-h-12 w-full items-center justify-center rounded-xl bg-store-primary px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-store-hover">Proceed to checkout</button>
+              }} className="mt-6 flex min-h-12 w-full items-center justify-center rounded-xl bg-zinc-950 px-4 py-3.5 text-xs font-bold uppercase tracking-wider text-white transition-all hover:bg-zinc-800 shadow-sm cursor-pointer">Proceed to checkout</button>
             </section>
 
           </div>

@@ -35,9 +35,9 @@ export default function HeroSlider({ slides }: HeroSliderProps) {
         slidesPerView={1}
         spaceBetween={0}
         loop={true}
-        speed={1000}
+        speed={700}
         autoplay={{
-          delay: 5000,
+          delay: 2800,
           disableOnInteraction: false,
         }}
         onSwiper={(swiper) => {

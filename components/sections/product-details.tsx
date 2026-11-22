@@ -273,7 +273,7 @@ export default function ProductDetails({
         trailingContent={(
           <Link
             href="/products"
-            className="hidden shrink-0 items-center gap-1 text-xs font-semibold text-zinc-600 transition-colors hover:text-zinc-950 md:inline-flex"
+            className="hidden shrink-0 items-center gap-1.5 text-xs font-semibold text-white/90 transition-all hover:text-white bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-full px-3.5 py-1.5 shadow-sm md:inline-flex"
           >
             <IoChevronBackOutline className="h-3.5 w-3.5" />
             <span>Back to Products</span>

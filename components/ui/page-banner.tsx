@@ -11,6 +11,7 @@ export interface PageBannerProps {
   breadcrumbs: BreadcrumbItem[];
   showTrustChips?: boolean;
   className?: string;
+  bgImage?: string;
 }
 
 const trustPoints = [
@@ -25,38 +26,54 @@ export default function PageBanner({
   breadcrumbs,
   showTrustChips = false,
   className = "",
+  bgImage = "/images/bredcump-main.webp",
 }: PageBannerProps) {
   return (
-    <>
-      <section className={`w-full bg-store-page ${className}`}>
-        <div className="relative mx-auto max-w-[1440px] px-4 py-5 sm:px-6 sm:py-7 md:px-10 lg:px-16 lg:py-9">
-          <div className="max-w-4xl">
-            {title && <h1 className="store-page-title">{title}</h1>}
+    <section
+      className={`relative w-full overflow-hidden border-b border-black/15 bg-[#2c2e35] bg-cover bg-center bg-no-repeat ${className}`}
+      style={{ backgroundImage: `url('${bgImage}')` }}
+    >
+      {/* Minimal clean cinematic overlay: prioritizes the fashion models in the image while maintaining crisp text contrast */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/25 to-black/45" />
 
-            {subtitle && (
-              <p className="mt-2 max-w-3xl text-sm leading-6 text-zinc-600 sm:mt-3 sm:text-base sm:leading-7">
-                {subtitle}
-              </p>
-            )}
-
-            {showTrustChips && (
-              <ul aria-label="MiniThailandBD service highlights" className="mt-4 flex flex-wrap gap-2 sm:mt-5">
-                {trustPoints.map(({ label, icon: Icon }) => (
-                  <li
-                    key={label}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-store-border/80 bg-white/80 px-3 py-1.5 text-[11px] font-semibold text-zinc-600 shadow-[0_2px_8px_rgba(20,38,56,0.035)] sm:text-xs"
-                  >
-                    <Icon aria-hidden="true" className="h-3.5 w-3.5 text-store-primary" />
-                    <span>{label}</span>
-                    <FiCheck aria-hidden="true" className="h-3 w-3 text-emerald-600" />
-                  </li>
-                ))}
-              </ul>
-            )}
+      <div className="relative mx-auto max-w-[1440px] px-4 py-5 sm:px-6 sm:py-7 md:px-10 lg:px-16 lg:py-8 flex flex-col justify-between min-h-[160px] sm:min-h-[190px] md:min-h-[220px]">
+        {/* Breadcrumb Navigation at top */}
+        {breadcrumbs && breadcrumbs.length > 0 && (
+          <div className="mb-2 sm:mb-3">
+            <Breadcrumbs items={breadcrumbs} transparent />
           </div>
+        )}
+
+        {/* Clean, luxury boutique typography */}
+        <div className="max-w-2xl sm:max-w-3xl mt-auto">
+          {title && (
+            <h1 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-serif font-bold tracking-wide text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.7)]">
+              {title}
+            </h1>
+          )}
+
+          {subtitle && (
+            <p className="mt-1.5 max-w-xl text-xs sm:text-sm text-white/85 font-normal leading-relaxed drop-shadow-[0_1px_4px_rgba(0,0,0,0.7)]">
+              {subtitle}
+            </p>
+          )}
+
+          {showTrustChips && (
+            <ul aria-label="MiniThailandBD highlights" className="mt-3 sm:mt-4 flex flex-wrap gap-2">
+              {trustPoints.map(({ label, icon: Icon }) => (
+                <li
+                  key={label}
+                  className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 backdrop-blur-md px-3 py-1 text-[11px] font-medium text-white/90 shadow-sm sm:text-xs"
+                >
+                  <Icon aria-hidden="true" className="h-3.5 w-3.5 text-rose-400" />
+                  <span>{label}</span>
+                  <FiCheck aria-hidden="true" className="h-3 w-3 text-emerald-400" />
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
-      </section>
-      <Breadcrumbs items={breadcrumbs} />
-    </>
+      </div>
+    </section>
   );
 }

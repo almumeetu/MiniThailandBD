@@ -680,7 +680,7 @@ export default function CheckoutPage() {
                         aria-label="Promo code"
                         value={couponInput}
                         onChange={(e) => setCouponInput(e.target.value.toUpperCase())}
-                        placeholder="Enter promo code (e.g. NOVAMART)"
+                        placeholder="Enter promo code (e.g. MINITHAILAND)"
                         className="min-w-0 flex-1 min-h-12 px-3 py-3 bg-white border border-zinc-200 rounded-lg text-sm uppercase placeholder:normal-case placeholder:text-zinc-400  focus:outline-none    transition-all"
                       />
                       <button

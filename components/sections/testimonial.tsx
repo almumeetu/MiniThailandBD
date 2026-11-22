@@ -80,8 +80,8 @@ export default function Testimonial() {
               clickable: true,
               el: ".custom-testimonial-pagination",
               bulletClass:
-                "inline-block w-2.5 h-2.5 rounded-full border-2 border-orange-500 bg-transparent cursor-pointer transition-all duration-300 mx-1",
-              bulletActiveClass: "!bg-orange-500 !w-2.5 !h-2.5",
+                "inline-block w-2.5 h-2.5 rounded-full border-2 border-[#ec1c67] bg-transparent cursor-pointer transition-all duration-300 mx-1",
+              bulletActiveClass: "!bg-[#ec1c67] !w-2.5 !h-2.5",
             }}
             autoplay={{
               delay: 4500,

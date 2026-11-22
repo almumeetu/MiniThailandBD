@@ -31,7 +31,7 @@ export default function MobileBottomNav() {
         {items.map(({ href, label, icon: Icon }) => {
           const active = href === '/' ? pathname === '/' : pathname === href || pathname.startsWith(`${href}/`);
           return (
-            <Link key={href} href={href} aria-current={active ? 'page' : undefined} aria-label={label === 'Cart' && cartCount > 0 ? `Cart, ${cartCount} items` : label} className={`flex min-w-0 flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors ${active ? 'text-[#e8a020]' : 'text-zinc-400 hover:text-zinc-200'}`}>
+            <Link key={href} href={href} aria-current={active ? 'page' : undefined} aria-label={label === 'Cart' && cartCount > 0 ? `Cart, ${cartCount} items` : label} className={`flex min-w-0 flex-col items-center justify-center gap-1 text-[10px] font-medium transition-colors ${active ? 'text-[#ec1c67]' : 'text-zinc-400 hover:text-white'}`}>
               <span className="relative"><Icon className="h-5 w-5" aria-hidden="true" />{label === 'Cart' && cartCount > 0 && <span aria-hidden="true" className="absolute -right-2.5 -top-1.5 flex min-h-4 min-w-4 items-center justify-center rounded-full bg-store-primary px-1 text-[9px] font-semibold leading-none text-white">{cartCount > 99 ? '99+' : cartCount}</span>}</span>
               <span>{label}</span>
             </Link>
