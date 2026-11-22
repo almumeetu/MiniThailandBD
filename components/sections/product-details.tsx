@@ -264,7 +264,7 @@ export default function ProductDetails({
     <main className={`${styles.page} flex-grow min-w-0 w-full`}>
       <Breadcrumbs
         items={[
-          { label: "Shop", href: "/products" },
+          { label: "Products", href: "/products" },
           ...(product.category
             ? [{ label: product.category, href: `/products?category=${encodeURIComponent(product.category)}` }]
             : []),

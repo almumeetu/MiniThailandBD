@@ -22,6 +22,11 @@ export default function Breadcrumbs({
   bgImage = "/images/bredcump-main.webp",
   className = "",
 }: BreadcrumbsProps) {
+  // Deduplicate leading "Home" item if provided by caller to prevent "Home > Home > ..."
+  const normalizedItems = (items || []).filter(
+    (item, index) => !(index === 0 && (item.href === "/" || item.label.trim().toLowerCase() === "home"))
+  );
+
   if (transparent) {
     return (
       <div className={`flex items-center justify-between gap-4 ${className}`}>
@@ -40,8 +45,8 @@ export default function Breadcrumbs({
               </Link>
             </li>
 
-            {items.map((item, index) => {
-              const isLast = index === items.length - 1;
+            {normalizedItems.map((item, index) => {
+              const isLast = index === normalizedItems.length - 1;
 
               return (
                 <li key={`${item.label}-${index}`} className="inline-flex min-w-0 shrink-0 items-center gap-2">
@@ -95,8 +100,8 @@ export default function Breadcrumbs({
               </Link>
             </li>
 
-            {items.map((item, index) => {
-              const isLast = index === items.length - 1;
+            {normalizedItems.map((item, index) => {
+              const isLast = index === normalizedItems.length - 1;
 
               return (
                 <li key={`${item.label}-${index}`} className="inline-flex min-w-0 shrink-0 items-center gap-2">

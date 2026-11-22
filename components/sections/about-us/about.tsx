@@ -18,6 +18,7 @@ import {
 } from 'react-icons/lu';
 import { FaWhatsapp } from 'react-icons/fa6';
 import PageBanner from '@/components/ui/page-banner';
+import ClientsDiarySection from './clients-diary-slider';
 
 export default function About() {
   const parallaxRef = useRef<HTMLElement>(null);
@@ -71,30 +72,6 @@ export default function About() {
       title: '7-Day Easy Size Exchange',
       desc: 'Size not fitting perfectly? Swap effortlessly at any of our 4 physical Dhaka boutiques or request a doorstep courier swap anywhere in Bangladesh.',
       icon: LuRotateCcw,
-    },
-  ];
-
-  const lookbookCards = [
-    {
-      title: 'Co-ord Sets & Coordinates',
-      tag: 'Signature Line',
-      desc: 'Effortless 2-piece and 3-piece matching sets combining modern Bangkok silhouettes with all-day comfort.',
-      image: '/images/campaign/minit-3.webp',
-      href: '/products?category=Cord%20Sets',
-    },
-    {
-      title: 'Royal Velvet & Evening Gowns',
-      tag: 'Festive Couture',
-      desc: 'Rich jewel-toned velvet gowns, intricate embroidery, and tiered flare dresses crafted for weddings and festive evenings.',
-      image: '/images/campaign/minit-5.webp',
-      href: '/products?category=Party%20Gowns',
-    },
-    {
-      title: 'Luxury Abayas & Shrugs',
-      tag: 'Modest Edit',
-      desc: 'Contemporary Dubai-style silhouettes, fluid drapes, and lightweight shrug sets designed for modern occasions.',
-      image: '/images/campaign/minit-7.webp',
-      href: '/products?category=Luxury%20Abayas',
     },
   ];
 
@@ -187,62 +164,10 @@ export default function About() {
           </div>
         </section>
 
-        {/* ── 3. Visual Lookbook Showcase (Campaign Images) ── */}
-        <section className="space-y-8">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="text-[11px] font-bold uppercase tracking-[0.2em] text-zinc-400">
-              Curated Aesthetics
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-serif font-bold text-zinc-950">
-              Signature Bangkok Edits
-            </h2>
-            <p className="text-xs sm:text-sm text-zinc-500">
-              Each piece is thoughtfully selected for premium fabric texture, flattering silhouettes, and timeless appeal.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
-            {lookbookCards.map((card, idx) => (
-              <div
-                key={idx}
-                className="group border border-zinc-200/90 bg-white overflow-hidden transition-all duration-300 hover:shadow-lg flex flex-col"
-              >
-                <div className="relative aspect-[16/10] w-full overflow-hidden bg-zinc-100">
-                  <Image
-                    src={card.image}
-                    alt={card.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
-                  />
-                  <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md px-2.5 py-1 rounded-none text-[10px] font-bold uppercase tracking-wider text-white">
-                    {card.tag}
-                  </div>
-                </div>
-
-                <div className="p-5 flex-1 flex flex-col justify-between space-y-3">
-                  <div>
-                    <h3 className="text-base font-bold text-zinc-950 group-hover:text-rose-600 transition-colors">
-                      {card.title}
-                    </h3>
-                    <p className="text-xs text-zinc-500 leading-relaxed mt-1">
-                      {card.desc}
-                    </p>
-                  </div>
-                  <Link
-                    href={card.href}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-zinc-950 group-hover:text-rose-600 pt-1 transition-colors"
-                  >
-                    <span>View Collection</span>
-                    <LuArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
       </div>
+
+      {/* ── 3. Clients Diary Section (Full Width 3D Curved Cylinder Marquee Slider) ── */}
+      <ClientsDiarySection />
 
       {/* ── 4. Brand Pillars with Parallax Background (slider-2.webp) ── */}
       <section

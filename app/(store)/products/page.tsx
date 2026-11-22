@@ -21,7 +21,7 @@ import {
   LuGrid3X3,
   LuGrid2X2,
 } from 'react-icons/lu';
-import { FiHome, FiChevronRight } from 'react-icons/fi';
+import PageBanner, { type BreadcrumbItem } from '@/components/ui/page-banner';
 
 const PAGE_LIMIT = 24;
 const FETCH_BATCH_SIZE = 100;
@@ -84,17 +84,29 @@ function ProductsContent() {
   const [, setDbBrands] = useState<ShopBrand[]>([]);
 
   // Filter States
-  const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [selectedCategory, setSelectedCategory] = useState<string>(() => {
+    const cat = searchParams?.get('category');
+    return cat ? decodeURIComponent(cat) : 'All';
+  });
   const [appliedMinPrice, setAppliedMinPrice] = useState<number | null>(null);
   const [appliedMaxPrice, setAppliedMaxPrice] = useState<number | null>(null);
   const [activePricePreset, setActivePricePreset] = useState<string | null>(null);
   const [tempMin, setTempMin] = useState<number>(0);
   const [tempMax, setTempMax] = useState<number>(10000);
-  const [inStockOnly, setInStockOnly] = useState<boolean>(false);
-  const [onSaleOnly, setOnSaleOnly] = useState<boolean>(false);
+  const [inStockOnly, setInStockOnly] = useState<boolean>(() => {
+    const stock = searchParams?.get('stock');
+    return stock === 'available' || stock === 'instock';
+  });
+  const [onSaleOnly, setOnSaleOnly] = useState<boolean>(() => {
+    const deals = searchParams?.get('deals') || searchParams?.get('offer');
+    return deals === 'true' || deals === '1';
+  });
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedStyles, setSelectedStyles] = useState<string[]>([]);
-  const [selectedSort, setSelectedSort] = useState<string>('newest');
+  const [selectedSort, setSelectedSort] = useState<string>(() => {
+    const sort = searchParams?.get('sort');
+    return sort && SORT_OPTIONS.some((s) => s.value === sort) ? sort : 'newest';
+  });
 
   // Products state
   const [products, setProducts] = useState<ShopProduct[]>([]);
@@ -657,6 +669,41 @@ function ProductsContent() {
     return 'Products';
   }, [searchVal, onSaleOnly, selectedCategory]);
 
+  const pageSubtitle = useMemo(() => {
+    if (searchVal) {
+      return `Showing curated results for "${searchVal}".`;
+    }
+    if (onSaleOnly) {
+      return 'Exclusive discounted prices on authentic Bangkok fashion and luxury wear.';
+    }
+    if (selectedCategory !== 'All') {
+      return `Explore authentic Bangkok designs and elegant silhouettes in ${selectedCategory}.`;
+    }
+    return 'Explore our curated collection of verified Bangkok fashion, luxury gowns, cord sets, and modest wear.';
+  }, [searchVal, onSaleOnly, selectedCategory]);
+
+  const breadcrumbItems = useMemo<BreadcrumbItem[]>(() => {
+    const isFiltered = selectedCategory !== 'All' || Boolean(searchVal) || onSaleOnly;
+    if (!isFiltered) {
+      return [{ label: 'Products' }];
+    }
+
+    const items: BreadcrumbItem[] = [{ label: 'Products', href: '/products' }];
+    if (selectedCategory !== 'All') {
+      items.push({
+        label: selectedCategory,
+        href: searchVal ? `/products?category=${encodeURIComponent(selectedCategory)}` : undefined,
+      });
+    }
+    if (onSaleOnly) {
+      items.push({ label: 'Special Offers' });
+    }
+    if (searchVal) {
+      items.push({ label: `"${searchVal}"` });
+    }
+    return items;
+  }, [selectedCategory, searchVal, onSaleOnly]);
+
   const currentSortLabel =
     SORT_OPTIONS.find((s) => s.value === selectedSort)?.label || 'Lowest price';
 
@@ -672,69 +719,28 @@ function ProductsContent() {
   return (
     <div className="w-full min-h-screen bg-white font-sans text-neutral-900 pb-20">
       
-      {/* ── 1. Minimal Header & Breadcrumbs ── */}
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 pt-6 sm:pt-8 pb-4">
-        {/* Breadcrumb Navigation */}
-        <nav aria-label="Breadcrumb" className="mb-2">
-          <ol className="flex items-center gap-1.5 text-xs text-neutral-400">
-            <li>
-              <Link href="/" className="hover:text-neutral-900 transition-colors flex items-center gap-1">
-                <FiHome className="w-3.5 h-3.5" />
-                <span>Home</span>
-              </Link>
-            </li>
-            <li>
-              <FiChevronRight className="w-3 h-3 text-neutral-300" />
-            </li>
-            <li>
-              {selectedCategory !== 'All' ? (
-                <button
-                  type="button"
-                  onClick={() => handleSelectCategory('All')}
-                  className="hover:text-neutral-900 transition-colors cursor-pointer"
-                >
-                  Products
-                </button>
-              ) : (
-                <span className="text-neutral-900 font-medium">Products</span>
-              )}
-            </li>
-            {selectedCategory !== 'All' && (
-              <>
-                <li>
-                  <FiChevronRight className="w-3 h-3 text-neutral-300" />
-                </li>
-                <li className="text-neutral-900 font-medium truncate max-w-[180px]">
-                  {selectedCategory}
-                </li>
-              </>
-            )}
-          </ol>
-        </nav>
+      {/* ── 1. Page Banner & Breadcrumbs (Consistent with site PageBanner) ── */}
+      <PageBanner
+        title={pageTitle}
+        subtitle={pageSubtitle}
+        breadcrumbs={breadcrumbItems}
+      />
 
-        {/* Clean Large Title */}
-        <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
-          <h1 className="text-2xl sm:text-3xl lg:text-4xl font-semibold tracking-tight text-neutral-950">
-            {pageTitle}
-          </h1>
-        </div>
-
-        {/* Mobile "Show filters" Full-Width Pill Button (Matches Mobile Reference) */}
-        <div className="mt-4 lg:hidden">
-          <button
-            type="button"
-            onClick={() => setIsMobileFilterOpen(true)}
-            className="w-full py-2.5 px-6 rounded-full border border-neutral-300 bg-white text-sm font-medium text-neutral-800 text-center flex items-center justify-center gap-2 hover:border-neutral-900 active:scale-[0.99] transition-all cursor-pointer shadow-2xs"
-          >
-            <LuSlidersHorizontal className="w-4 h-4 text-neutral-700" />
-            <span>Show filters</span>
-            {activeFiltersCount > 0 && (
-              <span className="w-4.5 h-4.5 rounded-full bg-neutral-900 text-white text-[10px] font-bold flex items-center justify-center">
-                {activeFiltersCount}
-              </span>
-            )}
-          </button>
-        </div>
+      {/* Mobile "Show filters" Full-Width Pill Button */}
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 pt-4 lg:hidden">
+        <button
+          type="button"
+          onClick={() => setIsMobileFilterOpen(true)}
+          className="w-full py-2.5 px-6 rounded-full border border-neutral-300 bg-white text-sm font-medium text-neutral-800 text-center flex items-center justify-center gap-2 hover:border-neutral-900 active:scale-[0.99] transition-all cursor-pointer shadow-2xs"
+        >
+          <LuSlidersHorizontal className="w-4 h-4 text-neutral-700" />
+          <span>Show filters</span>
+          {activeFiltersCount > 0 && (
+            <span className="w-4.5 h-4.5 rounded-full bg-neutral-900 text-white text-[10px] font-bold flex items-center justify-center">
+              {activeFiltersCount}
+            </span>
+          )}
+        </button>
       </div>
 
       {/* ── 2. Top Alignment Toolbar ── */}
