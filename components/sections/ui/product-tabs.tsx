@@ -23,6 +23,7 @@ import {
   type ShopSettings,
   type StorePolicies,
 } from '@/lib/shop-api';
+import { API_BASE_URL } from '@/lib/storefront-api';
 
 interface ProductTabsProps {
   productId?: string;
@@ -178,7 +179,7 @@ export default function ProductTabs({
     // Attempt to submit to backend API if productId is present
     if (productId) {
       try {
-        const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5010/api/v1';
+        const apiBase = API_BASE_URL;
         await fetch(`${apiBase}/products/${productId}/reviews`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },

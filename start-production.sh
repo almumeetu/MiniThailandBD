@@ -1,15 +1,15 @@
 #!/bin/bash
 
-# NovaMart Production Startup Script
-# This script helps start the production server
+# Mini Thailand BD Production Startup Script
+# This script builds and starts the production server
 
-echo "🚀 Starting NovaMart Production Server..."
-echo "========================================"
+echo "🚀 Starting Mini Thailand BD Production Server..."
+echo "================================================"
 
 # Check if .env file exists
 if [ ! -f .env ]; then
     echo "❌ Error: .env file not found!"
-    echo "Please create .env file with production configuration."
+    echo "Please create .env file with production configuration (see .env.example)."
     exit 1
 fi
 
@@ -19,20 +19,14 @@ if [ ! -d node_modules ]; then
     npm install
 fi
 
-# Check if .next exists, if not build
-if [ ! -d .next ]; then
-    echo "🔨 Building application..."
-    npm run build
-fi
+# Build application
+echo "🔨 Building Next.js application..."
+npm run build
 
 echo ""
-echo "✅ All checks passed!"
+echo "✅ Production build succeeded!"
 echo ""
-echo "🌐 URLs:"
-echo "   Frontend: https://novamart.webdevss.tech"
-echo "   API: https://api-novamart.webdevss.tech"
-echo ""
-echo "📝 Starting server on port 3002..."
+echo "📝 Starting server on port ${PORT:-3002}..."
 echo ""
 
 # Start the production server

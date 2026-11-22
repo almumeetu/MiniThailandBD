@@ -7,9 +7,33 @@ import { type ShopCategory, DEFAULT_NOVAMART_CATEGORIES } from "@/lib/shop-api";
 
 interface AarongCategoryGridProps {
   categories?: ShopCategory[];
+  loading?: boolean;
 }
 
-export default function AarongCategoryGrid({ categories }: AarongCategoryGridProps) {
+export function AarongCategoryGridSkeleton() {
+  return (
+    <section aria-label="Product Categories Loading" className="w-full bg-white py-8 sm:py-12">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
+          {Array.from({ length: 8 }).map((_, idx) => (
+            <div key={idx} className="flex flex-col bg-white overflow-hidden animate-pulse">
+              <div className="relative aspect-square w-full bg-neutral-200" />
+              <div className="bg-white py-3 sm:py-3.5 flex justify-center">
+                <div className="h-3.5 w-24 bg-neutral-200 rounded" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default function AarongCategoryGrid({ categories, loading }: AarongCategoryGridProps) {
+  if (loading && (!categories || categories.length === 0)) {
+    return <AarongCategoryGridSkeleton />;
+  }
+
   const displayList = (categories && categories.length >= 8)
     ? categories.slice(0, 8)
     : DEFAULT_NOVAMART_CATEGORIES.slice(0, 8);

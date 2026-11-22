@@ -14,61 +14,48 @@ export default function Testimonial() {
   const testimonials = [
     {
       id: 1,
-      author: "Shahriar Khan Abir",
-      role: "Service Holder",
+      author: "Tanjina Akter",
+      role: "Verified Buyer • Dhanmondi",
       rating: 5,
-      text: "I don't like ghee, but my father really loves it. So I bought some ghee for him. He said this ghee is the best he has ever had.",
-      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=200&auto=format&fit=crop&q=80",
+      text: "Alhamdulillah parcel peyechi! Dress ta truly oshadharon! Fabric er quality eto soft ar comfortable, shotti bolar moto na! Picture thekeo real e onek beshi gorgeous lagche. Thank you Mini Thailand for authentic Bangkok quality!",
+      avatar: "/images/testiminial/testimonial-1.png",
     },
     {
       id: 2,
-      author: "Fariha Akter Tumpa",
-      role: "Entrepreneur",
+      author: "Sadia Islam Mim",
+      role: "Verified Buyer • Chattogram",
       rating: 5,
-      text: "In a market full of doubts, this has become our most trustworthy store for genuine quality and pure daily essentials.",
-      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=200&auto=format&fit=crop&q=80",
+      text: "My sister's wedding party outfit arrived right on time! The crimson lace party gown fits absolutely like a dream, and everyone at the event kept asking where I bought it from. 2 days delivery to Ctg was remarkably fast!",
+      avatar: "/images/testiminial/testimonial-2.png",
     },
     {
       id: 3,
-      author: "Ayesha Khan",
-      role: "Banker",
+      author: "Nusrat Jahan Chowdhury",
+      role: "Verified Buyer • Sylhet",
       rating: 5,
-      text: "Ordered for the second time! Just like my first purchase, the quality is top-notch and delivery was super fast. Completely satisfied.",
-      avatar: null,
+      text: "Normally online e dress kinte voy pay, kintu video call e pura dress live dekhiye parcel pathiyechen tai trust kore order korechilam. Dress er stitching, finish ar packaging 100 out of 100! Will definitely order more.",
+      avatar: "/images/testiminial/testimonial-3.png",
     },
     {
       id: 4,
-      author: "Tanvir Ahmed",
-      role: "Corporate Executive",
+      author: "Mehnaz Rahman",
+      role: "Verified Buyer • Uttara",
       rating: 5,
-      text: "Ordered raw organic honey and cold-pressed mustard oil. Everything arrived fresh, properly packed, and 100% authentic. Truly reliable service.",
-      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 5,
-      author: "Nusrat Jahan",
-      role: "Doctor",
-      rating: 5,
-      text: "I used to be hesitant ordering groceries online, but their product purity and prompt customer support are unmatched. Excellent experience!",
-      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&auto=format&fit=crop&q=80",
-    },
-    {
-      id: 6,
-      author: "Mahmudul Hasan",
-      role: "University Lecturer",
-      rating: 5,
-      text: "The premium dates and organic ghee are top-notch quality. Courteous delivery staff and fast doorstep delivery. Highly recommended!",
-      avatar: null,
+      text: "Received the rose pink lace outfit today! Perfect fitting and fabric weight is just right for festive occasions. Truly authentic imported piece with superb packaging. Mini Thailand BD has earned a loyal customer!",
+      avatar: "/images/testiminial/testimonial-4.png",
     },
   ];
 
   return (
     <section className="w-full py-14 sm:py-16 lg:py-20 bg-[#FAF8F5] border-t border-zinc-200/70 overflow-hidden font-sans">
       <div className="w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16">
-        {/* Section Header with orange-bordered indicator */}
+        {/* Section Header matching site typography */}
         <div className="flex flex-col items-center text-center mb-10 sm:mb-12">
-          <h2 className="text-zinc-900 text-2xl sm:text-3xl font-bold tracking-tight">
-            What Our Customers Say
+          <span className="text-xs sm:text-[13px] font-semibold tracking-[0.22em] text-[#ec1c67] uppercase mb-2">
+            WHAT OUR CLIENTS
+          </span>
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-[0.20em] text-zinc-950 uppercase font-sans">
+            SAY ABOUT US
           </h2>
         </div>
 

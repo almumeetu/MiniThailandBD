@@ -2,10 +2,8 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { FiShoppingBag, FiLoader, FiX, FiPackage, FiMapPin, FiChevronRight } from "react-icons/fi";
-import { getCustomerToken } from "@/lib/storefront-api";
+import { getCustomerToken, API_BASE_URL } from "@/lib/storefront-api";
 import ResolvedImage from "./image-resolver";
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:5010/api/v1";
 
 const SECTION_LABEL = "text-xs font-bold tracking-wider uppercase text-zinc-400";
 
@@ -74,7 +72,7 @@ export default function OrdersView() {
     if (!token) return;
     setLoading(true);
     try {
-      const res = await fetch(`${BASE_URL}/orders/my-orders`, {
+      const res = await fetch(`${API_BASE_URL}/orders/my-orders`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) {

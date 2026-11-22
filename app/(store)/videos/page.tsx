@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import { fetchPublicVideos, FALLBACK_VIDEOS } from "@/lib/video-api";
 import VideosClientPage from "./videos-client";
+import VideosLoading from "./loading";
 
 export const metadata: Metadata = {
   title: "Watch & Shop Reels & Videos | MiniThailandBD",
@@ -64,7 +65,7 @@ export default async function VideosPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Suspense fallback={<div className="min-h-screen bg-store-page animate-pulse" />}>
+      <Suspense fallback={<VideosLoading />}>
         <VideosClientPage initialVideos={initialVideos} />
       </Suspense>
     </>

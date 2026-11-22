@@ -33,56 +33,59 @@ export default function AarongBottomBar() {
             </span>
           </div>
 
-          {/* Center: The 4 Social icons (Facebook, Instagram, YouTube, WhatsApp) */}
-          <div className="flex items-center gap-4 sm:gap-5 order-1 lg:order-2">
-            {SOCIAL_LINKS.map(({ icon: Icon, href, label }) => (
+          {/* Right: App store download badges & Social icons below them */}
+          <div className="flex flex-col items-center gap-3 sm:gap-3.5 order-1 lg:order-2">
+            {/* App store download badges */}
+            <div className="flex items-center gap-2.5 sm:gap-3">
               <Link
-                key={label}
-                href={href}
+                href="https://play.google.com/store"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label={label}
-                title={label}
-                className="text-zinc-400 hover:text-[#ec1c67] transition-colors duration-200"
+                aria-label="Get it on Google Play"
+                className="inline-block transition-opacity hover:opacity-85"
               >
-                <Icon className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+                <Image
+                  src="/images/footer/google-play-badge.png"
+                  alt="Get it on Google Play"
+                  width={125}
+                  height={38}
+                  className="h-8 sm:h-9 w-auto object-contain"
+                />
               </Link>
-            ))}
-          </div>
 
-          {/* Right: App store download badges */}
-          <div className="flex items-center gap-2.5 sm:gap-3 order-3">
-            <Link
-              href="https://play.google.com/store"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Get it on Google Play"
-              className="inline-block transition-opacity hover:opacity-85"
-            >
-              <Image
-                src="/images/footer/google-play-badge.png"
-                alt="Get it on Google Play"
-                width={125}
-                height={38}
-                className="h-8 sm:h-9 w-auto object-contain"
-              />
-            </Link>
+              <Link
+                href="https://www.apple.com/app-store/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Download on the App Store"
+                className="inline-block transition-opacity hover:opacity-85"
+              >
+                <Image
+                  src="/images/footer/app-store-badge.png"
+                  alt="Download on the App Store"
+                  width={125}
+                  height={38}
+                  className="h-8 sm:h-9 w-auto object-contain"
+                />
+              </Link>
+            </div>
 
-            <Link
-              href="https://www.apple.com/app-store/"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Download on the App Store"
-              className="inline-block transition-opacity hover:opacity-85"
-            >
-              <Image
-                src="/images/footer/app-store-badge.png"
-                alt="Download on the App Store"
-                width={125}
-                height={38}
-                className="h-8 sm:h-9 w-auto object-contain"
-              />
-            </Link>
+            {/* Social icons placed directly underneath the store badges */}
+            <div className="flex items-center gap-4 sm:gap-5">
+              {SOCIAL_LINKS.map(({ icon: Icon, href, label }) => (
+                <Link
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  title={label}
+                  className="text-zinc-400 hover:text-[#ec1c67] transition-colors duration-200"
+                >
+                  <Icon className="w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
 

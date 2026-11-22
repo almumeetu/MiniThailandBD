@@ -142,20 +142,20 @@ export default function StorefrontFooter() {
           </div>
         </div>
 
-        {/* Bottom Center: Policy Menu with theme color & smaller size */}
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-6 gap-y-2 text-[11px] sm:text-[11.5px] font-medium text-[#ec1c67]">
+        {/* Bottom Center: Policy Menu */}
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-x-4 sm:gap-x-6 gap-y-2 text-[11px] sm:text-[11.5px] font-medium text-zinc-400">
           <Link href="/delivery" className="hover:text-white transition-colors duration-200">
             Shipping &amp; Delivery
           </Link>
-          <span className="text-[#ec1c67]/40 select-none">•</span>
+          <span className="text-zinc-600 select-none">•</span>
           <Link href="/returns" className="hover:text-white transition-colors duration-200">
             Return &amp; Refund Policy
           </Link>
-          <span className="text-[#ec1c67]/40 select-none">•</span>
+          <span className="text-zinc-600 select-none">•</span>
           <Link href="/terms" className="hover:text-white transition-colors duration-200">
             Terms &amp; Conditions
           </Link>
-          <span className="text-[#ec1c67]/40 select-none">•</span>
+          <span className="text-zinc-600 select-none">•</span>
           <Link href="/privacy" className="hover:text-white transition-colors duration-200">
             Privacy Policy
           </Link>

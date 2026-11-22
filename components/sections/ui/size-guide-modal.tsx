@@ -74,7 +74,7 @@ export default function SizeGuideModal({
                   : 'text-zinc-600 hover:text-zinc-900'
               }`}
             >
-              Men's Apparel
+              Men&apos;s Apparel
             </button>
             <button
               onClick={() => setActiveTab('women')}
@@ -84,7 +84,7 @@ export default function SizeGuideModal({
                   : 'text-zinc-600 hover:text-zinc-900'
               }`}
             >
-              Women's Apparel
+              Women&apos;s Apparel
             </button>
           </div>
 

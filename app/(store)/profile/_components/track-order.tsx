@@ -4,8 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useSearchParams } from "next/navigation";
 import { FiLoader, FiCheckCircle, FiTruck, FiClock, FiSearch, FiPackage } from "react-icons/fi";
 import { toast } from "sonner";
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:5010/api/v1";
+import { API_BASE_URL } from "@/lib/storefront-api";
 
 const SECTION_LABEL = "text-xs font-bold tracking-wider uppercase text-zinc-400";
 
@@ -61,7 +60,7 @@ export default function TrackOrderView() {
     setSearched(false);
     setOrder(null);
     try {
-      const res = await fetch(`${BASE_URL}/orders/track/${clean}`);
+      const res = await fetch(`${API_BASE_URL}/orders/track/${clean}`);
       if (res.ok) {
         setOrder(await res.json());
       } else {

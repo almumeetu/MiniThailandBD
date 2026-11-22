@@ -25,8 +25,8 @@ export default function DashboardRedirectPage() {
       return;
     }
 
-    // Default to admin dashboard (which will prompt login if needed)
-    router.replace("/admin/dashboard");
+    // Default to customer profile
+    router.replace("/profile");
   }, [router]);
 
   return (

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import ProductCard, { ProductCardSkeleton } from './product-card';
+import AarongProductCard, { AarongProductCardSkeleton } from '@/components/aarong/aarong-product-card';
 import HorizontalScroller from './horizontal-scroller';
 import { fetchShopProducts, type ShopProduct } from '@/lib/shop-api';
 
@@ -53,7 +53,7 @@ export default function RelatedCarousel({
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 xl:grid-cols-5 gap-3.5 sm:gap-4">
             {[...Array(5)].map((_, i) => (
-              <ProductCardSkeleton key={i} />
+              <AarongProductCardSkeleton key={i} />
             ))}
           </div>
         </div>
@@ -72,22 +72,26 @@ export default function RelatedCarousel({
           trackId="related-products-track"
           label="Related products"
           autoplayDelay={3500}
-          heading={<h2 className="store-section-title">You may also like</h2>}
-          action={<Link href="/products" className="text-sm font-medium text-store-primary hover:underline">View all</Link>}
+          heading={
+            <h2 className="text-lg sm:text-xl md:text-2xl font-bold tracking-[0.16em] text-zinc-950 uppercase font-sans">
+              You may also like
+            </h2>
+          }
+          action={<Link href="/products" className="text-xs sm:text-sm font-semibold tracking-wider text-[#ec1c67] hover:underline uppercase">View all</Link>}
         >
           {products.map((product) => (
-            <div key={product.id} className="w-[168px] shrink-0 snap-start sm:w-[200px] lg:w-[220px]">
-            <ProductCard
-              id={product.id}
-              name={product.name}
-              price={`৳${product.price.toLocaleString()}`}
-              originalPrice={product.originalPrice ? `৳${product.originalPrice.toLocaleString()}` : ''}
-              image={product.image}
-              slug={product.slug}
-              category={product.category}
-              brand={product.team}
-              variantId={product.variantId}
-            />
+            <div key={product.id} className="w-[175px] shrink-0 snap-start sm:w-[210px] lg:w-[235px]">
+              <AarongProductCard
+                id={product.id}
+                name={product.name}
+                price={product.price}
+                originalPrice={product.originalPrice}
+                image={product.image}
+                slug={product.slug}
+                category={product.category}
+                badge={product.badge}
+                variantId={product.variantId}
+              />
             </div>
           ))}
         </HorizontalScroller>

@@ -2,7 +2,7 @@
 
 import { type Campaign, API_BASE_URL, resolveImageUrl } from "./admin-api";
 
-export const CAMPAIGNS_STORAGE_KEY = "minithailandbd_campaigns_v20";
+export const CAMPAIGNS_STORAGE_KEY = "minithailandbd_campaigns_v21";
 export const CAMPAIGNS_UPDATED_EVENT = "minithailandbd_campaigns_updated";
 
 /**
@@ -102,54 +102,6 @@ export function normalizeCampaignToEnglish(campaign: Campaign): Campaign {
  */
 export const DEFAULT_HERO_CAMPAIGNS: Campaign[] = [
   {
-    id: "camp-hero-slider-3",
-    title: "Exclusive Bangkok Co-ord Sets",
-    description: "Chic premium matching sets, lightweight fabrics & contemporary Thai boutique silhouettes.",
-    status: "active",
-    startAt: new Date().toISOString(),
-    endAt: null,
-    hasDiscount: true,
-    badge: "",
-    ctaText: "SHOP CO-ORD SETS",
-    linkUrl: "/products?category=Cord%20Sets",
-    sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Slider Banner", position: 1, page: "home" },
-    images: [{ id: "img-hero-slider-3", images: ["/images/sliders/slider-3.webp"] }],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "camp-hero-slider-4",
-    title: "Regal Velvet & Festive Party Wear",
-    description: "Intricate handcrafted embroidery, rich royal textures & timeless evening fashion curated from Bangkok.",
-    status: "active",
-    startAt: new Date().toISOString(),
-    endAt: null,
-    hasDiscount: true,
-    badge: "",
-    ctaText: "EXPLORE PARTY WEAR",
-    linkUrl: "/products?category=Party%20Gowns",
-    sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Slider Banner", position: 2, page: "home" },
-    images: [{ id: "img-hero-slider-4", images: ["/images/sliders/slider-4.webp"] }],
-    createdAt: new Date().toISOString(),
-  },
-  {
-    id: "camp-hero-slider-5",
-    title: "Signature Dubai Abaya & Modest Luxury",
-    description: "Flowing layered silhouettes, modest elegance & artisanal detailing designed for modern occasions.",
-    status: "active",
-    startAt: new Date().toISOString(),
-    endAt: null,
-    hasDiscount: true,
-    badge: "",
-    ctaText: "VIEW ABAYAS",
-    linkUrl: "/products?category=Luxury%20Abayas",
-    sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Slider Banner", position: 3, page: "home" },
-    images: [{ id: "img-hero-slider-5", images: ["/images/sliders/slider-5.webp"] }],
-    createdAt: new Date().toISOString(),
-  },
-  {
     id: "camp-hero-1",
     title: "Autumn & Winter Haute Couture",
     description: "Imported luxury Bangkok coordinates, tailored blazers & signature boutique silhouettes for the modern woman.",
@@ -161,7 +113,7 @@ export const DEFAULT_HERO_CAMPAIGNS: Campaign[] = [
     ctaText: "EXPLORE COLLECTION",
     linkUrl: "/products?category=Cord%20Sets",
     sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Slider Banner", position: 4, page: "home" },
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 1, page: "home" },
     images: [{ id: "img-hero-1", images: ["/images/campaign/minit-2.webp"] }],
     createdAt: new Date().toISOString(),
   },
@@ -177,7 +129,7 @@ export const DEFAULT_HERO_CAMPAIGNS: Campaign[] = [
     ctaText: "DISCOVER GOWNS",
     linkUrl: "/products?category=Party%20Gowns",
     sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Slider Banner", position: 5, page: "home" },
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 2, page: "home" },
     images: [{ id: "img-hero-2", images: ["/images/campaign/minit-3.webp"] }],
     createdAt: new Date().toISOString(),
   },
@@ -193,8 +145,56 @@ export const DEFAULT_HERO_CAMPAIGNS: Campaign[] = [
     ctaText: "SHOP WINTER EDIT",
     linkUrl: "/products?category=Winter%20Collection",
     sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Slider Banner", position: 6, page: "home" },
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 3, page: "home" },
     images: [{ id: "img-hero-5", images: ["/images/campaign/minit-7.webp"] }],
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "camp-hero-slider-3",
+    title: "Exclusive Bangkok Co-ord Sets",
+    description: "Chic premium matching sets, lightweight fabrics & contemporary Thai boutique silhouettes.",
+    status: "active",
+    startAt: new Date().toISOString(),
+    endAt: null,
+    hasDiscount: true,
+    badge: "",
+    ctaText: "SHOP CO-ORD SETS",
+    linkUrl: "/products?category=Cord%20Sets",
+    sectionId: "sec-hero",
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 4, page: "home" },
+    images: [{ id: "img-hero-slider-3", images: ["/images/sliders/slider-3.webp"] }],
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "camp-hero-slider-4",
+    title: "Regal Velvet & Festive Party Wear",
+    description: "Intricate handcrafted embroidery, rich royal textures & timeless evening fashion curated from Bangkok.",
+    status: "active",
+    startAt: new Date().toISOString(),
+    endAt: null,
+    hasDiscount: true,
+    badge: "",
+    ctaText: "EXPLORE PARTY WEAR",
+    linkUrl: "/products?category=Party%20Gowns",
+    sectionId: "sec-hero",
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 5, page: "home" },
+    images: [{ id: "img-hero-slider-4", images: ["/images/sliders/slider-4.webp"] }],
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "camp-hero-slider-5",
+    title: "Signature Dubai Abaya & Modest Luxury",
+    description: "Flowing layered silhouettes, modest elegance & artisanal detailing designed for modern occasions.",
+    status: "active",
+    startAt: new Date().toISOString(),
+    endAt: null,
+    hasDiscount: true,
+    badge: "",
+    ctaText: "VIEW ABAYAS",
+    linkUrl: "/products?category=Luxury%20Abayas",
+    sectionId: "sec-hero",
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 6, page: "home" },
+    images: [{ id: "img-hero-slider-5", images: ["/images/sliders/slider-5.webp"] }],
     createdAt: new Date().toISOString(),
   },
 ];
@@ -209,7 +209,7 @@ export function getStoredCampaigns(): Campaign[] {
 
   try {
     // Clean up older cached storage keys if present
-    for (let i = 1; i <= 19; i++) {
+    for (let i = 1; i <= 20; i++) {
       localStorage.removeItem(`minithailandbd_campaigns_v${i}`);
     }
 

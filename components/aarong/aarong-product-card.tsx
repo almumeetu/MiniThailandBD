@@ -24,11 +24,11 @@ const DEFAULT_IMAGE = '/products/cords set/905937710_1118136247512437_2099551318
 
 export function AarongProductCardSkeleton() {
   return (
-    <div className="flex flex-col bg-[#f5f5f5] overflow-hidden animate-pulse">
-      <div className="relative aspect-[3/4] w-full bg-zinc-200" />
-      <div className="bg-white pt-2.5 pb-2 px-1.5 space-y-2">
-        <div className="h-3 w-3/4 rounded bg-zinc-200" />
-        <div className="h-3 w-1/3 rounded bg-zinc-200" />
+    <div className="flex flex-col bg-white overflow-hidden animate-pulse">
+      <div className="relative aspect-[3/4] w-full bg-neutral-200" />
+      <div className="bg-white pt-2.5 pb-2 px-1.5 space-y-2 flex flex-col items-center">
+        <div className="h-3 w-3/4 rounded bg-neutral-200" />
+        <div className="h-3 w-1/3 rounded bg-neutral-200" />
       </div>
     </div>
   );

@@ -3,9 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { FiMapPin, FiPlus, FiTrash2, FiEdit2, FiX, FiLoader, FiChevronDown } from "react-icons/fi";
 import { toast } from "sonner";
-import { getCustomerToken } from "@/lib/storefront-api";
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:5010/api/v1";
+import { getCustomerToken, API_BASE_URL } from "@/lib/storefront-api";
 
 const SECTION_LABEL = "text-xs font-bold tracking-wider uppercase text-zinc-400";
 const FIELD_LABEL   = "block text-xs font-bold tracking-wider uppercase text-zinc-400 mb-1.5";
@@ -47,7 +45,7 @@ export default function AddressBookView() {
     if (!token) return;
     setLoading(true);
     try {
-      const res = await fetch(`${BASE_URL}/addresses`, {
+      const res = await fetch(`${API_BASE_URL}/addresses`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.ok) setAddresses(await res.json());
@@ -80,7 +78,7 @@ export default function AddressBookView() {
     if (!token) { toast.error("Please log in first."); return; }
     setSubmitting(true);
     try {
-      const url    = editing ? `${BASE_URL}/addresses/${editing.id}` : `${BASE_URL}/addresses`;
+      const url    = editing ? `${API_BASE_URL}/addresses/${editing.id}` : `${API_BASE_URL}/addresses`;
       const method = editing ? "PATCH" : "POST";
       const res    = await fetch(url, {
         method,
@@ -104,7 +102,7 @@ export default function AddressBookView() {
     const token = getCustomerToken();
     if (!token) return;
     try {
-      const res = await fetch(`${BASE_URL}/addresses/${id}`, {
+      const res = await fetch(`${API_BASE_URL}/addresses/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

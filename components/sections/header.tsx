@@ -13,6 +13,7 @@ import { useAuth } from "@/app/_providers/auth-provider";
 import { useCart } from "@/app/_providers/cart-provider";
 import { useWishlist } from "@/app/_providers/wishlist-provider";
 import { fetchShopProducts, fetchShopCategories, type ShopProduct, type ShopCategory } from "@/lib/shop-api";
+import { getAdminToken, isAllowedAdminRole } from "@/lib/admin-api";
 import Logo from "@/components/ui/logo";
 
 const storeCategoryItems = [
@@ -57,7 +58,6 @@ export default function Header() {
       { label: "Cord Sets", href: "/products?category=Cord%20Sets" },
       { label: "Party Gowns", href: "/products?category=Party%20Gowns" },
       { label: "Luxury Abayas", href: "/products?category=Luxury%20Abayas" },
-      { label: "Offer Zone", href: "/products?deals=true" },
       { label: "About Us", href: "/about" },
       { label: "Contact", href: "/contact" },
     ];
@@ -175,28 +175,28 @@ export default function Header() {
 
   return (
     <>
-      {!isHome && <TopHeader isScrolled={false} isHome={false} />}
-
       <header
-        className={`w-full font-sans transition-colors duration-300 z-50 ${
+        className={`w-full font-sans transition-all duration-300 z-50 ${
           isHome
             ? `fixed top-0 left-0 right-0 ${
                 isScrolled
                   ? "bg-[#121214]/95 backdrop-blur-md shadow-xl"
                   : "bg-gradient-to-b from-black/55 via-black/25 to-transparent pointer-events-auto"
               }`
-            : "sticky top-0 bg-[#121214] shadow-md"
+            : `sticky top-0 ${
+                isScrolled
+                  ? "bg-[#121214]/95 backdrop-blur-md shadow-xl"
+                  : "bg-[#121214] shadow-md"
+              }`
         }`}
       >
-        {isHome && (
-          <div
-            className={`transition-all duration-300 overflow-hidden ${
-              isScrolled ? "max-h-0 opacity-0 pointer-events-none" : "max-h-10 opacity-100"
-            }`}
-          >
-            <TopHeader isScrolled={isScrolled} isHome={true} />
-          </div>
-        )}
+        <div
+          className={`transition-all duration-300 overflow-hidden ${
+            isScrolled ? "max-h-0 opacity-0 pointer-events-none" : "max-h-10 opacity-100"
+          }`}
+        >
+          <TopHeader isScrolled={isScrolled} isHome={isHome} />
+        </div>
 
       {/* ═══════════════ Desktop Main Header ═══════════════ */}
       <div className="hidden lg:block bg-transparent">
@@ -469,14 +469,16 @@ export default function Header() {
                         Wishlist
                       </Link>
 
-                      <Link
-                        href="/admin/dashboard"
-                        onClick={() => setDropdownOpen(false)}
-                        className="flex items-center gap-2.5 w-full text-left px-3.5 py-2.5 text-xs font-semibold text-slate-900 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors cursor-pointer border border-blue-100"
-                      >
-                        <LuLayoutDashboard className="w-4 h-4 text-store-primary" />
-                        Admin Dashboard
-                      </Link>
+                      {Boolean(getAdminToken() || isAllowedAdminRole((user as { role?: unknown })?.role)) && (
+                        <Link
+                          href="/admin/dashboard"
+                          onClick={() => setDropdownOpen(false)}
+                          className="flex items-center gap-2.5 w-full text-left px-3.5 py-2.5 text-xs font-semibold text-slate-900 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors cursor-pointer border border-blue-100"
+                        >
+                          <LuLayoutDashboard className="w-4 h-4 text-store-primary" />
+                          Admin Dashboard
+                        </Link>
+                      )}
                     </div>
 
                     {/* Customer Support */}
@@ -518,9 +520,11 @@ export default function Header() {
               aria-label={mounted && cartItemCount > 0 ? `Shopping Cart (${cartItemCount} items)` : "Shopping Cart"}
             >
               <LuShoppingBag className="w-5 h-5" />
-              <span className="absolute -top-1.5 -right-2 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-[#ec1c67] text-[10px] font-bold text-white shadow-xs">
-                {mounted && cartItemCount > 0 ? (cartItemCount > 99 ? "99+" : cartItemCount) : "1"}
-              </span>
+              {mounted && cartItemCount > 0 && (
+                <span className="absolute -top-1.5 -right-2 flex items-center justify-center min-w-[16px] h-4 px-1 rounded-full bg-[#ec1c67] text-[10px] font-bold text-white shadow-xs">
+                  {cartItemCount > 99 ? "99+" : cartItemCount}
+                </span>
+              )}
             </button>
           </div>
         </div>
@@ -535,9 +539,11 @@ export default function Header() {
 
       {/* ═══════════════ Mobile Header ═══════════════ */}
       <div
-        className={`lg:hidden transition-colors duration-300 ${
+        className={`lg:hidden transition-all duration-300 ${
           isHome && !isScrolled
             ? "bg-transparent border-b border-white/10"
+            : isScrolled
+            ? "bg-[#121214]/95 backdrop-blur-md border-b border-white/10 shadow-xl"
             : "bg-[#121214] border-b border-white/10 shadow-sm"
         }`}
       >

@@ -20,7 +20,7 @@ import { FaWhatsapp } from "react-icons/fa6";
 import { toast } from "sonner";
 
 import { useAuth } from "@/app/_providers/auth-provider";
-import { getCustomerToken } from "@/lib/storefront-api";
+import { getCustomerToken, API_BASE_URL } from "@/lib/storefront-api";
 
 import AccountDetailsView from "./_components/account-details";
 import OrdersView from "./_components/orders-view";
@@ -31,7 +31,6 @@ import PageBanner from "@/components/ui/page-banner";
 import { fetchShopSettings, parseContactEntries, type ShopSettings } from "@/lib/shop-api";
 
 type ProfileTab = "details" | "orders" | "address" | "wishlist" | "track";
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:5010/api/v1";
 
 function ProfilePageContent() {
   const { user, isAuthenticated, loading, logout, refreshUser, setShowAuthModal } = useAuth();
@@ -63,7 +62,7 @@ function ProfilePageContent() {
 
       const token = getCustomerToken();
       if (token) {
-        fetch(`${BASE_URL}/orders/my-orders`, { headers: { Authorization: `Bearer ${token}` } })
+        fetch(`${API_BASE_URL}/orders/my-orders`, { headers: { Authorization: `Bearer ${token}` } })
           .then((res) => (res.ok ? res.json() : []))
           .then((data) => setHasOrders(Array.isArray(data) ? data.length > 0 : (data?.data?.length ?? 0) > 0))
           .catch(() => {});

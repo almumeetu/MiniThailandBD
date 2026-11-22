@@ -9,12 +9,10 @@ import {
   type ReactNode,
 } from "react";
 import { toast } from "sonner";
-import { getCustomerToken } from "@/lib/storefront-api";
+import { getCustomerToken, API_BASE_URL } from "@/lib/storefront-api";
 import { resolveImageUrl } from "@/lib/admin-api";
 import type { WishlistProduct, BackendWishlistItem, WishlistContextValue } from "@/lib/types";
 import { useAuth } from "@/app/_providers/auth-provider";
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:5010/api/v1";
 
 const defaultWishlistContext: WishlistContextValue = {
   items: [],
@@ -65,7 +63,7 @@ async function authenticatedRequest<T>(
   if (!headers.has("Content-Type")) {
     headers.set("Content-Type", "application/json");
   }
-  const res = await fetch(`${BASE_URL}${path}`, { ...options, headers });
+  const res = await fetch(`${API_BASE_URL}${path}`, { ...options, headers });
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     throw new Error(body.message ?? `Request failed: ${res.status}`);

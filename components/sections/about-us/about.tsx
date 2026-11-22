@@ -18,7 +18,6 @@ import {
 } from 'react-icons/lu';
 import { FaWhatsapp } from 'react-icons/fa6';
 import PageBanner from '@/components/ui/page-banner';
-import ClientsDiarySection from './clients-diary-slider';
 
 export default function About() {
   const parallaxRef = useRef<HTMLElement>(null);
@@ -100,7 +99,7 @@ export default function About() {
 
   return (
     <article className="w-full text-zinc-900 bg-white font-sans pb-16">
-      
+
       {/* ── 1. Hero PageBanner with Campaign Hero Image ── */}
       <PageBanner
         title="The Story of Mini Thailand"
@@ -114,7 +113,7 @@ export default function About() {
       />
 
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 pt-12 sm:pt-16 space-y-16 sm:space-y-24">
-        
+
         {/* ── 2. Editorial Heritage Split ── */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* Campaign Image */}
@@ -166,20 +165,17 @@ export default function About() {
 
       </div>
 
-      {/* ── 3. Clients Diary Section (Full Width 3D Curved Cylinder Marquee Slider) ── */}
-      <ClientsDiarySection />
-
-      {/* ── 4. Brand Pillars with Parallax Background (slider-2.webp) ── */}
+      {/* ── 3. Brand Pillars with Parallax Background (minit-3 (1).webp) ── */}
       <section
         ref={parallaxRef}
         className="relative w-full overflow-hidden bg-zinc-950 py-16 sm:py-24 text-white mt-16 sm:mt-24"
       >
-        {/* Parallax Background Layer using slider-2.webp */}
+        {/* Parallax Background Layer using minit-3 (1).webp */}
         <div
           aria-hidden="true"
           className="absolute -top-[20%] inset-x-0 h-[140%] w-full bg-cover bg-center pointer-events-none will-change-transform"
           style={{
-            backgroundImage: "url('/images/sliders/slider-2.webp')",
+            backgroundImage: "url('/images/campaign/minit-3 (1).webp')",
             transform: `translate3d(0, ${offsetY}px, 0) scale(1.08)`,
             transition: 'transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1)',
           }}
@@ -207,21 +203,26 @@ export default function About() {
               return (
                 <div
                   key={p.step}
-                  className="relative rounded-none bg-gradient-to-b from-white via-white to-[#fff0f5] p-6 sm:p-7 space-y-4 transition-all duration-300 group hover:-translate-y-1.5 shadow-2xl shadow-black/30"
+                  className="relative overflow-hidden rounded-none bg-gradient-to-b from-white via-white to-[#fff0f5] p-6 sm:p-7 space-y-4 transition-all duration-300 group hover:-translate-y-1.5 shadow-2xl shadow-black/30"
                 >
-                  {/* Top Accent Strip in Brand Theme Color (No border radius) */}
-                  <div className="absolute top-0 inset-x-0 h-1.5 bg-[#ec1c67]" />
+                  {/* Top Accent Strip in Brand Theme Color - 1px border */}
+                  <div className="absolute top-0 inset-x-0 h-[1px] bg-[#ec1c67]" />
 
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold text-[#ec1c67] bg-[#fff0f5] px-2.5 py-1 tracking-wider uppercase">
-                      {p.step}
-                    </span>
+                  {/* Large Background Numbering Shape */}
+                  <span
+                    aria-hidden="true"
+                    className="absolute top-2 right-3 sm:right-4 text-7xl sm:text-8xl font-black font-sans text-[#ec1c67]/12 group-hover:text-[#ec1c67]/22 select-none pointer-events-none transition-all duration-300 leading-none tracking-tighter group-hover:scale-105"
+                  >
+                    {p.step}
+                  </span>
+
+                  <div className="relative z-10 flex items-center justify-between">
                     <div className="w-11 h-11 rounded-none bg-[#ec1c67] text-white flex items-center justify-center shadow-sm group-hover:bg-[#d81358] transition-colors">
                       <Icon className="w-5 h-5" />
                     </div>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="relative z-10 space-y-2">
                     <h3 className="text-base sm:text-lg font-bold text-zinc-950 group-hover:text-[#ec1c67] transition-colors leading-snug">
                       {p.title}
                     </h3>

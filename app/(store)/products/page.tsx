@@ -1,13 +1,15 @@
 'use client';
 
-import { useEffect, useMemo, useRef, useState, Suspense, useCallback } from 'react';
+import { useEffect, useMemo, useRef, useState, Suspense, useCallback, useTransition } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import AarongProductCard, { AarongProductCardSkeleton } from '@/components/aarong/aarong-product-card';
+import ShopPageSkeleton from '@/components/sections/ui/shop-page-skeleton';
 import {
   fetchShopProducts,
   fetchShopCategories,
   fetchShopBrands,
+  fetchShopTags,
   type ShopProduct,
   type ShopCategory,
   type ShopBrand,
@@ -41,36 +43,78 @@ const PRICE_PRESETS = [
   { label: 'Over ৳5,000', min: 5000, max: Infinity },
 ];
 
-const AVAILABLE_COLORS = [
-  { name: 'Black', hex: '#18181b' },
-  { name: 'White', hex: '#ffffff' },
-  { name: 'Red', hex: '#ef4444' },
-  { name: 'Blue', hex: '#3b82f6' },
-  { name: 'Pink', hex: '#ec4899' },
-  { name: 'Green', hex: '#10b981' },
-  { name: 'Beige', hex: '#d4b996' },
-  { name: 'Lavender', hex: '#c084fc' },
+export interface ColorDefinition {
+  name: string;
+  hex: string;
+  regex: RegExp;
+}
+
+export const KNOWN_COLORS: ColorDefinition[] = [
+  { name: 'Black', hex: '#18181b', regex: /\b(black|midnight)\b/i },
+  { name: 'White', hex: '#ffffff', regex: /\b(white|off[-\s]?white|ivory)\b/i },
+  { name: 'Red', hex: '#ef4444', regex: /\b(red|wine|crimson|maroon|burgundy|ruby)\b/i },
+  { name: 'Blue', hex: '#3b82f6', regex: /\b(blue|navy|sky\s*blue|royal\s*blue|cyan)\b/i },
+  { name: 'Pink', hex: '#ec4899', regex: /\b(pink|rose|blush|magenta|fuchsia)\b/i },
+  { name: 'Green', hex: '#10b981', regex: /\b(green|mint|emerald|olive|sage|khaki)\b/i },
+  { name: 'Beige', hex: '#d4b996', regex: /\b(beige|cream|nude|tan|sand)\b/i },
+  { name: 'Lavender', hex: '#c084fc', regex: /\b(lavender|mauve|purple|lilac|violet)\b/i },
+  { name: 'Gold', hex: '#eab308', regex: /\b(gold|golden|yellow|mustard)\b/i },
+  { name: 'Brown', hex: '#78350f', regex: /\b(brown|chocolate|coffee|mocha|bronze)\b/i },
+  { name: 'Gray', hex: '#6b7280', regex: /\b(gray|grey|silver|charcoal)\b/i },
+  { name: 'Orange', hex: '#f97316', regex: /\b(orange|peach|coral|rust|apricot)\b/i },
 ];
 
-const POPULAR_TAGS = [
-  'New',
-  'On Sale',
-  'In Stock',
-  'Cord',
-  'Velvet',
-  'Floral',
-  'Festive',
-  'Modest',
-  'Embroidered',
-  'Printed',
-  'Tiered',
-  'Sequin',
-];
+function normalizeCatName(name: string): string {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/co-?ord/g, 'cord')
+    .replace(/[^a-z0-9]+/g, '-');
+}
+
+function matchesCategory(prodCategory: string, targetCategory: string): boolean {
+  if (!prodCategory || !targetCategory) return false;
+  if (targetCategory === 'All') return true;
+  const pNorm = normalizeCatName(prodCategory);
+  const tNorm = normalizeCatName(targetCategory);
+  if (pNorm === tNorm) return true;
+
+  const pWords = pNorm.split('-').filter(Boolean);
+  const tWords = tNorm.split('-').filter(Boolean);
+
+  const targetWordsInProd = tWords.every((tw) => pWords.includes(tw));
+  if (targetWordsInProd) return true;
+
+  const prodWordsInTarget = pWords.every((pw) => tWords.includes(pw));
+  if (prodWordsInTarget) return true;
+
+  return false;
+}
 
 function ProductsContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const searchVal = searchParams?.get('search') || '';
+
+  // Transition state for smooth filter changes without blocking
+  const [isFiltering, startFilterTransition] = useTransition();
+
+  // Helper to cleanly update URL without triggering route resets or jank
+  const updateUrlParams = useCallback(
+    (updates: Record<string, string | null>) => {
+      if (typeof window === 'undefined') return;
+      const url = new URL(window.location.href);
+      Object.entries(updates).forEach(([key, val]) => {
+        if (val === null || val === '' || (key === 'category' && val === 'All')) {
+          url.searchParams.delete(key);
+        } else {
+          url.searchParams.set(key, val);
+        }
+      });
+      window.history.replaceState(null, '', url.pathname + (url.search ? url.search : ''));
+    },
+    []
+  );
 
   // UI state
   const [viewMode, setViewMode] = useState<'grid3' | 'grid4'>('grid4');
@@ -82,6 +126,7 @@ function ProductsContent() {
   // Metadata from API
   const [dbCategories, setDbCategories] = useState<ShopCategory[]>([]);
   const [, setDbBrands] = useState<ShopBrand[]>([]);
+  const [dbTags, setDbTags] = useState<{ id: string; name: string }[]>([]);
 
   // Filter States
   const [selectedCategory, setSelectedCategory] = useState<string>(() => {
@@ -93,6 +138,8 @@ function ProductsContent() {
   const [activePricePreset, setActivePricePreset] = useState<string | null>(null);
   const [tempMin, setTempMin] = useState<number>(0);
   const [tempMax, setTempMax] = useState<number>(10000);
+  const priceDebounceRef = useRef<NodeJS.Timeout | null>(null);
+
   const [inStockOnly, setInStockOnly] = useState<boolean>(() => {
     const stock = searchParams?.get('stock');
     return stock === 'available' || stock === 'instock';
@@ -140,16 +187,18 @@ function ProductsContent() {
     };
   }, [isMobileFilterOpen]);
 
-  // Load Categories & Brands
+  // Load Categories & Brands & Tags
   useEffect(() => {
     async function loadMeta() {
       try {
-        const [cats, brs] = await Promise.all([
+        const [cats, brs, tags] = await Promise.all([
           fetchShopCategories(),
           fetchShopBrands(),
+          fetchShopTags().catch(() => []),
         ]);
         setDbCategories(cats || []);
         setDbBrands(brs || []);
+        setDbTags(tags || []);
       } catch (err) {
         console.error('Failed to load filter metadata:', err);
       }
@@ -157,7 +206,7 @@ function ProductsContent() {
     loadMeta();
   }, []);
 
-  // Fetch all products
+  // Fetch all products with instant first-batch streaming
   useEffect(() => {
     const id = ++reqIdRef.current;
     let cancelled = false;
@@ -175,6 +224,12 @@ function ProductsContent() {
         const all = [...first.data];
         const pages = Math.ceil(first.total / FETCH_BATCH_SIZE);
 
+        // Stream initial batch immediately so users don't wait for all pages
+        if (!cancelled && id === reqIdRef.current) {
+          setProducts(all);
+          setIsLoading(false);
+        }
+
         for (let start = 2; start <= pages; start += 4) {
           if (cancelled || id !== reqIdRef.current) return;
           const batch = await Promise.all(
@@ -183,10 +238,9 @@ function ProductsContent() {
             )
           );
           all.push(...batch.flatMap((res) => res.data));
-        }
-
-        if (!cancelled && id === reqIdRef.current) {
-          setProducts(all);
+          if (!cancelled && id === reqIdRef.current) {
+            setProducts([...all]);
+          }
         }
       } catch (error) {
         if (!cancelled && id === reqIdRef.current) {
@@ -205,6 +259,31 @@ function ProductsContent() {
       cancelled = true;
     };
   }, [searchVal]);
+
+  // Handle browser back / forward navigation cleanly
+  useEffect(() => {
+    const handlePopState = () => {
+      const params = new URLSearchParams(window.location.search);
+      const cat = params.get('category');
+      const dealsParam = params.get('deals') || params.get('offer');
+      const stockParam = params.get('stock');
+      const sortParam = params.get('sort');
+
+      startFilterTransition(() => {
+        setSelectedCategory(cat ? decodeURIComponent(cat) : 'All');
+        setOnSaleOnly(dealsParam === 'true' || dealsParam === '1');
+        setInStockOnly(stockParam === 'available' || stockParam === 'instock');
+        if (sortParam && SORT_OPTIONS.some((s) => s.value === sortParam)) {
+          setSelectedSort(sortParam);
+        } else {
+          setSelectedSort('newest');
+        }
+      });
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   // Dynamic Catalog Min and Max price
   const { catalogMinPrice, catalogMaxPrice } = useMemo(() => {
@@ -252,18 +331,13 @@ function ProductsContent() {
       const stockParam = params.get('stock');
       const sortParam = params.get('sort');
 
-      if (dealsParam === 'true' || dealsParam === '1') {
-        setOnSaleOnly(true);
-      } else {
-        setOnSaleOnly(false);
-      }
-
-      if (stockParam === 'available' || stockParam === 'instock') {
-        setInStockOnly(true);
-      }
+      setOnSaleOnly(dealsParam === 'true' || dealsParam === '1');
+      setInStockOnly(stockParam === 'available' || stockParam === 'instock');
 
       if (sortParam && SORT_OPTIONS.some((s) => s.value === sortParam)) {
         setSelectedSort(sortParam);
+      } else {
+        setSelectedSort('newest');
       }
 
       if (cat) {
@@ -279,67 +353,112 @@ function ProductsContent() {
     }
   }, [searchParams, dbCategories]);
 
-  // Categories list
-  const categoriesList = useMemo(() => {
-    const map = new Map<string, string>();
+  // Dynamic Categories list and counts from live products and categories
+  const { categoriesList, categoryCounts } = useMemo(() => {
+    const catMap = new Map<string, { label: string; count: number }>();
+
+    // 1. First aggregate from actual products
     products.forEach((p) => {
-      const name = p.category?.trim();
-      if (name && !map.has(name.toLowerCase())) {
-        map.set(name.toLowerCase(), name);
+      const raw = p.category?.trim();
+      if (raw) {
+        const key = normalizeCatName(raw);
+        const existing = catMap.get(key);
+        if (existing) {
+          existing.count += 1;
+        } else {
+          catMap.set(key, { label: raw, count: 1 });
+        }
       }
     });
+
+    // 2. Check dbCategories to enhance label (e.g. "Co-ord Sets")
     dbCategories.forEach((c) => {
-      const name = c.name?.trim();
-      if (name && !map.has(name.toLowerCase())) {
-        map.set(name.toLowerCase(), name);
+      const raw = c.name?.trim();
+      if (raw) {
+        const key = normalizeCatName(raw);
+        const existing = catMap.get(key);
+        if (existing) {
+          existing.label = raw;
+        }
       }
     });
-    return Array.from(map.values()).sort((a, b) => a.localeCompare(b));
-  }, [products, dbCategories]);
 
-  // Category counts
-  const categoryCounts = useMemo(() => {
+    // 3. Only keep categories that have products or are currently selected
+    const list = Array.from(catMap.values())
+      .filter(
+        (c) =>
+          c.count > 0 ||
+          (selectedCategory !== 'All' && matchesCategory(c.label, selectedCategory))
+      )
+      .sort((a, b) => b.count - a.count || a.label.localeCompare(b.label))
+      .map((c) => c.label);
+
     const counts: Record<string, number> = { all: products.length };
-    products.forEach((p) => {
-      const cat = (p.category || 'other').toLowerCase().trim();
-      counts[cat] = (counts[cat] || 0) + 1;
+    catMap.forEach((item, key) => {
+      counts[key] = item.count;
+      counts[item.label.toLowerCase()] = item.count;
     });
-    return counts;
-  }, [products]);
 
-  // Real-time Color counts
-  const colorCounts = useMemo(() => {
-    const counts: Record<string, number> = {};
-    AVAILABLE_COLORS.forEach(({ name }) => {
-      const regex =
-        name.toLowerCase() === 'beige'
-          ? /(beige|cream|ivory)/i
-          : new RegExp(`\\b${name}\\b`, 'i');
-      counts[name] = products.filter((p) => regex.test(p.name)).length;
+    return { categoriesList: list, categoryCounts: counts };
+  }, [products, dbCategories, selectedCategory]);
+
+  // Real-time Dynamic Color counts — only colors that actually exist in the products
+  const dynamicColors = useMemo(() => {
+    return KNOWN_COLORS.map((col) => {
+      const count = products.filter((p) => {
+        const text = `${p.name} ${p.category || ''} ${p.unit || ''}`.toLowerCase();
+        return col.regex.test(text);
+      }).length;
+      return { ...col, count };
+    }).filter((col) => col.count > 0 || selectedColors.includes(col.name));
+  }, [products, selectedColors]);
+
+  // Dynamic Styles / Tags with live counts — only tags that actually match products
+  const dynamicTags = useMemo(() => {
+    const candidateTags = new Set<string>();
+    dbTags.forEach((t) => {
+      if (t.name?.trim()) candidateTags.add(t.name.trim());
     });
-    return counts;
-  }, [products]);
+    const defaultFashionTags = [
+      'Cord',
+      'Velvet',
+      'Floral',
+      'Festive',
+      'Modest',
+      'Embroidered',
+      'Printed',
+      'Tiered',
+      'Sequin',
+      'Silk',
+      'Chiffon',
+      'Lace',
+      'Fleece',
+      'Maxi',
+    ];
+    defaultFashionTags.forEach((k) => candidateTags.add(k));
 
-  // Real-time Style/Tag counts
-  const availableStylesWithCount = useMemo(() => {
-    return POPULAR_TAGS.map((tag) => {
-      if (tag === 'New') {
-        return { tag, count: Math.min(products.length, 12) };
-      }
-      if (tag === 'On Sale') {
-        const count = products.filter((p) => p.originalPrice && p.originalPrice > p.price).length;
+    return Array.from(candidateTags)
+      .map((tag) => {
+        const regex = new RegExp(`\\b${tag}\\b`, 'i');
+        const count = products.filter((p) => {
+          const text = `${p.name} ${p.category || ''}`.toLowerCase();
+          return regex.test(text);
+        }).length;
         return { tag, count };
-      }
-      if (tag === 'In Stock') {
-        const count = products.filter((p) => p.inStock).length;
-        return { tag, count };
-      }
-      const regex = new RegExp(`\\b${tag}\\b`, 'i');
-      const count = products.filter(
-        (p) => regex.test(p.name) || regex.test(p.category)
-      ).length;
-      return { tag, count };
-    }).filter((item) => item.count > 0);
+      })
+      .filter((item) => item.count > 0 || selectedStyles.includes(item.tag));
+  }, [products, dbTags, selectedStyles]);
+
+  // Dynamic Price Presets — only show presets that have products in that range
+  const dynamicPricePresets = useMemo(() => {
+    if (products.length === 0) return [];
+    return PRICE_PRESETS.filter((preset) => {
+      return products.some(
+        (p) =>
+          p.price >= preset.min &&
+          (preset.max === Infinity ? true : p.price <= preset.max)
+      );
+    });
   }, [products]);
 
   // Overall counts
@@ -351,103 +470,154 @@ function ProductsContent() {
     return products.filter((p) => p.inStock).length;
   }, [products]);
 
-  // Handle category change
+  // Handle category change smoothly without route unmount or jumps
   const handleSelectCategory = useCallback(
     (catName: string) => {
-      if (catName === 'deals') {
-        setOnSaleOnly(true);
-        setSelectedCategory('All');
-        router.push('/products?deals=true');
-        return;
-      }
+      startFilterTransition(() => {
+        if (catName === 'deals') {
+          setOnSaleOnly(true);
+          setSelectedCategory('All');
+          updateUrlParams({ deals: 'true', category: null });
+          return;
+        }
 
-      setOnSaleOnly(false);
-      setSelectedCategory(catName);
-      if (catName === 'All') {
-        router.push('/products');
-      } else {
-        router.push(`/products?category=${encodeURIComponent(catName)}`);
-      }
+        setOnSaleOnly(false);
+        setSelectedCategory(catName);
+        updateUrlParams({
+          category: catName === 'All' ? null : catName,
+          deals: null,
+        });
+      });
     },
-    [router]
+    [updateUrlParams]
   );
+
+  // Handle in-stock toggle smoothly
+  const handleToggleInStock = useCallback(() => {
+    startFilterTransition(() => {
+      setInStockOnly((prev) => {
+        const next = !prev;
+        updateUrlParams({ stock: next ? 'available' : null });
+        return next;
+      });
+    });
+  }, [updateUrlParams]);
+
+  // Handle special offers toggle smoothly
+  const handleToggleOnSale = useCallback(() => {
+    startFilterTransition(() => {
+      setOnSaleOnly((prev) => {
+        const next = !prev;
+        updateUrlParams({ deals: next ? 'true' : null });
+        return next;
+      });
+    });
+  }, [updateUrlParams]);
 
   // Price presets handler
   const handlePricePreset = (preset: (typeof PRICE_PRESETS)[0]) => {
-    if (activePricePreset === preset.label) {
-      setActivePricePreset(null);
-      setAppliedMinPrice(null);
-      setAppliedMaxPrice(null);
-      setTempMin(catalogMinPrice);
-      setTempMax(catalogMaxPrice);
-    } else {
-      setActivePricePreset(preset.label);
-      setAppliedMinPrice(preset.min);
-      setAppliedMaxPrice(preset.max === Infinity ? null : preset.max);
-      setTempMin(preset.min);
-      setTempMax(preset.max === Infinity ? catalogMaxPrice : preset.max);
-    }
+    if (priceDebounceRef.current) clearTimeout(priceDebounceRef.current);
+    startFilterTransition(() => {
+      if (activePricePreset === preset.label) {
+        setActivePricePreset(null);
+        setAppliedMinPrice(null);
+        setAppliedMaxPrice(null);
+        setTempMin(catalogMinPrice);
+        setTempMax(catalogMaxPrice);
+      } else {
+        setActivePricePreset(preset.label);
+        setAppliedMinPrice(preset.min);
+        setAppliedMaxPrice(preset.max === Infinity ? null : preset.max);
+        setTempMin(preset.min);
+        setTempMax(preset.max === Infinity ? catalogMaxPrice : preset.max);
+      }
+    });
   };
 
-  // Slider price handlers
+  // Slider price handlers with 120ms debounce for 60fps sliding
   const handleMinSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = Math.min(Number(e.target.value), tempMax - 100);
     setTempMin(val);
-    setAppliedMinPrice(val);
     setActivePricePreset(null);
+    if (priceDebounceRef.current) clearTimeout(priceDebounceRef.current);
+    priceDebounceRef.current = setTimeout(() => {
+      startFilterTransition(() => {
+        setAppliedMinPrice(val);
+      });
+    }, 120);
   };
 
   const handleMaxSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = Math.max(Number(e.target.value), tempMin + 100);
     setTempMax(val);
-    setAppliedMaxPrice(val);
     setActivePricePreset(null);
+    if (priceDebounceRef.current) clearTimeout(priceDebounceRef.current);
+    priceDebounceRef.current = setTimeout(() => {
+      startFilterTransition(() => {
+        setAppliedMaxPrice(val);
+      });
+    }, 120);
   };
 
   const clearPriceFilter = useCallback(() => {
-    setAppliedMinPrice(null);
-    setAppliedMaxPrice(null);
-    setActivePricePreset(null);
-    setTempMin(catalogMinPrice);
-    setTempMax(catalogMaxPrice);
+    if (priceDebounceRef.current) clearTimeout(priceDebounceRef.current);
+    startFilterTransition(() => {
+      setAppliedMinPrice(null);
+      setAppliedMaxPrice(null);
+      setActivePricePreset(null);
+      setTempMin(catalogMinPrice);
+      setTempMax(catalogMaxPrice);
+    });
   }, [catalogMinPrice, catalogMaxPrice]);
 
-  // Toggle Color
+  // Toggle Color smoothly
   const toggleColor = (color: string) => {
-    setSelectedColors((prev) =>
-      prev.includes(color) ? prev.filter((c) => c !== color) : [...prev, color]
-    );
+    startFilterTransition(() => {
+      setSelectedColors((prev) =>
+        prev.includes(color) ? prev.filter((c) => c !== color) : [...prev, color]
+      );
+    });
   };
 
-  // Toggle Tag
+  // Toggle Tag smoothly
   const toggleTag = (tag: string) => {
     if (tag === 'On Sale') {
-      setOnSaleOnly((prev) => !prev);
+      handleToggleOnSale();
       return;
     }
     if (tag === 'In Stock') {
-      setInStockOnly((prev) => !prev);
+      handleToggleInStock();
       return;
     }
-    setSelectedStyles((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-    );
+    startFilterTransition(() => {
+      setSelectedStyles((prev) =>
+        prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+      );
+    });
   };
 
-  // Clear all filters
+  // Clear all filters smoothly
   const clearAllFilters = useCallback(() => {
-    setSelectedCategory('All');
-    setAppliedMinPrice(null);
-    setAppliedMaxPrice(null);
-    setActivePricePreset(null);
-    setTempMin(catalogMinPrice);
-    setTempMax(catalogMaxPrice);
-    setInStockOnly(false);
-    setOnSaleOnly(false);
-    setSelectedColors([]);
-    setSelectedStyles([]);
-    router.push('/products');
-  }, [catalogMinPrice, catalogMaxPrice, router]);
+    if (priceDebounceRef.current) clearTimeout(priceDebounceRef.current);
+    startFilterTransition(() => {
+      setSelectedCategory('All');
+      setAppliedMinPrice(null);
+      setAppliedMaxPrice(null);
+      setActivePricePreset(null);
+      setTempMin(catalogMinPrice);
+      setTempMax(catalogMaxPrice);
+      setInStockOnly(false);
+      setOnSaleOnly(false);
+      setSelectedColors([]);
+      setSelectedStyles([]);
+      updateUrlParams({
+        category: null,
+        deals: null,
+        stock: null,
+        sort: null,
+      });
+    });
+  }, [catalogMinPrice, catalogMaxPrice, updateUrlParams]);
 
   // Active filters count
   const activeFiltersCount = useMemo(() => {
@@ -474,20 +644,9 @@ function ProductsContent() {
     let result = products.filter((p) => {
       // 1. Category
       if (selectedCategory !== 'All') {
-        const selLower = selectedCategory.toLowerCase().trim();
-        const selSlug = selLower.replace(/[^a-z0-9]+/g, '-');
-        const prodCat = (p.category || '').toLowerCase().trim();
-        const prodSlug = prodCat.replace(/[^a-z0-9]+/g, '-');
-
-        const matches =
-          prodCat === selLower ||
-          prodSlug === selSlug ||
-          prodCat.includes(selLower) ||
-          selLower.includes(prodCat) ||
-          prodSlug.includes(selSlug) ||
-          selSlug.includes(prodSlug);
-
-        if (!matches) return false;
+        if (!matchesCategory(p.category || '', selectedCategory)) {
+          return false;
+        }
       }
 
       // 2. Price
@@ -502,19 +661,22 @@ function ProductsContent() {
 
       // 5. Colors
       if (selectedColors.length > 0) {
-        const nameLower = (p.name || '').toLowerCase();
-        const matchesColor = selectedColors.some((c) => {
-          if (c.toLowerCase() === 'beige') {
-            return nameLower.includes('beige') || nameLower.includes('cream') || nameLower.includes('ivory');
+        const text = `${p.name} ${p.category || ''} ${p.unit || ''}`.toLowerCase();
+        const matchesColor = selectedColors.some((selectedColName) => {
+          const colDef = KNOWN_COLORS.find(
+            (c) => c.name.toLowerCase() === selectedColName.toLowerCase()
+          );
+          if (colDef) {
+            return colDef.regex.test(text);
           }
-          return nameLower.includes(c.toLowerCase());
+          return text.includes(selectedColName.toLowerCase());
         });
         if (!matchesColor) return false;
       }
 
       // 6. Style / Tags
       if (selectedStyles.length > 0) {
-        const combined = `${p.name} ${p.category}`.toLowerCase();
+        const combined = `${p.name} ${p.category || ''}`.toLowerCase();
         const matchesAnyTag = selectedStyles.some((st) => combined.includes(st.toLowerCase()));
         if (!matchesAnyTag) return false;
       }
@@ -587,7 +749,7 @@ function ProductsContent() {
       list.push({
         id: 'search',
         label: `"${searchVal}"`,
-        onRemove: () => router.push('/products'),
+        onRemove: () => updateUrlParams({ search: null }),
       });
     }
 
@@ -603,7 +765,7 @@ function ProductsContent() {
       list.push({
         id: 'sale',
         label: 'On Sale',
-        onRemove: () => setOnSaleOnly(false),
+        onRemove: handleToggleOnSale,
       });
     }
 
@@ -611,7 +773,7 @@ function ProductsContent() {
       list.push({
         id: 'stock',
         label: 'In Stock',
-        onRemove: () => setInStockOnly(false),
+        onRemove: handleToggleInStock,
       });
     }
 
@@ -658,8 +820,10 @@ function ProductsContent() {
     selectedColors,
     selectedStyles,
     handleSelectCategory,
+    handleToggleOnSale,
+    handleToggleInStock,
     clearPriceFilter,
-    router,
+    updateUrlParams,
   ]);
 
   const pageTitle = useMemo(() => {
@@ -857,8 +1021,11 @@ function ProductsContent() {
                       key={opt.value}
                       type="button"
                       onClick={() => {
-                        setSelectedSort(opt.value);
-                        setIsSortDropdownOpen(false);
+                        startFilterTransition(() => {
+                          setSelectedSort(opt.value);
+                          setIsSortDropdownOpen(false);
+                          updateUrlParams({ sort: opt.value === 'newest' ? null : opt.value });
+                        });
                       }}
                       className={`w-full flex items-center justify-between px-4 py-2 text-left text-xs transition-colors cursor-pointer ${
                         selectedSort === opt.value
@@ -885,17 +1052,17 @@ function ProductsContent() {
           
           {/* Desktop Left Clean Filter Sidebar */}
           {showSidebar && (
-            <aside className="hidden lg:block w-60 xl:w-64 shrink-0 space-y-6 select-none sticky top-20 self-start max-h-[calc(100vh-6rem)] overflow-y-auto pr-3 [scrollbar-width:thin]">
+            <aside className="hidden lg:block w-60 xl:w-64 shrink-0 space-y-6 select-none sticky top-28 xl:top-32 self-start max-h-[calc(100vh-8rem)] overflow-y-auto pr-3 [scrollbar-width:thin]">
               
               {/* ── Section 1: Categories ── */}
               <div className="pb-6 border-b border-neutral-100">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-sm font-semibold text-neutral-900 tracking-tight">Categories</h3>
+                  <h3 className="text-sm font-bold text-store-primary tracking-tight">Categories</h3>
                   {selectedCategory !== 'All' && (
                     <button
                       type="button"
                       onClick={() => handleSelectCategory('All')}
-                      className="text-xs text-neutral-400 hover:text-neutral-900 cursor-pointer font-normal transition-colors"
+                      className="text-xs text-neutral-400 hover:text-store-primary cursor-pointer font-normal transition-colors"
                     >
                       Clear
                     </button>
@@ -932,8 +1099,11 @@ function ProductsContent() {
                   {/* Individual Categories List */}
                   {displayedCategories.map((cat) => {
                     const isSelected =
-                      !onSaleOnly && selectedCategory.toLowerCase() === cat.toLowerCase();
-                    const count = categoryCounts[cat.toLowerCase()] || 0;
+                      !onSaleOnly &&
+                      selectedCategory !== 'All' &&
+                      (selectedCategory.toLowerCase() === cat.toLowerCase() ||
+                        normalizeCatName(cat) === normalizeCatName(selectedCategory));
+                    const count = categoryCounts[cat.toLowerCase()] || categoryCounts[normalizeCatName(cat)] || 0;
 
                     return (
                       <button
@@ -969,7 +1139,7 @@ function ProductsContent() {
                     <button
                       type="button"
                       onClick={() => setShowAllCategories(!showAllCategories)}
-                      className="pt-2 text-xs font-medium text-neutral-500 hover:text-neutral-900 cursor-pointer flex items-center gap-1 transition-colors"
+                      className="pt-2 text-xs font-medium text-neutral-500 hover:text-store-primary cursor-pointer flex items-center gap-1 transition-colors"
                     >
                       <span>
                         {showAllCategories ? 'Show less' : `+ ${categoriesList.length - 10} more`}
@@ -982,12 +1152,12 @@ function ProductsContent() {
               {/* ── Section 2: Price (Clean Slider + Clear) ── */}
               <div className="pb-6 border-b border-neutral-100">
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className="text-sm font-semibold text-neutral-900 tracking-tight">Price</h3>
+                  <h3 className="text-sm font-bold text-store-primary tracking-tight">Price</h3>
                   {(appliedMinPrice !== null || appliedMaxPrice !== null) && (
                     <button
                       type="button"
                       onClick={clearPriceFilter}
-                      className="text-xs text-neutral-400 hover:text-neutral-900 cursor-pointer font-normal transition-colors"
+                      className="text-xs text-neutral-400 hover:text-store-primary cursor-pointer font-normal transition-colors"
                     >
                       Clear
                     </button>
@@ -1047,89 +1217,92 @@ function ProductsContent() {
                   </div>
                 </div>
 
-                {/* Subtle Price Preset Pills */}
-                <div className="flex flex-wrap gap-1.5 mt-3 pt-1">
-                  {PRICE_PRESETS.map((preset) => {
-                    const isPresetActive = activePricePreset === preset.label;
-                    return (
+                {/* Subtle Dynamic Price Preset Pills */}
+                {dynamicPricePresets.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 mt-3 pt-1">
+                    {dynamicPricePresets.map((preset) => {
+                      const isPresetActive = activePricePreset === preset.label;
+                      return (
+                        <button
+                          key={preset.label}
+                          type="button"
+                          onClick={() => handlePricePreset(preset)}
+                          className={`px-2.5 py-1 rounded-full text-[11px] font-normal transition-colors cursor-pointer border ${
+                            isPresetActive
+                              ? 'bg-neutral-900 text-white border-neutral-900 font-medium'
+                              : 'bg-white text-neutral-600 border-neutral-200 hover:border-neutral-400'
+                          }`}
+                        >
+                          {preset.label}
+                        </button>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              {/* ── Section 3: Colour (Fully Dynamic — Only Appears If Colors Exist) ── */}
+              {dynamicColors.length > 0 && (
+                <div className="pb-6 border-b border-neutral-100">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-sm font-bold text-store-primary tracking-tight">Colour</h3>
+                    {selectedColors.length > 0 && (
                       <button
-                        key={preset.label}
                         type="button"
-                        onClick={() => handlePricePreset(preset)}
-                        className={`px-2.5 py-1 rounded-full text-[11px] font-normal transition-colors cursor-pointer border ${
-                          isPresetActive
-                            ? 'bg-neutral-900 text-white border-neutral-900 font-medium'
-                            : 'bg-white text-neutral-600 border-neutral-200 hover:border-neutral-400'
-                        }`}
+                        onClick={() => setSelectedColors([])}
+                        className="text-xs text-neutral-400 hover:text-store-primary cursor-pointer font-normal transition-colors"
                       >
-                        {preset.label}
+                        Clear
                       </button>
-                    );
-                  })}
-                </div>
-              </div>
+                    )}
+                  </div>
 
-              {/* ── Section 3: Colour (Matches Reference With Checkboxes) ── */}
-              <div className="pb-6 border-b border-neutral-100">
-                <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-sm font-semibold text-neutral-900 tracking-tight">Colour</h3>
-                  {selectedColors.length > 0 && (
-                    <button
-                      type="button"
-                      onClick={() => setSelectedColors([])}
-                      className="text-xs text-neutral-400 hover:text-neutral-900 cursor-pointer font-normal transition-colors"
-                    >
-                      Clear
-                    </button>
-                  )}
-                </div>
+                  <div className="space-y-1.5">
+                    {dynamicColors.map(({ name, hex, count }) => {
+                      const isChecked = selectedColors.includes(name);
 
-                <div className="space-y-1.5">
-                  {AVAILABLE_COLORS.map(({ name, hex }) => {
-                    const isChecked = selectedColors.includes(name);
-                    const count = colorCounts[name] || 0;
-
-                    return (
-                      <label
-                        key={name}
-                        className="flex items-center justify-between text-xs sm:text-sm text-neutral-700 hover:text-neutral-900 cursor-pointer select-none py-1 group"
-                      >
-                        <div className="flex items-center gap-2.5">
-                          <input
-                            type="checkbox"
-                            checked={isChecked}
-                            onChange={() => toggleColor(name)}
-                            className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-0 cursor-pointer accent-neutral-900"
-                          />
-                          <span
-                            className="w-2.5 h-2.5 rounded-full border border-neutral-200"
-                            style={{ backgroundColor: hex }}
-                          />
-                          <span
-                            className={
-                              isChecked
-                                ? 'font-semibold text-neutral-950'
-                                : 'text-neutral-600 group-hover:text-neutral-900 font-normal'
-                            }
-                          >
-                            {name}
-                          </span>
-                        </div>
-                        {count > 0 && (
-                          <span className="text-xs text-neutral-400 font-normal">
-                            {count}
-                          </span>
-                        )}
-                      </label>
-                    );
-                  })}
+                      return (
+                        <label
+                          key={name}
+                          className="flex items-center justify-between text-xs sm:text-sm text-neutral-700 hover:text-neutral-900 cursor-pointer select-none py-1 group"
+                        >
+                          <div className="flex items-center gap-2.5">
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={() => toggleColor(name)}
+                              className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-0 cursor-pointer accent-neutral-900"
+                            />
+                            <span
+                              className="w-2.5 h-2.5 rounded-full border border-neutral-200"
+                              style={{ backgroundColor: hex }}
+                            />
+                            <span
+                              className={
+                                isChecked
+                                  ? 'font-semibold text-neutral-950'
+                                  : 'text-neutral-600 group-hover:text-neutral-900 font-normal'
+                              }
+                            >
+                              {name}
+                            </span>
+                          </div>
+                          {count > 0 && (
+                            <span className="text-xs text-neutral-400 font-normal">
+                              {count}
+                            </span>
+                          )}
+                        </label>
+                      );
+                    })}
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* ── Section 4: Availability & Offers ── */}
               <div className="pb-6 border-b border-neutral-100">
                 <div className="flex items-center justify-between mb-3">
-                  <h3 className="text-sm font-semibold text-neutral-900 tracking-tight">Availability</h3>
+                  <h3 className="text-sm font-bold text-store-primary tracking-tight">Availability</h3>
                   {(inStockOnly || onSaleOnly) && (
                     <button
                       type="button"
@@ -1137,7 +1310,7 @@ function ProductsContent() {
                         setInStockOnly(false);
                         setOnSaleOnly(false);
                       }}
-                      className="text-xs text-neutral-400 hover:text-neutral-900 cursor-pointer font-normal transition-colors"
+                      className="text-xs text-neutral-400 hover:text-store-primary cursor-pointer font-normal transition-colors"
                     >
                       Clear
                     </button>
@@ -1150,7 +1323,7 @@ function ProductsContent() {
                       <input
                         type="checkbox"
                         checked={inStockOnly}
-                        onChange={() => setInStockOnly(!inStockOnly)}
+                        onChange={handleToggleInStock}
                         className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-0 cursor-pointer accent-neutral-900"
                       />
                       <span
@@ -1173,7 +1346,7 @@ function ProductsContent() {
                       <input
                         type="checkbox"
                         checked={onSaleOnly}
-                        onChange={() => setOnSaleOnly(!onSaleOnly)}
+                        onChange={handleToggleOnSale}
                         className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-0 cursor-pointer accent-neutral-900"
                       />
                       <span
@@ -1194,15 +1367,15 @@ function ProductsContent() {
               </div>
 
               {/* ── Section 5: Tags (Pill Buttons Like Reference) ── */}
-              {availableStylesWithCount.length > 0 && (
+              {dynamicTags.length > 0 && (
                 <div className="pb-4">
                   <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-semibold text-neutral-900 tracking-tight">Tags</h3>
+                    <h3 className="text-sm font-bold text-store-primary tracking-tight">Tags</h3>
                     {selectedStyles.length > 0 && (
                       <button
                         type="button"
                         onClick={() => setSelectedStyles([])}
-                        className="text-xs text-neutral-400 hover:text-neutral-900 cursor-pointer font-normal transition-colors"
+                        className="text-xs text-neutral-400 hover:text-store-primary cursor-pointer font-normal transition-colors"
                       >
                         Clear
                       </button>
@@ -1210,7 +1383,7 @@ function ProductsContent() {
                   </div>
 
                   <div className="flex flex-wrap gap-1.5">
-                    {availableStylesWithCount.map(({ tag }) => {
+                    {dynamicTags.map(({ tag }) => {
                       const isSelected =
                         selectedStyles.includes(tag) ||
                         (tag === 'On Sale' && onSaleOnly) ||
@@ -1240,7 +1413,7 @@ function ProductsContent() {
 
           {/* Right Product Grid Area */}
           <div ref={resultsRef} className="flex-1 min-w-0">
-            {isLoading ? (
+            {isLoading || isFiltering ? (
               <div
                 className={`grid grid-cols-2 ${
                   showSidebar
@@ -1409,14 +1582,14 @@ function ProductsContent() {
               {/* Categories */}
               <div className="space-y-2 pb-5 border-b border-neutral-100">
                 <div className="flex items-center justify-between mb-2">
-                  <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-900">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-store-primary">
                     Categories
                   </h4>
                   {selectedCategory !== 'All' && (
                     <button
                       type="button"
                       onClick={() => handleSelectCategory('All')}
-                      className="text-xs text-neutral-400 hover:text-neutral-900 cursor-pointer"
+                      className="text-xs text-neutral-400 hover:text-store-primary cursor-pointer"
                     >
                       Clear
                     </button>
@@ -1437,9 +1610,13 @@ function ProductsContent() {
                     <span className="text-neutral-400 text-xs">{products.length}</span>
                   </button>
 
-                  {categoriesList.slice(0, 10).map((cat) => {
-                    const isSelected = selectedCategory.toLowerCase() === cat.toLowerCase();
-                    const count = categoryCounts[cat.toLowerCase()] || 0;
+                  {categoriesList.slice(0, 15).map((cat) => {
+                    const isSelected =
+                      !onSaleOnly &&
+                      selectedCategory !== 'All' &&
+                      (selectedCategory.toLowerCase() === cat.toLowerCase() ||
+                        normalizeCatName(cat) === normalizeCatName(selectedCategory));
+                    const count = categoryCounts[cat.toLowerCase()] || categoryCounts[normalizeCatName(cat)] || 0;
                     return (
                       <button
                         key={cat}
@@ -1462,14 +1639,14 @@ function ProductsContent() {
               {/* Price Slider */}
               <div className="space-y-3 pb-5 border-b border-neutral-100">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-900">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-store-primary">
                     Price
                   </h4>
                   {(appliedMinPrice !== null || appliedMaxPrice !== null) && (
                     <button
                       type="button"
                       onClick={clearPriceFilter}
-                      className="text-xs text-neutral-400 hover:text-neutral-900 cursor-pointer"
+                      className="text-xs text-neutral-400 hover:text-store-primary cursor-pointer"
                     >
                       Clear
                     </button>
@@ -1521,75 +1698,78 @@ function ProductsContent() {
                   </div>
                 </div>
 
-                <div className="flex flex-wrap gap-1.5 pt-1">
-                  {PRICE_PRESETS.map((preset) => (
-                    <button
-                      key={preset.label}
-                      type="button"
-                      onClick={() => handlePricePreset(preset)}
-                      className={`px-2.5 py-1 rounded-full text-[11px] transition-colors cursor-pointer border ${
-                        activePricePreset === preset.label
-                          ? 'bg-neutral-900 text-white border-neutral-900 font-medium'
-                          : 'bg-white text-neutral-600 border-neutral-200'
-                      }`}
-                    >
-                      {preset.label}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Colour Checkboxes */}
-              <div className="space-y-2 pb-5 border-b border-neutral-100">
-                <div className="flex items-center justify-between mb-1">
-                  <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-900">
-                    Colour
-                  </h4>
-                  {selectedColors.length > 0 && (
-                    <button
-                      type="button"
-                      onClick={() => setSelectedColors([])}
-                      className="text-xs text-neutral-400 hover:text-neutral-900 cursor-pointer"
-                    >
-                      Clear
-                    </button>
-                  )}
-                </div>
-
-                <div className="space-y-1.5">
-                  {AVAILABLE_COLORS.map(({ name, hex }) => {
-                    const isChecked = selectedColors.includes(name);
-                    const count = colorCounts[name] || 0;
-                    return (
-                      <label
-                        key={name}
-                        className="flex items-center justify-between text-xs text-neutral-700 py-1 cursor-pointer select-none"
+                {dynamicPricePresets.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pt-1">
+                    {dynamicPricePresets.map((preset) => (
+                      <button
+                        key={preset.label}
+                        type="button"
+                        onClick={() => handlePricePreset(preset)}
+                        className={`px-2.5 py-1 rounded-full text-[11px] transition-colors cursor-pointer border ${
+                          activePricePreset === preset.label
+                            ? 'bg-neutral-900 text-white border-neutral-900 font-medium'
+                            : 'bg-white text-neutral-600 border-neutral-200'
+                        }`}
                       >
-                        <div className="flex items-center gap-2">
-                          <input
-                            type="checkbox"
-                            checked={isChecked}
-                            onChange={() => toggleColor(name)}
-                            className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-0 accent-neutral-900"
-                          />
-                          <span
-                            className="w-2.5 h-2.5 rounded-full border border-neutral-200"
-                            style={{ backgroundColor: hex }}
-                          />
-                          <span className={isChecked ? 'font-semibold text-neutral-950' : 'text-neutral-600'}>
-                            {name}
-                          </span>
-                        </div>
-                        {count > 0 && <span className="text-neutral-400 text-xs">{count}</span>}
-                      </label>
-                    );
-                  })}
-                </div>
+                        {preset.label}
+                      </button>
+                    ))}
+                  </div>
+                )}
               </div>
+
+              {/* Colour Checkboxes — Fully Dynamic: only rendered if colors exist in products */}
+              {dynamicColors.length > 0 && (
+                <div className="space-y-2 pb-5 border-b border-neutral-100">
+                  <div className="flex items-center justify-between mb-1">
+                    <h4 className="text-xs font-bold uppercase tracking-wider text-store-primary">
+                      Colour
+                    </h4>
+                    {selectedColors.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setSelectedColors([])}
+                        className="text-xs text-neutral-400 hover:text-store-primary cursor-pointer"
+                      >
+                        Clear
+                      </button>
+                    )}
+                  </div>
+
+                  <div className="space-y-1.5">
+                    {dynamicColors.map(({ name, hex, count }) => {
+                      const isChecked = selectedColors.includes(name);
+                      return (
+                        <label
+                          key={name}
+                          className="flex items-center justify-between text-xs text-neutral-700 py-1 cursor-pointer select-none"
+                        >
+                          <div className="flex items-center gap-2">
+                            <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={() => toggleColor(name)}
+                              className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-0 accent-neutral-900"
+                            />
+                            <span
+                              className="w-2.5 h-2.5 rounded-full border border-neutral-200"
+                              style={{ backgroundColor: hex }}
+                            />
+                            <span className={isChecked ? 'font-semibold text-neutral-950' : 'text-neutral-600'}>
+                              {name}
+                            </span>
+                          </div>
+                          {count > 0 && <span className="text-neutral-400 text-xs">{count}</span>}
+                        </label>
+                      );
+                    })}
+                  </div>
+                </div>
+              )}
 
               {/* Availability */}
               <div className="space-y-2 pb-5 border-b border-neutral-100">
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-900">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-store-primary">
                   Availability
                 </h4>
                 <div className="space-y-1.5">
@@ -1598,7 +1778,7 @@ function ProductsContent() {
                       <input
                         type="checkbox"
                         checked={inStockOnly}
-                        onChange={() => setInStockOnly(!inStockOnly)}
+                        onChange={handleToggleInStock}
                         className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-0 accent-neutral-900"
                       />
                       <span className={inStockOnly ? 'font-semibold text-neutral-950' : 'text-neutral-600'}>
@@ -1613,7 +1793,7 @@ function ProductsContent() {
                       <input
                         type="checkbox"
                         checked={onSaleOnly}
-                        onChange={() => setOnSaleOnly(!onSaleOnly)}
+                        onChange={handleToggleOnSale}
                         className="w-4 h-4 rounded border-neutral-300 text-neutral-900 focus:ring-0 accent-neutral-900"
                       />
                       <span className={onSaleOnly ? 'font-semibold text-neutral-950' : 'text-neutral-600'}>
@@ -1625,14 +1805,14 @@ function ProductsContent() {
                 </div>
               </div>
 
-              {/* Tags */}
-              {availableStylesWithCount.length > 0 && (
+              {/* Tags — Fully Dynamic: only rendered if matching tags exist */}
+              {dynamicTags.length > 0 && (
                 <div className="space-y-2">
-                  <h4 className="text-xs font-semibold uppercase tracking-wider text-neutral-900">
+                  <h4 className="text-xs font-bold uppercase tracking-wider text-store-primary">
                     Tags
                   </h4>
                   <div className="flex flex-wrap gap-1.5">
-                    {availableStylesWithCount.map(({ tag }) => {
+                    {dynamicTags.map(({ tag }) => {
                       const isSelected =
                         selectedStyles.includes(tag) ||
                         (tag === 'On Sale' && onSaleOnly) ||
@@ -1686,13 +1866,7 @@ function ProductsContent() {
 
 export default function ProductsPage() {
   return (
-    <Suspense
-      fallback={
-        <div className="w-full min-h-screen bg-white flex items-center justify-center">
-          <div className="w-8 h-8 rounded-full border-2 border-neutral-900 border-t-transparent animate-spin" />
-        </div>
-      }
-    >
+    <Suspense fallback={<ShopPageSkeleton />}>
       <ProductsContent />
     </Suspense>
   );

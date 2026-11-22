@@ -107,23 +107,23 @@ export default function ImageLightbox({
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col bg-black/95 backdrop-blur-md select-none animate-in fade-in duration-200">
-      {/* Top Bar */}
+      {/* Top Bar (Sharp rectangular elements, rounded-none) */}
       <div className="flex items-center justify-between px-4 sm:px-8 py-4 border-b border-white/10 z-20">
         <div className="flex items-center gap-3">
           <span className="text-white/80 font-medium text-sm hidden sm:inline truncate max-w-sm">
             {productName}
           </span>
           <span className="text-white/40 text-xs hidden sm:inline">•</span>
-          <span className="text-xs px-2.5 py-1 rounded-full bg-white/10 text-white font-mono">
+          <span className="text-xs px-2.5 py-1 rounded-none bg-white/10 text-white font-mono border border-white/20">
             {currentIndex + 1} / {images.length}
           </span>
         </div>
 
-        {/* Zoom Controls & Close */}
+        {/* Zoom Controls & Close (Sharp buttons, rounded-none) */}
         <div className="flex items-center gap-2 sm:gap-3">
           <button
             onClick={zoomIn}
-            className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-none bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/10"
             title="Zoom in (+)"
             aria-label="Zoom in"
           >
@@ -131,7 +131,7 @@ export default function ImageLightbox({
           </button>
           <button
             onClick={zoomOut}
-            className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-none bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/10"
             title="Zoom out (-)"
             aria-label="Zoom out"
           >
@@ -139,7 +139,7 @@ export default function ImageLightbox({
           </button>
           <button
             onClick={resetZoom}
-            className="w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-none bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/10"
             title="Reset zoom"
             aria-label="Reset zoom"
           >
@@ -148,11 +148,11 @@ export default function ImageLightbox({
           <div className="h-4 w-px bg-white/20 mx-1" />
           <button
             onClick={onClose}
-            className="w-10 h-10 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+            className="w-9 h-9 rounded-none bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer border border-white/10"
             title="Close (Esc)"
             aria-label="Close viewer"
           >
-            <IoCloseOutline className="w-6 h-6" />
+            <IoCloseOutline className="w-5 h-5" />
           </button>
         </div>
       </div>
@@ -165,14 +165,14 @@ export default function ImageLightbox({
         onMouseUp={handleMouseUp}
         onMouseLeave={handleMouseUp}
       >
-        {/* Navigation Arrow Left */}
+        {/* Navigation Arrow Left (Sharp rectangle, rounded-none) */}
         {images.length > 1 && (
           <button
             onClick={(e) => {
               e.stopPropagation();
               handlePrev();
             }}
-            className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-all z-20 backdrop-blur-sm cursor-pointer"
+            className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 w-11 h-11 rounded-none bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-all z-20 backdrop-blur-sm cursor-pointer border border-white/15"
             aria-label="Previous image"
           >
             <IoChevronBackOutline className="w-6 h-6" />
@@ -197,14 +197,14 @@ export default function ImageLightbox({
           />
         </div>
 
-        {/* Navigation Arrow Right */}
+        {/* Navigation Arrow Right (Sharp rectangle, rounded-none) */}
         {images.length > 1 && (
           <button
             onClick={(e) => {
               e.stopPropagation();
               handleNext();
             }}
-            className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-all z-20 backdrop-blur-sm cursor-pointer"
+            className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 w-11 h-11 rounded-none bg-white/10 hover:bg-white/25 text-white flex items-center justify-center transition-all z-20 backdrop-blur-sm cursor-pointer border border-white/15"
             aria-label="Next image"
           >
             <IoChevronForwardOutline className="w-6 h-6" />
@@ -212,7 +212,7 @@ export default function ImageLightbox({
         )}
       </div>
 
-      {/* Bottom Thumbnail Strip */}
+      {/* Bottom Thumbnail Strip (Sharp squares, rounded-none) */}
       {images.length > 1 && (
         <div className="py-4 px-4 border-t border-white/10 z-20 overflow-x-auto flex justify-center items-center gap-3">
           {images.map((img, idx) => (
@@ -223,10 +223,10 @@ export default function ImageLightbox({
                 setScale(1);
                 setPosition({ x: 0, y: 0 });
               }}
-              className={`relative w-14 h-14 rounded-lg overflow-hidden shrink-0 transition-all cursor-pointer ${
+              className={`relative w-14 h-16 rounded-none overflow-hidden shrink-0 transition-all cursor-pointer border ${
                 idx === currentIndex
-                  ? 'ring-2 ring-emerald-500 scale-105 shadow-md shadow-emerald-500/20'
-                  : 'opacity-50 hover:opacity-100'
+                  ? 'border-white ring-1 ring-white opacity-100 scale-105'
+                  : 'border-white/20 opacity-50 hover:opacity-100'
               }`}
             >
               <Image

@@ -3,16 +3,39 @@
 import { useState } from "react";
 import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
 import { type ShopProduct } from "@/lib/shop-api";
-import AarongProductCard from "@/components/aarong/aarong-product-card";
+import AarongProductCard, { AarongProductCardSkeleton } from "@/components/aarong/aarong-product-card";
 
 interface AarongWhatsNewProps {
   products: ShopProduct[];
+  loading?: boolean;
 }
 
-export default function AarongWhatsNew({ products }: AarongWhatsNewProps) {
+export function AarongWhatsNewSkeleton() {
+  return (
+    <section aria-label="What's New Collection Loading" className="w-full bg-white py-12 sm:py-16">
+      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-[0.22em] text-zinc-950 uppercase text-center mb-8 sm:mb-12">
+          WHAT&apos;S NEW
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
+          {Array.from({ length: 8 }).map((_, idx) => (
+            <AarongProductCardSkeleton key={idx} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+export default function AarongWhatsNew({ products, loading }: AarongWhatsNewProps) {
   const [startIndex, setStartIndex] = useState(0);
 
   const displayProducts = products && products.length > 0 ? products : [];
+
+  if (loading && displayProducts.length === 0) {
+    return <AarongWhatsNewSkeleton />;
+  }
+
   const pageSize = 8;
   const totalPages = Math.ceil(displayProducts.length / pageSize) || 1;
   const currentPage = Math.floor(startIndex / pageSize);

@@ -25,6 +25,30 @@ import {
 } from "react-icons/lu";
 import { FaFacebookF, FaWhatsapp } from "react-icons/fa6";
 
+export function WatchAndShopSkeleton() {
+  return (
+    <section aria-label="Watch & Shop Loading" className="w-full bg-white text-zinc-900 py-12 sm:py-16 relative">
+      <div className="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 pb-6 border-b border-zinc-200">
+          <div className="h-8 sm:h-9 w-64 bg-neutral-200 rounded animate-pulse" />
+          <div className="flex items-center gap-2.5">
+            <div className="h-8 w-28 bg-neutral-200 rounded-full animate-pulse" />
+            <div className="h-8 w-24 bg-neutral-200 rounded-full animate-pulse" />
+          </div>
+        </div>
+        <div className="flex gap-4 sm:gap-5 overflow-x-hidden pt-6 pb-4">
+          {Array.from({ length: 4 }).map((_, idx) => (
+            <div
+              key={idx}
+              className="shrink-0 w-[78vw] sm:w-[270px] md:w-[290px] lg:w-[310px] aspect-[9/16] bg-neutral-200 rounded animate-pulse"
+            />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 export default function WatchAndShop() {
   const [videos, setVideos] = useState<VideoItem[]>(FALLBACK_VIDEOS);
   const [loading, setLoading] = useState(true);
@@ -109,6 +133,10 @@ export default function WatchAndShop() {
     const dur = activeVideoRef.current.duration || 1;
     setProgress((curr / dur) * 100);
   };
+
+  if (loading && (!videos || videos.length === 0)) {
+    return <WatchAndShopSkeleton />;
+  }
 
   return (
     <section

@@ -3,11 +3,9 @@
 import { useState } from "react";
 import { toast } from "sonner";
 import { useCart } from "@/app/_providers/cart-provider";
-import { getCustomerToken } from "@/lib/storefront-api";
+import { getCustomerToken, API_BASE_URL } from "@/lib/storefront-api";
 import { fetchShopProductById, fetchShopProductBySlug } from "@/lib/shop-api";
 import type { AddressForm, CartItem, OrderResult } from "@/lib/types";
-
-const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:5010/api/v1";
 
 export function usePlaceOrder() {
   const { items, clearCart } = useCart();
@@ -36,7 +34,7 @@ export function usePlaceOrder() {
         let addressId = extra?.addressId;
 
         if (!addressId) {
-          const addressRes = await fetch(`${BASE_URL}/addresses`, {
+          const addressRes = await fetch(`${API_BASE_URL}/addresses`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -64,7 +62,7 @@ export function usePlaceOrder() {
           addressId = savedAddress.id;
         }
 
-        const orderRes = await fetch(`${BASE_URL}/orders`, {
+        const orderRes = await fetch(`${API_BASE_URL}/orders`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -119,7 +117,7 @@ export function usePlaceOrder() {
           })
         );
 
-        const res = await fetch(`${BASE_URL}/orders/guest`, {
+        const res = await fetch(`${API_BASE_URL}/orders/guest`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
@@ -178,7 +176,7 @@ export function usePlaceOrder() {
         if (!result.id) {
           throw new Error("The order was created without an ID, so bKash payment cannot start.");
         }
-        const paymentRes = await fetch(`${BASE_URL}/payments/bkash/create`, {
+        const paymentRes = await fetch(`${API_BASE_URL}/payments/bkash/create`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ orderId: result.id }),

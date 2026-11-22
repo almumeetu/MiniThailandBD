@@ -9,6 +9,7 @@ import {
 import ProductGallery from './ui/product-gallery';
 import ProductInfo from './ui/product-info';
 import ProductPageLoading from './ui/product-page-loading';
+import CustomerReviewsSection from './ui/customer-reviews-section';
 import styles from './ui/product-experience.module.css';
 import RelatedCarousel from './ui/related-carousel';
 import { fetchShopProductById } from '@/lib/shop-api';
@@ -243,7 +244,7 @@ export default function ProductDetails({
           </p>
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-zinc-950 text-white text-xs font-bold uppercase tracking-wider hover:bg-zinc-800 transition-colors shadow-sm"
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-none bg-zinc-950 text-white text-xs font-bold uppercase tracking-wider hover:bg-zinc-800 transition-colors shadow-sm"
           >
             <IoChevronBackOutline className="text-sm" />
             Back to Catalog
@@ -254,7 +255,7 @@ export default function ProductDetails({
   }
 
   const scrollToReviews = () => {
-    const el = document.getElementById('product-details-tabs');
+    const el = document.getElementById('customer-reviews');
     if (el) {
       el.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
     }
@@ -262,38 +263,45 @@ export default function ProductDetails({
 
   return (
     <main className={`${styles.page} flex-grow min-w-0 w-full`}>
-      <Breadcrumbs
-        items={[
-          { label: "Products", href: "/products" },
-          ...(product.category
-            ? [{ label: product.category, href: `/products?category=${encodeURIComponent(product.category)}` }]
-            : []),
-          { label: product.name },
-        ]}
-        trailingContent={(
-          <Link
-            href="/products"
-            className="hidden shrink-0 items-center gap-1.5 text-xs font-semibold text-white/90 transition-all hover:text-white bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-full px-3.5 py-1.5 shadow-sm md:inline-flex"
-          >
-            <IoChevronBackOutline className="h-3.5 w-3.5" />
-            <span>Back to Products</span>
-          </Link>
-        )}
-      />
+      {/* ── Desktop Breadcrumbs (Hidden on mobile where floating header is active) ── */}
+      <div className="hidden lg:block">
+        <Breadcrumbs
+          items={[
+            { label: "Products", href: "/products" },
+            ...(product.category
+              ? [{ label: product.category, href: `/products?category=${encodeURIComponent(product.category)}` }]
+              : []),
+            { label: product.name },
+          ]}
+          trailingContent={(
+            <Link
+              href="/products"
+              className="hidden shrink-0 items-center gap-1.5 text-xs font-semibold text-white/90 transition-all hover:text-white bg-white/10 hover:bg-white/20 backdrop-blur-md border border-white/20 rounded-full px-4 py-1.5 shadow-xs md:inline-flex"
+            >
+              <IoChevronBackOutline className="h-3.5 w-3.5" />
+              <span>Back to Products</span>
+            </Link>
+          )}
+        />
+      </div>
 
-      {/* ── Main Product Two-Column Layout (Matching Screenshot) ────── */}
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-16 py-6 sm:py-10 lg:py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 sm:gap-x-10 lg:gap-x-12 xl:gap-x-16 gap-y-8 sm:gap-y-10 lg:gap-y-12 items-start">
+      {/* ── Main Product Two-Column Layout ────── */}
+      <div className="max-w-[1360px] mx-auto px-0 sm:px-4 md:px-6 lg:px-8 xl:px-10 py-0 lg:py-6 xl:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-x-6 lg:gap-x-8 xl:gap-x-10 gap-y-6 lg:gap-y-10 items-start">
           {/* Gallery Column (Left - 6 cols) */}
           <div className="lg:col-span-6 min-w-0 w-full">
             <ProductGallery
               images={galleryImages}
               activeImage={selectedVariant?.image}
               productName={product.name}
+              productId={product.id}
+              productPrice={product.priceNum}
+              productSlug={product.slug}
+              category={product.category}
             />
           </div>
 
-          {/* Purchasing information and full-width details panel */}
+          {/* Purchasing information and details panel */}
           <ProductInfo
             name={product.name}
             subtitle={product.subtitle}
@@ -319,6 +327,9 @@ export default function ProductDetails({
           />
         </div>
       </div>
+
+      {/* ── Customer Reviews Section (Matching Reference Image 2 Bottom) ── */}
+      <CustomerReviewsSection productId={product.id} productName={product.name} />
 
       {/* ── You May Also Like Section (Clean 5-Column Grid) ─────────── */}
       <RelatedCarousel currentCategory={product.category} currentProductId={product.id} />

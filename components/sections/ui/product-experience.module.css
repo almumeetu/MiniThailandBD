@@ -1,25 +1,27 @@
 .page { background: var(--color-store-page, #fff); }
-.breadcrumb { background: #f7f8fa; border-color: #e5e7eb; }
+.breadcrumb { background: #f7f8fa; border-color: #e5e7eb; border-radius: 12px; }
 .infoColumn {
   padding: 4px 0;
   border: 0;
-  border-radius: 0;
-  background: #fff;
+  border-radius: 16px;
+  background: transparent;
 }
 .detailsPanel {
-  padding: clamp(20px, 2.3vw, 32px);
-  border: 1px solid #e4e4e7;
-  border-radius: 14px;
+  padding: clamp(18px, 2vw, 28px);
+  border: 1px solid #e5e5e5;
+  border-radius: 16px;
   background: #fff;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.04);
 }
 .imageStage {
   isolation: isolate;
-  border-radius: 14px;
-  border: 1px solid #f4f4f5;
-  background: #fcfcfc;
+  border-radius: 16px;
+  border: 1px solid #e5e5e5;
+  background: #faf8f5;
+  box-shadow: 0 4px 20px -4px rgba(0, 0, 0, 0.03);
   animation: gallery-arrive 780ms cubic-bezier(.2,.75,.2,1) backwards;
 }
-.imageFrame { animation: image-arrive 520ms cubic-bezier(.2,.75,.2,1) both; }
+.imageFrame { animation: image-arrive 520ms cubic-bezier(.2,.75,.2,1) both; border-radius: 16px; }
 .zoomImage { transition: transform 650ms cubic-bezier(.2,.75,.2,1); }
 .galleryMeta {
   position: absolute;
@@ -38,27 +40,61 @@
   pointer-events: none;
 }
 .galleryMeta strong { color: #594b38; font: italic 18px/1 Georgia, serif; letter-spacing: -.03em; }
-.thumbnail { border-radius: 8px; transition: transform 280ms, border-color 280ms, box-shadow 280ms, opacity 280ms; }
-.thumbnail:hover { transform: translateY(-3px); }
-.thumbnailActive { border-color: #09090b; }
-.productEyebrow { color: #52525b; font-size: 12px; font-weight: 700; line-height: 1.5; letter-spacing: .1em; text-transform: uppercase; }
-.infoColumn .title { margin: 0; color: #18181b; font-size: clamp(24px, 2.1vw, 30px); line-height: 1.35; letter-spacing: -.01em; font-weight: 600; }
-.priceBlock { border-radius: 12px; background: #fafaf9; border: 1px solid #e7e5e4; padding: 16px 18px; }
-.addButton, .buyButton { position: relative; overflow: hidden; min-height: 48px; border-radius: 12px; white-space: nowrap; transition: background 200ms, transform 150ms; }
+.thumbnail { border-radius: 12px; transition: transform 200ms, border-color 200ms, opacity 200ms; }
+.thumbnail:hover { transform: translateY(-2px); }
+.thumbnailActive { border-color: var(--color-store-primary, #ec1c67); }
+.productEyebrow { color: #71717a; font-size: 11px; font-weight: 600; line-height: 1.5; letter-spacing: .12em; text-transform: uppercase; }
+.infoColumn .title { margin: 0; color: #18181b; font-size: clamp(22px, 2vw, 32px); line-height: 1.25; letter-spacing: -.02em; font-weight: 700; }
+.priceBlock { border-radius: 12px; background: #fafaf9; border: 1px solid #e5e5e5; padding: 14px 18px; }
+.addButton, .buyButton { position: relative; overflow: hidden; min-height: 48px; border-radius: 12px; white-space: nowrap; transition: all 200ms cubic-bezier(.2,.75,.2,1); }
 .addButton { background: #09090b; color: #ffffff; }
 .addButton:hover { background: #27272a; }
-.buyButton { border: 1.5px solid #09090b; color: #ffffff; background: #18181b; }
-.buyButton:hover { border-color: #000000; background: #000000; }
-.addButton:focus-visible, .buyButton:focus-visible { outline: 2px solid #09090b; outline-offset: 3px; }
+.buyButton { border: 1px solid #ec1c67; color: #ffffff; background: #ec1c67; }
+.buyButton:hover { border-color: #d81358; background: #d81358; }
+.addButton:focus-visible, .buyButton:focus-visible { outline: 2px solid #ec1c67; outline-offset: 3px; }
 .addButton:disabled, .buyButton:disabled { transform: none; cursor: default; }
 .spinner { animation: spinner-turn 800ms linear infinite; }
-.card { transition: transform 280ms cubic-bezier(.2,.75,.2,1), border-color 250ms, box-shadow 280ms; }
+.card { border-radius: 16px; transition: transform 280ms cubic-bezier(.2,.75,.2,1), border-color 250ms, box-shadow 280ms; }
 
-.cardLink::after { position: absolute; inset: 0; z-index: 1; border-radius: inherit; content: ""; }
-.card:has(.cardLink:focus-visible) { outline: 2px solid var(--color-store-primary, #E91E63); outline-offset: 4px; }
+.cardLink::after { position: absolute; inset: 0; z-index: 1; border-radius: 16px; content: ""; }
+.card:has(.cardLink:focus-visible) { outline: 2px solid var(--color-store-primary, #ec1c67); outline-offset: 4px; }
 .loading { animation: image-arrive 350ms ease both; }
-.shimmer { position: relative; overflow: hidden; background: #eae5dc; }
+.shimmer { position: relative; overflow: hidden; background: #eae5dc; border-radius: 12px; }
 .shimmer::after { position: absolute; inset: 0; transform: translateX(-100%); background: linear-gradient(100deg, transparent 20%, #ffffff94 50%, transparent 80%); animation: shimmer-pass 1.7s ease-in-out infinite; content: ""; }
+
+/* ── Minimalist Clean Shadows ── */
+.shadowSoftCard {
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05);
+}
+
+.shadowSheet {
+  box-shadow: 0 -8px 30px -4px rgba(0, 0, 0, 0.06);
+}
+
+.shadowFloatNav {
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.06);
+}
+
+.shadowBtnDark {
+  box-shadow: 0 6px 20px -2px rgba(24, 24, 27, 0.2);
+}
+
+.shadowPillActive {
+  box-shadow: 0 4px 14px -2px rgba(236, 28, 103, 0.25);
+}
+
+.shadowPillSubtle {
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.04);
+}
+
+.shadowImageStage {
+  box-shadow: 0 6px 24px -4px rgba(0, 0, 0, 0.04);
+}
+
+.shadowReviewCard {
+  box-shadow: 0 2px 12px -2px rgba(0, 0, 0, 0.03);
+}
+
 @keyframes gallery-arrive { from { opacity: 0; transform: translateY(22px) scale(.985); } to { opacity: 1; transform: none; } }
 @keyframes details-arrive { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
 @keyframes image-arrive { from { opacity: 0; filter: blur(4px); } to { opacity: 1; filter: blur(0); } }
@@ -66,7 +102,7 @@
 @keyframes shimmer-pass { to { transform: translateX(100%); } }
 @media (max-width: 639px) {
   .infoColumn { padding: 0; }
-  .detailsPanel { padding: 19px; }
+  .detailsPanel { padding: 16px; border-radius: 12px; }
   .galleryMeta { right: 20px; bottom: 19px; left: 20px; font-size: 7px; }
 }
 @media (prefers-reduced-motion: reduce) {

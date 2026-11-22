@@ -100,18 +100,17 @@ export default function Navigation() {
 
   const currentCategoryData = categories.find((cat) => cat.id === activeCategory) || categories[0] || null;
 
-  const allNavItems: (NavLinkItem & { isOffer?: boolean })[] = [
+  const allNavItems: NavLinkItem[] = [
     { label: "HOME", href: "/", hasDropdown: false },
     { label: "SHOP", href: "/products", hasDropdown: false },
     { label: "CORD SETS", href: "/products?category=Cord%20Sets", hasDropdown: false },
     { label: "PARTY GOWNS", href: "/products?category=Party%20Gowns", hasDropdown: false },
     { label: "LUXURY ABAYAS", href: "/products?category=Luxury%20Abayas", hasDropdown: false },
-    { label: "OFFER ZONE", href: "/products?deals=true", hasDropdown: false, isOffer: true },
     { label: "ABOUT US", href: "/about", hasDropdown: false },
     { label: "CONTACT", href: "/contact", hasDropdown: false },
   ];
 
-  const renderNavItem = (item: NavLinkItem & { isOffer?: boolean }) => (
+  const renderNavItem = (item: NavLinkItem) => (
     <div
       key={item.label}
       className="relative shrink-0"
@@ -120,27 +119,15 @@ export default function Navigation() {
         href={item.href}
         className="block"
       >
-        {item.isOffer ? (
-          <span
-            className={`flex items-center whitespace-nowrap rounded-full border border-[#850f2e] px-3.5 py-1 text-[11px] lg:text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
-              isActive(item.href)
-                ? "bg-[#4a1525] text-white shadow-xs border-rose-500/60"
-                : "bg-[#360713]/85 text-[#fecdd3] hover:bg-[#4a1525] hover:text-white hover:border-rose-400/80"
-            }`}
-          >
-            <span>{item.label}</span>
-          </span>
-        ) : (
-          <span
-            className={`relative flex items-center whitespace-nowrap py-1 text-[11px] lg:text-xs uppercase tracking-wider transition-colors ${
-              isActive(item.href)
-                ? "text-[#facc15] font-bold after:content-[''] after:absolute after:-bottom-1.5 after:left-1/2 after:-translate-x-1/2 after:w-3.5 after:h-[2px] after:bg-[#facc15] after:rounded-full"
-                : "text-slate-200 font-semibold hover:text-[#facc15]"
-            }`}
-          >
-            {item.label}
-          </span>
-        )}
+        <span
+          className={`relative flex items-center whitespace-nowrap py-1 text-[11px] lg:text-xs uppercase tracking-wider transition-colors ${
+            isActive(item.href)
+              ? "text-[#facc15] font-bold after:content-[''] after:absolute after:-bottom-1.5 after:left-1/2 after:-translate-x-1/2 after:w-3.5 after:h-[2px] after:bg-[#facc15] after:rounded-full"
+              : "text-slate-200 font-semibold hover:text-[#facc15]"
+          }`}
+        >
+          {item.label}
+        </span>
       </Link>
     </div>
   );

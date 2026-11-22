@@ -2,9 +2,9 @@
 
 import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
-import { IoStar, IoCheckmark } from "react-icons/io5";
-import { FaQuoteLeft, FaQuoteRight, FaFacebookF, FaWhatsapp } from "react-icons/fa6";
-import { LuChevronLeft, LuChevronRight } from "react-icons/lu";
+import { IoStar } from "react-icons/io5";
+import { FaQuoteLeft, FaQuoteRight } from "react-icons/fa6";
+import { LuChevronLeft, LuChevronRight, LuMaximize2, LuX } from "react-icons/lu";
 
 export interface TestimonialReview {
   id: string;
@@ -22,8 +22,8 @@ const TESTIMONIALS: TestimonialReview[] = [
     id: "review-1",
     customerName: "Tanjina Akter",
     location: "Dhanmondi, Dhaka • Verified Buyer",
-    productName: "Thai Cord Set — Rose Pink Edition",
-    avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80",
+    productName: "Bangkok Luxury Noir Co-ord Set",
+    avatarUrl: "/images/testiminial/testimonial-1.png",
     initials: "TA",
     message:
       "Alhamdulillah parcel peyechi! Dress ta truly oshadharon! Fabric er quality eto soft ar comfortable, shotti bolar moto na! Picture thekeo real e onek beshi gorgeous lagche. Thank you Mini Thailand for authentic Bangkok quality!",
@@ -33,44 +33,33 @@ const TESTIMONIALS: TestimonialReview[] = [
     id: "review-2",
     customerName: "Sadia Islam Mim",
     location: "Nasirabad, Chattogram • Verified Buyer",
-    productName: "Wine Red Tiered Velvet Party Gown",
-    avatarUrl: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&auto=format&fit=crop&q=80",
+    productName: "Wine Red Tiered Velvet & Lace Party Gown",
+    avatarUrl: "/images/testiminial/testimonial-2.png",
     initials: "SM",
     message:
-      "My sister's wedding party outfit arrived right on time! The velvet party gown fits absolutely like a dream, and everyone at the event kept asking where I bought it from. 2 days delivery to Ctg was remarkably fast!",
+      "My sister's wedding party outfit arrived right on time! The crimson lace party gown fits absolutely like a dream, and everyone at the event kept asking where I bought it from. 2 days delivery to Ctg was remarkably fast!",
     rating: 5,
   },
   {
     id: "review-3",
     customerName: "Nusrat Jahan Chowdhury",
     location: "Upashahar, Sylhet • Verified Buyer",
-    productName: "Dubai Style Beige Shrug & Abaya Set",
-    avatarUrl: "https://images.unsplash.com/photo-1517841905240-472988babdf9?w=300&auto=format&fit=crop&q=80",
+    productName: "Bespoke Bangkok Lace Boutique Gown",
+    avatarUrl: "/images/testiminial/testimonial-3.png",
     initials: "NC",
     message:
-      "Normally online e dress kinte voy pay, kintu video call e pura dress live dekhiye parcel pathiyechen tai trust kore order korechilam. Abaya set er stitching, finish ar packaging 100 out of 100! Will definitely order more.",
+      "Normally online e dress kinte voy pay, kintu video call e pura dress live dekhiye parcel pathiyechen tai trust kore order korechilam. Dress er stitching, finish ar packaging 100 out of 100! Will definitely order more.",
     rating: 5,
   },
   {
     id: "review-4",
     customerName: "Mehnaz Rahman",
     location: "Uttara, Dhaka • Verified Buyer",
-    productName: "Textured Animal Print Long Overcoat",
-    avatarUrl: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=300&auto=format&fit=crop&q=80",
+    productName: "Thai Cord Set — Rose Pink Edition",
+    avatarUrl: "/images/testiminial/testimonial-4.png",
     initials: "MR",
     message:
-      "Received the winter overcoat today! Perfect fitting and fabric weight is just right for this season. Truly authentic imported piece with superb packaging. Mini Thailand BD has earned a loyal customer!",
-    rating: 5,
-  },
-  {
-    id: "review-5",
-    customerName: "Farhana Yasmin",
-    location: "Gulshan-2, Dhaka • Verified Buyer",
-    productName: "Bangkok Luxury Co-ord Set",
-    avatarUrl: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&auto=format&fit=crop&q=80",
-    initials: "FY",
-    message:
-      "Eto fast customer support ar authentic product delivery rarely dekha jay. Material quality 10/10, color is vibrant exactly as shown in their live videos. Mini Thailand is definitely my favorite boutique now!",
+      "Received the rose pink lace outfit today! Perfect fitting and fabric weight is just right for festive occasions. Truly authentic imported piece with superb packaging. Mini Thailand BD has earned a loyal customer!",
     rating: 5,
   },
 ];
@@ -79,6 +68,7 @@ export default function ChatTestimonials() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [avatarError, setAvatarError] = useState(false);
+  const [isImageModalOpen, setIsImageModalOpen] = useState(false);
   const touchStartXRef = useRef<number | null>(null);
 
   const total = TESTIMONIALS.length;
@@ -94,14 +84,14 @@ export default function ChatTestimonials() {
     setCurrentIndex((prev) => (prev - 1 + total) % total);
   }, [total]);
 
-  // Autoplay slider every 6 seconds, paused when hovered/touched
+  // Autoplay slider every 6 seconds, paused when hovered/touched or image modal open
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || isImageModalOpen) return;
     const timer = setInterval(() => {
       handleNext();
     }, 6000);
     return () => clearInterval(timer);
-  }, [isPaused, handleNext]);
+  }, [isPaused, isImageModalOpen, handleNext]);
 
   // Touch swipe handling for mobile
   const onTouchStart = (e: React.TouchEvent) => {
@@ -137,76 +127,36 @@ export default function ChatTestimonials() {
         }}
       />
 
-      {/* ══════════ Bottom Zone: Rich Brand Theme Colored Angular Geometric Shape ══════════ */}
+      {/* ══════════ Bottom Zone: Angular Geometric Shape with minit-7.webp Image ══════════ */}
       <div
         className="absolute inset-x-0 bottom-0 h-[64%] sm:h-[62%] md:h-[60%] z-0 pointer-events-none overflow-hidden"
         style={{
           clipPath: "polygon(0 20%, 100% 8%, 100% 100%, 0% 100%)",
         }}
       >
-        {/* Rich boutique gradient matching Mini Thailand signature colors */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#701a75] via-[#9f1239] to-[#ec1c67]" />
-        {/* Subtle radial sheen glow */}
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_rgba(255,255,255,0.18),_transparent_70%)]" />
-        {/* Depth vignette */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
-      </div>
+        {/* Background Image: minit-7.webp */}
+        <Image
+          src="/images/campaign/minit-7.webp"
+          alt="Testimonials boutique background"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-center"
+        />
 
-      {/* Bottom-left diagonal accent wedge (matching reference image) */}
-      <div
-        className="absolute left-0 bottom-0 w-32 sm:w-56 h-32 sm:h-56 z-0 pointer-events-none opacity-40"
-        style={{
-          background: "linear-gradient(135deg, #ec1c67 0%, transparent 70%)",
-          clipPath: "polygon(0 0, 100% 100%, 0 100%)",
-        }}
-      />
-
-      {/* ══════════ Decorative Accents: Cross markers matching reference image ══════════ */}
-      {/* Top-Left Cross Marks */}
-      <div className="absolute top-8 left-6 sm:left-12 lg:left-20 hidden sm:flex flex-col gap-1.5 text-zinc-300 font-mono text-base font-bold select-none opacity-80 pointer-events-none z-10">
-        <span>+</span>
-        <span>+</span>
-        <span>+</span>
-      </div>
-
-      {/* Top-Right Social Badges */}
-      <div className="absolute top-8 right-6 sm:right-12 lg:right-20 hidden sm:flex items-center gap-2 z-10">
-        <a
-          href="https://facebook.com"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Mini Thailand Facebook"
-          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#ec1c67] text-white flex items-center justify-center text-xs shadow-sm hover:scale-110 active:scale-95 transition-all"
-        >
-          <FaFacebookF className="w-3.5 h-3.5" />
-        </a>
-        <a
-          href="https://wa.me/8801706126663"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Mini Thailand WhatsApp"
-          className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#25D366] text-white flex items-center justify-center text-xs shadow-sm hover:scale-110 active:scale-95 transition-all"
-        >
-          <FaWhatsapp className="w-4 h-4" />
-        </a>
-      </div>
-
-      {/* Bottom-Right Cross Marks */}
-      <div className="absolute bottom-8 right-6 sm:right-12 lg:right-20 hidden sm:flex flex-col gap-1.5 text-white/30 font-mono text-base font-bold select-none pointer-events-none z-10">
-        <span>+</span>
-        <span>+</span>
-        <span>+</span>
+        {/* Elegant overlay to preserve boutique ambiance while keeping customer text legible */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/45 to-black/30" />
       </div>
 
       {/* ══════════ Main Content Container ══════════ */}
       <div className="relative z-10 max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8">
-        {/* Section Title Header */}
-        <div className="text-center mb-10 sm:mb-12">
-          <p className="text-xs sm:text-sm font-extrabold tracking-[0.2em] text-[#ec1c67] uppercase mb-1.5">
+        {/* Section Title Header — Aligned with Aarong & Mini Thailand site typography */}
+        <div className="text-center mb-8 sm:mb-10 md:mb-12">
+          <p className="text-xs sm:text-[13px] font-semibold tracking-[0.22em] text-[#ec1c67] uppercase mb-2">
             WHAT OUR CLIENTS
           </p>
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-zinc-900 tracking-tight leading-tight">
-            Say About Us!
+          <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold tracking-[0.20em] text-zinc-950 uppercase font-sans">
+            SAY ABOUT US
           </h2>
         </div>
 
@@ -232,20 +182,18 @@ export default function ChatTestimonials() {
           </button>
 
           {/* ══════════ Speech Bubble Card ══════════ */}
-          <div className="relative bg-white rounded-[26px] sm:rounded-[32px] shadow-[0_22px_55px_rgba(0,0,0,0.14)] border border-zinc-100/90 pt-8 sm:pt-9 px-6 sm:px-12 pb-14 sm:pb-16 transition-all duration-300">
-            {/* Top Pill Badge: 5 Golden Stars */}
-            <div className="absolute -top-4 sm:-top-5 left-1/2 -translate-x-1/2 z-20">
-              <div className="inline-flex items-center gap-1 sm:gap-1.5 px-4 sm:px-5 py-1.5 sm:py-2 rounded-full bg-[#18181b] border-2 border-white/40 shadow-lg text-amber-400">
-                {Array.from({ length: current.rating || 5 }).map((_, i) => (
-                  <IoStar key={i} className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current drop-shadow-xs" />
-                ))}
-              </div>
+          <div className="relative bg-white rounded-[26px] sm:rounded-[32px] shadow-[0_22px_55px_rgba(0,0,0,0.12)] border border-zinc-100/90 pt-7 sm:pt-8 px-6 sm:px-12 pb-14 sm:pb-16 transition-all duration-300">
+            {/* 5 Golden Stars (no background container) */}
+            <div className="flex items-center justify-center gap-1 sm:gap-1.5 text-amber-400 mb-3 sm:mb-4">
+              {Array.from({ length: current.rating || 5 }).map((_, i) => (
+                <IoStar key={i} className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
+              ))}
             </div>
 
             {/* Testimonial Quote with Opening & Closing Quotation Marks */}
-            <div className="relative mt-2 sm:mt-3">
+            <div className="relative">
               <FaQuoteLeft className="text-amber-400 w-4 h-4 sm:w-5 sm:h-5 mb-2 opacity-90 inline-block align-top mr-2" />
-              <p className="text-xs sm:text-[14.5px] md:text-[15px] leading-relaxed sm:leading-7 text-zinc-700 font-normal inline">
+              <p className="text-xs sm:text-[14.5px] md:text-[15px] leading-relaxed sm:leading-7 text-zinc-700 font-normal inline font-sans">
                 {current.message}
               </p>
               <FaQuoteRight className="text-amber-400 w-4 h-4 sm:w-5 sm:h-5 ml-2 opacity-90 inline-block align-bottom" />
@@ -266,26 +214,36 @@ export default function ChatTestimonials() {
 
             {/* Circular Avatar Cutout (Overlapping the center-bottom of the bubble) */}
             <div className="absolute -bottom-10 sm:-bottom-12 left-1/2 -translate-x-1/2 z-20">
-              <div className="relative">
+              <div
+                className="relative group/avatar cursor-pointer"
+                onClick={() => setIsImageModalOpen(true)}
+                title="Click to view full photo"
+              >
                 {/* Left golden accent dot */}
                 <span className="absolute -left-2.5 top-1/2 -translate-y-1/2 w-3 sm:w-3.5 h-3 sm:h-3.5 bg-amber-400 rounded-full border-2 border-white shadow-xs z-30" />
 
                 {/* Avatar circular frame with theme color ring */}
-                <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden ring-4 sm:ring-[5px] ring-[#ec1c67] border-4 border-white shadow-xl bg-gradient-to-tr from-[#ec1c67] to-[#f59e0b]">
+                <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden ring-4 sm:ring-[5px] ring-[#ec1c67] border-4 border-white shadow-xl bg-gradient-to-tr from-[#ec1c67] to-[#f59e0b] group-hover/avatar:scale-105 group-hover/avatar:ring-[#ec1c67] transition-all duration-300">
                   {!avatarError && current.avatarUrl ? (
                     <Image
                       src={current.avatarUrl}
                       alt={current.customerName}
                       fill
                       sizes="(max-width: 640px) 80px, 96px"
-                      className="object-cover object-center"
+                      className="object-cover object-top"
                       onError={() => setAvatarError(true)}
+                      unoptimized
                     />
                   ) : (
                     <div className="w-full h-full flex items-center justify-center text-white font-black text-xl sm:text-2xl">
                       {current.initials}
                     </div>
                   )}
+
+                  {/* Subtle hover zoom badge */}
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/avatar:opacity-100 transition-opacity flex items-center justify-center text-white">
+                    <LuMaximize2 className="w-5 h-5 drop-shadow-md" />
+                  </div>
                 </div>
 
                 {/* Right golden accent dot */}
@@ -294,23 +252,11 @@ export default function ChatTestimonials() {
             </div>
           </div>
 
-          {/* ══════════ Customer Name, Details & Verified Product (on Colored Background) ══════════ */}
-          <div className="mt-14 sm:mt-16 text-center text-white space-y-1">
-            <h4 className="text-xl sm:text-2xl font-bold tracking-tight text-white drop-shadow-sm">
+          {/* ══════════ Customer Name (on Image Background) ══════════ */}
+          <div className="mt-14 sm:mt-16 text-center text-white">
+            <h4 className="text-xl sm:text-2xl font-bold tracking-tight text-white drop-shadow-md font-sans">
               {current.customerName}
             </h4>
-            <p className="text-xs sm:text-sm text-white/85 font-medium tracking-wide">
-              {current.location}
-            </p>
-
-            {current.productName && (
-              <div className="pt-2">
-                <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/15 border border-white/20 text-[11px] sm:text-xs text-white/95 font-medium backdrop-blur-xs">
-                  <IoCheckmark className="w-3.5 h-3.5 text-amber-300" />
-                  <span>Purchased: {current.productName}</span>
-                </span>
-              </div>
-            )}
           </div>
 
           {/* ══════════ Mobile Navigation Controls & Pagination Dots ══════════ */}
@@ -357,6 +303,45 @@ export default function ChatTestimonials() {
           </div>
         </div>
       </div>
+
+      {/* ══════════ Full Customer Photo Lightbox Modal ══════════ */}
+      {isImageModalOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in"
+          onClick={() => setIsImageModalOpen(false)}
+        >
+          <div
+            className="relative max-w-sm sm:max-w-md w-full bg-zinc-950 rounded-2xl overflow-hidden shadow-2xl border border-white/10 p-4 sm:p-5 text-center"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              type="button"
+              onClick={() => setIsImageModalOpen(false)}
+              aria-label="Close photo preview"
+              className="absolute top-3 right-3 sm:top-4 sm:right-4 z-20 w-8 h-8 rounded-full bg-black/70 text-white flex items-center justify-center hover:bg-[#ec1c67] transition-colors cursor-pointer"
+            >
+              <LuX className="w-4 h-4" />
+            </button>
+
+            <div className="relative w-full aspect-[4/5] sm:aspect-square max-h-[62vh] rounded-xl overflow-hidden bg-zinc-900">
+              <Image
+                src={current.avatarUrl}
+                alt={current.customerName}
+                fill
+                sizes="(max-width: 640px) 90vw, 450px"
+                className="object-contain object-center"
+                unoptimized
+              />
+            </div>
+
+            <div className="pt-4 text-white">
+              <h4 className="text-base sm:text-lg font-bold font-sans">{current.customerName}</h4>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }

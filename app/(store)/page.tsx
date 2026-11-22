@@ -4,7 +4,7 @@ import { useState, useEffect, Suspense } from "react";
 import AarongHeroSlider from "@/components/aarong/aarong-hero-slider";
 import AarongCategoryGrid from "@/components/aarong/aarong-category-grid";
 import AarongWhatsNew from "@/components/aarong/aarong-whats-new";
-import WatchAndShop from "@/components/sections/watch-and-shop";
+import WatchAndShop, { WatchAndShopSkeleton } from "@/components/sections/watch-and-shop";
 import AarongFeatureBanner from "@/components/aarong/aarong-feature-banner";
 import AarongSplitBanners from "@/components/aarong/aarong-split-banners";
 import ChatTestimonials from "@/components/sections/chat-testimonials";
@@ -50,10 +50,10 @@ export default function Home() {
       <AarongHeroSlider />
 
       {/* 2. 8 Categories in 2x4 Grid with clean white label strips below */}
-      <AarongCategoryGrid categories={categories} />
+      <AarongCategoryGrid categories={categories} loading={loading} />
 
       {/* 3. "WHAT'S NEW" Product Slider with portrait cards, "+" quick-add & pagination */}
-      <AarongWhatsNew products={products} />
+      <AarongWhatsNew products={products} loading={loading} />
 
       {/* 4. Full-Width Feature Campaign Banner ("Mini Thailand Essentials") */}
       <AarongFeatureBanner />
@@ -65,7 +65,7 @@ export default function Home() {
       <AarongSplitBanners />
 
       {/* 7. Watch & Shop - Clean Modern Reels & Stories Showcase */}
-      <Suspense fallback={null}>
+      <Suspense fallback={<WatchAndShopSkeleton />}>
         <WatchAndShop />
       </Suspense>
     </main>

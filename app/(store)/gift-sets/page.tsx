@@ -9,7 +9,7 @@ import Brands from "@/components/sections/brands";
 import Instagram from "@/components/sections/instagram";
 import ScrollAnimate from "@/components/ui/scroll-animate";
 
-import ProductCard from "@/components/sections/ui/product-card";
+import ProductCard, { ProductCardSkeleton } from "@/components/sections/ui/product-card";
 import PageBanner from "@/components/ui/page-banner";
 import { fetchShopProducts, type ShopProduct } from "@/lib/shop-api";
 
@@ -133,18 +133,24 @@ export default function GiftsPage() {
 
             {/* Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {products.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  id={product.id}
-                  name={product.name}
-                  price={product.price}
-                  originalPrice={product.originalPrice}
-                  image={product.image}
-                  slug={product.slug}
-                  variantId={product.variantId}
-                />
-              ))}
+              {loading ? (
+                Array.from({ length: 6 }).map((_, idx) => (
+                  <ProductCardSkeleton key={idx} />
+                ))
+              ) : (
+                products.map((product) => (
+                  <ProductCard
+                    key={product.id}
+                    id={product.id}
+                    name={product.name}
+                    price={product.price}
+                    originalPrice={product.originalPrice}
+                    image={product.image}
+                    slug={product.slug}
+                    variantId={product.variantId}
+                  />
+                ))
+              )}
             </div>
           </div>
         </section>
