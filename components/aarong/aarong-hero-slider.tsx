@@ -24,6 +24,17 @@ export interface HeroSlide {
  */
 export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
   {
+    id: "slide-arch-wine",
+    title: "Signature Burgundy & Wine Luxury",
+    subtitle: "Deep vintage wine hues, fluid evening contours & signature Bangkok atelier designs curated exclusively for you.",
+    ctaText: "SHOP WINE COLLECTION",
+    ctaLink: "/products?category=Party%20Gowns",
+    secondaryCtaText: "WHATSAPP STYLIST",
+    secondaryCtaLink: "/contact",
+    image: "/images/sliders/arch-wine.webp",
+    bgColor: "#181014",
+  },
+  {
     id: "slide-arch-maroon",
     title: "Imperial Maroon & Velvet Grandeur",
     subtitle: "Opulent festive tones, rich tactile textures & majestic silhouettes designed to turn every entrance into a moment.",
@@ -56,24 +67,13 @@ export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
     image: "/images/sliders/arch-purple.webp",
     bgColor: "#17111c",
   },
-  {
-    id: "slide-arch-wine",
-    title: "Signature Burgundy & Wine Luxury",
-    subtitle: "Deep vintage wine hues, fluid evening contours & signature Bangkok atelier designs curated exclusively for you.",
-    ctaText: "SHOP WINE COLLECTION",
-    ctaLink: "/products?category=Party%20Gowns",
-    secondaryCtaText: "WHATSAPP STYLIST",
-    secondaryCtaLink: "/contact",
-    image: "/images/sliders/arch-wine.webp",
-    bgColor: "#181014",
-  },
 ];
 
 export const CAMPAIGN_IMAGES = [
+  "/images/sliders/arch-wine.webp",
   "/images/sliders/arch-maroon.webp",
   "/images/sliders/arch-blue.webp",
   "/images/sliders/arch-purple.webp",
-  "/images/sliders/arch-wine.webp",
 ];
 
 function mapCampaignToHeroSlide(c: Campaign, idx: number): HeroSlide {

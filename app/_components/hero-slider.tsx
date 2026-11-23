@@ -7,6 +7,12 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
   {
+    image: "/images/sliders/arch-wine.webp",
+    title: "সিগনেচার বার্গান্ডি ও ওয়াইন লাক্সারি",
+    titleEn: "Signature Burgundy & Wine Luxury",
+    copy: "ডিপ ভিন্টেজ ওয়াইন হিউজ ও লাক্সারি থাই ডিজাইনার ফ্যাশন সরাসরি ব্যাংকক থেকে।",
+  },
+  {
     image: "/images/sliders/arch-maroon.webp",
     title: "ইম্পেরিয়াল মেরুন ও ভেলভেট গ্র্যান্ডার",
     titleEn: "Imperial Maroon & Velvet Grandeur",
@@ -23,12 +29,6 @@ const slides = [
     title: "রিগ্যাল ভায়োলেট সিল্ক কর্ড সেট",
     titleEn: "Regal Violet & Silk Co-ord Sets",
     copy: "এক্সক্লুসিভ থাই কর্ড সেট কালেকশন — সফট ফেব্রিক, মডার্ন ড্র্যাপ ও নিখুঁত ফিনিশিং।",
-  },
-  {
-    image: "/images/sliders/arch-wine.webp",
-    title: "সিগনেচার বার্গান্ডি ও ওয়াইন লাক্সারি",
-    titleEn: "Signature Burgundy & Wine Luxury",
-    copy: "ডিপ ভিন্টেজ ওয়াইন হিউজ ও লাক্সারি থাই ডিজাইনার ফ্যাশন সরাসরি ব্যাংকক থেকে।",
   },
 ];
 
