@@ -2,7 +2,7 @@
 
 import { type Campaign, API_BASE_URL, resolveImageUrl } from "./admin-api";
 
-export const CAMPAIGNS_STORAGE_KEY = "minithailandbd_campaigns_v27";
+export const CAMPAIGNS_STORAGE_KEY = "minithailandbd_campaigns_v28";
 export const CAMPAIGNS_UPDATED_EVENT = "minithailandbd_campaigns_updated";
 
 /**
@@ -118,19 +118,19 @@ export const DEFAULT_HERO_CAMPAIGNS: Campaign[] = [
     createdAt: new Date().toISOString(),
   },
   {
-    id: "camp-arch-maroon",
-    title: "Imperial Maroon & Velvet Grandeur",
-    description: "Opulent festive tones, rich tactile textures & majestic silhouettes designed to turn every entrance into a moment.",
+    id: "camp-arch-purple-2",
+    title: "Regal Violet & Pleated Rose Grandeur",
+    description: "Artisan rosette appliqués, cascading accordion pleats & signature Bangkok couture crafted for majestic celebrations.",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "Imperial Edit",
-    ctaText: "SHOP MAROON EDIT",
+    badge: "Violet Edit",
+    ctaText: "SHOP VIOLET COLLECTION",
     linkUrl: "/products?category=Party%20Gowns",
     sectionId: "sec-hero",
     section: { id: "sec-hero", title: "Hero Slider Banner", position: 2, page: "home" },
-    images: [{ id: "img-arch-maroon", images: ["/images/sliders/arch-maroon.webp"] }],
+    images: [{ id: "img-arch-purple-2", images: ["/images/sliders/arch-purple-2.webp"] }],
     createdAt: new Date().toISOString(),
   },
   {
@@ -150,19 +150,19 @@ export const DEFAULT_HERO_CAMPAIGNS: Campaign[] = [
     createdAt: new Date().toISOString(),
   },
   {
-    id: "camp-arch-purple",
-    title: "Regal Violet & Silk Co-ord Sets",
-    description: "Exquisite Thai coordinates, bespoke drapery & sophisticated contemporary styles imported directly from Bangkok.",
+    id: "camp-arch-maroon",
+    title: "Imperial Maroon & Velvet Grandeur",
+    description: "Opulent festive tones, rich tactile textures & majestic silhouettes designed to turn every entrance into a moment.",
     status: "active",
     startAt: new Date().toISOString(),
     endAt: null,
     hasDiscount: true,
-    badge: "Silk Collection",
-    ctaText: "EXPLORE CO-ORD SETS",
-    linkUrl: "/products?category=Cord%20Sets",
+    badge: "Imperial Edit",
+    ctaText: "SHOP MAROON EDIT",
+    linkUrl: "/products?category=Party%20Gowns",
     sectionId: "sec-hero",
     section: { id: "sec-hero", title: "Hero Slider Banner", position: 4, page: "home" },
-    images: [{ id: "img-arch-purple", images: ["/images/sliders/arch-purple.webp"] }],
+    images: [{ id: "img-arch-maroon", images: ["/images/sliders/arch-maroon.webp"] }],
     createdAt: new Date().toISOString(),
   },
 ];
@@ -177,7 +177,7 @@ export function getStoredCampaigns(): Campaign[] {
 
   try {
     // Clean up older cached storage keys if present
-    for (let i = 1; i <= 26; i++) {
+    for (let i = 1; i <= 27; i++) {
       localStorage.removeItem(`minithailandbd_campaigns_v${i}`);
     }
 

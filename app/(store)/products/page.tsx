@@ -887,6 +887,7 @@ function ProductsContent() {
       <PageBanner
         title={pageTitle}
         subtitle={pageSubtitle}
+        badge={selectedCategory !== 'All' ? 'BOUTIQUE COLLECTION' : 'MINI THAILAND'}
         breadcrumbs={breadcrumbItems}
       />
 

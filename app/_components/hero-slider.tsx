@@ -13,10 +13,10 @@ const slides = [
     copy: "ডিপ ভিন্টেজ ওয়াইন হিউজ ও লাক্সারি থাই ডিজাইনার ফ্যাশন সরাসরি ব্যাংকক থেকে।",
   },
   {
-    image: "/images/sliders/arch-maroon.webp",
-    title: "ইম্পেরিয়াল মেরুন ও ভেলভেট গ্র্যান্ডার",
-    titleEn: "Imperial Maroon & Velvet Grandeur",
-    copy: "উৎসবমুখর রাজকীয় মেরুন শেড, প্রিমিয়াম টেক্সচার ও জমকালো এক্সক্লুসিভ গাউন।",
+    image: "/images/sliders/arch-purple-2.webp",
+    title: "রিগ্যাল ভায়োলেট সিল্ক ও প্লিটেড গাউন",
+    titleEn: "Regal Violet & Pleated Rose Grandeur",
+    copy: "হ্যান্ডক্রাফটেড রোজ অ্যাপ্লিক, ক্যাসকেডিং প্লিটস ও এক্সক্লুসিভ ব্যাংকক অ্যাটেলিয়ার গাউন।",
   },
   {
     image: "/images/sliders/arch-blue.webp",
@@ -25,10 +25,10 @@ const slides = [
     copy: "লুমিনাস সিল্ক-টাচ ফেব্রিক ও আভিজাত্যের নিখুঁত ব্যাংকক অ্যাটেলিয়ার ডিজাইন।",
   },
   {
-    image: "/images/sliders/arch-purple.webp",
-    title: "রিগ্যাল ভায়োলেট সিল্ক কর্ড সেট",
-    titleEn: "Regal Violet & Silk Co-ord Sets",
-    copy: "এক্সক্লুসিভ থাই কর্ড সেট কালেকশন — সফট ফেব্রিক, মডার্ন ড্র্যাপ ও নিখুঁত ফিনিশিং।",
+    image: "/images/sliders/arch-maroon.webp",
+    title: "ইম্পেরিয়াল মেরুন ও ভেলভেট গ্র্যান্ডার",
+    titleEn: "Imperial Maroon & Velvet Grandeur",
+    copy: "উৎসবমুখর রাজকীয় মেরুন শেড, প্রিমিয়াম টেক্সচার ও জমকালো এক্সক্লুসিভ গাউন।",
   },
 ];
 

@@ -23,7 +23,7 @@ export default function Breadcrumbs({
   trailingContent,
   transparent = false,
   variant,
-  bgImage = "/images/campaign/minit-2.webp",
+  bgImage = "/images/bredcump-main.webp",
   className = "",
 }: BreadcrumbsProps) {
   // Deduplicate leading "Home" item if provided by caller to prevent "Home > Home > ..."
@@ -90,15 +90,15 @@ export default function Breadcrumbs({
       <div className={`flex items-center justify-between gap-4 ${className}`}>
         <nav
           aria-label="Breadcrumb"
-          className="min-w-0 flex-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="min-w-0 flex-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-0.5"
         >
-          <ol className="flex min-w-0 items-center gap-2 sm:gap-2.5 whitespace-nowrap text-xs sm:text-sm md:text-[15px]">
+          <ol className="inline-flex items-center gap-2 sm:gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-xs sm:text-[13px] whitespace-nowrap shadow-xs">
             <li className="shrink-0">
               <Link
                 href="/"
-                className="inline-flex items-center gap-1.5 font-medium text-white/80 transition-colors hover:text-white"
+                className="inline-flex items-center gap-1.5 font-medium text-white/80 transition-colors hover:text-rose-300"
               >
-                <FiHome className="h-3.5 w-3.5 sm:h-4 sm:w-4 opacity-80" />
+                <FiHome className="h-3.5 w-3.5 opacity-80" />
                 <span>Home</span>
               </Link>
             </li>
@@ -108,18 +108,18 @@ export default function Breadcrumbs({
 
               return (
                 <li key={`${item.label}-${index}`} className="inline-flex min-w-0 shrink-0 items-center gap-2 sm:gap-2.5">
-                  <FiChevronRight aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-white/50" />
+                  <FiChevronRight aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-white/40" />
                   {item.href && !isLast ? (
                     <Link
                       href={item.href}
-                      className="max-w-[160px] truncate font-medium text-white/85 transition-colors hover:text-white sm:max-w-[240px] md:max-w-[340px]"
+                      className="max-w-[160px] truncate font-medium text-white/80 transition-colors hover:text-rose-300 sm:max-w-[240px] md:max-w-[340px]"
                     >
                       {item.label}
                     </Link>
                   ) : (
                     <span
                       aria-current={isLast ? "page" : undefined}
-                      className="max-w-[240px] truncate font-semibold text-white drop-shadow-sm sm:max-w-[440px] md:max-w-[650px] lg:max-w-none"
+                      className="max-w-[240px] truncate font-semibold text-white drop-shadow-xs sm:max-w-[440px] md:max-w-[650px] lg:max-w-none"
                     >
                       {item.label}
                     </span>
@@ -136,11 +136,11 @@ export default function Breadcrumbs({
 
   return (
     <div
-      className={`relative w-full overflow-hidden border-b border-black/15 bg-[#2c2e35] bg-cover bg-center bg-no-repeat shadow-inner ${className}`}
+      className={`relative w-full overflow-hidden border-b border-black/20 bg-[#14151a] bg-cover bg-center bg-no-repeat shadow-inner ${className}`}
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
       {/* Subtle cinematic gradient so fashion models are prominent while typography remains razor sharp */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/45 to-black/60" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/60" />
 
       <div className="relative mx-auto flex max-w-[1440px] flex-col justify-center gap-2 px-4 py-5 sm:px-6 sm:py-6 md:px-10 md:py-7 lg:px-16 lg:py-8 min-h-[76px] sm:min-h-[88px] md:min-h-[104px]">
         <div className="flex items-center justify-between gap-4">

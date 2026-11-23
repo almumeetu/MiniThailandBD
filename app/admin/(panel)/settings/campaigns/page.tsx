@@ -595,6 +595,7 @@ export default function CampaignsPage() {
                       { name: "Bottom Split Cord Sets", url: "/images/campaign/bottom-campain (2).webp" },
                       { name: "Arch Royal Blue", url: "/images/sliders/arch-blue.webp" },
                       { name: "Arch Imperial Maroon", url: "/images/sliders/arch-maroon.webp" },
+                      { name: "Arch Regal Violet (Pleated Rose)", url: "/images/sliders/arch-purple-2.webp" },
                       { name: "Arch Regal Purple", url: "/images/sliders/arch-purple.webp" },
                       { name: "Arch Burgundy Wine", url: "/images/sliders/arch-wine.webp" },
                       { name: "Bangkok Atelier Edit (m-7)", url: "/images/campaign/m-7.webp" },

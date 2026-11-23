@@ -35,15 +35,15 @@ export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
     bgColor: "#181014",
   },
   {
-    id: "slide-arch-maroon",
-    title: "Imperial Maroon & Velvet Grandeur",
-    subtitle: "Opulent festive tones, rich tactile textures & majestic silhouettes designed to turn every entrance into a moment.",
-    ctaText: "SHOP MAROON EDIT",
+    id: "slide-arch-purple-2",
+    title: "Regal Violet & Pleated Rose Grandeur",
+    subtitle: "Artisan rosette appliqués, cascading accordion pleats & signature Bangkok couture crafted for majestic celebrations.",
+    ctaText: "SHOP VIOLET COLLECTION",
     ctaLink: "/products?category=Party%20Gowns",
     secondaryCtaText: "VIEW COLLECTION",
     secondaryCtaLink: "/products",
-    image: "/images/sliders/arch-maroon.webp",
-    bgColor: "#1a1012",
+    image: "/images/sliders/arch-purple-2.webp",
+    bgColor: "#180829",
   },
   {
     id: "slide-arch-blue",
@@ -57,23 +57,23 @@ export const DEFAULT_HERO_SLIDES: HeroSlide[] = [
     bgColor: "#101622",
   },
   {
-    id: "slide-arch-purple",
-    title: "Regal Violet & Silk Co-ord Sets",
-    subtitle: "Exquisite Thai coordinates, bespoke drapery & sophisticated contemporary styles imported directly from Bangkok.",
-    ctaText: "EXPLORE CO-ORD SETS",
-    ctaLink: "/products?category=Cord%20Sets",
-    secondaryCtaText: "SHOP NEW IN",
-    secondaryCtaLink: "/products?sort=newest",
-    image: "/images/sliders/arch-purple.webp",
-    bgColor: "#17111c",
+    id: "slide-arch-maroon",
+    title: "Imperial Maroon & Velvet Grandeur",
+    subtitle: "Opulent festive tones, rich tactile textures & majestic silhouettes designed to turn every entrance into a moment.",
+    ctaText: "SHOP MAROON EDIT",
+    ctaLink: "/products?category=Party%20Gowns",
+    secondaryCtaText: "VIEW COLLECTION",
+    secondaryCtaLink: "/products",
+    image: "/images/sliders/arch-maroon.webp",
+    bgColor: "#1a1012",
   },
 ];
 
 export const CAMPAIGN_IMAGES = [
   "/images/sliders/arch-wine.webp",
-  "/images/sliders/arch-maroon.webp",
+  "/images/sliders/arch-purple-2.webp",
   "/images/sliders/arch-blue.webp",
-  "/images/sliders/arch-purple.webp",
+  "/images/sliders/arch-maroon.webp",
 ];
 
 function mapCampaignToHeroSlide(c: Campaign, idx: number): HeroSlide {

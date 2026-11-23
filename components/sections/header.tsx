@@ -1014,7 +1014,7 @@ export default function Header() {
       {/* ── Fixed Reserved Spacer to maintain constant document flow height across all non-home pages ── */}
       {!isHome && (
         <div
-          className="w-full pointer-events-none select-none shrink-0 lg:hidden h-14 sm:h-15"
+          className="w-full pointer-events-none select-none shrink-0 h-14 sm:h-15 lg:h-[134px]"
           aria-hidden="true"
         />
       )}

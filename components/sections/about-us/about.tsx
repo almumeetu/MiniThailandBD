@@ -108,7 +108,7 @@ export default function About() {
           { label: 'Home', href: '/' },
           { label: 'About Us' },
         ]}
-        bgImage="/images/campaign/minit-2.webp"
+        bgImage="/images/bredcump-main.webp"
         showTrustChips={false}
       />
 
