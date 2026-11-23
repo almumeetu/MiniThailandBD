@@ -283,7 +283,7 @@ export default function AarongHeroSlider() {
   return (
     <section
       aria-label="Hero Highlights"
-      className="relative w-full h-[78vh] min-h-[600px] max-h-[760px] sm:h-[58vw] sm:min-h-[520px] sm:max-h-[840px] overflow-hidden bg-zinc-950 select-none group touch-pan-y cursor-grab active:cursor-grabbing"
+      className="relative w-full h-[55vh] min-h-[420px] max-h-[520px] sm:h-[56vw] sm:min-h-[520px] sm:max-h-[820px] overflow-hidden bg-zinc-950 select-none group touch-pan-y cursor-grab active:cursor-grabbing"
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
@@ -294,12 +294,6 @@ export default function AarongHeroSlider() {
       onPointerCancel={handlePointerCancel}
       onClickCapture={handleClickCapture}
     >
-      {/* Top dark gradient overlay for transparent header contrast - softened for model visibility */}
-      <div className="absolute top-0 left-0 right-0 h-28 sm:h-40 md:h-52 bg-gradient-to-b from-black/55 via-black/20 to-transparent pointer-events-none z-20" />
-
-      {/* Bottom dark gradient overlay for slider controls and caption */}
-      <div className="absolute bottom-0 left-0 right-0 h-28 sm:h-44 bg-gradient-to-t from-black/75 via-black/30 to-transparent pointer-events-none z-20" />
-
       {/* Slides */}
       {slides.map((slide, idx) => {
         const isActive = idx === current;
@@ -311,7 +305,7 @@ export default function AarongHeroSlider() {
               isActive ? "opacity-100 z-10" : "opacity-0 pointer-events-none z-0"
             }`}
           >
-            {/* Background Image with slow cinematic Ken Burns zoom (barely perceptible) */}
+            {/* Background Image with slow cinematic Ken Burns zoom */}
             <div className="relative w-full h-full overflow-hidden">
               <div
                 key={isActive ? `zoom-active-${slide.id}-${current}` : `zoom-idle-${slide.id}`}
@@ -339,33 +333,32 @@ export default function AarongHeroSlider() {
                   quality={95}
                   priority={idx === 0}
                   sizes="100vw"
-                  className="object-cover object-center pointer-events-none select-none"
+                  className="object-cover object-[center_top] pointer-events-none select-none"
                 />
               </div>
 
-              {/* Ambient Center Scrim for optimal centered text contrast */}
-              <div className="absolute inset-0 bg-black/25 via-black/15 to-black/40 pointer-events-none" />
-              <div className="absolute inset-0 bg-radial-gradient from-transparent via-black/10 to-black/45 pointer-events-none" />
+              {/* Vignette & contrast gradients: behind text (z-10), keeps header and centered text readable */}
+              <div className="absolute inset-0 bg-gradient-to-b from-black/75 via-black/35 to-black/85 pointer-events-none z-10" />
 
-              {/* Centered Editorial Text & CTA Overlay with staggered slide-change animation */}
-              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 sm:px-8 md:px-12 lg:px-20 pt-20 sm:pt-24 md:pt-28 pb-12 sm:pb-14 pointer-events-none">
+              {/* Editorial Text & CTA Overlay: vertically and horizontally centered in responsive */}
+              <div className="absolute inset-0 z-20 flex flex-col items-center justify-center text-center px-4 sm:px-8 md:px-12 lg:px-20 pt-16 sm:pt-20 pb-4 sm:pb-8 pointer-events-none">
                 <div
                   key={isActive ? `content-${slide.id}-${current}` : `content-${slide.id}-idle`}
-                  className="max-w-3xl space-y-3 sm:space-y-4 md:space-y-5 flex flex-col items-center pointer-events-auto"
+                  className="max-w-2xl space-y-2 sm:space-y-3.5 flex flex-col items-center pointer-events-auto"
                 >
-                  {/* Centered Headline */}
+                  {/* Headline */}
                   <h1
-                    className={`text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight sm:leading-[1.08] drop-shadow-2xl ${
+                    className={`text-xl sm:text-3xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-snug sm:leading-[1.08] drop-shadow-[0_4px_16px_rgba(0,0,0,0.9)] max-w-[310px] sm:max-w-xl ${
                       isActive ? "animate-hero-title" : "opacity-0"
                     }`}
                   >
                     {slide.title}
                   </h1>
 
-                  {/* Centered Subtitle / Description */}
+                  {/* Subtitle / Description */}
                   {slide.subtitle && (
                     <p
-                      className={`text-xs sm:text-sm md:text-base lg:text-lg text-slate-100 font-normal leading-relaxed max-w-xl drop-shadow-md line-clamp-2 sm:line-clamp-3 ${
+                      className={`text-[11.5px] sm:text-sm md:text-base text-white/95 font-medium leading-relaxed max-w-[290px] sm:max-w-xl drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)] line-clamp-2 px-2 sm:px-0 ${
                         isActive ? "animate-hero-desc" : "opacity-0"
                       }`}
                     >
@@ -373,9 +366,9 @@ export default function AarongHeroSlider() {
                     </p>
                   )}
 
-                  {/* Centered CTA Buttons */}
+                  {/* CTA Buttons */}
                   <div
-                    className={`pt-3 sm:pt-5 flex items-center justify-center gap-2.5 sm:gap-4 flex-wrap ${
+                    className={`pt-1.5 sm:pt-3 flex items-center justify-center gap-2 sm:gap-3.5 flex-wrap ${
                       isActive ? "animate-hero-btn" : "opacity-0"
                     }`}
                   >
@@ -383,7 +376,7 @@ export default function AarongHeroSlider() {
                       href={slide.ctaLink}
                       onMouseEnter={() => setIsPaused(true)}
                       onMouseLeave={() => setIsPaused(false)}
-                      className="inline-flex items-center gap-1.5 sm:gap-2 px-5 sm:px-8 py-2.5 sm:py-3.5 rounded-full bg-white text-zinc-950 hover:bg-amber-400 hover:text-zinc-950 active:scale-95 text-[11px] sm:text-xs md:text-sm font-black tracking-[0.14em] uppercase transition-all duration-200 shadow-2xl group/btn cursor-pointer"
+                      className="inline-flex items-center justify-center gap-1.5 px-5 sm:px-7 py-2.5 sm:py-3 rounded-full bg-white text-zinc-950 hover:bg-amber-400 hover:text-zinc-950 active:scale-95 text-[11px] sm:text-xs md:text-sm font-black tracking-[0.14em] uppercase transition-all duration-200 shadow-2xl group/btn cursor-pointer"
                     >
                       <span>{slide.ctaText}</span>
                       <span className="transition-transform duration-200 group-hover/btn:translate-x-1">→</span>
@@ -394,7 +387,7 @@ export default function AarongHeroSlider() {
                         href={slide.secondaryCtaLink || "/products"}
                         onMouseEnter={() => setIsPaused(true)}
                         onMouseLeave={() => setIsPaused(false)}
-                        className="inline-flex items-center gap-1.5 sm:gap-2 px-4.5 sm:px-7 py-2.5 sm:py-3.5 rounded-full bg-white/10 hover:bg-white/20 active:scale-95 backdrop-blur-md border border-white/25 text-white text-[11px] sm:text-xs md:text-sm font-bold tracking-[0.14em] uppercase transition-all duration-200 cursor-pointer shadow-lg"
+                        className="inline-flex items-center justify-center gap-1.5 px-4 sm:px-6 py-2.5 sm:py-3 rounded-full bg-black/40 hover:bg-white/20 active:scale-95 backdrop-blur-md border border-white/35 text-white text-[11px] sm:text-xs md:text-sm font-bold tracking-[0.14em] uppercase transition-all duration-200 cursor-pointer shadow-lg"
                       >
                         {slide.secondaryCtaText}
                       </Link>
@@ -407,10 +400,10 @@ export default function AarongHeroSlider() {
         );
       })}
 
-      {/* 2 Simple Clean Navigation Buttons (Appear on Slider Hover) */}
+      {/* 2 Clean Desktop Navigation Buttons (Smooth hover on desktop, touch swipe on mobile) */}
       {slides.length > 1 && (
         <>
-          {/* Left Navigation Button */}
+          {/* Left Navigation Button - Hidden on mobile/tablets (< md) to avoid text collision, shown on desktop hover */}
           <button
             type="button"
             onClick={(e) => {
@@ -424,12 +417,12 @@ export default function AarongHeroSlider() {
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             aria-label="Previous slide"
-            className="absolute left-3 sm:left-6 md:left-8 top-1/2 -translate-y-1/2 z-35 w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-full bg-black/50 hover:bg-white text-white hover:text-zinc-950 border border-white/30 hover:border-white shadow-2xl backdrop-blur-md flex items-center justify-center opacity-90 sm:opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-1 sm:-translate-x-3 pointer-events-auto transition-all duration-300 ease-out hover:scale-108 active:scale-95 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white group/navbtn"
+            className="hidden md:flex absolute left-3 sm:left-6 md:left-8 top-1/2 -translate-y-1/2 z-35 w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-full bg-black/50 hover:bg-white text-white hover:text-zinc-950 border border-white/30 hover:border-white shadow-2xl backdrop-blur-md items-center justify-center opacity-0 group-hover:opacity-100 group-hover:translate-x-0 -translate-x-3 pointer-events-auto transition-all duration-300 ease-out hover:scale-108 active:scale-95 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white group/navbtn"
           >
             <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6 -translate-x-0.5 transition-transform duration-200 group-hover/navbtn:-translate-x-1 stroke-[2.2]" />
           </button>
 
-          {/* Right Navigation Button */}
+          {/* Right Navigation Button - Hidden on mobile/tablets (< md) to avoid text collision, shown on desktop hover */}
           <button
             type="button"
             onClick={(e) => {
@@ -443,19 +436,19 @@ export default function AarongHeroSlider() {
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             aria-label="Next slide"
-            className="absolute right-3 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 z-35 w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-full bg-black/50 hover:bg-white text-white hover:text-zinc-950 border border-white/30 hover:border-white shadow-2xl backdrop-blur-md flex items-center justify-center opacity-90 sm:opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-1 sm:translate-x-3 pointer-events-auto transition-all duration-300 ease-out hover:scale-108 active:scale-95 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white group/navbtn"
+            className="hidden md:flex absolute right-3 sm:right-6 md:right-8 top-1/2 -translate-y-1/2 z-35 w-10 h-10 sm:w-12 sm:h-12 md:w-13 md:h-13 rounded-full bg-black/50 hover:bg-white text-white hover:text-zinc-950 border border-white/30 hover:border-white shadow-2xl backdrop-blur-md items-center justify-center opacity-0 group-hover:opacity-100 group-hover:translate-x-0 translate-x-3 pointer-events-auto transition-all duration-300 ease-out hover:scale-108 active:scale-95 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white group/navbtn"
           >
             <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6 translate-x-0.5 transition-transform duration-200 group-hover/navbtn:translate-x-1 stroke-[2.2]" />
           </button>
         </>
       )}
 
-      {/* Simple & Clean Pagination Indicators (Centered at bottom) */}
+      {/* Simple & Clean Pagination Indicators (Centered at bottom with safe mobile height) */}
       {slides.length > 1 && (
         <div
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
-          className="absolute bottom-5 sm:bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-30 flex items-center gap-2 sm:gap-2.5"
+          className="absolute bottom-2.5 sm:bottom-5 md:bottom-7 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1.5 sm:gap-2.5"
         >
           {slides.map((_, i) => (
             <button
@@ -475,7 +468,7 @@ export default function AarongHeroSlider() {
               aria-label={`Go to slide ${i + 1}`}
               className={`h-1.5 sm:h-2 rounded-full transition-all duration-300 cursor-pointer drop-shadow ${
                 i === current
-                  ? "w-7 sm:w-9 bg-white shadow-md"
+                  ? "w-6 sm:w-9 bg-white shadow-md"
                   : "w-2 sm:w-2.5 bg-white/45 hover:bg-white/80"
               }`}
             />

@@ -1,21 +1,7 @@
 'use client';
 
-import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { RiArrowDownSLine } from "react-icons/ri";
-import { LuLayoutGrid, LuPhoneCall } from "react-icons/lu";
-import {
-  fetchShopCategories,
-  fetchShopSettings,
-  parseContactEntries,
-  type ShopCategory,
-} from "@/lib/shop-api";
-
-const initialFallbackCats: ShopCategory[] = [
-  { id: 'cat-cord-sets', name: 'Co-ord Sets', slug: 'cord-sets' },
-  { id: 'cat-party-gowns', name: 'Party Gowns', slug: 'party-gowns' },
-];
 
 export interface NavLinkItem {
   label: string;
@@ -23,117 +9,67 @@ export interface NavLinkItem {
   hasDropdown?: boolean;
 }
 
+const allNavItems: NavLinkItem[] = [
+  { label: "HOME", href: "/" },
+  { label: "SHOP", href: "/products" },
+  { label: "CORD SETS", href: "/products?category=Cord%20Sets" },
+  { label: "PARTY GOWNS", href: "/products?category=Party%20Gowns" },
+  { label: "LUXURY ABAYAS", href: "/products?category=Luxury%20Abayas" },
+  { label: "ABOUT US", href: "/about" },
+  { label: "CONTACT", href: "/contact" },
+];
+
 export default function Navigation() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [categories, setCategories] = useState<ShopCategory[]>(initialFallbackCats);
-  const [activeCategory, setActiveCategory] = useState<string>("cat-skincare");
-  const [hotlinePhone, setHotlinePhone] = useState<string>("+880 1706-126663");
-  const [isTeasHovered, setIsTeasHovered] = useState(false);
-  const hoverTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-
-  // Close dropdown on pathname change
-  useEffect(() => {
-    setIsTeasHovered(false);
-  }, [pathname]);
-
-  // Close dropdown on scroll
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsTeasHovered(false);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  useEffect(() => {
-    async function loadNavData() {
-      try {
-        const [fetched, settings] = await Promise.all([
-          fetchShopCategories(),
-          fetchShopSettings(),
-        ]);
-        const mainCategories = fetched.filter(c => !c.parentId);
-        const allCats = mainCategories.length > 0 ? mainCategories : initialFallbackCats;
-        setCategories(allCats.slice(0, 2));
-        if (allCats.length > 0) {
-          setActiveCategory(allCats[0].id);
-        }
-        if (settings?.contactNumber) {
-          const contacts = parseContactEntries(settings.contactNumber);
-          if (contacts.length > 0 && contacts[0]?.value) {
-            setHotlinePhone(contacts[0].value);
-          }
-        }
-      } catch (err) {
-        console.error("Failed to load nav data for menu:", err);
-      }
-    }
-    loadNavData();
-  }, []);
-
-  const handleMouseEnter = () => {
-    if (hoverTimeoutRef.current) clearTimeout(hoverTimeoutRef.current);
-    setIsTeasHovered(true);
-  };
-
-  const handleMouseLeave = () => {
-    hoverTimeoutRef.current = setTimeout(() => {
-      setIsTeasHovered(false);
-    }, 250);
-  };
 
   const isDeals = searchParams?.get('deals') === 'true' || searchParams?.get('offer') === 'true' || pathname === '/offers';
 
   const isActive = (href: string) => {
+    if (!pathname) return false;
     if (href === '/') {
       return pathname === '/';
     }
     if (href === '/products?deals=true') {
       return isDeals;
     }
+    if (href.startsWith('/products?category=')) {
+      const catParam = new URLSearchParams(href.split('?')[1]).get('category')?.toLowerCase();
+      const currentCat = searchParams?.get('category')?.toLowerCase();
+      return pathname.startsWith('/products') && currentCat === catParam;
+    }
     if (href === '/products') {
-      return pathname === '/products' && !isDeals;
+      const currentCat = searchParams?.get('category');
+      return pathname === '/products' && !isDeals && !currentCat;
     }
     return pathname.startsWith(href);
   };
 
-  const currentCategoryData = categories.find((cat) => cat.id === activeCategory) || categories[0] || null;
+  const renderNavItem = (item: NavLinkItem) => {
+    const active = isActive(item.href);
 
-  const allNavItems: NavLinkItem[] = [
-    { label: "HOME", href: "/", hasDropdown: false },
-    { label: "SHOP", href: "/products", hasDropdown: false },
-    { label: "CORD SETS", href: "/products?category=Cord%20Sets", hasDropdown: false },
-    { label: "PARTY GOWNS", href: "/products?category=Party%20Gowns", hasDropdown: false },
-    { label: "LUXURY ABAYAS", href: "/products?category=Luxury%20Abayas", hasDropdown: false },
-    { label: "ABOUT US", href: "/about", hasDropdown: false },
-    { label: "CONTACT", href: "/contact", hasDropdown: false },
-  ];
-
-  const renderNavItem = (item: NavLinkItem) => (
-    <div
-      key={item.label}
-      className="relative shrink-0"
-    >
-      <Link
-        href={item.href}
-        className="block"
-      >
-        <span
-          className={`relative flex items-center whitespace-nowrap py-1 text-[11px] lg:text-xs uppercase tracking-wider transition-colors ${
-            isActive(item.href)
-              ? "text-[#facc15] font-bold after:content-[''] after:absolute after:-bottom-1.5 after:left-1/2 after:-translate-x-1/2 after:w-3.5 after:h-[2px] after:bg-[#facc15] after:rounded-full"
-              : "text-slate-200 font-semibold hover:text-[#facc15]"
-          }`}
-        >
-          {item.label}
-        </span>
-      </Link>
-    </div>
-  );
+    return (
+      <div key={item.label} className="relative shrink-0">
+        <Link href={item.href} className="group block py-1">
+          <span
+            className={`relative inline-flex items-center whitespace-nowrap text-xs xl:text-[13px] tracking-wider uppercase font-semibold transition-all duration-200 ${
+              active
+                ? "text-[#facc15] font-bold after:content-[''] after:absolute after:-bottom-1.5 after:left-0 after:right-0 after:h-[2px] after:bg-[#facc15] after:rounded-full"
+                : "text-slate-200 hover:text-[#facc15] group-hover:scale-[1.03]"
+            }`}
+          >
+            {item.label}
+          </span>
+        </Link>
+      </div>
+    );
+  };
 
   return (
-    <nav aria-label="Main navigation" className="relative hidden h-8.5 lg:h-9 w-full items-center justify-center gap-2.5 sm:gap-3.5 md:gap-4 lg:gap-3 xl:gap-6 2xl:gap-8 lg:flex flex-nowrap whitespace-nowrap font-sans">
+    <nav
+      aria-label="Main navigation"
+      className="relative flex items-center justify-center gap-3 sm:gap-4 md:gap-5 lg:gap-4 xl:gap-7 2xl:gap-8 flex-nowrap whitespace-nowrap font-sans"
+    >
       {allNavItems.map(renderNavItem)}
     </nav>
   );

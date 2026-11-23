@@ -517,7 +517,7 @@ export async function fetchStorePolicies(): Promise<StorePolicies | null> {
     },
     return: {
       title: "7-Day Return & Replacement Policy",
-      content: "If your item is damaged, defective, or incorrect upon delivery, you may request a free return or replacement within 7 days. Customer helpline: +880 1722-301927.",
+      content: "If your item is damaged, defective, or incorrect upon delivery, you may request a free return or replacement within 7 days. Customer helpline: +880 1706-126663.",
     },
     refund: {
       title: "Instant Refund Guarantee",

@@ -907,8 +907,9 @@ function ProductsContent() {
         </button>
       </div>
 
-      {/* ── 2. Top Alignment Toolbar ── */}
-      <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 py-3 border-b border-neutral-200/80">
+      {/* ── 2. Top Alignment Toolbar (Sticky under 58px header on desktop, top-0 on mobile) ── */}
+      <div className="sticky top-0 lg:top-[58px] z-30 bg-white/98 backdrop-blur-md border-b border-neutral-200/80 shadow-2xs transition-shadow">
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 py-2.5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           
           {/* Left Group: Hide/Show filters pill, Product count & Active Filter pills */}
@@ -1045,6 +1046,7 @@ function ProductsContent() {
 
         </div>
       </div>
+    </div>
 
       {/* ── 3. Main Content: Left Filter Sidebar + Product Grid ── */}
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 pt-6">
@@ -1052,7 +1054,7 @@ function ProductsContent() {
           
           {/* Desktop Left Clean Filter Sidebar */}
           {showSidebar && (
-            <aside className="hidden lg:block w-60 xl:w-64 shrink-0 space-y-6 select-none sticky top-28 xl:top-32 self-start max-h-[calc(100vh-8rem)] overflow-y-auto pr-3 [scrollbar-width:thin]">
+            <aside className="hidden lg:block w-60 xl:w-64 shrink-0 space-y-6 select-none sticky top-[124px] self-start max-h-[calc(100vh-8.5rem)] overflow-y-auto pr-3 pt-3 [scrollbar-width:thin]">
               
               {/* ── Section 1: Categories ── */}
               <div className="pb-6 border-b border-neutral-100">

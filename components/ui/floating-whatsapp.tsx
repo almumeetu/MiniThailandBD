@@ -8,7 +8,7 @@ import { fetchShopSettings } from "@/lib/shop-api";
 export default function FloatingWhatsApp() {
   const pathname = usePathname();
   const isPurchasePage = ["/cart", "/checkout", "/confirmation"].includes(pathname) || pathname.startsWith("/products/");
-  const [phone, setPhone] = useState("+880 1722-301927");
+  const [phone, setPhone] = useState("+880 1706-126663");
   const [shopName, setShopName] = useState("MiniThailandBD");
   const [isHovered, setIsHovered] = useState(false);
 
@@ -16,11 +16,11 @@ export default function FloatingWhatsApp() {
     fetchShopSettings()
       .then((settings) => {
         if (settings?.shopName) setShopName(settings.shopName.trim());
-        const contact = settings?.contactNumber;
+        const contact = (settings as any)?.whatsappNumber || settings?.contactNumber;
         let num = "";
         if (typeof contact === "string") num = contact;
         else if (Array.isArray(contact) && contact[0]?.value) num = contact[0].value;
-        else if (contact?.entries?.[0]?.value) num = contact?.entries[0].value;
+        else if ((contact as any)?.entries?.[0]?.value) num = (contact as any).entries[0].value;
 
         if (num) {
           setPhone(num);

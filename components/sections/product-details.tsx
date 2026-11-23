@@ -263,28 +263,27 @@ export default function ProductDetails({
 
   return (
     <main className={`${styles.page} flex-grow min-w-0 w-full`}>
-      {/* ── Breadcrumbs Navigation Bar (Responsive on all screens) ── */}
-      <div className="w-full">
-        <Breadcrumbs
-          items={[
-            { label: "Products", href: "/products" },
-            ...(product.category
-              ? [{ label: product.category, href: `/products?category=${encodeURIComponent(product.category)}` }]
-              : []),
-            { label: product.name },
-          ]}
-          trailingContent={(
-            <Link
-              href="/products"
-              className="inline-flex shrink-0 items-center gap-1.5 text-xs sm:text-sm font-semibold text-white/95 transition-all hover:text-white bg-white/15 hover:bg-white/25 active:scale-95 backdrop-blur-md border border-white/25 rounded-full px-3.5 py-1.5 sm:px-4 sm:py-2 shadow-xs"
-            >
-              <IoChevronBackOutline className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
-              <span className="hidden sm:inline">Back to Products</span>
-              <span className="sm:hidden">Back</span>
-            </Link>
-          )}
-        />
-      </div>
+      {/* ── Breadcrumbs Navigation Bar (Clean & Normal) ── */}
+      <Breadcrumbs
+        variant="normal"
+        items={[
+          { label: "Products", href: "/products" },
+          ...(product.category
+            ? [{ label: product.category, href: `/products?category=${encodeURIComponent(product.category)}` }]
+            : []),
+          { label: product.name },
+        ]}
+        trailingContent={(
+          <Link
+            href="/products"
+            className="inline-flex shrink-0 items-center gap-1.5 text-xs font-semibold text-neutral-600 hover:text-zinc-950 transition-colors bg-white hover:bg-neutral-100 active:scale-95 border border-neutral-200/80 rounded-full px-3 py-1 shadow-2xs"
+          >
+            <IoChevronBackOutline className="h-3.5 w-3.5" />
+            <span className="hidden sm:inline">Back to Products</span>
+            <span className="sm:hidden">Back</span>
+          </Link>
+        )}
+      />
 
       {/* ── Main Product Two-Column Layout ────── */}
       <div className="max-w-[1360px] mx-auto px-0 sm:px-4 md:px-6 lg:px-8 xl:px-10 py-0 lg:py-6 xl:py-8">

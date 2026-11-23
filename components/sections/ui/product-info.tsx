@@ -4,7 +4,6 @@ import { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import {
-  IoCallOutline,
   IoChevronDown,
   IoChevronUp,
 } from 'react-icons/io5';
@@ -468,8 +467,8 @@ export default function ProductInfo({
             </button>
           </div>
 
-          {/* Row 7: WhatsApp & Call Hotline */}
-          <div className="grid grid-cols-2 gap-2 pt-1">
+          {/* Row 7: WhatsApp Order */}
+          <div className="pt-1">
             <a
               href={`https://wa.me/${formattedWhatsapp}?text=${encodeURIComponent(
                 `Hello MiniThailandBD, I would like to order: *${name}* (${displayPrice})\nLink: ${
@@ -478,17 +477,10 @@ export default function ProductInfo({
               )}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="h-10 px-3 rounded-none border border-emerald-200 bg-emerald-50/80 text-emerald-800 hover:bg-emerald-100 font-semibold text-xs flex items-center justify-center gap-2 transition-colors"
+              className="w-full h-10 px-3 rounded-none border border-emerald-200 bg-emerald-50/80 text-emerald-800 hover:bg-emerald-100 font-semibold text-xs flex items-center justify-center gap-2 transition-colors"
             >
               <FaWhatsapp className="w-4 h-4 text-emerald-600 shrink-0" />
-              <span>WhatsApp</span>
-            </a>
-            <a
-              href={`tel:${primaryPhone.replace(/[^\d+]/g, '')}`}
-              className="h-10 px-3 rounded-none border border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-100 font-semibold text-xs flex items-center justify-center gap-2 transition-colors"
-            >
-              <IoCallOutline className="w-4 h-4 text-zinc-600 shrink-0" />
-              <span>Call Hotline</span>
+              <span>WhatsApp Order</span>
             </a>
           </div>
 
@@ -566,7 +558,7 @@ export default function ProductInfo({
       {/* ══════════════════════════════════════════════════════════════════
           DESKTOP PRODUCT INFO COLUMN (Cohesive, Modern Mini Thailand Theme)
          ══════════════════════════════════════════════════════════════════ */}
-      <section className="hidden lg:flex min-w-0 w-full flex-col font-sans text-zinc-900 lg:col-span-6 sticky top-24 self-start space-y-4">
+      <section className="hidden lg:flex min-w-0 w-full flex-col font-sans text-zinc-900 lg:col-span-6 sticky top-[72px] self-start space-y-4">
         
         {/* 1. Category Eyebrow & Brand */}
         <div className="flex items-center justify-between gap-3 flex-wrap">
@@ -746,8 +738,8 @@ export default function ProductInfo({
           </button>
         </div>
 
-        {/* 7. WhatsApp Order & Hotline */}
-        <div className="grid grid-cols-2 gap-2.5 pt-0.5">
+        {/* 7. WhatsApp Order */}
+        <div className="pt-0.5">
           <a
             href={`https://wa.me/${formattedWhatsapp}?text=${encodeURIComponent(
               `Hello MiniThailandBD, I would like to order: *${name}* (${displayPrice})\nLink: ${
@@ -756,17 +748,10 @@ export default function ProductInfo({
             )}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="h-11 px-3.5 rounded-none border border-emerald-200 bg-emerald-50/80 text-emerald-800 hover:bg-emerald-100 font-semibold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
+            className="w-full h-11 px-3.5 rounded-none border border-emerald-200 bg-emerald-50/80 text-emerald-800 hover:bg-emerald-100 font-semibold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer shadow-2xs"
           >
             <FaWhatsapp className="w-4 h-4 text-emerald-600 shrink-0" />
             <span>WhatsApp Order</span>
-          </a>
-          <a
-            href={`tel:${primaryPhone.replace(/[^\d+]/g, '')}`}
-            className="h-11 px-3.5 rounded-none border border-zinc-200 bg-zinc-50 text-zinc-800 hover:bg-zinc-100 font-semibold text-xs flex items-center justify-center gap-2 transition-colors cursor-pointer"
-          >
-            <IoCallOutline className="w-4 h-4 text-zinc-600 shrink-0" />
-            <span>Call {primaryPhone}</span>
           </a>
         </div>
 

@@ -131,7 +131,7 @@ export default function AarongProductCard({
           </span>
         ) : null}
 
-        {/* Wishlist Button — Smoothly fades and scales in on card hover */}
+        {/* Wishlist Button — Visible on mobile touch & smoothly reveals on desktop card hover */}
         <button
           type="button"
           onClick={handleToggleWishlist}
@@ -141,7 +141,7 @@ export default function AarongProductCard({
           className={`absolute top-2.5 right-2.5 sm:top-3 sm:right-3 z-20 flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full border transition-all duration-300 ease-out cursor-pointer shadow-md backdrop-blur-xs ${
             inWishlist
               ? "opacity-100 scale-100 bg-white text-[#ec1c67] border-rose-200 shadow-rose-500/15"
-              : "opacity-0 scale-90 -translate-y-1 pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:pointer-events-auto bg-white/95 text-zinc-600 border-black/10 hover:text-[#ec1c67] hover:border-rose-200 hover:bg-rose-50 hover:scale-110 active:scale-95"
+              : "opacity-90 sm:opacity-0 sm:scale-90 sm:-translate-y-1 sm:pointer-events-none group-hover:opacity-100 group-hover:scale-100 group-hover:translate-y-0 group-hover:pointer-events-auto bg-white/95 text-zinc-600 border-black/10 hover:text-[#ec1c67] hover:border-rose-200 hover:bg-rose-50 hover:scale-110 active:scale-95"
           }`}
         >
           <LuHeart

@@ -43,7 +43,7 @@ export default function MobileStickyBuyBar({
     <div
       data-mobile-purchase-bar
       aria-label={`Buy ${name}`}
-      className="fixed bottom-[calc(4rem+env(safe-area-inset-bottom))] left-0 right-0 z-40 md:bottom-0 lg:hidden bg-white/95 backdrop-blur-md border-t border-zinc-200 px-4 pt-2.5 pb-2.5 md:pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-lg"
+      className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white/98 backdrop-blur-md border-t border-zinc-200 px-4 pt-2.5 pb-[max(0.75rem,env(safe-area-inset-bottom))] shadow-[0_-8px_25px_rgba(0,0,0,0.12)] transition-transform duration-300"
     >
       <div className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 max-w-xl mx-auto">
         <div className="min-w-0 pr-1">

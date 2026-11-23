@@ -142,8 +142,8 @@ npm run build
 
 **Technical Support:**
 - Email: almumeetu@gmail.com
-- Phone: +880 1722-301927
-- WhatsApp: +880 1722-301927
+- Phone: +880 1706-126663
+- WhatsApp: +880 1706-126663
 
 **Business Hours:**
 - Support available 24/7 for critical issues

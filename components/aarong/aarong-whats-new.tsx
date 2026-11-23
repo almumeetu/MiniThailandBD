@@ -87,9 +87,9 @@ export default function AarongWhatsNew({ products, loading }: AarongWhatsNewProp
               type="button"
               onClick={handlePrev}
               aria-label="Previous products"
-              className="absolute -left-3 sm:-left-5 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-zinc-900 shadow-md hover:bg-black hover:text-white transition-all cursor-pointer"
+              className="absolute -left-1 sm:-left-5 top-1/2 -translate-y-1/2 z-20 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-white/95 text-zinc-900 shadow-md hover:bg-black hover:text-white transition-all cursor-pointer border border-zinc-200 sm:border-transparent"
             >
-              <LuChevronLeft className="w-5 h-5" />
+              <LuChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           )}
 
@@ -98,9 +98,9 @@ export default function AarongWhatsNew({ products, loading }: AarongWhatsNewProp
               type="button"
               onClick={handleNext}
               aria-label="Next products"
-              className="absolute -right-3 sm:-right-5 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-zinc-900 shadow-md hover:bg-black hover:text-white transition-all cursor-pointer"
+              className="absolute -right-1 sm:-right-5 top-1/2 -translate-y-1/2 z-20 flex h-8 w-8 sm:h-10 sm:w-10 items-center justify-center rounded-full bg-white/95 text-zinc-900 shadow-md hover:bg-black hover:text-white transition-all cursor-pointer border border-zinc-200 sm:border-transparent"
             >
-              <LuChevronRight className="w-5 h-5" />
+              <LuChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           )}
         </div>

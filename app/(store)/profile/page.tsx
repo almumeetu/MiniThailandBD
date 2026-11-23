@@ -234,7 +234,7 @@ function ProfilePageContent() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
               {/* Left Profile Sidebar (3 cols) */}
-              <aside className="lg:col-span-3 bg-zinc-50/80 border border-zinc-200 rounded-3xl p-6 space-y-6 sticky top-24">
+              <aside className="lg:col-span-3 bg-zinc-50/80 border border-zinc-200 rounded-3xl p-6 space-y-6 sticky top-[72px]">
                 {/* User Info Capsule */}
                 <div className="flex items-center gap-3.5 pb-5 border-b border-zinc-200">
                   <div className="w-12 h-12 rounded-2xl bg-zinc-950 text-white flex items-center justify-center font-bold text-base shadow-sm shrink-0 overflow-hidden">

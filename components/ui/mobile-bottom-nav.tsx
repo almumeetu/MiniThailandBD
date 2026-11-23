@@ -23,6 +23,14 @@ export default function MobileBottomNav() {
     setMounted(true);
   }, []);
 
+  // Hide on individual product details (where MobileStickyBuyBar takes over) and checkout
+  const isProductDetailPage = pathname.startsWith('/products/') && pathname !== '/products';
+  const isCheckout = pathname === '/checkout';
+
+  if (isProductDetailPage || isCheckout) {
+    return null;
+  }
+
   const cartCount = mounted ? itemCount : 0;
 
   return (

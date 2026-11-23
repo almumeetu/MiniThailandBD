@@ -12,6 +12,7 @@ export interface BreadcrumbsProps {
   title?: string;
   trailingContent?: ReactNode;
   transparent?: boolean;
+  variant?: "banner" | "normal" | "transparent";
   bgImage?: string;
   className?: string;
 }
@@ -21,6 +22,7 @@ export default function Breadcrumbs({
   title,
   trailingContent,
   transparent = false,
+  variant,
   bgImage = "/images/campaign/minit-2.webp",
   className = "",
 }: BreadcrumbsProps) {
@@ -29,7 +31,61 @@ export default function Breadcrumbs({
     (item, index) => !(index === 0 && (item.href === "/" || item.label.trim().toLowerCase() === "home"))
   );
 
-  if (transparent) {
+  const isTransparent = transparent || variant === "transparent";
+  const isNormal = variant === "normal";
+
+  if (isNormal) {
+    return (
+      <div className={`w-full border-b border-zinc-200/80 bg-[#fbfaf7]/90 backdrop-blur-xs ${className}`}>
+        <div className="mx-auto flex max-w-[1360px] items-center justify-between gap-4 px-4 py-3 sm:px-6 md:px-8 xl:px-10">
+          <nav
+            aria-label="Breadcrumb"
+            className="min-w-0 flex-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          >
+            <ol className="flex min-w-0 items-center gap-1.5 sm:gap-2 whitespace-nowrap text-xs sm:text-[13px]">
+              <li className="shrink-0">
+                <Link
+                  href="/"
+                  className="inline-flex items-center gap-1.5 font-medium text-neutral-500 transition-colors hover:text-zinc-950"
+                >
+                  <FiHome className="h-3.5 w-3.5 text-neutral-400" />
+                  <span>Home</span>
+                </Link>
+              </li>
+
+              {normalizedItems.map((item, index) => {
+                const isLast = index === normalizedItems.length - 1;
+
+                return (
+                  <li key={`${item.label}-${index}`} className="inline-flex min-w-0 shrink-0 items-center gap-1.5 sm:gap-2">
+                    <FiChevronRight aria-hidden="true" className="h-3 w-3 shrink-0 text-neutral-400" />
+                    {item.href && !isLast ? (
+                      <Link
+                        href={item.href}
+                        className="max-w-[140px] sm:max-w-[220px] truncate font-medium text-neutral-500 transition-colors hover:text-zinc-950"
+                      >
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <span
+                        aria-current={isLast ? "page" : undefined}
+                        className="max-w-[180px] sm:max-w-[340px] md:max-w-[480px] truncate font-semibold text-zinc-900"
+                      >
+                        {item.label}
+                      </span>
+                    )}
+                  </li>
+                );
+              })}
+            </ol>
+          </nav>
+          {trailingContent}
+        </div>
+      </div>
+    );
+  }
+
+  if (isTransparent) {
     return (
       <div className={`flex items-center justify-between gap-4 ${className}`}>
         <nav

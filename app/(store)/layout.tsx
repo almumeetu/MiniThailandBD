@@ -23,7 +23,7 @@ export default function StoreLayout({
     <AuthProvider>
       <WishlistProvider>
         <CartProvider>
-          <div className="storefront min-w-0 pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0 relative isolate bg-transparent">
+          <div className="storefront min-w-0 pb-[calc(4rem+env(safe-area-inset-bottom))] md:pb-0 relative isolate bg-transparent overflow-x-hidden">
             {/* Upper Scrollable Layer: Header, Page Content & Subscribe Section */}
             <div className="relative z-10 bg-[#faf9f5] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)]">
               <Suspense fallback={<div className="h-16 lg:h-[134px] bg-[#121214] w-full" />}>

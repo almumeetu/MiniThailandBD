@@ -35,6 +35,30 @@ export default function ProductGallery({
   const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
   const galleryRef = useRef<HTMLDivElement>(null);
   const imageContainerRef = useRef<HTMLDivElement>(null);
+  const touchStartX = useRef<number | null>(null);
+  const touchStartY = useRef<number | null>(null);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+    touchStartY.current = e.touches[0].clientY;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diffX = e.changedTouches[0].clientX - touchStartX.current;
+    const diffY = e.changedTouches[0].clientY - (touchStartY.current || 0);
+
+    // If swipe > 35px horizontally and more horizontal than vertical
+    if (Math.abs(diffX) > 35 && Math.abs(diffX) > Math.abs(diffY)) {
+      if (diffX < 0) {
+        handleNext();
+      } else {
+        handlePrev();
+      }
+    }
+    touchStartX.current = null;
+    touchStartY.current = null;
+  };
 
   // Sync index if activeImage changes from parent (e.g. variant color selection)
   useEffect(() => {
@@ -298,7 +322,9 @@ export default function ProductGallery({
           {/* Main Mobile Frame */}
           <div
             onClick={() => openLightboxAt(activeIndex)}
-            className="relative w-full aspect-[4/5] bg-white border-b border-zinc-200 overflow-hidden flex items-center justify-center cursor-zoom-in"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            className="relative w-full aspect-[4/5] bg-white border-b border-zinc-200 overflow-hidden flex items-center justify-center cursor-zoom-in touch-pan-y"
           >
             <Image
               src={currentImg}
