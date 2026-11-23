@@ -110,6 +110,18 @@ export default function ProductInfo({
     return null;
   });
 
+  // Sync selected variant if variants array changes externally
+  useEffect(() => {
+    if (variants && variants.length > 0) {
+      setSelectedVariant((prev) => {
+        if (prev && variants.some((v) => v.id === prev.id)) return prev;
+        return variants.find((v) => v.isDefault) ?? variants[0] ?? null;
+      });
+    } else {
+      setSelectedVariant(null);
+    }
+  }, [variants]);
+
   const [isAdded, setIsAdded] = useState(false);
   const [isAdding, setIsAdding] = useState(false);
   const addingRef = useRef(false);
@@ -134,57 +146,236 @@ export default function ProductInfo({
     }
   }, [selectedVariant, onVariantChange]);
 
-  // Extract available sizes from variants or provide fashion standards
-  const availableSizes = useMemo(() => {
-    const fromVariants = variants
-      .map((v) => v.attributes.Size || v.attributes.size)
-      .filter(Boolean) as string[];
-    const unique = Array.from(new Set(fromVariants));
-    return unique.length > 0 ? unique : ['XS', 'S', 'M', 'L', 'XL'];
-  }, [variants]);
+  // ─── Dynamic Attributes Discovery ──────────────────────────────────────────
+  const NON_SELECTABLE_KEYS = useMemo(
+    () => new Set(['origin', 'condition', 'authenticity', 'warranty', 'sku', 'brand', 'category', 'status']),
+    []
+  );
 
-  const [selectedSize, setSelectedSize] = useState<string>(() => {
-    const fromVar = selectedVariant?.attributes.Size || selectedVariant?.attributes.size;
-    return fromVar || availableSizes[2] || availableSizes[0] || 'M';
-  });
+  // Extract all unique attribute names present across actual variants
+  const attributeNames = useMemo(() => {
+    const names: string[] = [];
+    if (!variants || variants.length === 0) return names;
 
-  // Extract available colors from variants
-  const availableColors = useMemo(() => {
-    const fromVariants = variants
-      .map((v) => v.attributes.Color || v.attributes.Colour || v.attributes.color)
-      .filter(Boolean) as string[];
-    const unique = Array.from(new Set(fromVariants));
-    return unique.length > 0 ? unique : ['Dark khaki', 'Dusty Rose', 'Midnight Black'];
-  }, [variants]);
+    variants.forEach((v) => {
+      if (v.attributes && typeof v.attributes === 'object') {
+        Object.keys(v.attributes).forEach((rawKey) => {
+          const key = rawKey.trim();
+          if (key && !names.some((n) => n.toLowerCase() === key.toLowerCase())) {
+            names.push(key);
+          }
+        });
+      }
+    });
 
-  const [selectedColor, setSelectedColor] = useState<string>(() => {
-    const fromVar =
-      selectedVariant?.attributes.Color ||
-      selectedVariant?.attributes.Colour ||
-      selectedVariant?.attributes.color;
-    return fromVar || availableColors[0] || 'Dark khaki';
-  });
+    // Exclude specification/metadata keys unless they have multiple selectable options
+    const filtered = names.filter((key) => {
+      const lower = key.toLowerCase();
+      if (!NON_SELECTABLE_KEYS.has(lower)) return true;
+      const uniqueVals = new Set<string>();
+      variants.forEach((v) => {
+        const val = v.attributes?.[key];
+        if (val) uniqueVals.add(String(val).toLowerCase());
+      });
+      return uniqueVals.size > 1;
+    });
 
-  const handleSelectSize = (size: string) => {
-    setSelectedSize(size);
-    const match = variants.find(
-      (v) => (v.attributes.Size || v.attributes.size)?.toLowerCase() === size.toLowerCase()
+    // Natural order: Color first, then Size, then any remaining attributes
+    filtered.sort((a, b) => {
+      const aIsColor = /^(color|colour|shade|shades)$/i.test(a);
+      const bIsColor = /^(color|colour|shade|shades)$/i.test(b);
+      if (aIsColor && !bIsColor) return -1;
+      if (!aIsColor && bIsColor) return 1;
+
+      const aIsSize = /^(size|sizes)$/i.test(a);
+      const bIsSize = /^(size|sizes)$/i.test(b);
+      if (aIsSize && !bIsSize) return -1;
+      if (!aIsSize && bIsSize) return 1;
+
+      return a.localeCompare(b);
+    });
+
+    return filtered;
+  }, [variants, NON_SELECTABLE_KEYS]);
+
+  // Map each attribute name to its available options
+  const attributeOptionsMap = useMemo(() => {
+    const map: Record<string, string[]> = {};
+    attributeNames.forEach((attrName) => {
+      const vals: string[] = [];
+      variants.forEach((v) => {
+        if (!v.attributes) return;
+        const matchingKey = Object.keys(v.attributes).find(
+          (k) => k.toLowerCase() === attrName.toLowerCase()
+        );
+        if (matchingKey && v.attributes[matchingKey]) {
+          const val = String(v.attributes[matchingKey]).trim();
+          if (val && !vals.some((x) => x.toLowerCase() === val.toLowerCase())) {
+            vals.push(val);
+          }
+        }
+      });
+      map[attrName] = vals;
+    });
+    return map;
+  }, [attributeNames, variants]);
+
+  const hasSizeAttribute = useMemo(() => {
+    return attributeNames.some((n) => /^(size|sizes)$/i.test(n));
+  }, [attributeNames]);
+
+  const getSelectedAttributeValue = (attrName: string): string => {
+    if (!selectedVariant || !selectedVariant.attributes) return '';
+    const matchingKey = Object.keys(selectedVariant.attributes).find(
+      (k) => k.toLowerCase() === attrName.toLowerCase()
     );
+    return matchingKey ? selectedVariant.attributes[matchingKey] : '';
+  };
+
+  const handleSelectAttribute = (attrName: string, value: string) => {
+    const currentSelections: Record<string, string> = {};
+    attributeNames.forEach((name) => {
+      currentSelections[name.toLowerCase()] = getSelectedAttributeValue(name);
+    });
+    currentSelections[attrName.toLowerCase()] = value;
+
+    // 1. Try finding a variant matching ALL current selections
+    let match = variants.find((v) => {
+      if (!v.attributes) return false;
+      return attributeNames.every((name) => {
+        const selVal = currentSelections[name.toLowerCase()];
+        if (!selVal) return true;
+        const vKey = Object.keys(v.attributes).find(
+          (k) => k.toLowerCase() === name.toLowerCase()
+        );
+        const vVal = vKey ? v.attributes[vKey] : '';
+        return vVal.toLowerCase() === selVal.toLowerCase();
+      });
+    });
+
+    // 2. Fall back to first variant matching this clicked attribute
+    if (!match) {
+      match = variants.find((v) => {
+        if (!v.attributes) return false;
+        const vKey = Object.keys(v.attributes).find(
+          (k) => k.toLowerCase() === attrName.toLowerCase()
+        );
+        const vVal = vKey ? v.attributes[vKey] : '';
+        return vVal.toLowerCase() === value.toLowerCase();
+      });
+    }
+
     if (match) {
       setSelectedVariant(match);
     }
   };
 
-  const handleSelectColor = (color: string) => {
-    setSelectedColor(color);
-    const match = variants.find(
-      (v) =>
-        (v.attributes.Color || v.attributes.Colour || v.attributes.color)?.toLowerCase() ===
-        color.toLowerCase()
+  const renderAttributeSelectors = (isMobile = false) => {
+    if (attributeNames.length === 0) return null;
+
+    return (
+      <div
+        className={
+          isMobile
+            ? 'rounded-none border border-zinc-200/80 bg-zinc-50/60 p-3.5 space-y-3.5'
+            : 'rounded-none border border-zinc-200/80 bg-zinc-50/60 p-4 space-y-3.5'
+        }
+      >
+        {attributeNames.map((attrName, index) => {
+          const options = attributeOptionsMap[attrName] || [];
+          if (options.length === 0) return null;
+
+          const isColor = /^(color|colour|shade|shades)$/i.test(attrName);
+          const isSize = /^(size|sizes)$/i.test(attrName);
+          const selectedVal = getSelectedAttributeValue(attrName);
+
+          return (
+            <div
+              key={attrName}
+              className={`space-y-2 ${index > 0 ? 'pt-3 border-t border-zinc-200/60' : ''}`}
+            >
+              {/* Header row */}
+              <div className="flex items-center justify-between text-xs">
+                <span className="font-medium text-zinc-700">
+                  {attrName}:{' '}
+                  <strong className="font-bold text-zinc-950">
+                    {selectedVal || options[0] || ''}
+                  </strong>
+                </span>
+
+                {isSize && (
+                  <button
+                    type="button"
+                    onClick={() => setIsSizeGuideOpen(true)}
+                    className="inline-flex items-center gap-1 text-[#ec1c67] font-semibold hover:underline cursor-pointer"
+                  >
+                    <LuRuler className="w-3.5 h-3.5" />
+                    <span>Size guides</span>
+                  </button>
+                )}
+              </div>
+
+              {/* Options list */}
+              <div className="flex flex-wrap items-center gap-2">
+                {options.map((opt, optIdx) => {
+                  const isSelected =
+                    opt.toLowerCase() === selectedVal.toLowerCase();
+
+                  if (isColor) {
+                    const colorBg = getColorHex(opt, optIdx);
+                    const isLight = [
+                      '#ffffff',
+                      '#fef3c7',
+                      '#d4b996',
+                      '#7dd3fc',
+                      '#f472b6',
+                    ].includes(colorBg.toLowerCase());
+
+                    return (
+                      <button
+                        key={opt}
+                        type="button"
+                        onClick={() => handleSelectAttribute(attrName, opt)}
+                        title={opt}
+                        className={`flex items-center gap-1.5 pl-1.5 pr-3 py-1.5 rounded-none border text-xs transition-all cursor-pointer ${
+                          isSelected
+                            ? 'border-[#ec1c67] bg-[#fff0f5] text-[#ec1c67] font-bold ring-1 ring-[#ec1c67] shadow-xs'
+                            : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-400 hover:bg-zinc-50'
+                        }`}
+                      >
+                        <span
+                          className={`w-3.5 h-3.5 rounded-none border shrink-0 ${
+                            isLight ? 'border-zinc-300' : 'border-black/20'
+                          }`}
+                          style={{ backgroundColor: colorBg }}
+                        />
+                        <span className="text-xs truncate max-w-[120px]">{opt}</span>
+                      </button>
+                    );
+                  }
+
+                  // Non-color options (Size, Volume, etc.)
+                  return (
+                    <button
+                      key={opt}
+                      type="button"
+                      onClick={() => handleSelectAttribute(attrName, opt)}
+                      className={`min-w-[48px] px-3.5 h-10 rounded-none text-xs font-bold transition-all cursor-pointer flex items-center justify-center shrink-0 border ${
+                        isSelected
+                          ? 'bg-zinc-950 text-white border-zinc-950 ring-1 ring-[#ec1c67] shadow-sm'
+                          : 'bg-white text-zinc-800 border-zinc-200 hover:border-zinc-400 hover:bg-zinc-50'
+                      }`}
+                    >
+                      {opt}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+      </div>
     );
-    if (match) {
-      setSelectedVariant(match);
-    }
   };
 
   const handleQuantityChange = (type: 'inc' | 'dec') => {
@@ -222,6 +413,12 @@ export default function ProductInfo({
     const attributes = selectedVariant?.attributes ?? {};
     const activeVarId = activeVariantId ?? '';
 
+    // Dynamically retrieve color and size if they exist in attributes
+    const colorKey = Object.keys(attributes).find((k) => /^(color|colour|shade)$/i.test(k));
+    const sizeKey = Object.keys(attributes).find((k) => /^(size|sizes)$/i.test(k));
+    const itemColor = colorKey ? attributes[colorKey] : '';
+    const itemSize = sizeKey ? attributes[sizeKey] : '';
+
     return {
       productId,
       slug: productSlug ?? productId,
@@ -229,8 +426,8 @@ export default function ProductInfo({
       price: finalPrice,
       image: selectedVariant?.image ?? productData.image,
       description: productData.description,
-      color: selectedColor || attributes.Color || attributes.Colour || attributes.color || '',
-      size: selectedSize || attributes.Size || attributes.size || '',
+      color: itemColor,
+      size: itemSize,
       variantId: activeVarId,
       quantity,
       attributes,
@@ -326,76 +523,8 @@ export default function ProductInfo({
             </div>
           </div>
 
-          {/* Row 3: Color Selector */}
-          {availableColors.length > 0 && (
-            <div className="space-y-2 pt-1">
-              <div className="text-xs font-medium text-zinc-700">
-                Color: <strong className="font-bold text-zinc-950">{selectedColor}</strong>
-              </div>
-              <div className="flex flex-wrap items-center gap-2">
-                {availableColors.map((color, idx) => {
-                  const isSelected = color === selectedColor;
-                  const colorBg = getColorHex(color, idx);
-                  const isLight = ['#ffffff', '#fef3c7', '#d4b996', '#7dd3fc', '#f472b6'].includes(colorBg.toLowerCase());
-                  return (
-                    <button
-                      key={color}
-                      type="button"
-                      onClick={() => handleSelectColor(color)}
-                      className={`flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 rounded-none border text-xs transition-all cursor-pointer ${
-                        isSelected
-                          ? 'border-[#ec1c67] bg-[#fff0f5] text-[#ec1c67] font-bold ring-1 ring-[#ec1c67]'
-                          : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-400'
-                      }`}
-                    >
-                      <span
-                        className={`w-3.5 h-3.5 rounded-none border shrink-0 ${isLight ? 'border-zinc-300' : 'border-black/20'}`}
-                        style={{ backgroundColor: colorBg }}
-                      />
-                      <span className="text-[11px] truncate max-w-[90px]">{color}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Row 4: Size Selector */}
-          <div className="space-y-2 pt-1">
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-medium text-zinc-700">
-                Size: <strong className="font-bold text-zinc-950">{selectedSize}</strong>
-              </span>
-              <button
-                type="button"
-                onClick={() => setIsSizeGuideOpen(true)}
-                className="inline-flex items-center gap-1 text-[#ec1c67] font-semibold hover:underline cursor-pointer"
-              >
-                <LuRuler className="w-3.5 h-3.5" />
-                <span>Size guide</span>
-              </button>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2">
-              {availableSizes.map((size) => {
-                const isSelected = size === selectedSize;
-                return (
-                  <button
-                    key={size}
-                    type="button"
-                    onClick={() => handleSelectSize(size)}
-                    className={`min-w-[48px] px-3.5 h-10 rounded-none text-xs font-bold transition-all cursor-pointer flex items-center justify-center shrink-0 border ${
-                      isSelected
-                        ? 'bg-zinc-950 text-white border-zinc-950 shadow-sm'
-                        : 'bg-white text-zinc-800 border-zinc-200 hover:border-zinc-400'
-                    }`}
-                  >
-                    {size}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          {/* Dynamic Variant Attributes Selector */}
+          {renderAttributeSelectors(true)}
 
           {/* Row 5: Description with Read More */}
           <div className="space-y-1 text-xs text-zinc-600 leading-relaxed font-normal pt-1">
@@ -608,79 +737,7 @@ export default function ProductInfo({
         </p>
 
         {/* 5. Variant Selection Box (Card container) */}
-        <div className="rounded-none border border-zinc-200/80 bg-zinc-50/60 p-4 space-y-3.5">
-          {/* Color Selector */}
-          {availableColors.length > 0 && (
-            <div className="space-y-2">
-              <div className="text-xs font-medium text-zinc-700">
-                Color: <strong className="font-bold text-zinc-950">{selectedColor}</strong>
-              </div>
-              <div className="flex flex-wrap items-center gap-2">
-                {availableColors.map((color, idx) => {
-                  const isSelected = color === selectedColor;
-                  const colorBg = getColorHex(color, idx);
-                  const isLight = ['#ffffff', '#fef3c7', '#d4b996', '#7dd3fc', '#f472b6'].includes(colorBg.toLowerCase());
-                  return (
-                    <button
-                      key={color}
-                      type="button"
-                      onClick={() => handleSelectColor(color)}
-                      title={color}
-                      className={`flex items-center gap-1.5 pl-1.5 pr-3 py-1.5 rounded-none border text-xs transition-all cursor-pointer ${
-                        isSelected
-                          ? 'border-[#ec1c67] bg-[#fff0f5] text-[#ec1c67] font-bold ring-1 ring-[#ec1c67] shadow-xs'
-                          : 'border-zinc-200 bg-white text-zinc-700 hover:border-zinc-400 hover:bg-zinc-50'
-                      }`}
-                    >
-                      <span
-                        className={`w-4 h-4 rounded-none border shrink-0 ${isLight ? 'border-zinc-300' : 'border-black/20'}`}
-                        style={{ backgroundColor: colorBg }}
-                      />
-                      <span className="text-xs truncate">{color}</span>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-
-          {/* Size Selector */}
-          <div className="space-y-2 pt-1 border-t border-zinc-200/60">
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-medium text-zinc-700">
-                Size: <strong className="font-bold text-zinc-950">{selectedSize}</strong>
-              </span>
-              <button
-                type="button"
-                onClick={() => setIsSizeGuideOpen(true)}
-                className="inline-flex items-center gap-1 text-[#ec1c67] font-semibold hover:underline cursor-pointer"
-              >
-                <LuRuler className="w-3.5 h-3.5" />
-                <span>Size guides</span>
-              </button>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-2">
-              {availableSizes.map((size) => {
-                const isSelected = size === selectedSize;
-                return (
-                  <button
-                    key={size}
-                    type="button"
-                    onClick={() => handleSelectSize(size)}
-                    className={`min-w-[48px] px-3.5 h-10 rounded-none text-xs font-bold transition-all cursor-pointer flex items-center justify-center shrink-0 border ${
-                      isSelected
-                        ? 'bg-zinc-950 text-white border-zinc-950 shadow-sm'
-                        : 'bg-white text-zinc-800 border-zinc-200 hover:border-zinc-400 hover:bg-zinc-50'
-                    }`}
-                  >
-                    {size}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+        {renderAttributeSelectors(false)}
 
         {/* 6. Purchase Action Buttons */}
         <div className="space-y-2.5 pt-1">
@@ -837,12 +894,14 @@ export default function ProductInfo({
 
       </section>
 
-      {/* Size Guide Modal */}
-      <SizeGuideModal
-        isOpen={isSizeGuideOpen}
-        onClose={() => setIsSizeGuideOpen(false)}
-        category={category}
-      />
+      {/* Size Guide Modal (only rendered if product has size attribute) */}
+      {hasSizeAttribute && (
+        <SizeGuideModal
+          isOpen={isSizeGuideOpen}
+          onClose={() => setIsSizeGuideOpen(false)}
+          category={category}
+        />
+      )}
 
       {/* Mobile Sticky Buy Bar on Deep Scroll */}
       <MobileStickyBuyBar

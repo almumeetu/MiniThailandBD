@@ -2,7 +2,7 @@
 
 import { type Campaign, API_BASE_URL, resolveImageUrl } from "./admin-api";
 
-export const CAMPAIGNS_STORAGE_KEY = "minithailandbd_campaigns_v28";
+export const CAMPAIGNS_STORAGE_KEY = "minithailandbd_campaigns_v29";
 export const CAMPAIGNS_UPDATED_EVENT = "minithailandbd_campaigns_updated";
 
 /**
@@ -102,22 +102,6 @@ export function normalizeCampaignToEnglish(campaign: Campaign): Campaign {
  */
 export const DEFAULT_HERO_CAMPAIGNS: Campaign[] = [
   {
-    id: "camp-arch-wine",
-    title: "Signature Burgundy & Wine Luxury",
-    description: "Deep vintage wine hues, fluid evening contours & signature Bangkok atelier designs curated exclusively for you.",
-    status: "active",
-    startAt: new Date().toISOString(),
-    endAt: null,
-    hasDiscount: true,
-    badge: "Atelier Signature",
-    ctaText: "SHOP WINE COLLECTION",
-    linkUrl: "/products?category=Party%20Gowns",
-    sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Slider Banner", position: 1, page: "home" },
-    images: [{ id: "img-arch-wine", images: ["/images/sliders/arch-wine.webp"] }],
-    createdAt: new Date().toISOString(),
-  },
-  {
     id: "camp-arch-purple-2",
     title: "Regal Violet & Pleated Rose Grandeur",
     description: "Artisan rosette appliqués, cascading accordion pleats & signature Bangkok couture crafted for majestic celebrations.",
@@ -129,8 +113,24 @@ export const DEFAULT_HERO_CAMPAIGNS: Campaign[] = [
     ctaText: "SHOP VIOLET COLLECTION",
     linkUrl: "/products?category=Party%20Gowns",
     sectionId: "sec-hero",
-    section: { id: "sec-hero", title: "Hero Slider Banner", position: 2, page: "home" },
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 1, page: "home" },
     images: [{ id: "img-arch-purple-2", images: ["/images/sliders/arch-purple-2.webp"] }],
+    createdAt: new Date().toISOString(),
+  },
+  {
+    id: "camp-arch-wine",
+    title: "Signature Burgundy & Wine Luxury",
+    description: "Deep vintage wine hues, fluid evening contours & signature Bangkok atelier designs curated exclusively for you.",
+    status: "active",
+    startAt: new Date().toISOString(),
+    endAt: null,
+    hasDiscount: true,
+    badge: "Atelier Signature",
+    ctaText: "SHOP WINE COLLECTION",
+    linkUrl: "/products?category=Party%20Gowns",
+    sectionId: "sec-hero",
+    section: { id: "sec-hero", title: "Hero Slider Banner", position: 2, page: "home" },
+    images: [{ id: "img-arch-wine", images: ["/images/sliders/arch-wine.webp"] }],
     createdAt: new Date().toISOString(),
   },
   {
@@ -177,7 +177,7 @@ export function getStoredCampaigns(): Campaign[] {
 
   try {
     // Clean up older cached storage keys if present
-    for (let i = 1; i <= 27; i++) {
+    for (let i = 1; i <= 28; i++) {
       localStorage.removeItem(`minithailandbd_campaigns_v${i}`);
     }
 

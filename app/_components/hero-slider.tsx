@@ -7,16 +7,16 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const slides = [
   {
-    image: "/images/sliders/arch-wine.webp",
-    title: "সিগনেচার বার্গান্ডি ও ওয়াইন লাক্সারি",
-    titleEn: "Signature Burgundy & Wine Luxury",
-    copy: "ডিপ ভিন্টেজ ওয়াইন হিউজ ও লাক্সারি থাই ডিজাইনার ফ্যাশন সরাসরি ব্যাংকক থেকে।",
-  },
-  {
     image: "/images/sliders/arch-purple-2.webp",
     title: "রিগ্যাল ভায়োলেট সিল্ক ও প্লিটেড গাউন",
     titleEn: "Regal Violet & Pleated Rose Grandeur",
     copy: "হ্যান্ডক্রাফটেড রোজ অ্যাপ্লিক, ক্যাসকেডিং প্লিটস ও এক্সক্লুসিভ ব্যাংকক অ্যাটেলিয়ার গাউন।",
+  },
+  {
+    image: "/images/sliders/arch-wine.webp",
+    title: "সিগনেচার বার্গান্ডি ও ওয়াইন লাক্সারি",
+    titleEn: "Signature Burgundy & Wine Luxury",
+    copy: "ডিপ ভিন্টেজ ওয়াইন হিউজ ও লাক্সারি থাই ডিজাইনার ফ্যাশন সরাসরি ব্যাংকক থেকে।",
   },
   {
     image: "/images/sliders/arch-blue.webp",

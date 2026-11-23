@@ -849,10 +849,10 @@ function ProductsContent() {
   const breadcrumbItems = useMemo<BreadcrumbItem[]>(() => {
     const isFiltered = selectedCategory !== 'All' || Boolean(searchVal) || onSaleOnly;
     if (!isFiltered) {
-      return [{ label: 'Products' }];
+      return [{ label: 'Shop All' }];
     }
 
-    const items: BreadcrumbItem[] = [{ label: 'Products', href: '/products' }];
+    const items: BreadcrumbItem[] = [{ label: 'Shop All', href: '/products' }];
     if (selectedCategory !== 'All') {
       items.push({
         label: selectedCategory,
@@ -867,6 +867,24 @@ function ProductsContent() {
     }
     return items;
   }, [selectedCategory, searchVal, onSaleOnly]);
+
+  const bannerCategoryPills = useMemo(() => {
+    return [
+      {
+        label: 'All Collections',
+        active: selectedCategory === 'All' && !onSaleOnly,
+        onClick: () => handleSelectCategory('All'),
+      },
+      ...categoriesList.slice(0, 10).map((cat) => ({
+        label: cat,
+        active:
+          !onSaleOnly &&
+          (selectedCategory.toLowerCase() === cat.toLowerCase() ||
+            normalizeCatName(cat) === normalizeCatName(selectedCategory)),
+        onClick: () => handleSelectCategory(cat),
+      })),
+    ];
+  }, [selectedCategory, onSaleOnly, categoriesList, handleSelectCategory]);
 
   const currentSortLabel =
     SORT_OPTIONS.find((s) => s.value === selectedSort)?.label || 'Lowest price';
@@ -883,11 +901,10 @@ function ProductsContent() {
   return (
     <div className="w-full min-h-screen bg-white font-sans text-neutral-900 pb-20">
       
-      {/* ── 1. Page Banner & Breadcrumbs (Consistent with site PageBanner) ── */}
+      {/* ── 1. Page Banner & Breadcrumbs (Professional E-commerce Collection Header) ── */}
       <PageBanner
         title={pageTitle}
         subtitle={pageSubtitle}
-        badge={selectedCategory !== 'All' ? 'BOUTIQUE COLLECTION' : 'MINI THAILAND'}
         breadcrumbs={breadcrumbItems}
       />
 
@@ -913,18 +930,33 @@ function ProductsContent() {
         <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 py-2.5">
         <div className="flex flex-wrap items-center justify-between gap-3">
           
-          {/* Left Group: Hide/Show filters pill, Product count & Active Filter pills */}
-          <div className="flex flex-wrap items-center gap-3">
+          {/* Left Group: Hide/Show filters pill, Mobile Filter Trigger, Product count & Active Filter pills */}
+          <div className="flex flex-wrap items-center gap-2.5 sm:gap-3">
             
             {/* Desktop Pill Button: "Hide filters" / "Show filters" */}
             <button
               type="button"
               onClick={() => setShowSidebar(!showSidebar)}
-              className="hidden lg:inline-flex items-center gap-2 px-5 py-2 rounded-none border border-neutral-300 hover:border-neutral-900 bg-white text-xs sm:text-sm font-medium text-neutral-800 transition-colors cursor-pointer"
+              className="hidden lg:inline-flex items-center gap-2 px-5 py-2 rounded-none border border-neutral-300 hover:border-neutral-900 bg-white text-xs sm:text-sm font-medium text-neutral-800 transition-colors cursor-pointer select-none"
             >
               <span>{showSidebar ? 'Hide filters' : 'Show filters'}</span>
               {activeFiltersCount > 0 && (
                 <span className="w-4.5 h-4.5 rounded-xs bg-neutral-900 text-white text-[10px] font-bold flex items-center justify-center ml-0.5">
+                  {activeFiltersCount}
+                </span>
+              )}
+            </button>
+
+            {/* Mobile Sticky Filter Button (Always accessible when scrolling on mobile) */}
+            <button
+              type="button"
+              onClick={() => setIsMobileFilterOpen(true)}
+              className="lg:hidden inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-none border border-neutral-300 hover:border-neutral-900 bg-white text-xs font-medium text-neutral-800 transition-colors cursor-pointer select-none active:scale-95 shadow-2xs"
+            >
+              <LuSlidersHorizontal className="w-3.5 h-3.5 text-neutral-700" />
+              <span>Filters</span>
+              {activeFiltersCount > 0 && (
+                <span className="w-4 h-4 rounded-xs bg-neutral-900 text-white text-[10px] font-bold flex items-center justify-center ml-0.5">
                   {activeFiltersCount}
                 </span>
               )}
@@ -1053,9 +1085,9 @@ function ProductsContent() {
       <div className="max-w-[1440px] mx-auto px-4 sm:px-6 md:px-10 lg:px-12 pt-6">
         <div className="flex items-start gap-8 lg:gap-10">
           
-          {/* Desktop Left Clean Filter Sidebar */}
+          {/* Desktop Left Clean Filter Sidebar (Sticky alongside product grid) */}
           {showSidebar && (
-            <aside className="hidden lg:block w-60 xl:w-64 shrink-0 space-y-6 select-none sticky top-[124px] self-start max-h-[calc(100vh-8.5rem)] overflow-y-auto pr-3 pt-3 [scrollbar-width:thin]">
+            <aside className="hidden lg:block w-60 xl:w-64 shrink-0 space-y-6 select-none sticky top-[116px] self-start max-h-[calc(100vh-130px)] overflow-y-auto pr-3 pt-2 [scrollbar-width:thin] scrollbar-thumb-neutral-200 hover:scrollbar-thumb-neutral-300">
               
               {/* ── Section 1: Categories ── */}
               <div className="pb-6 border-b border-neutral-100">

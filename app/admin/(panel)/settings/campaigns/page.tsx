@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useState } from "react";
+import Link from "next/link";
 import { toast } from "sonner";
 import { AdminIcon, PageHeader } from "../../../_components/admin-shell";
 import { ConfirmModal } from "../../../_components/confirm-modal";
@@ -19,10 +20,28 @@ import {
 import {
   getStoredCampaigns,
   saveCustomCampaign,
+  saveStoredCampaigns,
   toggleStoredCampaignStatus,
   deleteStoredCampaign,
   normalizeCampaignToEnglish,
 } from "../../../../../lib/campaign-store";
+
+import {
+  LuImage,
+  LuLayers,
+  LuSparkles,
+  LuEye,
+  LuPencil,
+  LuTrash2,
+  LuArrowUp,
+  LuArrowDown,
+  LuExternalLink,
+  LuSearch,
+  LuX,
+  LuPlus,
+  LuSlidersHorizontal,
+  LuCheck,
+} from "react-icons/lu";
 
 type CampaignForm = {
   id?: string;
@@ -60,6 +79,8 @@ export default function CampaignsPage() {
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
   const [slotFilter, setSlotFilter] = useState<string>("all");
+  const [statusFilter, setStatusFilter] = useState<"all" | "active" | "inactive">("all");
+  const [previewBanner, setPreviewBanner] = useState<Campaign | null>(null);
 
   const [modalOpen, setModalOpen] = useState(false);
   const [form, setForm] = useState<CampaignForm>(EMPTY_FORM);
@@ -248,37 +269,86 @@ export default function CampaignsPage() {
     toast.success("Campaign removed.");
   }
 
+  function handleReorder(campaignId: string, direction: "up" | "down") {
+    const heroSlides = campaigns.filter(
+      (c) => !c.sectionId || c.sectionId === "sec-hero" || c.id.startsWith("camp-hero-")
+    );
+    const currentIndex = heroSlides.findIndex((c) => c.id === campaignId);
+    if (currentIndex === -1) return;
+
+    const targetIndex = direction === "up" ? currentIndex - 1 : currentIndex + 1;
+    if (targetIndex < 0 || targetIndex >= heroSlides.length) return;
+
+    const newHeroSlides = [...heroSlides];
+    const [moved] = newHeroSlides.splice(currentIndex, 1);
+    newHeroSlides.splice(targetIndex, 0, moved);
+
+    const nonHero = campaigns.filter(
+      (c) => !(!c.sectionId || c.sectionId === "sec-hero" || c.id.startsWith("camp-hero-"))
+    );
+    const updated = [...newHeroSlides, ...nonHero];
+
+    setCampaigns(updated);
+    saveStoredCampaigns(updated);
+    toast.success(`Slide position moved ${direction === "up" ? "up" : "down"}`);
+  }
+
   const selectedDiscount = form.discountId
     ? discounts.find((d) => d.id === form.discountId)
     : null;
 
   const filtered = campaigns.filter((c) => {
-    const matchesSearch = `${c.title} ${c.section?.title ?? ""}`.toLowerCase().includes(search.toLowerCase());
+    const query = search.toLowerCase().trim();
+    const matchesSearch =
+      !query ||
+      `${c.title} ${c.section?.title ?? ""} ${c.description ?? ""} ${c.ctaText ?? ""}`
+        .toLowerCase()
+        .includes(query);
     if (!matchesSearch) return false;
+
+    if (statusFilter !== "all" && c.status !== statusFilter) return false;
+
     if (slotFilter === "all") return true;
-    if (slotFilter === "sec-hero") return !c.sectionId || c.sectionId === "sec-hero" || c.id.startsWith("camp-hero-");
+    if (slotFilter === "sec-hero")
+      return !c.sectionId || c.sectionId === "sec-hero" || c.id.startsWith("camp-hero-");
     if (slotFilter === "sec-feature-banner") return c.sectionId === "sec-feature-banner";
-    if (slotFilter === "sec-split") return c.sectionId === "sec-split-1" || c.sectionId === "sec-split-2";
+    if (slotFilter === "sec-split")
+      return c.sectionId === "sec-split-1" || c.sectionId === "sec-split-2";
     return c.sectionId === slotFilter;
   });
 
-  const heroCount = campaigns.filter(c => !c.sectionId || c.sectionId === "sec-hero" || c.id.startsWith("camp-hero-")).length;
-  const featureCount = campaigns.filter(c => c.sectionId === "sec-feature-banner").length;
-  const splitCount = campaigns.filter(c => c.sectionId === "sec-split-1" || c.sectionId === "sec-split-2").length;
+  const heroSlides = campaigns.filter(
+    (c) => !c.sectionId || c.sectionId === "sec-hero" || c.id.startsWith("camp-hero-")
+  );
+  const heroCount = heroSlides.length;
+  const featureCount = campaigns.filter((c) => c.sectionId === "sec-feature-banner").length;
+  const splitCount = campaigns.filter(
+    (c) => c.sectionId === "sec-split-1" || c.sectionId === "sec-split-2"
+  ).length;
+  const activeCount = campaigns.filter((c) => c.status === "active").length;
 
   return (
     <>
       <PageHeader
         title="Hero Sliders & Campaigns"
-        description="Manage, update & customize your homepage hero slider images and banner placements."
+        description="Curate and organize your boutique storefront hero sliders, editorial feature banners, and split promotion slots."
         action={
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2.5">
+            <Link
+              href="/"
+              target="_blank"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 px-3.5 py-2 text-xs font-semibold text-slate-700 shadow-2xs transition-all active:scale-95"
+            >
+              <LuExternalLink className="h-3.5 w-3.5 text-slate-500" />
+              <span>View Storefront</span>
+            </Link>
             <button
               onClick={() => openAdd("sec-hero")}
               type="button"
-              className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 px-4 py-2.5 text-xs font-black text-white shadow-sm transition active:scale-95 cursor-pointer"
+              className="inline-flex items-center gap-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 px-4 py-2 text-xs font-bold text-white shadow-xs transition-all active:scale-95 cursor-pointer"
             >
-              <span>+ Add Hero Slide</span>
+              <LuPlus className="h-3.5 w-3.5" />
+              <span>Add Hero Slide</span>
             </button>
             <SaveButton onClick={() => openAdd()}>
               Add Campaign
@@ -287,139 +357,382 @@ export default function CampaignsPage() {
         }
       />
 
-      <SettingsCard title="All Website Sliders & Banners">
-        {/* Placement Filter Tabs */}
-        <div className="mb-5 flex flex-wrap items-center gap-2 border-b border-slate-100 pb-3">
-          {[
-            { id: "all", label: "All Banners", count: campaigns.length },
-            { id: "sec-hero", label: "🖼️ Hero Slider Banners", count: heroCount },
-            { id: "sec-feature-banner", label: "🌟 Feature Banner", count: featureCount },
-            { id: "sec-split", label: "✨ Split Banners", count: splitCount },
-          ].map((tab) => {
-            const isActive = slotFilter === tab.id;
-            return (
+      {/* Top Quick Status Overview Bar */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+        <div className="bg-white border border-slate-200/90 rounded-xl p-4 shadow-2xs flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-violet-50 text-violet-700 flex items-center justify-center border border-violet-100">
+              <LuSlidersHorizontal className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Hero Carousel</p>
+              <p className="text-lg font-bold text-slate-900">{heroCount} Slides</p>
+            </div>
+          </div>
+          <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            Active
+          </span>
+        </div>
+
+        <div className="bg-white border border-slate-200/90 rounded-xl p-4 shadow-2xs flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-rose-50 text-rose-700 flex items-center justify-center border border-rose-100">
+              <LuSparkles className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Feature & Promo</p>
+              <p className="text-lg font-bold text-slate-900">{featureCount + splitCount} Placements</p>
+            </div>
+          </div>
+          <span className="text-xs font-mono text-slate-400">Editorial</span>
+        </div>
+
+        <div className="bg-white border border-slate-200/90 rounded-xl p-4 shadow-2xs flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center border border-blue-100">
+              <LuLayers className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Campaigns</p>
+              <p className="text-lg font-bold text-slate-900">{campaigns.length} Banners</p>
+            </div>
+          </div>
+          <span className="text-xs font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-full">
+            {activeCount} live
+          </span>
+        </div>
+      </div>
+
+      <SettingsCard title="All Website Sliders & Banners" description="Manage order, headlines, links, and visibility of promotional banners across all pages.">
+        {/* Placement Filter Tabs - Refined Segmented Control */}
+        <div className="mb-6 flex flex-wrap items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div className="flex flex-wrap items-center gap-1.5 p-1 bg-slate-100/80 rounded-xl border border-slate-200/60">
+            {[
+              { id: "all", label: "All Banners", icon: LuLayers, count: campaigns.length },
+              { id: "sec-hero", label: "Hero Sliders", icon: LuSlidersHorizontal, count: heroCount },
+              { id: "sec-feature-banner", label: "Feature Banner", icon: LuSparkles, count: featureCount },
+              { id: "sec-split", label: "Split Banners", icon: LuImage, count: splitCount },
+            ].map((tab) => {
+              const isActive = slotFilter === tab.id;
+              const Icon = tab.icon;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setSlotFilter(tab.id)}
+                  className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    isActive
+                      ? "bg-white text-slate-900 shadow-xs border border-slate-200/80"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-white/50"
+                  }`}
+                >
+                  <Icon className={`w-3.5 h-3.5 ${isActive ? "text-violet-600" : "text-slate-400"}`} />
+                  <span>{tab.label}</span>
+                  <span
+                    className={`px-1.5 py-0.5 rounded-full text-[10px] font-mono leading-none ${
+                      isActive ? "bg-slate-900 text-white" : "bg-slate-200/80 text-slate-600"
+                    }`}
+                  >
+                    {tab.count}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Status Filter Pills */}
+          <div className="flex items-center gap-1 text-xs">
+            <span className="text-slate-400 text-[11px] font-medium mr-1">Status:</span>
+            {(["all", "active", "inactive"] as const).map((s) => (
               <button
-                key={tab.id}
+                key={s}
                 type="button"
-                onClick={() => setSlotFilter(tab.id)}
-                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  isActive
-                    ? "bg-slate-900 text-white shadow-xs"
+                onClick={() => setStatusFilter(s)}
+                className={`px-2.5 py-1 rounded-md text-[11px] font-semibold transition-all capitalize cursor-pointer ${
+                  statusFilter === s
+                    ? "bg-slate-900 text-white shadow-2xs"
                     : "bg-slate-100 text-slate-600 hover:bg-slate-200"
                 }`}
               >
-                <span>{tab.label}</span>
-                <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
-                  isActive ? "bg-white/20 text-white" : "bg-slate-200 text-slate-700"
-                }`}>
-                  {tab.count}
-                </span>
+                {s}
               </button>
-            );
-          })}
+            ))}
+          </div>
         </div>
 
-        {/* Toolbar */}
+        {/* Toolbar: Counter & Refined Search */}
         <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <p className="text-sm font-medium text-slate-500">
-            Displaying {filtered.length} banner{filtered.length !== 1 ? "s" : ""}
-          </p>
-          <label className="flex h-10 w-full max-w-xs items-center gap-2 rounded-md border border-slate-200 bg-white px-3">
-            <AdminIcon className="h-4 w-4 shrink-0 text-slate-400" name="search" />
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-semibold text-slate-700">
+              Showing {filtered.length} of {campaigns.length} banners
+            </span>
+            {slotFilter === "sec-hero" && (
+              <span className="text-[11px] text-violet-700 bg-violet-50 border border-violet-200/60 px-2 py-0.5 rounded-md font-medium">
+                Tip: Use ▲ ▼ to reorder slides
+              </span>
+            )}
+          </div>
+
+          <label className="relative flex h-10 w-full max-w-sm items-center rounded-lg border border-slate-200 bg-slate-50/50 hover:bg-white focus-within:bg-white focus-within:border-slate-400 focus-within:ring-2 focus-within:ring-slate-100 transition-all px-3">
+            <LuSearch className="h-4 w-4 shrink-0 text-slate-400" />
             <input
-              className="w-full bg-transparent text-sm font-medium text-slate-800 outline-none"
+              className="w-full bg-transparent px-2.5 text-xs font-medium text-slate-800 placeholder-slate-400 outline-none"
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search campaigns by name & slug"
+              placeholder="Search by title, placement or link..."
               value={search}
             />
+            {search && (
+              <button
+                type="button"
+                onClick={() => setSearch("")}
+                className="text-slate-400 hover:text-slate-600 p-1 cursor-pointer"
+              >
+                <LuX className="h-3.5 w-3.5" />
+              </button>
+            )}
           </label>
         </div>
 
-        <div className="overflow-x-auto rounded-lg border border-slate-200">
-          <table className="w-full min-w-[640px] text-left">
-            <thead className="bg-slate-50">
-              <tr>
-                {["Campaign Title", "Placement / Slot", "Button & Link", "Status", "Actions"].map((h) => (
-                  <th className="px-5 py-4 text-sm font-black text-slate-700" key={h}>
-                    {h}
-                  </th>
-                ))}
+        {/* Modern Table */}
+        <div className="overflow-x-auto rounded-xl border border-slate-200/90 shadow-2xs bg-white">
+          <table className="w-full min-w-[760px] text-left border-collapse">
+            <thead>
+              <tr className="border-b border-slate-200 bg-slate-50/80 text-[11px] font-bold text-slate-500 uppercase tracking-wider">
+                <th className="px-4 py-3.5 w-14 text-center"># Order</th>
+                <th className="px-4 py-3.5 w-40">Banner Preview</th>
+                <th className="px-5 py-3.5 min-w-[220px]">Campaign Details</th>
+                <th className="px-4 py-3.5 whitespace-nowrap">Placement Slot</th>
+                <th className="px-4 py-3.5 min-w-[160px]">Button & Target</th>
+                <th className="px-4 py-3.5 w-28">Status</th>
+                <th className="px-4 py-3.5 w-28 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-100 text-sm">
               {loading ? (
                 <tr>
-                  <td className="px-5 py-8 text-sm font-medium text-slate-400" colSpan={5}>
-                    Loading...
+                  <td className="px-6 py-12 text-center text-sm font-medium text-slate-400" colSpan={7}>
+                    <div className="flex flex-col items-center justify-center gap-2">
+                      <div className="h-6 w-6 border-2 border-slate-300 border-t-slate-800 rounded-full animate-spin" />
+                      <span>Loading campaigns...</span>
+                    </div>
                   </td>
                 </tr>
               ) : filtered.length === 0 ? (
                 <tr>
-                  <td className="px-5 py-8 text-sm font-medium text-slate-400" colSpan={5}>
-                    No items found.
+                  <td className="px-6 py-16 text-center" colSpan={7}>
+                    <div className="max-w-sm mx-auto text-center space-y-2">
+                      <div className="w-12 h-12 rounded-full bg-slate-100 flex items-center justify-center mx-auto text-slate-400">
+                        <LuImage className="w-6 h-6" />
+                      </div>
+                      <p className="text-sm font-bold text-slate-800">No matching banners found</p>
+                      <p className="text-xs text-slate-500">
+                        Try adjusting your search query or reset the placement filter.
+                      </p>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSearch("");
+                          setSlotFilter("all");
+                          setStatusFilter("all");
+                        }}
+                        className="mt-2 text-xs font-semibold text-blue-600 hover:text-blue-800 underline cursor-pointer"
+                      >
+                        Reset all filters
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ) : (
                 filtered.map((c) => {
                   const rawImg = c.images?.[0]?.images?.[0];
-                  const placementTitle = c.section?.title || (
-                    c.sectionId === "sec-feature-banner" ? "Feature Banner (Full-Width)" :
-                    c.sectionId === "sec-split-1" ? "Split Banner 1 - Left" :
-                    c.sectionId === "sec-split-2" ? "Split Banner 2 - Right" :
-                    c.sectionId === "sec-hero" ? "Hero Slider Banner" : c.sectionId || "General Banner"
+                  const isHero = !c.sectionId || c.sectionId === "sec-hero" || c.id.startsWith("camp-hero-");
+                  const heroIndex = isHero ? heroSlides.findIndex((s) => s.id === c.id) : -1;
+
+                  const isFeature = c.sectionId === "sec-feature-banner";
+                  const isSplit = c.sectionId === "sec-split-1" || c.sectionId === "sec-split-2";
+
+                  const placementBadge = isHero ? (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-violet-50 text-violet-700 border border-violet-200/80 whitespace-nowrap">
+                      <span className="w-1.5 h-1.5 rounded-full bg-violet-500" />
+                      Hero Slider Banner
+                    </span>
+                  ) : isFeature ? (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-rose-50 text-rose-700 border border-rose-200/80 whitespace-nowrap">
+                      <span className="w-1.5 h-1.5 rounded-full bg-rose-500" />
+                      Feature Banner (Full)
+                    </span>
+                  ) : isSplit ? (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-sky-50 text-sky-700 border border-sky-200/80 whitespace-nowrap">
+                      <span className="w-1.5 h-1.5 rounded-full bg-sky-500" />
+                      {c.sectionId === "sec-split-1" ? "Split Left" : "Split Right"}
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-100 text-slate-700 border border-slate-200 whitespace-nowrap">
+                      <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
+                      {c.section?.title || c.sectionId || "General Banner"}
+                    </span>
                   );
 
                   return (
-                    <tr className="odd:bg-white even:bg-slate-50/60" key={c.id}>
-                      <td className="px-5 py-4">
-                        <div className="flex items-center gap-3">
-                          {rawImg && (
+                    <tr
+                      key={c.id}
+                      className="hover:bg-slate-50/70 transition-colors group"
+                    >
+                      {/* 1. Order / Reorder */}
+                      <td className="px-4 py-4 text-center">
+                        {isHero ? (
+                          <div className="flex flex-col items-center justify-center gap-1">
+                            <span className="w-7 h-7 rounded-lg bg-slate-900 text-white font-mono text-xs font-bold flex items-center justify-center shadow-2xs">
+                              #{heroIndex + 1}
+                            </span>
+                            <div className="flex items-center gap-0.5 opacity-80 group-hover:opacity-100 transition-opacity">
+                              <button
+                                type="button"
+                                disabled={heroIndex <= 0}
+                                onClick={() => handleReorder(c.id, "up")}
+                                title="Move slide up"
+                                className="p-1 rounded text-slate-400 hover:text-slate-900 hover:bg-slate-200 disabled:opacity-20 disabled:hover:bg-transparent cursor-pointer disabled:cursor-not-allowed"
+                              >
+                                <LuArrowUp className="w-3.5 h-3.5" />
+                              </button>
+                              <button
+                                type="button"
+                                disabled={heroIndex >= heroSlides.length - 1}
+                                onClick={() => handleReorder(c.id, "down")}
+                                title="Move slide down"
+                                className="p-1 rounded text-slate-400 hover:text-slate-900 hover:bg-slate-200 disabled:opacity-20 disabled:hover:bg-transparent cursor-pointer disabled:cursor-not-allowed"
+                              >
+                                <LuArrowDown className="w-3.5 h-3.5" />
+                              </button>
+                            </div>
+                          </div>
+                        ) : (
+                          <span className="text-xs font-mono text-slate-400">—</span>
+                        )}
+                      </td>
+
+                      {/* 2. Banner Preview (16:9 Widescreen aspect) */}
+                      <td className="px-4 py-4">
+                        <div
+                          onClick={() => setPreviewBanner(c)}
+                          className="relative w-32 aspect-[16/9] rounded-lg overflow-hidden border border-slate-200 bg-slate-950 group/img cursor-pointer shadow-2xs transition-all hover:border-slate-400"
+                        >
+                          {rawImg ? (
                             <img
                               src={rawImg}
-                              alt=""
-                              className="w-12 h-12 object-cover rounded-md border border-slate-200 shrink-0"
+                              alt={c.title}
+                              className="w-full h-full object-cover group-hover/img:scale-105 transition-transform duration-300"
                             />
+                          ) : (
+                            <div className="w-full h-full flex items-center justify-center text-slate-600 bg-slate-900">
+                              <LuImage className="w-6 h-6" />
+                            </div>
                           )}
-                          <div className="min-w-0">
-                            <p className="text-sm font-black text-slate-800 truncate max-w-xs">{c.title}</p>
-                            {c.description && (
-                              <p className="text-xs text-slate-500 truncate max-w-xs">{c.description}</p>
-                            )}
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/img:opacity-100 transition-opacity flex items-center justify-center gap-1.5 text-white">
+                            <LuEye className="w-4 h-4" />
+                            <span className="text-[10px] font-bold tracking-wider uppercase">Preview</span>
                           </div>
                         </div>
                       </td>
+
+                      {/* 3. Campaign Narrative Details */}
                       <td className="px-5 py-4">
-                        <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-50 text-blue-700 border border-blue-200">
-                          {placementTitle}
-                        </span>
+                        <div className="space-y-1 max-w-sm">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <p
+                              onClick={() => openEdit(c)}
+                              className="font-bold text-slate-900 text-sm hover:text-blue-600 cursor-pointer transition-colors"
+                            >
+                              {c.title}
+                            </p>
+                            {c.badge && (
+                              <span className="text-[10px] font-bold tracking-wider uppercase px-2 py-0.5 rounded bg-rose-50 text-rose-700 border border-rose-200/80">
+                                {c.badge}
+                              </span>
+                            )}
+                          </div>
+                          {c.description && (
+                            <p className="text-xs text-slate-500 line-clamp-1 leading-relaxed">
+                              {c.description}
+                            </p>
+                          )}
+                          <p className="text-[10px] font-mono text-slate-400">
+                            ID: {c.id}
+                          </p>
+                        </div>
                       </td>
-                      <td className="px-5 py-4 text-xs font-medium text-slate-600">
-                        <span className="font-bold text-slate-800">{c.ctaText || "SHOP NOW"}</span>
-                        <span className="text-slate-400 block truncate max-w-[160px]">{c.linkUrl || "/products"}</span>
+
+                      {/* 4. Placement Slot Badge */}
+                      <td className="px-4 py-4">
+                        {placementBadge}
                       </td>
-                      <td className="px-5 py-4">
-                        <StatusToggle
-                          active={c.status === "active"}
-                          onChange={() => toggleStatus(c)}
-                        />
-                      </td>
-                      <td className="px-5 py-4">
-                        <div className="flex gap-2">
-                          <button
-                            className="grid h-9 w-9 place-items-center rounded-lg border border-slate-200 text-slate-600 transition hover:bg-slate-50"
-                            onClick={() => openEdit(c)}
-                            type="button"
-                            title="Edit campaign"
+
+                      {/* 5. Button & Target Link */}
+                      <td className="px-4 py-4">
+                        <div className="space-y-1 max-w-[190px]">
+                          <span className="inline-flex items-center px-2 py-0.5 rounded bg-slate-900 text-white font-mono text-[10px] font-bold tracking-wider uppercase shadow-2xs">
+                            {c.ctaText || "SHOP NOW"}
+                          </span>
+                          <a
+                            href={c.linkUrl || "/products"}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="flex items-center gap-1 text-[11px] font-mono text-slate-500 hover:text-blue-600 transition-colors truncate"
+                            title={c.linkUrl || "/products"}
                           >
-                            <AdminIcon className="h-4 w-4" name="edit" />
+                            <span className="truncate">{c.linkUrl || "/products"}</span>
+                            <LuExternalLink className="w-3 h-3 shrink-0 opacity-70" />
+                          </a>
+                        </div>
+                      </td>
+
+                      {/* 6. Status Column */}
+                      <td className="px-4 py-4">
+                        <div className="flex flex-col gap-1.5">
+                          <StatusToggle
+                            active={c.status === "active"}
+                            onChange={() => toggleStatus(c)}
+                          />
+                          <span className="text-[11px] font-semibold text-slate-600">
+                            {c.status === "active" ? (
+                              <span className="inline-flex items-center gap-1 text-emerald-700 font-bold">
+                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                                Live
+                              </span>
+                            ) : (
+                              <span className="text-slate-400">Hidden</span>
+                            )}
+                          </span>
+                        </div>
+                      </td>
+
+                      {/* 7. Actions Column */}
+                      <td className="px-4 py-4 text-right">
+                        <div className="inline-flex items-center gap-1.5">
+                          <button
+                            type="button"
+                            onClick={() => setPreviewBanner(c)}
+                            title="Preview slide"
+                            className="grid h-8 w-8 place-items-center rounded-lg border border-slate-200 text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 cursor-pointer shadow-2xs"
+                          >
+                            <LuEye className="h-4 w-4" />
                           </button>
                           <button
-                            className="grid h-9 w-9 place-items-center rounded-lg bg-red-50 text-red-600 transition hover:bg-red-100"
-                            onClick={() => setDeleteModal({ open: true, campaign: c })}
                             type="button"
-                            title="Delete campaign"
+                            onClick={() => openEdit(c)}
+                            title="Edit campaign"
+                            className="grid h-8 w-8 place-items-center rounded-lg border border-slate-200 text-slate-600 transition hover:bg-blue-50 hover:text-blue-700 hover:border-blue-200 cursor-pointer shadow-2xs"
                           >
-                            <AdminIcon className="h-4 w-4" name="trash" />
+                            <LuPencil className="h-3.5 w-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setDeleteModal({ open: true, campaign: c })}
+                            title="Delete campaign"
+                            className="grid h-8 w-8 place-items-center rounded-lg bg-red-50 text-red-600 transition hover:bg-red-100 hover:border-red-200 cursor-pointer"
+                          >
+                            <LuTrash2 className="h-3.5 w-3.5" />
                           </button>
                         </div>
                       </td>
@@ -431,6 +744,92 @@ export default function CampaignsPage() {
           </table>
         </div>
       </SettingsCard>
+
+      {/* Live Storefront Slide Preview Lightbox Modal */}
+      {previewBanner && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/75 backdrop-blur-sm p-4 modal-backdrop"
+          onClick={() => setPreviewBanner(null)}
+          role="dialog"
+          aria-modal="true"
+        >
+          <div
+            className="relative w-full max-w-4xl bg-slate-950 rounded-2xl overflow-hidden border border-white/10 shadow-2xl animate-in fade-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between px-6 py-4 border-b border-white/10 bg-slate-900/80">
+              <div className="flex items-center gap-3">
+                <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
+                <h3 className="text-white font-bold text-sm">Storefront Banner Live Preview</h3>
+                <span className="text-xs px-2.5 py-0.5 rounded-full bg-white/10 text-white/80 font-mono">
+                  {previewBanner.section?.title || previewBanner.sectionId}
+                </span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setPreviewBanner(null)}
+                className="h-8 w-8 rounded-lg bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-colors cursor-pointer"
+              >
+                <LuX className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* Banner Simulation */}
+            <div className="relative aspect-[16/7] sm:aspect-[21/9] w-full overflow-hidden bg-slate-900">
+              <img
+                src={previewBanner.images?.[0]?.images?.[0] || "/images/sliders/arch-wine.webp"}
+                alt={previewBanner.title}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-transparent" />
+
+              {/* Banner content */}
+              <div className="absolute inset-0 flex flex-col justify-center px-8 sm:px-14 max-w-xl text-white space-y-3">
+                {previewBanner.badge && (
+                  <span className="inline-block self-start text-[10px] font-bold tracking-[0.2em] uppercase text-rose-300 bg-rose-950/70 border border-rose-800/80 px-2.5 py-0.5 rounded-full">
+                    {previewBanner.badge}
+                  </span>
+                )}
+                <h2 className="text-xl sm:text-3xl font-serif font-bold text-white leading-tight drop-shadow-md">
+                  {previewBanner.title}
+                </h2>
+                {previewBanner.description && (
+                  <p className="text-xs sm:text-sm text-white/85 line-clamp-2 leading-relaxed">
+                    {previewBanner.description}
+                  </p>
+                )}
+                <div className="pt-1">
+                  <span className="inline-flex items-center gap-2 px-5 py-2.5 bg-rose-600 text-white text-xs font-bold tracking-wider uppercase shadow-md">
+                    <span>{previewBanner.ctaText || "SHOP NOW"}</span>
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-4 bg-slate-900/95 border-t border-white/10">
+              <div className="text-xs text-slate-400">
+                Target Link: <span className="text-slate-200 font-mono">{previewBanner.linkUrl || "/products"}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const b = previewBanner;
+                    setPreviewBanner(null);
+                    openEdit(b);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition-colors cursor-pointer"
+                >
+                  <LuPencil className="h-3.5 w-3.5" />
+                  <span>Edit Campaign</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Campaign Modal */}
       {modalOpen && (

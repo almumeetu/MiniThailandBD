@@ -12,7 +12,7 @@ export interface BreadcrumbsProps {
   title?: string;
   trailingContent?: ReactNode;
   transparent?: boolean;
-  variant?: "banner" | "normal" | "transparent";
+  variant?: "banner" | "normal" | "transparent" | "plain";
   bgImage?: string;
   className?: string;
 }
@@ -33,6 +33,55 @@ export default function Breadcrumbs({
 
   const isTransparent = transparent || variant === "transparent";
   const isNormal = variant === "normal";
+
+  if (variant === "plain") {
+    return (
+      <div className={`flex items-center justify-between gap-4 ${className}`}>
+        <nav
+          aria-label="Breadcrumb"
+          className="min-w-0 flex-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-0.5"
+        >
+          <ol className="flex min-w-0 items-center gap-1.5 sm:gap-2 whitespace-nowrap text-xs sm:text-[13px]">
+            <li className="shrink-0">
+              <Link
+                href="/"
+                className="inline-flex items-center gap-1.5 font-medium text-neutral-500 transition-colors hover:text-neutral-950"
+              >
+                <FiHome className="h-3.5 w-3.5 text-neutral-400" />
+                <span>Home</span>
+              </Link>
+            </li>
+
+            {normalizedItems.map((item, index) => {
+              const isLast = index === normalizedItems.length - 1;
+
+              return (
+                <li key={`${item.label}-${index}`} className="inline-flex min-w-0 shrink-0 items-center gap-1.5 sm:gap-2">
+                  <FiChevronRight aria-hidden="true" className="h-3 w-3 shrink-0 text-neutral-400" />
+                  {item.href && !isLast ? (
+                    <Link
+                      href={item.href}
+                      className="max-w-[140px] sm:max-w-[220px] truncate font-medium text-neutral-500 transition-colors hover:text-neutral-950"
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <span
+                      aria-current={isLast ? "page" : undefined}
+                      className="max-w-[180px] sm:max-w-[340px] md:max-w-[480px] truncate font-semibold text-neutral-900"
+                    >
+                      {item.label}
+                    </span>
+                  )}
+                </li>
+              );
+            })}
+          </ol>
+        </nav>
+        {trailingContent}
+      </div>
+    );
+  }
 
   if (isNormal) {
     return (
@@ -92,13 +141,13 @@ export default function Breadcrumbs({
           aria-label="Breadcrumb"
           className="min-w-0 flex-1 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden py-0.5"
         >
-          <ol className="inline-flex items-center gap-2 sm:gap-2.5 px-3.5 sm:px-4 py-1.5 rounded-full bg-black/50 backdrop-blur-md border border-white/20 text-xs sm:text-[13px] whitespace-nowrap shadow-xs">
+          <ol className="inline-flex items-center gap-1.5 sm:gap-2 px-3 py-1 rounded-full bg-black/40 backdrop-blur-md border border-white/15 text-xs text-white/85 whitespace-nowrap shadow-xs">
             <li className="shrink-0">
               <Link
                 href="/"
-                className="inline-flex items-center gap-1.5 font-medium text-white/80 transition-colors hover:text-rose-300"
+                className="inline-flex items-center gap-1.5 font-medium text-white/80 transition-colors hover:text-white"
               >
-                <FiHome className="h-3.5 w-3.5 opacity-80" />
+                <FiHome className="h-3.5 w-3.5 text-rose-300" />
                 <span>Home</span>
               </Link>
             </li>
@@ -107,19 +156,19 @@ export default function Breadcrumbs({
               const isLast = index === normalizedItems.length - 1;
 
               return (
-                <li key={`${item.label}-${index}`} className="inline-flex min-w-0 shrink-0 items-center gap-2 sm:gap-2.5">
-                  <FiChevronRight aria-hidden="true" className="h-3.5 w-3.5 shrink-0 text-white/40" />
+                <li key={`${item.label}-${index}`} className="inline-flex min-w-0 shrink-0 items-center gap-1.5 sm:gap-2">
+                  <FiChevronRight aria-hidden="true" className="h-3 w-3 shrink-0 text-white/40" />
                   {item.href && !isLast ? (
                     <Link
                       href={item.href}
-                      className="max-w-[160px] truncate font-medium text-white/80 transition-colors hover:text-rose-300 sm:max-w-[240px] md:max-w-[340px]"
+                      className="max-w-[140px] truncate font-medium text-white/80 transition-colors hover:text-white sm:max-w-[200px]"
                     >
                       {item.label}
                     </Link>
                   ) : (
                     <span
                       aria-current={isLast ? "page" : undefined}
-                      className="max-w-[240px] truncate font-semibold text-white drop-shadow-xs sm:max-w-[440px] md:max-w-[650px] lg:max-w-none"
+                      className="max-w-[180px] truncate font-semibold text-white drop-shadow-xs sm:max-w-[320px]"
                     >
                       {item.label}
                     </span>
@@ -136,13 +185,12 @@ export default function Breadcrumbs({
 
   return (
     <div
-      className={`relative w-full overflow-hidden border-b border-black/20 bg-[#14151a] bg-cover bg-center bg-no-repeat shadow-inner ${className}`}
+      className={`relative w-full overflow-hidden border-b border-black/20 bg-[#14151a] bg-cover bg-right md:bg-[position:center_right] bg-no-repeat shadow-inner ${className}`}
       style={{ backgroundImage: `url('${bgImage}')` }}
     >
-      {/* Subtle cinematic gradient so fashion models are prominent while typography remains razor sharp */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/55 to-black/60" />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/55 to-black/20" />
 
-      <div className="relative mx-auto flex max-w-[1440px] flex-col justify-center gap-2 px-4 py-5 sm:px-6 sm:py-6 md:px-10 md:py-7 lg:px-16 lg:py-8 min-h-[76px] sm:min-h-[88px] md:min-h-[104px]">
+      <div className="relative mx-auto flex max-w-[1440px] flex-col justify-between gap-2 px-4 sm:px-6 md:px-10 lg:px-12 py-5 sm:py-6 md:py-7 min-h-[155px] sm:min-h-[170px] md:min-h-[185px]">
         <div className="flex items-center justify-between gap-4">
           <nav
             aria-label="Breadcrumb"
@@ -154,7 +202,7 @@ export default function Breadcrumbs({
                   href="/"
                   className="inline-flex items-center gap-1.5 font-medium text-white/85 transition-colors hover:text-white"
                 >
-                  <FiHome className="h-4 w-4 sm:h-4.5 sm:w-4.5 opacity-90" />
+                  <FiHome className="h-4 w-4 sm:h-4.5 sm:w-4.5 opacity-90 text-rose-300" />
                   <span>Home</span>
                 </Link>
               </li>

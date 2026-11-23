@@ -90,15 +90,37 @@ export function mapProduct(raw: Product): MappedProduct {
       finalOrigNum = Math.round((activePrice * 1.18) / 50) * 50;
     }
 
-    // Parse attributes array into key-value map
+    // Parse attributes array or object into key-value map
     const attributesMap: Record<string, string> = {};
-    (v as any).attributes?.forEach((attr: any) => {
-      const attrName = attr.attributeValue?.attribute?.name;
-      const attrVal = attr.attributeValue?.value;
-      if (attrName && attrVal) {
-        attributesMap[attrName] = attrVal;
-      }
-    });
+    if (Array.isArray((v as any).attributes)) {
+      (v as any).attributes.forEach((attr: any) => {
+        const attrName =
+          attr.attributeValue?.attribute?.name ||
+          attr.attribute?.name ||
+          attr.name ||
+          attr.key;
+        const attrVal = attr.attributeValue?.value || attr.value;
+        if (attrName && attrVal) {
+          attributesMap[String(attrName).trim()] = String(attrVal).trim();
+        }
+      });
+    } else if (v.attributes && typeof v.attributes === 'object') {
+      Object.entries(v.attributes).forEach(([k, val]) => {
+        if (val !== undefined && val !== null) {
+          attributesMap[k.trim()] = String(val).trim();
+        }
+      });
+    }
+
+    if (Array.isArray((v as any).optionValues)) {
+      (v as any).optionValues.forEach((opt: any) => {
+        const attrName = opt.attribute?.name || opt.name;
+        const attrVal = opt.value;
+        if (attrName && attrVal) {
+          attributesMap[String(attrName).trim()] = String(attrVal).trim();
+        }
+      });
+    }
 
     const variantImages = (v as any).media
       ? ((v as any).media as any[])

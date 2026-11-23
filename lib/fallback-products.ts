@@ -73,6 +73,8 @@ interface FallbackProduct {
   category: string;
   images: string[];
   badge?: string;
+  colors?: string[];
+  sizes?: string[];
 }
 
 const MINITHAILANDBD_PRODUCTS: FallbackProduct[] = [
@@ -412,6 +414,110 @@ function makeProduct(fp: FallbackProduct): AdminProduct {
     slug: fp.category.toLowerCase().replace(/[^a-z0-9]+/g, "-"),
   };
 
+  const isFashionCategory = [
+    "Cord Sets",
+    "Party Gowns",
+    "Luxury Abayas",
+    "Velvet Collection",
+    "Winter Collection",
+    "Designer 3-Piece",
+    "Casual & Modest",
+  ].includes(fp.category);
+
+  const colors = fp.colors ?? (isFashionCategory ? ["Dark khaki", "Dusty Rose", "Midnight Black"] : []);
+  const sizes = fp.sizes ?? (isFashionCategory ? ["XS", "S", "M", "L", "XL"] : []);
+
+  let variants: any[] = [];
+
+  if (colors.length > 0 && sizes.length > 0) {
+    variants = colors.flatMap((color, cIdx) =>
+      sizes.map((size, sIdx) => {
+        const isDefault = cIdx === 0 && size === "M";
+        const variantImg = fp.images[cIdx % fp.images.length] || fp.images[0];
+        return {
+          id: `var-${fp.id}-${color.toLowerCase().replace(/\s+/g, "-")}-${size.toLowerCase()}`,
+          sku: `MT-${fp.id.toUpperCase()}-${color.slice(0, 2).toUpperCase()}-${size}`,
+          price: String(fp.price),
+          cost: String(Math.round(fp.price * 0.65)),
+          stockQuantity: 30,
+          stockAlertThreshold: 5,
+          isDefault,
+          attributes: [
+            { attributeValue: { attribute: { name: "Color" }, value: color } },
+            { attributeValue: { attribute: { name: "Size" }, value: size } },
+          ],
+          media: variantImg
+            ? [
+                {
+                  id: `vmed-${fp.id}-${cIdx}-${sIdx}`,
+                  isFeatured: true,
+                  sortOrder: 0,
+                  media: {
+                    id: `m-${fp.id}-${cIdx}`,
+                    url: variantImg,
+                    type: "image",
+                  },
+                },
+              ]
+            : [],
+        };
+      })
+    );
+  } else if (colors.length > 0) {
+    variants = colors.map((color, cIdx) => ({
+      id: `var-${fp.id}-${color.toLowerCase().replace(/\s+/g, "-")}`,
+      sku: `MT-${fp.id.toUpperCase()}-${color.slice(0, 2).toUpperCase()}`,
+      price: String(fp.price),
+      cost: String(Math.round(fp.price * 0.65)),
+      stockQuantity: 30,
+      stockAlertThreshold: 5,
+      isDefault: cIdx === 0,
+      attributes: [
+        { attributeValue: { attribute: { name: "Color" }, value: color } },
+      ],
+      media: fp.images[cIdx % fp.images.length]
+        ? [
+            {
+              id: `vmed-${fp.id}-${cIdx}`,
+              isFeatured: true,
+              sortOrder: 0,
+              media: {
+                id: `m-${fp.id}-${cIdx}`,
+                url: fp.images[cIdx % fp.images.length],
+                type: "image",
+              },
+            },
+          ]
+        : [],
+    }));
+  } else if (sizes.length > 0) {
+    variants = sizes.map((size, sIdx) => ({
+      id: `var-${fp.id}-${size.toLowerCase()}`,
+      sku: `MT-${fp.id.toUpperCase()}-${size}`,
+      price: String(fp.price),
+      cost: String(Math.round(fp.price * 0.65)),
+      stockQuantity: 30,
+      stockAlertThreshold: 5,
+      isDefault: sIdx === 0,
+      attributes: [
+        { attributeValue: { attribute: { name: "Size" }, value: size } },
+      ],
+    }));
+  } else {
+    variants = [
+      {
+        id: `var-${fp.id}-std`,
+        sku: `MT-${fp.id.toUpperCase()}-001`,
+        price: String(fp.price),
+        cost: String(Math.round(fp.price * 0.65)),
+        stockQuantity: 50,
+        stockAlertThreshold: 5,
+        isDefault: true,
+        attributes: [],
+      },
+    ];
+  }
+
   return {
     id: fp.id,
     name: fp.name,
@@ -453,22 +559,7 @@ function makeProduct(fp: FallbackProduct): AdminProduct {
         type: "image",
       },
     })),
-    variants: [
-      {
-        id: `var-${fp.id}-std`,
-        sku: `MT-${fp.id.toUpperCase()}-001`,
-        price: String(fp.price),
-        cost: String(Math.round(fp.price * 0.65)),
-        stockQuantity: 50,
-        stockAlertThreshold: 5,
-        isDefault: true,
-        attributes: [
-          { attributeValue: { attribute: { name: "Origin" }, value: "Thailand / Imported" } },
-          { attributeValue: { attribute: { name: "Condition" }, value: "Brand New Boutique" } },
-          { attributeValue: { attribute: { name: "Size" }, value: "Free Size (M to XL)" } },
-        ],
-      },
-    ],
+    variants,
   } as unknown as AdminProduct;
 }
 
