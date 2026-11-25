@@ -323,7 +323,7 @@ export default function VideoPlayerModal({
             <div className="relative w-full h-full flex items-center justify-center group">
               <video
                 ref={videoRef}
-                src={currentVideo.videoUrl || undefined}
+                src={resolveImageUrl(currentVideo.videoUrl) || currentVideo.videoUrl || undefined}
                 poster={resolveImageUrl(currentVideo.thumbnailUrl)}
                 playsInline
                 autoPlay

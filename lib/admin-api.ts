@@ -948,7 +948,14 @@ export function resolveImageUrl(url?: string | null): string {
   }
 
   // ── 2. Frontend public assets ─────────────────────────────────────
-  if (trimmed.startsWith("/images/")) {
+  if (
+    trimmed.startsWith("/images/") ||
+    (trimmed.startsWith("/videos/") && !trimmed.startsWith("/videos/thumbnails/")) ||
+    trimmed.startsWith("/hero/") ||
+    trimmed === "/about-us-bag.webp" ||
+    trimmed.startsWith("/favicon") ||
+    trimmed.startsWith("/apple-touch-icon")
+  ) {
     return trimmed;
   }
 

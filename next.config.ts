@@ -65,6 +65,31 @@ const nextConfig: NextConfig = {
         hostname: "api-minithailandbd.webdevss.tech",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "minithailandbd.webdevss.tech",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "api.minithailandbd.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "minithailandbd.com",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "novamart.webdevss.tech",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "api-novamart.webdevss.tech",
+        pathname: "/**",
+      },
     ],
   },
   async rewrites() {

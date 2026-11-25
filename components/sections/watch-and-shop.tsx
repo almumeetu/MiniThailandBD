@@ -240,13 +240,13 @@ export default function WatchAndShop() {
                       isPlayingThis ? "opacity-0" : "group-hover:scale-105"
                     }`}
                     quality={92}
-                    unoptimized={item.thumbnailUrl.startsWith("http")}
+                    unoptimized={resolveImageUrl(item.thumbnailUrl).startsWith("http")}
                   />
 
                   {/* Desktop Video Autoplay on Hover (When Not Actively Clicked) */}
                   {canPreviewHover && isHovered && (
                     <video
-                      src={item.videoUrl!}
+                      src={resolveImageUrl(item.videoUrl) || item.videoUrl!}
                       autoPlay
                       muted
                       loop
@@ -262,7 +262,7 @@ export default function WatchAndShop() {
                       {Boolean(item.videoUrl) ? (
                         <video
                           ref={activeVideoRef}
-                          src={item.videoUrl!}
+                          src={resolveImageUrl(item.videoUrl) || item.videoUrl!}
                           autoPlay
                           playsInline
                           muted={isMuted}

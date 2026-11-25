@@ -389,13 +389,13 @@ export default function VideosClientPage({
                       isPlayingThis ? "opacity-0" : "group-hover:scale-105"
                     }`}
                     quality={95}
-                    unoptimized={item.thumbnailUrl.startsWith("http")}
+                    unoptimized={resolveImageUrl(item.thumbnailUrl).startsWith("http")}
                   />
 
                   {/* Desktop Hover Video Preview (when not clicked) */}
                   {canPreviewHover && isHovered && (
                     <video
-                      src={item.videoUrl!}
+                      src={resolveImageUrl(item.videoUrl) || item.videoUrl!}
                       autoPlay
                       muted
                       loop
@@ -411,7 +411,7 @@ export default function VideosClientPage({
                       {Boolean(item.videoUrl) ? (
                         <video
                           ref={activeVideoRef}
-                          src={item.videoUrl!}
+                          src={resolveImageUrl(item.videoUrl) || item.videoUrl!}
                           autoPlay
                           playsInline
                           muted={isMuted}

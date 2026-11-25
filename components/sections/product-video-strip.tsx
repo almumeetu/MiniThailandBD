@@ -133,7 +133,7 @@ export default function ProductVideoStrip({ productId }: ProductVideoStripProps)
                   className={`object-cover transition-transform duration-500 group-hover:scale-110 ${
                     isPlayingThis ? "opacity-0" : ""
                   }`}
-                  unoptimized={vid.thumbnailUrl.startsWith("http")}
+                  unoptimized={resolveImageUrl(vid.thumbnailUrl).startsWith("http")}
                 />
               )}
 
@@ -143,7 +143,7 @@ export default function ProductVideoStrip({ productId }: ProductVideoStripProps)
                   {Boolean(vid.videoUrl) ? (
                     <video
                       ref={activeVideoRef}
-                      src={vid.videoUrl!}
+                      src={resolveImageUrl(vid.videoUrl) || vid.videoUrl!}
                       autoPlay
                       playsInline
                       muted={isMuted}
